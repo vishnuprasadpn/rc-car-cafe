@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/src/generated/prisma
+
+# local deployment instructions (not tracked by git)
+LOCAL_DEPLOYMENT_GUIDE.md

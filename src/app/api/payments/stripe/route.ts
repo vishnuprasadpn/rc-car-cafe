@@ -1,0 +1,64 @@
+import { NextRequest, NextResponse } from "next/server"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
+import { createStripePaymentIntent } from "@/lib/stripe"
+import { prisma } from "@/lib/prisma"
+import { z } from "zod"
+
+const createPaymentIntentSchema = z.object({
+  bookingId: z.string(),
+  amount: z.number().min(1),
+})
+
+export async function POST(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions)
+    
+    if (!session) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+    }
+
+    const body = await request.json()
+    const { bookingId, amount } = createPaymentIntentSchema.parse(body)
+
+    // Verify booking belongs to user
+    const booking = await prisma.booking.findFirst({
+      where: {
+        id: bookingId,
+        userId: session.user.id,
+        status: "PENDING"
+      }
+    })
+
+    if (!booking) {
+      return NextResponse.json({ message: "Booking not found" }, { status: 404 })
+    }
+
+    // Create Stripe payment intent
+    const paymentIntent = await createStripePaymentIntent(amount)
+
+    // Update booking with payment intent ID
+    await prisma.booking.update({
+      where: { id: bookingId },
+      data: { paymentId: paymentIntent.id }
+    })
+
+    return NextResponse.json({
+      clientSecret: paymentIntent.client_secret,
+      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY
+    })
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { message: "Validation error", errors: error.errors },
+        { status: 400 }
+      )
+    }
+
+    console.error("Error creating Stripe payment intent:", error)
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    )
+  }
+}
