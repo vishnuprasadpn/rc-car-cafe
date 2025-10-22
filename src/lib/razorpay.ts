@@ -22,7 +22,7 @@ export const createRazorpayOrder = async (amount: number, currency: string = 'IN
 }
 
 export const verifyRazorpayPayment = async (orderId: string, paymentId: string, signature: string) => {
-  const crypto = require('crypto')
+  const crypto = await import('crypto')
   const expectedSignature = crypto
     .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET!)
     .update(`${orderId}|${paymentId}`)

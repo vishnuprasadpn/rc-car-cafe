@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Calendar, Clock, Users, DollarSign } from "lucide-react"
+import { Clock, Users, DollarSign } from "lucide-react"
 
 const bookingSchema = z.object({
   gameId: z.string().min(1, "Please select a game"),

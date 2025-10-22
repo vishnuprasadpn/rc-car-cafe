@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { BarChart3, TrendingUp, Users, Calendar, DollarSign, Trophy } from "lucide-react"
+import { BarChart3, TrendingUp, Users, Calendar, DollarSign } from "lucide-react"
 
 interface ReportData {
   summary: {

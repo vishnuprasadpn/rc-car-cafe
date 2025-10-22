@@ -22,7 +22,7 @@ async function main() {
 
   // Create staff user
   const staffPassword = await bcrypt.hash('staff123', 12)
-  const staff = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: 'staff@rccarcafe.com' },
     update: {},
     create: {

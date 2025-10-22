@@ -12,7 +12,7 @@ const createGameSchema = z.object({
   maxPlayers: z.number().min(1).max(4, "Max players must be between 1 and 4"),
 })
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
     

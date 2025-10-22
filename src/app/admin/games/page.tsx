@@ -6,7 +6,8 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Plus, Edit, Trash2, Eye } from "lucide-react"
+import { Plus, Edit, Trash2 } from "lucide-react"
+import Link from "next/link"
 
 const gameSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -66,8 +67,8 @@ export default function AdminGamesPage() {
         const data = await response.json()
         setGames(data.games)
       }
-    } catch (error) {
-      console.error("Error fetching games:", error)
+    } catch (_error) {
+      console.error("Error fetching games:", _error)
     } finally {
       setLoading(false)
     }
