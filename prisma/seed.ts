@@ -84,23 +84,39 @@ async function main() {
     }
   ]
 
+  // Create games (check if they exist first)
   for (const gameData of games) {
-    await prisma.game.create({
-      data: gameData
+    const existingGame = await prisma.game.findFirst({
+      where: { name: gameData.name }
     })
+    
+    if (!existingGame) {
+      await prisma.game.create({
+        data: gameData
+      })
+    }
   }
 
-  // Create sample points for customer
-  await prisma.point.create({
-    data: {
+  // Create sample points for customer (only if doesn't exist)
+  const existingPoint = await prisma.point.findFirst({
+    where: {
       userId: customer.id,
-      amount: 100,
-      reason: 'Welcome bonus',
-      status: 'APPROVED',
-      approvedBy: admin.id,
-      approvedAt: new Date()
+      reason: 'Welcome bonus'
     }
   })
+  
+  if (!existingPoint) {
+    await prisma.point.create({
+      data: {
+        userId: customer.id,
+        amount: 100,
+        reason: 'Welcome bonus',
+        status: 'APPROVED',
+        approvedBy: admin.id,
+        approvedAt: new Date()
+      }
+    })
+  }
 
   // Create email templates
   const emailTemplates = [
@@ -162,8 +178,10 @@ RC Car Café Team`
   ]
 
   for (const template of emailTemplates) {
-    await prisma.emailTemplate.create({
-      data: template
+    await prisma.emailTemplate.upsert({
+      where: { name: template.name },
+      update: {},
+      create: template
     })
   }
 
@@ -180,8 +198,10 @@ RC Car Café Team`
   ]
 
   for (const setting of systemSettings) {
-    await prisma.systemSettings.create({
-      data: setting
+    await prisma.systemSettings.upsert({
+      where: { key: setting.key },
+      update: {},
+      create: setting
     })
   }
 

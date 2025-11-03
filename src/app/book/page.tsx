@@ -77,8 +77,8 @@ export default function BookPage() {
         const data = await response.json()
         setGames(data.games)
       }
-    } catch (error) {
-      console.error("Error fetching games:", error)
+    } catch {
+      console.error("Error fetching games")
     } finally {
       setLoading(false)
     }
@@ -109,7 +109,7 @@ export default function BookPage() {
         const errorData = await response.json()
         setError(errorData.message || "Failed to create booking")
       }
-    } catch (error) {
+    } catch {
       setError("An error occurred. Please try again.")
     } finally {
       setSubmitting(false)

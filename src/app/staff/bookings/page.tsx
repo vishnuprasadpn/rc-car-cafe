@@ -33,19 +33,25 @@ export default function StaffBookingsPage() {
   const [statusFilter, setStatusFilter] = useState("ALL")
   const [isLoading, setIsLoading] = useState(true)
 
-  if (status === "loading") {
-    return <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600"></div>
-    </div>
-  }
-
-  if (!session || session.user.role !== "STAFF") {
-    redirect("/auth/signin")
+  const fetchBookings = async () => {
+    try {
+      const response = await fetch("/api/staff/bookings")
+      if (response.ok) {
+        const data = await response.json()
+        setBookings(data.bookings)
+      }
+    } catch (error) {
+      console.error("Error fetching bookings:", error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   useEffect(() => {
-    fetchBookings()
-  }, [])
+    if (status !== "loading" && session && session.user.role === "STAFF") {
+      fetchBookings()
+    }
+  }, [status, session])
 
   useEffect(() => {
     let filtered = bookings
@@ -67,18 +73,15 @@ export default function StaffBookingsPage() {
     setFilteredBookings(filtered)
   }, [bookings, searchTerm, statusFilter])
 
-  const fetchBookings = async () => {
-    try {
-      const response = await fetch("/api/staff/bookings")
-      if (response.ok) {
-        const data = await response.json()
-        setBookings(data.bookings)
-      }
-    } catch (error) {
-      console.error("Error fetching bookings:", error)
-    } finally {
-      setIsLoading(false)
-    }
+  if (status === "loading") {
+    return <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600"></div>
+    </div>
+  }
+
+  if (!session || session.user.role !== "STAFF") {
+    redirect("/auth/signin")
+    return null
   }
 
   const getStatusIcon = (status: string) => {

@@ -24,19 +24,26 @@ export default function StaffCustomersPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [isLoading, setIsLoading] = useState(true)
 
-  if (status === "loading") {
-    return <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600"></div>
-    </div>
-  }
-
-  if (!session || session.user.role !== "STAFF") {
-    redirect("/auth/signin")
+  const fetchCustomers = async () => {
+    try {
+      const response = await fetch("/api/staff/customers")
+      if (response.ok) {
+        const data = await response.json()
+        setCustomers(data.customers)
+        setFilteredCustomers(data.customers)
+      }
+    } catch (error) {
+      console.error("Error fetching customers:", error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   useEffect(() => {
-    fetchCustomers()
-  }, [])
+    if (status !== "loading" && session && session.user.role === "STAFF") {
+      fetchCustomers()
+    }
+  }, [status, session])
 
   useEffect(() => {
     if (searchTerm) {
@@ -51,19 +58,15 @@ export default function StaffCustomersPage() {
     }
   }, [searchTerm, customers])
 
-  const fetchCustomers = async () => {
-    try {
-      const response = await fetch("/api/staff/customers")
-      if (response.ok) {
-        const data = await response.json()
-        setCustomers(data.customers)
-        setFilteredCustomers(data.customers)
-      }
-    } catch (error) {
-      console.error("Error fetching customers:", error)
-    } finally {
-      setIsLoading(false)
-    }
+  if (status === "loading") {
+    return <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600"></div>
+    </div>
+  }
+
+  if (!session || session.user.role !== "STAFF") {
+    redirect("/auth/signin")
+    return null
   }
 
   const formatDate = (dateString: string) => {

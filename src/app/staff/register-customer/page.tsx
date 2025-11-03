@@ -63,7 +63,7 @@ export default function RegisterCustomerPage() {
       } else {
         setMessage({ type: 'error', text: data.error || 'Failed to register customer' })
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Network error. Please try again.' })
     } finally {
       setIsLoading(false)

@@ -62,7 +62,7 @@ export default function SignUpPage() {
         const errorData = await response.json()
         setError(errorData.message || "Registration failed")
       }
-    } catch (error) {
+    } catch {
       setError("An error occurred. Please try again.")
     } finally {
       setIsLoading(false)

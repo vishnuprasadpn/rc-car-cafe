@@ -1,7 +1,7 @@
 import Link from "next/link"
 import Navigation from "@/components/navigation"
 import Image from "next/image"
-import { Trophy, Clock, Users, Star, MapPin, Zap, Target, Award } from "lucide-react"
+import { Trophy, Clock, Users, Star, MapPin } from "lucide-react"
 
 export default function TracksPage() {
   const tracks = [
@@ -82,20 +82,6 @@ export default function TracksPage() {
     }
   }
 
-  const getTrackColor = (color: string) => {
-    switch (color) {
-      case "red":
-        return "text-red-600"
-      case "blue":
-        return "text-blue-600"
-      case "green":
-        return "text-green-600"
-      case "purple":
-        return "text-purple-600"
-      default:
-        return "text-gray-600"
-    }
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
@@ -145,10 +131,11 @@ export default function TracksPage() {
               <div key={track.id} className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl overflow-hidden border border-white/20 hover:shadow-2xl transition-all duration-300">
                 {/* Track Image */}
                 <div className="relative h-64 overflow-hidden">
-                  <img
+                  <Image
                     src={track.image}
                     alt={track.name}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute top-4 right-4">

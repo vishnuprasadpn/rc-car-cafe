@@ -3,7 +3,6 @@ import Image from "next/image"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
 import Navigation from "@/components/navigation"
-import type { Session } from "next-auth"
 import { 
   Trophy, 
   Clock, 
@@ -13,17 +12,15 @@ import {
   Zap, 
   Target,
   Award,
-  Play,
-  Shield,
   Heart,
   Car
 } from "lucide-react"
 
 export default async function HomePage() {
-  const session = await getServerSession(authOptions) as Session | null
-
   // Allow authenticated users to view the homepage
   // They can navigate to their dashboards via the navigation menu
+  // Session is checked but not used here - navigation component handles auth display
+  void await getServerSession(authOptions)
 
   return (
     <div className="min-h-screen bg-black overflow-hidden">
@@ -53,7 +50,7 @@ export default async function HomePage() {
             <div className="mb-8">
               <div className="inline-flex items-center px-6 py-3 rounded-full bg-fury-orange/20 border border-fury-orange/40 mb-8 backdrop-blur-sm">
                 <div className="w-2 h-2 bg-fury-orange rounded-full mr-3"></div>
-                <span className="text-fury-lightGray text-lg font-medium">Bangalore's Premier RC Racing Experience</span>
+                <span className="text-fury-lightGray text-lg font-medium">Bangalore&apos;s Premier RC Racing Experience</span>
               </div>
             </div>
             

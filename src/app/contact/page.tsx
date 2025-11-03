@@ -31,9 +31,9 @@ export default function ContactPage() {
     try {
       // Simulate form submission
       await new Promise(resolve => setTimeout(resolve, 1000))
-      setMessage({ type: 'success', text: 'Thank you for your message! We\'ll get back to you soon.' })
+      setMessage({ type: 'success', text: 'Thank you for your message! We&apos;ll get back to you soon.' })
       setFormData({ name: "", email: "", phone: "", subject: "", message: "" })
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Failed to send message. Please try again.' })
     } finally {
       setIsSubmitting(false)
@@ -100,7 +100,7 @@ export default function ContactPage() {
             
             <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
               Have questions about our tracks, bookings, or just want to say hello? 
-              We'd love to hear from you!
+              We&apos;d love to hear from you!
             </p>
           </div>
         </div>
@@ -326,12 +326,12 @@ export default function ContactPage() {
               <p className="text-gray-600">No! We provide professional-grade RC cars for all our tracks. Just bring your racing spirit!</p>
             </div>
             <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 border border-white/20">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">What's the minimum age to race?</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">What&apos;s the minimum age to race?</h3>
               <p className="text-gray-600">Children 8 and above can race with adult supervision. We have beginner-friendly tracks perfect for kids.</p>
             </div>
             <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 border border-white/20">
               <h3 className="text-xl font-bold text-gray-900 mb-4">How do I book a session?</h3>
-              <p className="text-gray-600">Simply sign up on our website, choose your track and time slot, and you're ready to race!</p>
+              <p className="text-gray-600">Simply sign up on our website, choose your track and time slot, and you&apos;re ready to race!</p>
             </div>
             <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 border border-white/20">
               <h3 className="text-xl font-bold text-gray-900 mb-4">Can I host corporate events?</h3>

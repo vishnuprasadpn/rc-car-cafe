@@ -82,17 +82,12 @@ Vercel is the best platform for Next.js applications with:
    SMTP_USER=your-email@gmail.com
    SMTP_PASS=your-app-password
    
-   # Payment Gateways (if enabled)
-   RAZORPAY_KEY_ID=your-key
-   RAZORPAY_KEY_SECRET=your-secret
-   STRIPE_PUBLISHABLE_KEY=your-key
-   STRIPE_SECRET_KEY=your-secret
-   STRIPE_WEBHOOK_SECRET=your-webhook-secret
-   
    # App Configuration
    NEXT_PUBLIC_APP_URL=https://yourdomain.com
    NEXT_PUBLIC_APP_NAME=Fury Road RC Club
    ```
+   
+   **Note:** Payment gateway variables (Razorpay/Stripe) are NOT required - payment functionality is currently disabled.
 
    **Generate NEXTAUTH_SECRET:**
    ```bash

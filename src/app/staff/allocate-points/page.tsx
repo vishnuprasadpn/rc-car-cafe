@@ -25,19 +25,24 @@ export default function AllocatePointsPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
 
-  if (status === "loading") {
-    return <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600"></div>
-    </div>
-  }
-
-  if (!session || session.user.role !== "STAFF") {
-    redirect("/auth/signin")
+  const fetchCustomers = async () => {
+    try {
+      const response = await fetch("/api/staff/customers")
+      if (response.ok) {
+        const data = await response.json()
+        setCustomers(data.customers)
+        setFilteredCustomers(data.customers)
+      }
+    } catch {
+      console.error("Error fetching customers")
+    }
   }
 
   useEffect(() => {
-    fetchCustomers()
-  }, [])
+    if (status !== "loading" && session && session.user.role === "STAFF") {
+      fetchCustomers()
+    }
+  }, [status, session])
 
   useEffect(() => {
     if (searchTerm) {
@@ -51,17 +56,15 @@ export default function AllocatePointsPage() {
     }
   }, [searchTerm, customers])
 
-  const fetchCustomers = async () => {
-    try {
-      const response = await fetch("/api/staff/customers")
-      if (response.ok) {
-        const data = await response.json()
-        setCustomers(data.customers)
-        setFilteredCustomers(data.customers)
-      }
-    } catch (error) {
-      console.error("Error fetching customers:", error)
-    }
+  if (status === "loading") {
+    return <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600"></div>
+    </div>
+  }
+
+  if (!session || session.user.role !== "STAFF") {
+    redirect("/auth/signin")
+    return null
   }
 
   const handleAllocatePoints = async (e: React.FormEvent) => {
@@ -96,7 +99,7 @@ export default function AllocatePointsPage() {
       } else {
         setMessage({ type: 'error', text: data.error || 'Failed to allocate points' })
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Network error. Please try again.' })
     } finally {
       setIsLoading(false)
