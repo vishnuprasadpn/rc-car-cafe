@@ -1,6 +1,6 @@
 import Navigation from "@/components/navigation"
 import Image from "next/image"
-import { Trophy, Users, Clock, Target, Award, Heart, Zap, Shield, Star, MapPin, Phone, Mail } from "lucide-react"
+import { Trophy, Users, Heart, Shield, MapPin, Phone, Mail } from "lucide-react"
 
 export default function AboutPage() {
   const team = [
@@ -88,7 +88,7 @@ export default function AboutPage() {
             
             <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
               Passionate about bringing the thrill of RC car racing to Bangalore. 
-              We're more than just a racing club - we're a community of speed enthusiasts.
+              We&apos;re more than just a racing club - we&apos;re a community of speed enthusiasts.
             </p>
           </div>
         </div>
@@ -107,22 +107,23 @@ export default function AboutPage() {
                   creating a professional racing environment in Bangalore.
                 </p>
                 <p>
-                  What started as a small group of friends racing in parking lots has evolved into Bangalore's 
-                  premier RC racing destination. We've built state-of-the-art tracks, assembled a fleet of 
+                  What started as a small group of friends racing in parking lots has evolved into Bangalore&apos;s 
+                  premier RC racing destination. We&apos;ve built state-of-the-art tracks, assembled a fleet of 
                   professional-grade RC cars, and created a community where racing enthusiasts can come together.
                 </p>
                 <p>
-                  Today, we're proud to offer four unique tracks designed for different skill levels, 
+                  Today, we&apos;re proud to offer four unique tracks designed for different skill levels, 
                   from beginners taking their first laps to experts competing for the fastest times. 
                   Our mission is to make RC racing accessible, exciting, and safe for everyone.
                 </p>
               </div>
             </div>
-            <div className="relative">
-              <img
+            <div className="relative h-96 w-full">
+              <Image
                 src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 alt="RC Racing Track"
-                className="rounded-2xl shadow-2xl"
+                fill
+                className="rounded-2xl shadow-2xl object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
             </div>
@@ -188,11 +189,14 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {team.map((member, index) => (
               <div key={index} className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 text-center border border-white/20">
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-24 h-24 rounded-full mx-auto mb-6 object-cover"
-                />
+                <div className="relative w-24 h-24 mx-auto mb-6">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    className="rounded-full object-cover"
+                  />
+                </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{member.name}</h3>
                 <p className="text-red-600 font-semibold mb-4">{member.role}</p>
                 <p className="text-gray-600 leading-relaxed">{member.bio}</p>
@@ -209,7 +213,7 @@ export default function AboutPage() {
             <h2 className="text-4xl font-bold mb-6">Our Mission</h2>
             <p className="text-xl text-red-100 mb-8 max-w-4xl mx-auto leading-relaxed">
               To create the ultimate RC racing experience in Bangalore, bringing together speed enthusiasts 
-              of all skill levels in a safe, exciting, and professional environment. We're building a 
+              of all skill levels in a safe, exciting, and professional environment. We&apos;re building a 
               community where passion for racing meets cutting-edge technology.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getServerSession } from "next-auth"
+import { getServerSession } from "next-auth/next"
+import type { Session } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { z } from "zod"
@@ -15,17 +16,18 @@ const updateGameSchema = z.object({
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions) as Session | null
     
-    if (!session || session.user.role !== "ADMIN") {
+    if (!session || (session.user as { role?: string }).role !== "ADMIN") {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 
+    const { id } = await params
     const game = await prisma.game.findUnique({
-      where: { id: params.id }
+      where: { id }
     })
 
     if (!game) {
@@ -44,20 +46,21 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions) as Session | null
     
-    if (!session || session.user.role !== "ADMIN") {
+    if (!session || (session.user as { role?: string }).role !== "ADMIN") {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 
+    const { id } = await params
     const body = await request.json()
     const updateData = updateGameSchema.parse(body)
 
     const game = await prisma.game.update({
-      where: { id: params.id },
+      where: { id },
       data: updateData
     })
 
@@ -65,7 +68,7 @@ export async function PUT(
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { message: "Validation error", errors: error.errors },
+        { message: "Validation error", errors: error.issues },
         { status: 400 }
       )
     }
@@ -80,20 +83,21 @@ export async function PUT(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions) as Session | null
     
-    if (!session || session.user.role !== "ADMIN") {
+    if (!session || (session.user as { role?: string }).role !== "ADMIN") {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 
+    const { id } = await params
     const body = await request.json()
     const updateData = updateGameSchema.parse(body)
 
     const game = await prisma.game.update({
-      where: { id: params.id },
+      where: { id },
       data: updateData
     })
 
@@ -101,7 +105,7 @@ export async function PATCH(
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { message: "Validation error", errors: error.errors },
+        { message: "Validation error", errors: error.issues },
         { status: 400 }
       )
     }
@@ -116,18 +120,19 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions) as Session | null
     
-    if (!session || session.user.role !== "ADMIN") {
+    if (!session || (session.user as { role?: string }).role !== "ADMIN") {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 
+    const { id } = await params
     // Check if game has any bookings
     const bookingsCount = await prisma.booking.count({
-      where: { gameId: params.id }
+      where: { gameId: id }
     })
 
     if (bookingsCount > 0) {
@@ -138,7 +143,7 @@ export async function DELETE(
     }
 
     await prisma.game.delete({
-      where: { id: params.id }
+      where: { id }
     })
 
     return NextResponse.json({ message: "Game deleted successfully" })

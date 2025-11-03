@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     const booking = await prisma.booking.findFirst({
       where: {
         id: bookingId,
-        userId: session.user.id,
+        userId: (session.user as { id: string }).id,
         status: "PENDING"
       }
     })
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { message: "Validation error", errors: error.errors },
+        { message: "Validation error", errors: error.issues },
         { status: 400 }
       )
     }

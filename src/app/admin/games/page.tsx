@@ -53,7 +53,7 @@ export default function AdminGamesPage() {
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin")
-    } else if (status === "authenticated" && session?.user?.role !== "ADMIN") {
+    } else if (status === "authenticated" && (session?.user as { role?: string })?.role !== "ADMIN") {
       router.push("/dashboard")
     } else if (status === "authenticated") {
       fetchGames()
@@ -169,7 +169,7 @@ export default function AdminGamesPage() {
     )
   }
 
-  if (!session || session.user.role !== "ADMIN") {
+  if (!session || !session.user || (session.user as { role?: string }).role !== "ADMIN") {
     return null
   }
 

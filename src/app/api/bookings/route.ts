@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getServerSession } from "next-auth"
+import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { z } from "zod"
@@ -20,7 +20,7 @@ export async function GET(_request: NextRequest) {
 
     const bookings = await prisma.booking.findMany({
       where: {
-        userId: session.user.id
+        userId: (session.user as { id: string }).id
       },
       include: {
         game: true
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
 
     const booking = await prisma.booking.create({
       data: {
-        userId: session.user.id,
+        userId: (session.user as { id: string }).id,
         gameId,
         startTime: start,
         endTime: end,
@@ -116,7 +116,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { message: "Validation error", errors: error.errors },
+        { message: "Validation error", errors: error.issues },
         { status: 400 }
       )
     }
