@@ -85,10 +85,8 @@ async function main() {
   ]
 
   for (const gameData of games) {
-    await prisma.game.upsert({
-      where: { name: gameData.name },
-      update: {},
-      create: gameData
+    await prisma.game.create({
+      data: gameData
     })
   }
 
@@ -164,10 +162,8 @@ RC Car Café Team`
   ]
 
   for (const template of emailTemplates) {
-    await prisma.emailTemplate.upsert({
-      where: { name: template.name },
-      update: {},
-      create: template
+    await prisma.emailTemplate.create({
+      data: template
     })
   }
 
@@ -184,10 +180,8 @@ RC Car Café Team`
   ]
 
   for (const setting of systemSettings) {
-    await prisma.systemSettings.upsert({
-      where: { key: setting.key },
-      update: {},
-      create: setting
+    await prisma.systemSettings.create({
+      data: setting
     })
   }
 

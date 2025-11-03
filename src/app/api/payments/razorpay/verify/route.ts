@@ -11,7 +11,14 @@ const verifyPaymentSchema = z.object({
 })
 
 export async function POST(request: NextRequest) {
-  try {
+  // Payment verification is disabled
+  return NextResponse.json(
+    { message: "Payment verification is currently disabled. Please check back later." },
+    { status: 503 }
+  )
+
+  // Disabled code below
+  /*try {
     const body = await request.json()
     const { orderId, paymentId, signature, bookingId } = verifyPaymentSchema.parse(body)
 
@@ -58,4 +65,5 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
+  */
 }

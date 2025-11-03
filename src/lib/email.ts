@@ -49,7 +49,7 @@ export const sendBookingConfirmationEmail = async (data: BookingConfirmationData
   const mailOptions = {
     from: process.env.SMTP_USER,
     to: user.email,
-    subject: `Booking Confirmed - ${game.name} at RC Car Café`,
+    subject: `Booking Confirmed - ${game.name} at Fury Road RC Club`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #4F46E5;">Booking Confirmed!</h2>
@@ -68,7 +68,7 @@ export const sendBookingConfirmationEmail = async (data: BookingConfirmationData
         
         <p>Please arrive 10 minutes before your scheduled time. We look forward to seeing you!</p>
         
-        <p>Best regards,<br>RC Car Café Team</p>
+        <p>Best regards,<br>Fury Road RC Club Team</p>
       </div>
     `,
   }
@@ -88,7 +88,7 @@ export const sendBookingCancellationEmail = async (data: BookingCancellationData
   const mailOptions = {
     from: process.env.SMTP_USER,
     to: user.email,
-    subject: `Booking Cancelled - ${game.name} at RC Car Café`,
+    subject: `Booking Cancelled - ${game.name} at Fury Road RC Club`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #DC2626;">Booking Cancelled</h2>
@@ -105,7 +105,7 @@ export const sendBookingCancellationEmail = async (data: BookingCancellationData
         
         <p>If you have any questions about this cancellation, please contact us.</p>
         
-        <p>Best regards,<br>RC Car Café Team</p>
+        <p>Best regards,<br>Fury Road RC Club Team</p>
       </div>
     `,
   }
@@ -138,7 +138,7 @@ export const sendPointsApprovalEmail = async (userEmail: string, userName: strin
         
         <p>You can now use these points to redeem extra playtime or other rewards!</p>
         
-        <p>Best regards,<br>RC Car Café Team</p>
+        <p>Best regards,<br>Fury Road RC Club Team</p>
       </div>
     `,
   }

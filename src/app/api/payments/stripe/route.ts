@@ -11,7 +11,14 @@ const createPaymentIntentSchema = z.object({
 })
 
 export async function POST(request: NextRequest) {
-  try {
+  // Payment functionality is disabled
+  return NextResponse.json(
+    { message: "Payment is currently disabled. Please check back later." },
+    { status: 503 }
+  )
+
+  // Disabled code below
+  /*try {
     const session = await getServerSession(authOptions)
     
     if (!session) {
@@ -61,4 +68,5 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
+  */
 }

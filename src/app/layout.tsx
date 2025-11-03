@@ -6,7 +6,7 @@ import { Providers } from "@/components/providers"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "RC Car Café - Indoor Racing Experience",
+  title: "Fury Road RC Club - Indoor Racing Experience",
   description: "Book your slot for an exciting indoor RC car racing experience in Bangalore",
 }
 
@@ -19,7 +19,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          {children}
+          <div className="min-h-screen bg-gray-50">
+            {children}
+          </div>
         </Providers>
       </body>
     </html>

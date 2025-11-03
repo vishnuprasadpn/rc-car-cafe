@@ -179,7 +179,7 @@ export default function AdminGamesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">RC Car Café - Admin</h1>
+              <h1 className="text-xl font-semibold text-gray-900">Fury Road RC Club - Admin</h1>
             </div>
             <div className="flex items-center space-x-4">
               <Link
@@ -200,7 +200,7 @@ export default function AdminGamesPage() {
         </div>
       </nav>
 
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto pt-20 py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-gray-900">Manage Games</h2>
@@ -210,7 +210,7 @@ export default function AdminGamesPage() {
                 setEditingGame(null)
                 reset()
               }}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+              className="inline-flex items-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-lg text-white bg-fury-orange hover:bg-primary-600 transition-colors"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Game
@@ -321,14 +321,14 @@ export default function AdminGamesPage() {
                         setEditingGame(null)
                         reset()
                       }}
-                      className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                      className="px-5 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50"
+                      className="px-5 py-2.5 bg-fury-orange text-white rounded-lg text-sm font-semibold hover:bg-primary-600 disabled:opacity-50 transition-colors"
                     >
                       {submitting ? "Saving..." : editingGame ? "Update Game" : "Create Game"}
                     </button>

@@ -41,7 +41,14 @@ export async function GET(_request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  try {
+  // Booking functionality is disabled
+  return NextResponse.json(
+    { message: "Booking is currently disabled. Please check back later." },
+    { status: 503 }
+  )
+
+  // Disabled code below
+  /*try {
     const session = await getServerSession(authOptions)
     
     if (!session) {
@@ -120,4 +127,5 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
+  */
 }

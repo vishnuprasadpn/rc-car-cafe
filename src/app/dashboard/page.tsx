@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Calendar, Clock, Trophy } from "lucide-react"
+import Navigation from "@/components/navigation"
 
 interface Booking {
   id: string
@@ -77,27 +78,10 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">RC Car Café</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-700">Welcome, {session.user.name}</span>
-              <button
-                onClick={() => router.push("/api/auth/signout")}
-                className="text-sm text-gray-500 hover:text-gray-700"
-              >
-                Sign Out
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+      <Navigation />
 
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto pt-20 py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div className="bg-white overflow-hidden shadow rounded-lg">
@@ -212,20 +196,14 @@ export default function DashboardPage() {
                 </h3>
                 <div className="space-y-3">
                   <Link
-                    href="/book"
-                    className="block w-full bg-indigo-600 text-white text-center py-2 px-4 rounded-md hover:bg-indigo-700 transition-colors"
-                  >
-                    Book a Race
-                  </Link>
-                  <Link
                     href="/points"
-                    className="block w-full bg-gray-600 text-white text-center py-2 px-4 rounded-md hover:bg-gray-700 transition-colors"
+                    className="block w-full bg-gray-600 text-white text-center py-2.5 px-5 rounded-lg text-sm font-semibold hover:bg-gray-700 transition-colors"
                   >
                     View Points
                   </Link>
                   <Link
                     href="/profile"
-                    className="block w-full bg-gray-600 text-white text-center py-2 px-4 rounded-md hover:bg-gray-700 transition-colors"
+                    className="block w-full bg-gray-600 text-white text-center py-2.5 px-5 rounded-lg text-sm font-semibold hover:bg-gray-700 transition-colors"
                   >
                     Edit Profile
                   </Link>

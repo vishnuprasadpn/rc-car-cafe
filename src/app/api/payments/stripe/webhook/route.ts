@@ -4,7 +4,14 @@ import { prisma } from "@/lib/prisma"
 import Stripe from "stripe"
 
 export async function POST(request: NextRequest) {
-  try {
+  // Payment webhook is disabled
+  return NextResponse.json(
+    { message: "Payment webhook is currently disabled." },
+    { status: 503 }
+  )
+
+  // Disabled code below
+  /*try {
     const body = await request.text()
     const signature = request.headers.get("stripe-signature")!
 
@@ -41,4 +48,5 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     )
   }
+  */
 }
