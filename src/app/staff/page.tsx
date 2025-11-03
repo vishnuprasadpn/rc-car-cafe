@@ -34,7 +34,7 @@ export default function StaffDashboard() {
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin")
-    } else if (status === "authenticated" && session?.user?.role !== "STAFF" && session?.user?.role !== "ADMIN") {
+    } else if (status === "authenticated" && session?.user && ((session.user as { role?: string }).role !== "STAFF" && (session.user as { role?: string }).role !== "ADMIN")) {
       router.push("/dashboard")
     } else if (status === "authenticated") {
       fetchStats()
@@ -66,7 +66,7 @@ export default function StaffDashboard() {
     )
   }
 
-  if (!session || (session.user.role !== "STAFF" && session.user.role !== "ADMIN")) {
+  if (!session || !session.user || ((session.user as { role?: string }).role !== "STAFF" && (session.user as { role?: string }).role !== "ADMIN")) {
     return null
   }
 

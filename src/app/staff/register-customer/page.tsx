@@ -26,7 +26,7 @@ export default function RegisterCustomerPage() {
     </div>
   }
 
-  if (!session || session.user.role !== "STAFF") {
+  if (!session || !session.user || (session.user as { role?: string }).role !== "STAFF") {
     redirect("/auth/signin")
   }
 

@@ -20,6 +20,7 @@ export default async function HomePage() {
   // Allow authenticated users to view the homepage
   // They can navigate to their dashboards via the navigation menu
   // Session is checked but not used here - navigation component handles auth display
+  // @ts-expect-error - getServerSession accepts authOptions but types don't match NextAuth v4
   void await getServerSession(authOptions)
 
   return (

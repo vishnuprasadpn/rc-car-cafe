@@ -39,7 +39,7 @@ export default function AllocatePointsPage() {
   }
 
   useEffect(() => {
-    if (status !== "loading" && session && session.user.role === "STAFF") {
+    if (status !== "loading" && session && session.user && (session.user as { role?: string }).role === "STAFF") {
       fetchCustomers()
     }
   }, [status, session])
@@ -62,7 +62,7 @@ export default function AllocatePointsPage() {
     </div>
   }
 
-  if (!session || session.user.role !== "STAFF") {
+  if (!session || !session.user || (session.user as { role?: string }).role !== "STAFF") {
     redirect("/auth/signin")
     return null
   }
@@ -84,7 +84,7 @@ export default function AllocatePointsPage() {
           userId: selectedCustomer.id,
           points: parseInt(points),
           reason: reason,
-          allocatedBy: session.user.id
+          allocatedBy: (session.user as { id: string }).id
         }),
       })
 

@@ -48,7 +48,7 @@ export default function StaffBookingsPage() {
   }
 
   useEffect(() => {
-    if (status !== "loading" && session && session.user.role === "STAFF") {
+    if (status !== "loading" && session && session.user && (session.user as { role?: string }).role === "STAFF") {
       fetchBookings()
     }
   }, [status, session])
@@ -79,7 +79,7 @@ export default function StaffBookingsPage() {
     </div>
   }
 
-  if (!session || session.user.role !== "STAFF") {
+  if (!session || !session.user || (session.user as { role?: string }).role !== "STAFF") {
     redirect("/auth/signin")
     return null
   }

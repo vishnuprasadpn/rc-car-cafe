@@ -29,6 +29,10 @@ export default function Navigation() {
     router.push("/")
   }
 
+  if (status === "loading") {
+    return null
+  }
+
   if (!session) {
     return (
       <nav className="fixed top-0 left-0 right-0 z-50 bg-fury-black/20 backdrop-blur-xl border-b border-fury-white/10">
@@ -91,7 +95,9 @@ export default function Navigation() {
   }
 
   const getNavigationItems = () => {
-    if (session.user.role === "ADMIN") {
+    if (!session?.user) return []
+    const userRole = (session.user as { role?: string }).role
+    if (userRole === "ADMIN") {
       return [
         { name: "Home", href: "/", icon: Home },
         { name: "Dashboard", href: "/admin", icon: Home },
@@ -99,7 +105,7 @@ export default function Navigation() {
         { name: "Points", href: "/admin/points", icon: Trophy },
         { name: "Reports", href: "/admin/reports", icon: Settings },
       ]
-    } else if (session.user.role === "STAFF") {
+    } else if (userRole === "STAFF") {
       return [
         { name: "Home", href: "/", icon: Home },
         { name: "Dashboard", href: "/staff", icon: Home },
@@ -163,13 +169,13 @@ export default function Navigation() {
                   <div className="absolute inset-0 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full blur opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
                   <div className="relative w-10 h-10 bg-gradient-to-br from-fury-orange to-primary-700 rounded-full flex items-center justify-center shadow-2xl">
                     <span className="text-fury-white text-sm font-bold">
-                      {session.user.name.charAt(0).toUpperCase()}
+                      {session.user?.name?.charAt(0).toUpperCase() || "U"}
                     </span>
                   </div>
                 </div>
                 <div className="text-left">
-                  <div className="text-sm font-bold text-fury-white">{session.user.name}</div>
-                  <div className="text-xs text-fury-lightGray capitalize">{session.user.role}</div>
+                  <div className="text-sm font-bold text-fury-white">{session.user?.name || "User"}</div>
+                  <div className="text-xs text-fury-lightGray capitalize">{(session.user as { role?: string }).role || "User"}</div>
                 </div>
                 <ChevronDown className="h-4 w-4 text-fury-lightGray group-hover:text-fury-orange transition-colors" />
               </button>
@@ -178,8 +184,8 @@ export default function Navigation() {
               {isUserMenuOpen && (
                 <div className="absolute right-0 mt-2 w-56 bg-fury-black/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-fury-white/20 py-2 z-50">
                   <div className="px-4 py-3 border-b border-fury-white/10">
-                    <div className="text-sm font-bold text-fury-white">{session.user.name}</div>
-                    <div className="text-xs text-fury-lightGray capitalize">{session.user.role}</div>
+                    <div className="text-sm font-bold text-fury-white">{session.user?.name || "User"}</div>
+                    <div className="text-xs text-fury-lightGray capitalize">{(session.user as { role?: string }).role || "User"}</div>
                   </div>
                   <button
                     onClick={handleSignOut}
@@ -212,42 +218,8 @@ export default function Navigation() {
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-fury-white/10 bg-fury-black/80 backdrop-blur-xl">
             <div className="px-4 pt-4 pb-6 space-y-2">
-              {/* Public Navigation for unauthenticated users */}
-              {status === 'unauthenticated' && (
-                <>
-                  <Link
-                    href="/"
-                    className="text-fury-white hover:text-fury-orange block px-4 py-3 rounded-xl text-base font-semibold hover:bg-fury-white/10 transition-all duration-300"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Home
-                  </Link>
-                  <Link
-                    href="/tracks"
-                    className="text-fury-white hover:text-fury-orange block px-4 py-3 rounded-xl text-base font-semibold hover:bg-fury-white/10 transition-all duration-300"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Tracks
-                  </Link>
-                  <Link
-                    href="/about"
-                    className="text-fury-white hover:text-fury-orange block px-4 py-3 rounded-xl text-base font-semibold hover:bg-fury-white/10 transition-all duration-300"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    About
-                  </Link>
-                  <Link
-                    href="/contact"
-                    className="text-fury-white hover:text-fury-orange block px-4 py-3 rounded-xl text-base font-semibold hover:bg-fury-white/10 transition-all duration-300"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Contact
-                  </Link>
-                </>
-              )}
-              
               {/* Role-based Navigation for authenticated users */}
-              {status === 'authenticated' && navigationItems.map((item) => (
+              {navigationItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
@@ -259,17 +231,15 @@ export default function Navigation() {
                 </Link>
               ))}
               
-              {status === 'authenticated' && (
-                <div className="border-t border-fury-white/10 pt-4 mt-4">
-                  <button
-                    onClick={handleSignOut}
-                    className="w-full text-left px-4 py-3 text-base font-semibold text-fury-white hover:text-fury-orange hover:bg-fury-white/10 flex items-center rounded-xl transition-all duration-300"
-                  >
-                    <LogOut className="h-4 w-4 mr-3" />
-                    Sign Out
-                  </button>
-                </div>
-              )}
+              <div className="border-t border-fury-white/10 pt-4 mt-4">
+                <button
+                  onClick={handleSignOut}
+                  className="w-full text-left px-4 py-3 text-base font-semibold text-fury-white hover:text-fury-orange hover:bg-fury-white/10 flex items-center rounded-xl transition-all duration-300"
+                >
+                  <LogOut className="h-4 w-4 mr-3" />
+                  Sign Out
+                </button>
+              </div>
             </div>
           </div>
         )}

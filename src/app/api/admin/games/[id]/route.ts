@@ -19,9 +19,10 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // @ts-expect-error - getServerSession accepts authOptions but types don't match NextAuth v4
     const session = await getServerSession(authOptions) as Session | null
     
-    if (!session || (session.user as { role?: string }).role !== "ADMIN") {
+    if (!session || !session.user || (session.user as { role?: string }).role !== "ADMIN") {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 
@@ -49,9 +50,10 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // @ts-expect-error - getServerSession accepts authOptions but types don't match NextAuth v4
     const session = await getServerSession(authOptions) as Session | null
     
-    if (!session || (session.user as { role?: string }).role !== "ADMIN") {
+    if (!session || !session.user || (session.user as { role?: string }).role !== "ADMIN") {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 
@@ -86,9 +88,10 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // @ts-expect-error - getServerSession accepts authOptions but types don't match NextAuth v4
     const session = await getServerSession(authOptions) as Session | null
     
-    if (!session || (session.user as { role?: string }).role !== "ADMIN") {
+    if (!session || !session.user || (session.user as { role?: string }).role !== "ADMIN") {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 
@@ -123,9 +126,10 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // @ts-expect-error - getServerSession accepts authOptions but types don't match NextAuth v4
     const session = await getServerSession(authOptions) as Session | null
     
-    if (!session || (session.user as { role?: string }).role !== "ADMIN") {
+    if (!session || !session.user || (session.user as { role?: string }).role !== "ADMIN") {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 

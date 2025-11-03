@@ -44,9 +44,9 @@ export default function SignInPage() {
         setError("Invalid credentials")
       } else {
         const session = await getSession()
-        if (session?.user?.role === "ADMIN") {
+        if (session?.user && (session.user as { role?: string }).role === "ADMIN") {
           router.push("/admin")
-        } else if (session?.user?.role === "STAFF") {
+        } else if (session?.user && (session.user as { role?: string }).role === "STAFF") {
           router.push("/staff")
         } else {
           router.push("/dashboard")
