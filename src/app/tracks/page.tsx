@@ -70,7 +70,7 @@ export default function TracksPage() {
 
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen">
       <Navigation />
       
       {/* Hero Section */}
@@ -97,7 +97,7 @@ export default function TracksPage() {
               </div>
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">
+            <h1 className="font-heading text-5xl md:text-6xl mb-6 text-white uppercase">
               Our Racing Tracks
             </h1>
             
@@ -110,7 +110,7 @@ export default function TracksPage() {
       </div>
 
       {/* Tracks Grid */}
-      <div className="py-24 bg-black">
+      <div className="py-24 transition-all duration-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {tracks.map((track) => (
@@ -135,7 +135,7 @@ export default function TracksPage() {
                     </span>
                   </div>
                   <div className="absolute bottom-4 left-4">
-                    <h3 className="text-lg sm:text-2xl font-bold text-white mb-2">{track.name}</h3>
+                    <h3 className="font-heading text-lg sm:text-2xl text-white mb-2 uppercase">{track.name}</h3>
                     <div className="flex items-center text-white/80">
                       <MapPin className="h-4 w-4 mr-1" />
                       <span className="text-sm">{track.length}</span>
@@ -206,10 +206,10 @@ export default function TracksPage() {
       </div>
 
       {/* Track Comparison */}
-      <div className="py-24 bg-black">
+      <div className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-2xl sm:text-4xl font-bold text-white mb-6">Track Comparison</h2>
+            <h2 className="font-heading text-2xl sm:text-4xl text-white mb-6 uppercase">Track Comparison</h2>
             <p className="text-sm sm:text-xl text-gray-300 max-w-3xl mx-auto">
               Compare our tracks to find the perfect one for your skill level and racing style
             </p>
@@ -266,7 +266,7 @@ export default function TracksPage() {
       {/* Call to Action */}
       <div className="py-24 bg-gradient-to-r from-fury-orange to-primary-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-4xl font-bold text-white mb-6">Ready to Race?</h2>
+          <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-white mb-6 tracking-tight">Ready to Race?</h2>
           <p className="text-sm sm:text-xl text-white/90 mb-8 max-w-3xl mx-auto">
             Book your slot on any of our professional tracks and experience the thrill of RC car racing
           </p>

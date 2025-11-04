@@ -51,7 +51,7 @@ export default function FlexibleTimingPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-black overflow-hidden">
+    <div className="min-h-screen overflow-hidden">
       <Navigation />
 
       {/* Hero Section */}
@@ -76,7 +76,7 @@ export default function FlexibleTimingPage() {
               <span className="text-fury-lightGray text-sm font-medium">Flexible Timing</span>
             </div>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent">
+          <h1 className="font-heading text-5xl md:text-6xl mb-6 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent uppercase">
             Flexible Timing
           </h1>
           <p className="text-xl md:text-2xl text-fury-lightGray mb-8 max-w-4xl mx-auto leading-relaxed">
@@ -101,7 +101,7 @@ export default function FlexibleTimingPage() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="font-heading text-3xl md:text-4xl text-white mb-6 uppercase">
               Choose Your <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">Session Duration</span>
             </h2>
             <p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -117,7 +117,7 @@ export default function FlexibleTimingPage() {
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-2xl">
                     <option.icon className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">{option.duration}</h3>
+                  <h3 className="font-heading text-2xl text-white mb-4 uppercase">{option.duration}</h3>
                   <p className="text-gray-300 leading-relaxed mb-6">{option.description}</p>
                   <div className="text-blue-400 font-bold text-lg">{option.price}</div>
                 </div>
@@ -142,7 +142,7 @@ export default function FlexibleTimingPage() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="font-heading text-3xl md:text-4xl text-white mb-6 uppercase">
               Why <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">Flexible Timing</span>?
             </h2>
             <p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -158,7 +158,7 @@ export default function FlexibleTimingPage() {
                   <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center mb-6">
                     <CheckCircle className="h-6 w-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-4">{benefit.title}</h3>
+                  <h3 className="font-heading text-xl text-white mb-4 uppercase">{benefit.title}</h3>
                   <p className="text-gray-300 leading-relaxed">{benefit.description}</p>
                 </div>
               </div>
@@ -187,7 +187,7 @@ export default function FlexibleTimingPage() {
                 <Calendar className="h-4 w-4 text-blue-400 mr-2" />
                 <span className="text-fury-lightGray text-sm font-medium">Operating Hours</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+              <h2 className="font-heading text-3xl md:text-4xl text-white mb-6 uppercase">
                 When Can You <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">Race</span>?
               </h2>
               <p className="text-lg text-gray-300 mb-8 leading-relaxed">
@@ -212,7 +212,7 @@ export default function FlexibleTimingPage() {
                   <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl">
                     <Clock className="h-12 w-12 text-white" />
                   </div>
-                  <h3 className="text-3xl font-black text-white mb-6">Book Your Session</h3>
+                  <h3 className="font-heading text-3xl text-white mb-6 uppercase">Book Your Session</h3>
                   <p className="text-gray-300 text-lg mb-8 leading-relaxed">
                     Choose your preferred time slot and get ready for an amazing racing experience.
                     Flexible timing means racing on your schedule!

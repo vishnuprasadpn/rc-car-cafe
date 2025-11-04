@@ -52,7 +52,7 @@ export default function AboutPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen">
       <Navigation />
       
       {/* Hero Section */}
@@ -79,7 +79,7 @@ export default function AboutPage() {
               </div>
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">
+            <h1 className="font-heading text-5xl md:text-6xl mb-6 text-white uppercase">
               Our Story
             </h1>
             
@@ -92,11 +92,11 @@ export default function AboutPage() {
       </div>
 
       {/* Our Story Section */}
-      <div className="py-24 bg-black">
+      <div className="py-24 transition-all duration-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-2xl sm:text-4xl font-bold text-white mb-6">How It All Started</h2>
+              <h2 className="font-heading text-2xl sm:text-4xl text-white mb-6 uppercase">How It All Started</h2>
               <div className="space-y-4 text-gray-300 leading-relaxed">
                 <p>
                   Fury Road RC Club was born from a simple passion - the love for high-speed RC car racing. 
@@ -129,10 +129,10 @@ export default function AboutPage() {
       </div>
 
       {/* Stats Section */}
-      <div className="py-24 bg-black">
+      <div className="py-24 transition-all duration-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-2xl sm:text-4xl font-bold text-white mb-6">Our Impact</h2>
+            <h2 className="font-heading text-2xl sm:text-4xl text-white mb-6 uppercase">Our Impact</h2>
             <p className="text-sm sm:text-xl text-gray-300 max-w-3xl mx-auto">
               Numbers that speak to our commitment to excellence and community building
             </p>
@@ -150,10 +150,10 @@ export default function AboutPage() {
       </div>
 
       {/* Values Section */}
-      <div className="py-24 bg-black">
+      <div className="py-24 transition-all duration-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-2xl sm:text-4xl font-bold text-white mb-6">Our Values</h2>
+            <h2 className="font-heading text-2xl sm:text-4xl text-white mb-6 uppercase">Our Values</h2>
             <p className="text-sm sm:text-xl text-gray-300 max-w-3xl mx-auto">
               The principles that guide everything we do at Fury Road RC Club
             </p>
@@ -165,7 +165,7 @@ export default function AboutPage() {
                 <div className="w-16 h-16 bg-fury-orange/20 border border-fury-orange/30 rounded-full flex items-center justify-center mx-auto mb-6">
                   <value.icon className="h-8 w-8 text-fury-orange" />
                 </div>
-                <h3 className="text-base sm:text-xl font-bold text-white mb-4">{value.title}</h3>
+                <h3 className="font-heading text-base sm:text-xl text-white mb-4 uppercase">{value.title}</h3>
                 <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">{value.description}</p>
               </div>
             ))}
@@ -174,10 +174,10 @@ export default function AboutPage() {
       </div>
 
       {/* Team Section */}
-      <div className="py-24 bg-black">
+      <div className="py-24 transition-all duration-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-2xl sm:text-4xl font-bold text-white mb-6">Meet Our Team</h2>
+            <h2 className="font-heading text-2xl sm:text-4xl text-white mb-6 uppercase">Meet Our Team</h2>
             <p className="text-sm sm:text-xl text-gray-300 max-w-3xl mx-auto">
               The passionate people behind Fury Road RC Club
             </p>
@@ -203,10 +203,10 @@ export default function AboutPage() {
       </div>
 
       {/* Mission Section */}
-      <div className="py-24 bg-black">
+      <div className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gradient-to-r from-fury-orange to-primary-600 rounded-2xl p-12 text-center text-white">
-            <h2 className="text-2xl sm:text-4xl font-bold mb-6">Our Mission</h2>
+            <h2 className="font-heading text-2xl sm:text-4xl font-extrabold mb-6 tracking-tight">Our Mission</h2>
             <p className="text-sm sm:text-xl text-white/90 mb-8 max-w-4xl mx-auto leading-relaxed">
               To create the ultimate RC racing experience in Bangalore, bringing together speed enthusiasts 
               of all skill levels in a safe, exciting, and professional environment. We&apos;re building a 
@@ -231,10 +231,10 @@ export default function AboutPage() {
       </div>
 
       {/* Contact Info */}
-      <div className="py-16 bg-gray-900">
+      <div className="py-16 transition-all duration-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h3 className="text-lg sm:text-2xl font-bold text-white mb-8">Ready to Start Racing?</h3>
+            <h3 className="font-heading text-lg sm:text-2xl text-white mb-8 uppercase">Ready to Start Racing?</h3>
             <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
               <div className="flex items-center text-white">
                 <MapPin className="h-5 w-5 text-fury-orange mr-2" />

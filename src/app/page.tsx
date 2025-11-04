@@ -24,7 +24,7 @@ export default async function HomePage() {
   void await getServerSession(authOptions)
 
   return (
-    <div className="min-h-screen bg-black overflow-hidden">
+    <div className="min-h-screen overflow-hidden">
       <Navigation />
       
       {/* Hero Section with Advanced Animations */}
@@ -56,11 +56,11 @@ export default async function HomePage() {
             </div>
             
             {/* Main Title with Gradient */}
-            <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-fury-orange via-fury-orange to-fury-orange bg-clip-text text-transparent">
+            <h1 className="font-heading text-3xl sm:text-5xl md:text-7xl mb-6 bg-gradient-to-r from-fury-orange via-fury-orange to-fury-orange bg-clip-text text-transparent uppercase">
               FURY ROAD
             </h1>
             
-            <div className="text-xl sm:text-3xl md:text-4xl font-semibold text-fury-white mb-8">
+            <div className="font-heading text-xl sm:text-3xl md:text-4xl text-fury-white mb-8 uppercase">
               RC CLUB
             </div>
             
@@ -90,33 +90,13 @@ export default async function HomePage() {
                 SIGN IN
               </Link>
             </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-              <div className="text-center">
-                <div className="text-xl sm:text-3xl md:text-4xl font-bold text-fury-orange mb-2">500+</div>
-                <div className="text-fury-lightGray text-[10px] sm:text-sm">Races Completed</div>
-              </div>
-              <div className="text-center">
-                <div className="text-xl sm:text-3xl md:text-4xl font-bold text-fury-orange mb-2">50+</div>
-                <div className="text-fury-lightGray text-[10px] sm:text-sm">Active Members</div>
-              </div>
-              <div className="text-center">
-                <div className="text-xl sm:text-3xl md:text-4xl font-bold text-fury-orange mb-2">4</div>
-                <div className="text-fury-lightGray text-[10px] sm:text-sm">Professional Tracks</div>
-              </div>
-              <div className="text-center">
-                <div className="text-xl sm:text-3xl md:text-4xl font-bold text-fury-orange mb-2">5★</div>
-                <div className="text-fury-lightGray text-[10px] sm:text-sm">Member Rating</div>
-              </div>
-            </div>
           </div>
         </div>
 
       </div>
 
       {/* Features Section with Unique Design */}
-      <div id="features-section" className="py-24 relative overflow-hidden">
+      <div id="features-section" className="py-24 relative overflow-hidden transition-all duration-700">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -136,7 +116,7 @@ export default async function HomePage() {
               <Trophy className="h-4 w-4 text-fury-orange mr-2" />
               <span className="text-fury-lightGray text-sm font-medium">Why Choose Us</span>
             </div>
-            <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="font-heading text-xl sm:text-3xl md:text-4xl text-white mb-6 uppercase">
               Why <span className="bg-gradient-to-r from-fury-orange to-fury-orange bg-clip-text text-transparent">Fury Road</span>?
             </h2>
             <p className="text-sm sm:text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -144,54 +124,54 @@ export default async function HomePage() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-12">
+          <div className="grid md:grid-cols-3 gap-6">
             <Link href="/why/professional-racing" className="group relative block">
-              <div className="absolute inset-0 bg-gradient-to-br from-fury-orange/20 to-primary-600/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
-              <div className="relative bg-white/10 backdrop-blur-lg rounded-3xl p-10 hover:bg-white/20 transition-all duration-500 border border-white/20 group-hover:border-fury-orange/50">
-                <div className="w-20 h-20 bg-gradient-to-br from-fury-orange to-primary-600 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-2xl">
-                  <Trophy className="h-10 w-10 text-white" />
+              <div className="absolute inset-0 bg-gradient-to-br from-fury-orange/10 to-primary-600/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500"></div>
+              <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 border border-white/20 group-hover:border-fury-orange/40">
+                <div className="w-14 h-14 bg-gradient-to-br from-fury-orange to-primary-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
+                  <Trophy className="h-7 w-7 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-4">Professional Racing</h3>
-                <p className="text-gray-300 leading-relaxed text-sm">
+                <h3 className="font-heading text-lg text-white mb-2 uppercase">Professional Racing</h3>
+                <p className="text-gray-300 leading-relaxed text-xs sm:text-sm mb-4 line-clamp-2">
                   High-performance RC cars with professional-grade controllers and precision tracks designed for competitive racing.
                 </p>
-                <div className="mt-6 flex items-center text-fury-orange font-semibold">
+                <div className="flex items-center text-fury-orange font-semibold text-sm">
                   <span>Learn More</span>
-                  <div className="ml-2 w-0 group-hover:w-8 h-0.5 bg-fury-orange transition-all duration-300"></div>
+                  <div className="ml-2 w-0 group-hover:w-6 h-0.5 bg-fury-orange transition-all duration-300"></div>
                 </div>
               </div>
             </Link>
             
             <Link href="/why/flexible-timing" className="group relative block">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-blue-800/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
-              <div className="relative bg-white/10 backdrop-blur-lg rounded-3xl p-10 hover:bg-white/20 transition-all duration-500 border border-white/20 group-hover:border-blue-500/50">
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-2xl">
-                  <Clock className="h-10 w-10 text-white" />
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-blue-800/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500"></div>
+              <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 border border-white/20 group-hover:border-blue-400/40">
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
+                  <Clock className="h-7 w-7 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-4">Flexible Timing</h3>
-                <p className="text-gray-300 leading-relaxed text-sm">
+                <h3 className="text-lg font-bold text-white mb-2">Flexible Timing</h3>
+                <p className="text-gray-300 leading-relaxed text-xs sm:text-sm mb-4 line-clamp-2">
                   Book your preferred time slots with 20-minute racing sessions. Perfect for quick races or extended competitions.
                 </p>
-                <div className="mt-6 flex items-center text-blue-400 font-semibold">
+                <div className="flex items-center text-blue-400 font-semibold text-sm">
                   <span>Learn More</span>
-                  <div className="ml-2 w-0 group-hover:w-8 h-0.5 bg-blue-400 transition-all duration-300"></div>
+                  <div className="ml-2 w-0 group-hover:w-6 h-0.5 bg-blue-400 transition-all duration-300"></div>
                 </div>
               </div>
             </Link>
             
             <Link href="/why/group-fun" className="group relative block">
-              <div className="absolute inset-0 bg-gradient-to-br from-green-600/20 to-green-800/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
-              <div className="relative bg-white/10 backdrop-blur-lg rounded-3xl p-10 hover:bg-white/20 transition-all duration-500 border border-white/20 group-hover:border-green-500/50">
-                <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-700 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-2xl">
-                  <Users className="h-10 w-10 text-white" />
+              <div className="absolute inset-0 bg-gradient-to-br from-green-600/10 to-green-800/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500"></div>
+              <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 border border-white/20 group-hover:border-green-400/40">
+                <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-700 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
+                  <Users className="h-7 w-7 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-4">Group Fun</h3>
-                <p className="text-gray-300 leading-relaxed text-sm">
+                <h3 className="text-lg font-bold text-white mb-2">Group Fun</h3>
+                <p className="text-gray-300 leading-relaxed text-xs sm:text-sm mb-4 line-clamp-2">
                   Race with up to 4 players simultaneously. Perfect for friends, families, and corporate team building events.
                 </p>
-                <div className="mt-6 flex items-center text-green-400 font-semibold">
+                <div className="flex items-center text-green-400 font-semibold text-sm">
                   <span>Learn More</span>
-                  <div className="ml-2 w-0 group-hover:w-8 h-0.5 bg-green-400 transition-all duration-300"></div>
+                  <div className="ml-2 w-0 group-hover:w-6 h-0.5 bg-green-400 transition-all duration-300"></div>
                 </div>
               </div>
             </Link>
@@ -200,7 +180,7 @@ export default async function HomePage() {
       </div>
 
       {/* Racing Tracks Section with Unique Design */}
-      <div className="py-24 relative overflow-hidden">
+      <div className="py-24 relative overflow-hidden transition-all duration-700">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -220,7 +200,7 @@ export default async function HomePage() {
               <Car className="h-4 w-4 text-red-400 mr-2" />
               <span className="text-red-200 text-sm font-medium">Our Racing Tracks</span>
             </div>
-            <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="font-heading text-xl sm:text-3xl md:text-4xl text-white mb-6 uppercase">
               Our <span className="bg-gradient-to-r from-red-300 via-yellow-300 to-blue-300 bg-clip-text text-transparent">Racing Tracks</span>
             </h2>
             <p className="text-sm sm:text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -228,7 +208,7 @@ export default async function HomePage() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
                 name: "Racing Track",
@@ -239,7 +219,8 @@ export default async function HomePage() {
                 bestTime: "1:23.45",
                 gradient: "from-red-500 to-red-700",
                 surface: "Asphalt",
-                vehicles: "High-speed RC cars"
+                vehicles: "High-speed RC cars",
+                image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_0.jpg"
               },
               {
                 name: "Mud Track",
@@ -250,7 +231,8 @@ export default async function HomePage() {
                 bestTime: "2:15.30",
                 gradient: "from-amber-600 to-amber-800",
                 surface: "Mud & Water",
-                vehicles: "Off-road RC vehicles"
+                vehicles: "Off-road RC vehicles",
+                image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_truck_rac_3.jpg"
               },
               {
                 name: "Crawler Track",
@@ -261,7 +243,8 @@ export default async function HomePage() {
                 bestTime: "3:45.12",
                 gradient: "from-green-500 to-green-700",
                 surface: "Rocks & Obstacles",
-                vehicles: "RC Crawlers"
+                vehicles: "RC Crawlers",
+                image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_closeup_of_an_RC_crawler_0.jpg"
               },
               {
                 name: "Sand Track",
@@ -272,61 +255,81 @@ export default async function HomePage() {
                 bestTime: "4:12.88",
                 gradient: "from-yellow-500 to-yellow-700",
                 surface: "Sand & Dunes",
-                vehicles: "Heavy RC Machines"
+                vehicles: "Heavy RC Machines",
+                image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_closeup_of_an_RC_crawler_2.jpg"
               }
             ].map((track, index) => (
-              <div key={index} className="group relative">
-                <div className={`absolute inset-0 bg-gradient-to-br ${track.gradient} opacity-20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500`}></div>
-                <div className="relative bg-white/10 backdrop-blur-lg rounded-3xl p-8 hover:bg-white/20 transition-all duration-500 border border-white/20 group-hover:border-white/40">
-                  <div className={`w-16 h-16 bg-gradient-to-br ${track.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-2xl`}>
-                    <Trophy className="h-8 w-8 text-white" />
-                  </div>
-                  <h3 className="text-lg sm:text-2xl font-black text-white mb-2">{track.name}</h3>
-                  <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold mb-4 ${
-                    track.difficulty === 'Expert' ? 'bg-red-500/20 text-red-300' :
-                    track.difficulty === 'Intermediate' ? 'bg-blue-500/20 text-blue-300' :
-                    track.difficulty === 'Beginner' ? 'bg-green-500/20 text-green-300' :
-                    'bg-purple-500/20 text-purple-300'
-                  }`}>
-                    {track.difficulty} Level
-                  </div>
-                  <p className="text-gray-300 text-sm mb-6 leading-relaxed">{track.description}</p>
-                  
-                  <div className="space-y-3 mb-6">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Length:</span>
-                      <span className="text-white font-bold">{track.length}</span>
+              <Link 
+                key={index} 
+                href={`/book?track=${encodeURIComponent(track.name)}`}
+                className="group relative block"
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${track.gradient} opacity-0 group-hover:opacity-30 rounded-2xl blur-2xl transition-all duration-500`}></div>
+                <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-500 border border-white/20 group-hover:border-white/40 group-hover:shadow-2xl group-hover:shadow-fury-orange/20">
+                  {/* Track Image */}
+                  <div className="relative h-48 overflow-hidden">
+                    <Image
+                      src={track.image}
+                      alt={track.name}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                    <div className="absolute top-3 right-3">
+                      <div className={`px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-bold backdrop-blur-sm ${
+                        track.difficulty === 'Expert' ? 'bg-red-500/30 text-red-200 border border-red-400/50' :
+                        track.difficulty === 'Intermediate' ? 'bg-blue-500/30 text-blue-200 border border-blue-400/50' :
+                        track.difficulty === 'Beginner' ? 'bg-green-500/30 text-green-200 border border-green-400/50' :
+                        'bg-purple-500/30 text-purple-200 border border-purple-400/50'
+                      }`}>
+                        {track.difficulty}
+                      </div>
                     </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Surface:</span>
-                      <span className="text-white font-bold">{track.surface}</span>
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <h3 className="text-lg sm:text-xl font-bold text-white mb-1">{track.name}</h3>
+                      <div className="flex items-center gap-3 text-white/90 text-xs">
+                        <div className="flex items-center">
+                          <MapPin className="h-3 w-3 mr-1" />
+                          <span>{track.length}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Clock className="h-3 w-3 mr-1" />
+                          <span>{track.bestTime}</span>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Vehicles:</span>
-                      <span className="text-white font-bold text-xs">{track.vehicles}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Best Time:</span>
-                      <span className="text-red-400 font-bold">{track.bestTime}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center text-yellow-400 mb-6">
-                    <Star className="h-4 w-4 fill-current" />
-                    <Star className="h-4 w-4 fill-current" />
-                    <Star className="h-4 w-4 fill-current" />
-                    <Star className="h-4 w-4 fill-current" />
-                    <Star className="h-4 w-4 fill-current" />
                   </div>
                   
-                  <Link
-                    href={`/book?track=${encodeURIComponent(track.name)}`}
-                    className={`w-full py-2 px-4 sm:py-2.5 sm:px-5 rounded-lg text-xs sm:text-sm font-semibold text-white transition-all duration-300 bg-gradient-to-r ${track.gradient} hover:opacity-90 shadow-lg hover:shadow-xl inline-block text-center`}
-                  >
-                    Book This Track
-                  </Link>
+                  {/* Track Details */}
+                  <div className="p-5">
+                    <p className="text-gray-300 text-xs sm:text-sm mb-4 leading-relaxed line-clamp-2">{track.description}</p>
+                    
+                    <div className="space-y-2 mb-4 pb-4 border-b border-white/10">
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-gray-400">Surface</span>
+                        <span className="text-white font-semibold">{track.surface}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-gray-400">Vehicles</span>
+                        <span className="text-white font-semibold text-[10px]">{track.vehicles}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center text-yellow-400">
+                        <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-current" />
+                        <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-current" />
+                        <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-current" />
+                        <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-current" />
+                        <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-current" />
+                      </div>
+                      <div className={`px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r ${track.gradient} group-hover:shadow-lg transition-all`}>
+                        Book Now
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -348,70 +351,70 @@ export default async function HomePage() {
         </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
             <div>
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-red-600/20 to-yellow-600/20 border border-red-500/20 mb-8 backdrop-blur-sm">
-                <Zap className="h-4 w-4 text-red-400 mr-2" />
-                <span className="text-red-200 text-sm font-medium">The Ultimate Experience</span>
+              <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-gradient-to-r from-red-600/20 to-yellow-600/20 border border-red-500/20 mb-6 backdrop-blur-sm">
+                <Zap className="h-3.5 w-3.5 text-red-400 mr-2" />
+                <span className="text-red-200 text-xs sm:text-sm font-medium">The Ultimate Experience</span>
               </div>
-              <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-white mb-6">
+              <h2 className="font-heading text-lg sm:text-2xl md:text-3xl font-extrabold text-white mb-4 tracking-tight">
                 The Ultimate <span className="bg-gradient-to-r from-red-300 via-yellow-300 to-blue-300 bg-clip-text text-transparent">Racing Experience</span>
               </h2>
-              <p className="text-sm sm:text-lg text-gray-300 mb-8 leading-relaxed">
+              <p className="text-xs sm:text-sm text-gray-300 mb-6 leading-relaxed">
                 Experience professional-grade RC car racing with state-of-the-art tracks, 
                 premium vehicles, and competitive racing environment.
               </p>
               
-              <div className="space-y-8">
+              <div className="space-y-4">
                 <div className="group flex items-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-2xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform duration-500 shadow-2xl">
-                    <Target className="h-8 w-8 text-white" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center mr-4 group-hover:scale-105 transition-transform duration-300">
+                    <Target className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-white mb-2">Precision Racing</h3>
-                    <p className="text-gray-300 text-sm">Master the art of precision control and timing</p>
+                    <h3 className="font-heading text-sm sm:text-base text-white mb-1 uppercase">Precision Racing</h3>
+                    <p className="text-gray-300 text-xs sm:text-sm">Master the art of precision control and timing</p>
                   </div>
                 </div>
                 
                 <div className="group flex items-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform duration-500 shadow-2xl">
-                    <Award className="h-8 w-8 text-white" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center mr-4 group-hover:scale-105 transition-transform duration-300">
+                    <Award className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-white mb-2">Competitive Spirit</h3>
-                    <p className="text-gray-300 text-sm">Compete with friends and climb the leaderboards</p>
+                    <h3 className="text-sm sm:text-base font-bold text-white mb-1">Competitive Spirit</h3>
+                    <p className="text-gray-300 text-xs sm:text-sm">Compete with friends and climb the leaderboards</p>
                   </div>
                 </div>
                 
                 <div className="group flex items-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-700 rounded-2xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform duration-500 shadow-2xl">
-                    <Heart className="h-8 w-8 text-white" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-700 rounded-xl flex items-center justify-center mr-4 group-hover:scale-105 transition-transform duration-300">
+                    <Heart className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-white mb-2">Fun for Everyone</h3>
-                    <p className="text-gray-300 text-sm">Suitable for all ages and skill levels</p>
+                    <h3 className="text-sm sm:text-base font-bold text-white mb-1">Fun for Everyone</h3>
+                    <p className="text-gray-300 text-xs sm:text-sm">Suitable for all ages and skill levels</p>
                   </div>
                 </div>
               </div>
             </div>
             
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-red-600/20 to-blue-600/20 rounded-3xl blur-2xl"></div>
-              <div className="relative bg-white/10 backdrop-blur-lg rounded-3xl p-12 border border-white/20">
+              <div className="absolute inset-0 bg-gradient-to-br from-red-600/20 to-blue-600/20 rounded-2xl blur-xl"></div>
+              <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-6 sm:p-8 border border-white/20">
                 <div className="text-center">
-                  <div className="w-24 h-24 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl">
-                    <Trophy className="h-12 w-12 text-white" />
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                    <Trophy className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
                   </div>
-                  <h3 className="text-3xl font-black text-white mb-6">Ready to Race?</h3>
-                  <p className="text-gray-300 text-lg mb-8 leading-relaxed">
+                  <h3 className="font-heading text-xl sm:text-2xl text-white mb-3 sm:mb-4 uppercase">Ready to Race?</h3>
+                  <p className="text-gray-300 text-sm sm:text-base mb-6 leading-relaxed">
                     Join the racing community and experience the thrill of RC car racing like never before!
                   </p>
                   <Link
                     href="/auth/signup"
-                    className="group inline-block bg-gradient-to-r from-fury-orange to-primary-600 text-fury-white px-8 py-3.5 rounded-lg text-base font-semibold hover:from-primary-600 hover:to-primary-700 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25"
+                    className="group inline-block bg-gradient-to-r from-fury-orange to-primary-600 text-fury-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg text-xs sm:text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25"
                   >
                     <span className="flex items-center justify-center">
-                      <Zap className="h-5 w-5 mr-2 group-hover:animate-spin" />
+                      <Zap className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                       START YOUR JOURNEY
                     </span>
                   </Link>
@@ -422,8 +425,8 @@ export default async function HomePage() {
         </div>
       </div>
 
-      {/* Final CTA Section */}
-      <div className="py-24 relative overflow-hidden">
+      {/* Location & Final CTA Section */}
+      <div className="py-16 sm:py-24 relative overflow-hidden transition-all duration-700">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -437,32 +440,84 @@ export default async function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-br from-red-900/75 via-black/80 to-blue-900/75"></div>
         </div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex items-center justify-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center mr-4 shadow-2xl">
-              <MapPin className="h-8 w-8 text-white" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Location Section */}
+          <div className="mb-12 sm:mb-16">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-6">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full flex items-center justify-center shadow-2xl">
+                <MapPin className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
+              </div>
+              <div className="text-center sm:text-left">
+                <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl text-white mb-2 uppercase">
+                  Located in <span className="bg-gradient-to-r from-fury-orange to-primary-600 bg-clip-text text-transparent">Bangalore</span>
+                </h2>
+                <p className="text-gray-300 text-sm sm:text-base">
+                  Karnataka, India
+                </p>
+              </div>
             </div>
-            <span className="text-white text-xl font-bold">Located in Bangalore</span>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-5 border border-white/20 hover:bg-white/15 transition-all">
+                <div className="flex items-center justify-center sm:justify-start mb-3">
+                  <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-3">
+                    <MapPin className="h-5 w-5 text-fury-orange" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-400 mb-1">Address</div>
+                    <div className="text-sm font-semibold text-white">Bangalore, Karnataka</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-5 border border-white/20 hover:bg-white/15 transition-all">
+                <div className="flex items-center justify-center sm:justify-start mb-3">
+                  <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3">
+                    <Clock className="h-5 w-5 text-blue-400" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-400 mb-1">Operating Hours</div>
+                    <div className="text-sm font-semibold text-white">Daily 9 AM - 11 PM</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-5 border border-white/20 hover:bg-white/15 transition-all">
+                <div className="flex items-center justify-center sm:justify-start mb-3">
+                  <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center mr-3">
+                    <Trophy className="h-5 w-5 text-green-400" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-400 mb-1">Experience</div>
+                    <div className="text-sm font-semibold text-white">Professional Racing</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="text-gray-300 text-lg mb-8 max-w-3xl mx-auto leading-relaxed">
-            Easy to reach, hard to leave. Experience the best RC car racing in the city.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link
-              href="/auth/signup"
-              className="group bg-gradient-to-r from-fury-orange to-primary-600 text-fury-white px-8 py-3.5 rounded-lg text-base font-semibold hover:from-primary-600 hover:to-primary-700 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25"
-            >
-              <span className="flex items-center justify-center">
-                <Trophy className="h-5 w-5 mr-2 group-hover:animate-bounce" />
-                BOOK YOUR RACE
-              </span>
-            </Link>
-            <Link
-              href="/auth/signin"
-              className="group border-2 border-fury-white/40 text-fury-white px-8 py-3.5 rounded-lg text-base font-semibold hover:bg-fury-white/10 hover:border-fury-white/60 transition-all duration-300 backdrop-blur-sm"
-            >
-              SIGN IN
-            </Link>
+          
+          {/* CTA Section */}
+          <div className="text-center">
+            <p className="text-gray-300 text-sm sm:text-base mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
+              Easy to reach, hard to leave. Experience the best RC car racing in the city.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
+              <Link
+                href="/auth/signup"
+                className="group bg-gradient-to-r from-fury-orange to-primary-600 text-fury-white px-6 py-2.5 sm:px-8 sm:py-3.5 rounded-lg text-xs sm:text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25"
+              >
+                <span className="flex items-center justify-center">
+                  <Trophy className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                  BOOK YOUR RACE
+                </span>
+              </Link>
+              <Link
+                href="/contact"
+                className="group border-2 border-fury-white/40 text-fury-white px-6 py-2.5 sm:px-8 sm:py-3.5 rounded-lg text-xs sm:text-sm font-semibold hover:bg-fury-white/10 hover:border-fury-white/60 transition-all duration-300 backdrop-blur-sm"
+              >
+                GET DIRECTIONS
+              </Link>
+            </div>
           </div>
         </div>
       </div>

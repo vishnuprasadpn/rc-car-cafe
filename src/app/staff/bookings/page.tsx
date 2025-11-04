@@ -113,7 +113,7 @@ export default function StaffBookingsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
         <Navigation />
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
@@ -126,7 +126,7 @@ export default function StaffBookingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
       <Navigation />
       
       <div className="max-w-7xl mx-auto pt-20 py-6 sm:px-6 lg:px-8">

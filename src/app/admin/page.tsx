@@ -73,7 +73,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
       <Navigation />
 
       <div className="max-w-7xl mx-auto pt-20 py-8 sm:px-6 lg:px-8">

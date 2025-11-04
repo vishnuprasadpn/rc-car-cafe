@@ -1,10 +1,21 @@
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Inter, Bebas_Neue } from "next/font/google"
 import "./globals.css"
 import { Providers } from "@/components/providers"
 import Footer from "@/components/footer"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+})
+
+const bebasNeue = Bebas_Neue({ 
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-bebas-neue",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "Fury Road RC Club - Indoor Racing Experience",
@@ -18,9 +29,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${bebasNeue.variable} ${inter.className}`}>
         <Providers>
-          <div className="min-h-screen bg-black flex flex-col">
+          <div className="min-h-screen flex flex-col">
             <main className="flex-1">
               {children}
             </main>

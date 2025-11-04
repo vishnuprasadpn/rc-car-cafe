@@ -88,141 +88,160 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black overflow-hidden">
+    <div className="min-h-screen overflow-hidden">
       <Navigation />
       <div className="flex min-h-[calc(100vh-80px)] pt-20">
         {/* Left Section - Form */}
         <div className="flex-1 flex items-center justify-center py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-y-auto">
-          <div className="w-full max-w-md space-y-4">
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-fury-orange to-primary-600 rounded-xl mb-3 shadow-lg">
-                <UserPlus className="h-6 w-6 text-white" />
+          <div className="w-full max-w-md space-y-6">
+            <div className="text-center space-y-3">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-fury-orange/20 to-primary-600/20 rounded-2xl mb-2 border border-fury-orange/30 backdrop-blur-sm shadow-lg">
+                <UserPlus className="h-8 w-8 text-fury-orange" />
               </div>
-              <h2 className="text-xl sm:text-3xl font-bold text-white mb-1">
-                Join <span className="bg-gradient-to-r from-fury-orange to-primary-600 bg-clip-text text-transparent">Fury Road</span>
+              <h2 className="font-heading text-2xl sm:text-4xl text-white mb-2 uppercase">
+                Join <span className="bg-gradient-to-r from-fury-orange via-fury-orange to-primary-600 bg-clip-text text-transparent">Fury Road</span>
               </h2>
-              <p className="text-xs sm:text-sm text-gray-400">
+              <p className="text-sm sm:text-base text-gray-400">
                 Create your account and start racing
               </p>
             </div>
 
-            <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
               {error && (
-                <div className="bg-red-500/20 backdrop-blur-sm border border-red-500/40 text-red-400 px-3 py-2 rounded-lg text-sm">
+                <div className="bg-red-500/20 backdrop-blur-sm border border-red-500/40 text-red-400 px-4 py-3 rounded-xl text-sm flex items-center gap-2 animate-pulse">
+                  <div className="w-1 h-4 bg-red-500 rounded-full"></div>
                   {error}
                 </div>
               )}
 
-              <div className="space-y-3">
-                <div>
-                  <label htmlFor="name" className="flex items-center text-xs font-medium text-gray-300 mb-1.5">
-                    <UserPlus className="h-3.5 w-3.5 mr-1.5 text-fury-orange" />
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label htmlFor="name" className="flex items-center text-sm font-semibold text-gray-300">
+                    <UserPlus className="h-4 w-4 mr-2 text-fury-orange" />
                     Full Name
                   </label>
                   <input
                     {...register("name")}
                     type="text"
                     autoComplete="name"
-                    className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
                     placeholder="Enter your full name"
                   />
                   {errors.name && (
-                    <p className="mt-0.5 text-xs text-red-400">{errors.name.message}</p>
+                    <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                      <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                      {errors.name.message}
+                    </p>
                   )}
                 </div>
 
-                <div>
-                  <label htmlFor="email" className="flex items-center text-xs font-medium text-gray-300 mb-1.5">
-                    <Mail className="h-3.5 w-3.5 mr-1.5 text-fury-orange" />
+                <div className="space-y-2">
+                  <label htmlFor="email" className="flex items-center text-sm font-semibold text-gray-300">
+                    <Mail className="h-4 w-4 mr-2 text-fury-orange" />
                     Email address
                   </label>
                   <input
                     {...register("email")}
                     type="email"
                     autoComplete="email"
-                    className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
                     placeholder="Enter your email"
                   />
                   {errors.email && (
-                    <p className="mt-0.5 text-xs text-red-400">{errors.email.message}</p>
+                    <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                      <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                      {errors.email.message}
+                    </p>
                   )}
                 </div>
 
-                <div>
-                  <label htmlFor="phone" className="flex items-center text-xs font-medium text-gray-300 mb-1.5">
-                    <Phone className="h-3.5 w-3.5 mr-1.5 text-fury-orange" />
-                    Phone Number <span className="text-gray-500 text-xs ml-1">(Optional)</span>
+                <div className="space-y-2">
+                  <label htmlFor="phone" className="flex items-center text-sm font-semibold text-gray-300">
+                    <Phone className="h-4 w-4 mr-2 text-fury-orange" />
+                    Phone Number <span className="text-gray-500 text-xs ml-1 font-normal">(Optional)</span>
                   </label>
                   <input
                     {...register("phone")}
                     type="tel"
                     autoComplete="tel"
-                    className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
                     placeholder="Enter your phone number"
                   />
                   {errors.phone && (
-                    <p className="mt-0.5 text-xs text-red-400">{errors.phone.message}</p>
+                    <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                      <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                      {errors.phone.message}
+                    </p>
                   )}
                 </div>
 
-                <div>
-                  <label htmlFor="password" className="flex items-center text-xs font-medium text-gray-300 mb-1.5">
-                    <Lock className="h-3.5 w-3.5 mr-1.5 text-fury-orange" />
+                <div className="space-y-2">
+                  <label htmlFor="password" className="flex items-center text-sm font-semibold text-gray-300">
+                    <Lock className="h-4 w-4 mr-2 text-fury-orange" />
                     Password
                   </label>
                   <input
                     {...register("password")}
                     type="password"
                     autoComplete="new-password"
-                    className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
                     placeholder="Enter your password"
                   />
                   {errors.password && (
-                    <p className="mt-0.5 text-xs text-red-400">{errors.password.message}</p>
+                    <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                      <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                      {errors.password.message}
+                    </p>
                   )}
                 </div>
 
-                <div>
-                  <label htmlFor="confirmPassword" className="flex items-center text-xs font-medium text-gray-300 mb-1.5">
-                    <Lock className="h-3.5 w-3.5 mr-1.5 text-fury-orange" />
+                <div className="space-y-2">
+                  <label htmlFor="confirmPassword" className="flex items-center text-sm font-semibold text-gray-300">
+                    <Lock className="h-4 w-4 mr-2 text-fury-orange" />
                     Confirm Password
                   </label>
                   <input
                     {...register("confirmPassword")}
                     type="password"
                     autoComplete="new-password"
-                    className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
                     placeholder="Confirm your password"
                   />
                   {errors.confirmPassword && (
-                    <p className="mt-0.5 text-xs text-red-400">{errors.confirmPassword.message}</p>
+                    <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                      <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                      {errors.confirmPassword.message}
+                    </p>
                   )}
                 </div>
               </div>
 
-              <div>
+              <div className="pt-2">
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-fury-orange to-primary-600 hover:from-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fury-orange disabled:opacity-50 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25 flex items-center justify-center"
+                  className="w-full px-6 py-3.5 text-sm font-bold rounded-xl text-white bg-gradient-to-r from-fury-orange via-fury-orange to-primary-600 hover:from-primary-600 hover:via-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fury-orange disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-fury-orange/30 flex items-center justify-center gap-2 transform hover:scale-[1.02] active:scale-[0.98]"
                 >
                   {isLoading ? (
-                    "Creating account..."
+                    <span className="flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                      Creating account...
+                    </span>
                   ) : (
                     <>
-                      <Zap className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-2" />
+                      <Zap className="h-4 w-4" />
                       Create account
                     </>
                   )}
                 </button>
               </div>
 
-              <div className="text-center">
-                <p className="text-xs text-gray-400">
+              <div className="text-center pt-2">
+                <p className="text-sm text-gray-400">
                   Already have an account?{" "}
                   <Link
                     href="/auth/signin"
-                    className="font-semibold text-fury-orange hover:text-primary-600 transition-colors"
+                    className="font-bold text-fury-orange hover:text-primary-500 transition-colors underline underline-offset-2 decoration-2"
                   >
                     Sign in
                   </Link>
@@ -246,27 +265,27 @@ export default function SignUpPage() {
             <div className="absolute inset-0 bg-gradient-to-br from-fury-black/80 via-fury-black/70 to-fury-black/80"></div>
             <div className="absolute inset-0 bg-gradient-to-l from-transparent via-fury-orange/10 to-transparent"></div>
           </div>
-          <div className="relative z-10 flex flex-col justify-center items-center text-center px-12 text-white">
-            <div className="mb-8">
-              <div className="inline-flex items-center px-6 py-3 rounded-full bg-fury-orange/20 border border-fury-orange/40 mb-8 backdrop-blur-sm">
+          <div className="relative z-10 flex flex-col justify-center items-center text-center px-12 text-white h-full w-full">
+            <div className="mb-10">
+              <div className="inline-flex items-center px-6 py-3 rounded-full bg-fury-orange/20 border border-fury-orange/40 backdrop-blur-sm shadow-lg">
                 <Zap className="h-5 w-5 text-fury-orange mr-2" />
-                <span className="text-fury-lightGray text-sm font-medium">Welcome to Fury Road</span>
+                <span className="text-fury-lightGray text-sm font-semibold">Welcome to Fury Road</span>
               </div>
             </div>
-            <h3 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-fury-orange via-fury-orange to-primary-600 bg-clip-text text-transparent">
+            <h3 className="font-heading text-3xl sm:text-5xl md:text-6xl mb-6 bg-gradient-to-r from-fury-orange via-fury-orange to-primary-600 bg-clip-text text-transparent uppercase">
               Start Your Racing Journey
             </h3>
-            <p className="text-base sm:text-xl text-gray-300 mb-8 max-w-md leading-relaxed mx-auto">
+            <p className="text-lg sm:text-xl text-gray-300 mb-10 max-w-md leading-relaxed mx-auto">
               Join Bangalore&apos;s premier RC racing community and experience the thrill of high-speed racing
             </p>
             <div className="grid grid-cols-2 gap-4 sm:gap-6 max-w-md mx-auto w-full px-2">
-              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-2 sm:p-4 border border-white/20">
-                <div className="text-lg sm:text-3xl font-bold text-fury-orange mb-1">500+</div>
-                <div className="text-[10px] sm:text-sm text-gray-300">Races Completed</div>
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-5 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                <div className="text-2xl sm:text-4xl font-bold text-fury-orange mb-2">500+</div>
+                <div className="text-xs sm:text-sm text-gray-300 font-medium">Races Completed</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-2 sm:p-4 border border-white/20">
-                <div className="text-lg sm:text-3xl font-bold text-fury-orange mb-1">50+</div>
-                <div className="text-[10px] sm:text-sm text-gray-300">Active Members</div>
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-5 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                <div className="text-2xl sm:text-4xl font-bold text-fury-orange mb-2">50+</div>
+                <div className="text-xs sm:text-sm text-gray-300 font-medium">Active Members</div>
               </div>
             </div>
           </div>

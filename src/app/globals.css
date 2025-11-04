@@ -9,16 +9,55 @@
   }
   
   body {
-    @apply bg-black text-white;
+    @apply text-white;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #0f0f0f 50%, #1a1a1a 75%, #0a0a0a 100%);
+    background-attachment: fixed;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-bebas-neue), system-ui, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
 }
 
 @layer utilities {
+  /* Racing Car Smoke Animation */
+  @keyframes smokeFloat {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.3;
+    }
+    50% {
+      transform: translate(3px, -3px) scale(1.2);
+      opacity: 0.2;
+    }
+    100% {
+      transform: translate(8px, -8px) scale(1.5);
+      opacity: 0;
+    }
+  }
+
+  @keyframes smokeFloat2 {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.3;
+    }
+    50% {
+      transform: translate(-3px, 3px) scale(1.2);
+      opacity: 0.2;
+    }
+    100% {
+      transform: translate(-8px, 8px) scale(1.5);
+      opacity: 0;
+    }
+  }
+
   /* Advanced Racing Animations */
   @keyframes fade-in {
     from {

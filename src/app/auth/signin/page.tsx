@@ -62,87 +62,100 @@ export default function SignInPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black overflow-hidden">
+    <div className="flex flex-col h-full">
       <Navigation />
-      <div className="flex min-h-[calc(100vh-80px)] pt-20">
+      <div className="flex flex-1 pt-20">
         {/* Left Section - Form */}
         <div className="flex-1 flex items-center justify-center py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-y-auto">
-          <div className="w-full max-w-md space-y-4">
-            <div className="text-center">
-              <h2 className="text-xl sm:text-3xl font-bold text-white mb-1">
-                Welcome <span className="bg-gradient-to-r from-fury-orange to-primary-600 bg-clip-text text-transparent">Back</span>
+          <div className="w-full max-w-md space-y-6">
+            <div className="text-center space-y-2">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-fury-orange/20 to-primary-600/20 rounded-2xl mb-4 border border-fury-orange/30 backdrop-blur-sm">
+                <Trophy className="h-8 w-8 text-fury-orange" />
+              </div>
+              <h2 className="font-heading text-2xl sm:text-4xl text-white mb-2 uppercase">
+                Welcome <span className="bg-gradient-to-r from-fury-orange via-fury-orange to-primary-600 bg-clip-text text-transparent">Back</span>
               </h2>
-              <p className="text-xs sm:text-sm text-gray-400">
+              <p className="text-sm sm:text-base text-gray-400">
                 Sign in to continue your racing journey
               </p>
             </div>
 
-            <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
               {error && (
-                <div className="bg-red-500/20 backdrop-blur-sm border border-red-500/40 text-red-400 px-3 py-2 rounded-lg text-sm">
+                <div className="bg-red-500/20 backdrop-blur-sm border border-red-500/40 text-red-400 px-4 py-3 rounded-xl text-sm flex items-center gap-2 animate-pulse">
+                  <div className="w-1 h-4 bg-red-500 rounded-full"></div>
                   {error}
                 </div>
               )}
 
-              <div className="space-y-3">
-                <div>
-                  <label htmlFor="email" className="flex items-center text-xs font-medium text-gray-300 mb-1.5">
-                    <Mail className="h-3.5 w-3.5 mr-1.5 text-fury-orange" />
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label htmlFor="email" className="flex items-center text-sm font-semibold text-gray-300">
+                    <Mail className="h-4 w-4 mr-2 text-fury-orange" />
                     Email address
                   </label>
                   <input
                     {...register("email")}
                     type="email"
                     autoComplete="email"
-                    className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
                     placeholder="Enter your email"
                   />
                   {errors.email && (
-                    <p className="mt-0.5 text-xs text-red-400">{errors.email.message}</p>
+                    <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                      <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                      {errors.email.message}
+                    </p>
                   )}
                 </div>
 
-                <div>
-                  <label htmlFor="password" className="flex items-center text-xs font-medium text-gray-300 mb-1.5">
-                    <Lock className="h-3.5 w-3.5 mr-1.5 text-fury-orange" />
+                <div className="space-y-2">
+                  <label htmlFor="password" className="flex items-center text-sm font-semibold text-gray-300">
+                    <Lock className="h-4 w-4 mr-2 text-fury-orange" />
                     Password
                   </label>
                   <input
                     {...register("password")}
                     type="password"
                     autoComplete="current-password"
-                    className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
                     placeholder="Enter your password"
                   />
                   {errors.password && (
-                    <p className="mt-0.5 text-xs text-red-400">{errors.password.message}</p>
+                    <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                      <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                      {errors.password.message}
+                    </p>
                   )}
                 </div>
               </div>
 
-              <div>
+              <div className="pt-2">
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full px-5 py-2.5 text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-fury-orange to-primary-600 hover:from-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fury-orange disabled:opacity-50 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25 flex items-center justify-center"
+                  className="w-full px-6 py-3.5 text-sm font-bold rounded-xl text-white bg-gradient-to-r from-fury-orange via-fury-orange to-primary-600 hover:from-primary-600 hover:via-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fury-orange disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-fury-orange/30 flex items-center justify-center gap-2 transform hover:scale-[1.02] active:scale-[0.98]"
                 >
                   {isLoading ? (
-                    "Signing in..."
+                    <span className="flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                      Signing in...
+                    </span>
                   ) : (
                     <>
-                      <Zap className="h-4 w-4 mr-2" />
+                      <Zap className="h-4 w-4" />
                       Sign in
                     </>
                   )}
                 </button>
               </div>
 
-              <div className="text-center">
-                <p className="text-xs text-gray-400">
+              <div className="text-center pt-2">
+                <p className="text-sm text-gray-400">
                   Don&apos;t have an account?{" "}
                   <Link
                     href="/auth/signup"
-                    className="font-semibold text-fury-orange hover:text-primary-600 transition-colors"
+                    className="font-bold text-fury-orange hover:text-primary-500 transition-colors underline underline-offset-2 decoration-2"
                   >
                     Create one
                   </Link>
@@ -167,33 +180,33 @@ export default function SignInPage() {
             <div className="absolute inset-0 bg-gradient-to-l from-transparent via-fury-orange/10 to-transparent"></div>
           </div>
           <div className="relative z-10 flex flex-col justify-center items-center text-center px-12 text-white h-full w-full">
-            <div className="mb-8">
-              <div className="inline-flex items-center px-6 py-3 rounded-full bg-fury-orange/20 border border-fury-orange/40 mb-8 backdrop-blur-sm">
+            <div className="mb-10">
+              <div className="inline-flex items-center px-6 py-3 rounded-full bg-fury-orange/20 border border-fury-orange/40 backdrop-blur-sm shadow-lg">
                 <Trophy className="h-5 w-5 text-fury-orange mr-2" />
-                <span className="text-fury-lightGray text-sm font-medium">Fury Road RC Club</span>
+                <span className="text-fury-lightGray text-sm font-semibold">Fury Road RC Club</span>
               </div>
             </div>
-            <h3 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-fury-orange via-fury-orange to-primary-600 bg-clip-text text-transparent">
+            <h3 className="font-heading text-3xl sm:text-5xl md:text-6xl mb-6 bg-gradient-to-r from-fury-orange via-fury-orange to-primary-600 bg-clip-text text-transparent uppercase">
               Ready to Race?
             </h3>
-            <p className="text-base sm:text-xl text-gray-300 mb-8 max-w-md leading-relaxed mx-auto">
+            <p className="text-lg sm:text-xl text-gray-300 mb-10 max-w-md leading-relaxed mx-auto">
               Get back on the track and experience the thrill of professional RC racing
             </p>
-            <div className="grid grid-cols-3 gap-2 sm:gap-4 max-w-md mx-auto w-full px-2">
-              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-2 sm:p-3 border border-white/20 min-w-0">
-                <Trophy className="h-4 w-4 sm:h-5 sm:w-5 text-fury-orange mx-auto mb-1" />
-                <div className="text-base sm:text-lg font-bold text-fury-orange mb-0.5">4</div>
-                <div className="text-[9px] sm:text-[10px] text-gray-300 text-center whitespace-nowrap">Tracks</div>
+            <div className="grid grid-cols-3 gap-3 sm:gap-4 max-w-md mx-auto w-full px-2">
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-3 sm:p-4 border border-white/20 min-w-0 hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                <Trophy className="h-5 w-5 sm:h-6 sm:w-6 text-fury-orange mx-auto mb-2" />
+                <div className="text-lg sm:text-xl font-bold text-fury-orange mb-1">4</div>
+                <div className="text-[10px] sm:text-xs text-gray-300 text-center whitespace-nowrap font-medium">Tracks</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-2 sm:p-3 border border-white/20 min-w-0">
-                <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-fury-orange mx-auto mb-1" />
-                <div className="text-base sm:text-lg font-bold text-fury-orange mb-0.5">20+</div>
-                <div className="text-[9px] sm:text-[10px] text-gray-300 text-center whitespace-nowrap">Min Sessions</div>
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-3 sm:p-4 border border-white/20 min-w-0 hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-fury-orange mx-auto mb-2" />
+                <div className="text-lg sm:text-xl font-bold text-fury-orange mb-1">20+</div>
+                <div className="text-[10px] sm:text-xs text-gray-300 text-center whitespace-nowrap font-medium">Min Sessions</div>
               </div>
-              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-2 sm:p-3 border border-white/20 min-w-0">
-                <Users className="h-4 w-4 sm:h-5 sm:w-5 text-fury-orange mx-auto mb-1" />
-                <div className="text-base sm:text-lg font-bold text-fury-orange mb-0.5">4</div>
-                <div className="text-[9px] sm:text-[10px] text-gray-300 text-center whitespace-nowrap">Players</div>
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-3 sm:p-4 border border-white/20 min-w-0 hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                <Users className="h-5 w-5 sm:h-6 sm:w-6 text-fury-orange mx-auto mb-2" />
+                <div className="text-lg sm:text-xl font-bold text-fury-orange mb-1">4</div>
+                <div className="text-[10px] sm:text-xs text-gray-300 text-center whitespace-nowrap font-medium">Players</div>
               </div>
             </div>
           </div>

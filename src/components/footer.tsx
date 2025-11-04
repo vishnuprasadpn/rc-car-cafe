@@ -91,7 +91,9 @@ export default function Footer() {
               <Facebook className="h-5 w-5" />
             </a>
             <a
-              href="#"
+              href="https://www.instagram.com/furyroad.club/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-gray-400 hover:text-fury-orange transition-colors"
               aria-label="Instagram"
             >

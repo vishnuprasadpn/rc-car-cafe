@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import Navigation from "@/components/navigation"
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle, AlertCircle } from "lucide-react"
 
@@ -79,13 +80,25 @@ export default function ContactPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen">
       <Navigation />
       
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_truck_rac_2.jpg"
+            alt="RC Car Contact Background"
+            fill
+            className="object-cover"
+            priority
+            quality={90}
+          />
+          {/* Overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900/75 via-gray-800/70 to-gray-900/75"></div>
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center text-white">
             <div className="mb-8">
               <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-600/10 border border-red-500/20 mb-6">
@@ -94,7 +107,7 @@ export default function ContactPage() {
               </div>
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">
+            <h1 className="font-heading text-5xl md:text-6xl mb-6 text-white uppercase">
               Contact Us
             </h1>
             
@@ -107,10 +120,10 @@ export default function ContactPage() {
       </div>
 
       {/* Contact Info Cards */}
-      <div className="py-24 bg-black">
+      <div className="py-24 transition-all duration-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-2xl sm:text-4xl font-bold text-white mb-6">Get in Touch</h2>
+            <h2 className="font-heading text-2xl sm:text-4xl text-white mb-6 uppercase">Get in Touch</h2>
             <p className="text-sm sm:text-xl text-gray-300 max-w-3xl mx-auto">
               Multiple ways to reach us - choose what works best for you
             </p>
@@ -122,7 +135,7 @@ export default function ContactPage() {
                 <div className={`w-16 h-16 bg-white/10 border border-white/20 rounded-full flex items-center justify-center mx-auto mb-6`}>
                   <info.icon className={`h-8 w-8 ${info.color === 'text-red-600' ? 'text-fury-orange' : info.color === 'text-blue-600' ? 'text-blue-400' : info.color === 'text-green-600' ? 'text-green-400' : 'text-purple-400'}`} />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-4">{info.title}</h3>
+                <h3 className="font-heading text-xl text-white mb-4 uppercase">{info.title}</h3>
                 <div className="space-y-2">
                   {info.details.map((detail, idx) => (
                     <p key={idx} className="text-gray-300">{detail}</p>
@@ -135,12 +148,12 @@ export default function ContactPage() {
       </div>
 
       {/* Contact Form and Map */}
-      <div className="py-24 bg-black">
+      <div className="py-24 transition-all duration-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Form */}
             <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8">
-              <h3 className="text-lg sm:text-2xl font-bold text-white mb-6">Send us a Message</h3>
+              <h3 className="font-heading text-lg sm:text-2xl text-white mb-6 uppercase">Send us a Message</h3>
               
               {message && (
                 <div className={`mb-6 p-4 rounded-lg flex items-center ${
@@ -268,7 +281,7 @@ export default function ContactPage() {
             <div className="space-y-8">
               {/* Map Placeholder */}
               <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8">
-                <h3 className="text-lg sm:text-2xl font-bold text-white mb-6">Find Us</h3>
+                <h3 className="font-heading text-lg sm:text-2xl text-white mb-6 uppercase">Find Us</h3>
                 <div className="bg-white/5 border border-white/10 rounded-lg h-64 flex items-center justify-center">
                   <div className="text-center">
                     <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-4" />
@@ -280,7 +293,7 @@ export default function ContactPage() {
 
               {/* Quick Contact */}
               <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8">
-                <h3 className="text-lg sm:text-2xl font-bold text-white mb-6">Quick Contact</h3>
+                <h3 className="font-heading text-lg sm:text-2xl text-white mb-6 uppercase">Quick Contact</h3>
                 <div className="space-y-4">
                   <div className="flex items-center">
                     <Phone className="h-5 w-5 text-fury-orange mr-3" />
@@ -311,10 +324,10 @@ export default function ContactPage() {
       </div>
 
       {/* FAQ Section */}
-      <div className="py-24 bg-black">
+      <div className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-2xl sm:text-4xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+            <h2 className="font-heading text-2xl sm:text-4xl text-white mb-6 uppercase">Frequently Asked Questions</h2>
             <p className="text-sm sm:text-xl text-gray-300 max-w-3xl mx-auto">
               Quick answers to common questions about our racing experience
             </p>
@@ -322,7 +335,7 @@ export default function ContactPage() {
           
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 hover:bg-white/20 transition-all">
-              <h3 className="text-base sm:text-xl font-bold text-white mb-4">Do I need to bring my own RC car?</h3>
+              <h3 className="font-heading text-base sm:text-xl text-white mb-4 uppercase">Do I need to bring my own RC car?</h3>
               <p className="text-xs sm:text-sm text-gray-300">No! We provide professional-grade RC cars for all our tracks. Just bring your racing spirit!</p>
             </div>
             <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 hover:bg-white/20 transition-all">
