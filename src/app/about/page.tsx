@@ -5,21 +5,18 @@ import { Trophy, Users, Heart, Shield, MapPin, Phone, Mail } from "lucide-react"
 export default function AboutPage() {
   const team = [
     {
-      name: "Rajesh Kumar",
       role: "Founder & CEO",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_0.jpg",
       bio: "Passionate about RC racing for over 15 years. Former professional racer turned entrepreneur."
     },
     {
-      name: "Priya Sharma",
       role: "Track Manager",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_3.jpg",
       bio: "Expert in track design and maintenance. Ensures every race is safe and exciting."
     },
     {
-      name: "Arjun Patel",
       role: "Technical Director",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_truck_rac_2.jpg",
       bio: "RC car technician with 10+ years experience. Keeps our fleet in perfect condition."
     }
   ]
@@ -103,7 +100,7 @@ export default function AboutPage() {
               <div className="space-y-4 text-gray-300 leading-relaxed">
                 <p>
                   Fury Road RC Club was born from a simple passion - the love for high-speed RC car racing. 
-                  Our founder, Rajesh Kumar, spent years racing RC cars as a hobby, but always dreamed of 
+                  Our founder spent years racing RC cars as a hobby, but always dreamed of 
                   creating a professional racing environment in Bangalore.
                 </p>
                 <p>
@@ -120,7 +117,7 @@ export default function AboutPage() {
             </div>
             <div className="relative h-96 w-full">
               <Image
-                src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_closeup_of_an_RC_crawler_3.jpg"
                 alt="RC Racing Track"
                 fill
                 className="rounded-2xl shadow-2xl object-cover"
@@ -192,12 +189,11 @@ export default function AboutPage() {
                 <div className="relative w-24 h-24 mx-auto mb-6">
                   <Image
                     src={member.image}
-                    alt={member.name}
+                    alt={member.role}
                     fill
                     className="rounded-full object-cover"
                   />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">{member.name}</h3>
                 <p className="text-fury-orange font-semibold mb-4">{member.role}</p>
                 <p className="text-gray-300 leading-relaxed">{member.bio}</p>
               </div>

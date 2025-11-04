@@ -17,7 +17,7 @@ export default function TracksPage() {
       features: ["High-speed sections", "Technical corners", "Elevation changes", "Professional timing"],
       surface: "Asphalt",
       vehicles: "High-speed RC cars",
-      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_0.jpg",
       color: "red"
     },
     {
@@ -32,7 +32,7 @@ export default function TracksPage() {
       features: ["Water hazards", "Mud sections", "Off-road terrain", "Challenging obstacles"],
       surface: "Mud & Water",
       vehicles: "Off-road RC vehicles",
-      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_truck_rac_3.jpg",
       color: "brown"
     },
     {
@@ -47,7 +47,7 @@ export default function TracksPage() {
       features: ["Rock obstacles", "Steep inclines", "Precision control", "Technical challenges"],
       surface: "Rocks & Obstacles",
       vehicles: "RC Crawlers",
-      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_closeup_of_an_RC_crawler_0.jpg",
       color: "green"
     },
     {
@@ -62,7 +62,7 @@ export default function TracksPage() {
       features: ["Sand dunes", "Heavy machinery", "Large scale", "Advanced terrain"],
       surface: "Sand & Dunes",
       vehicles: "Heavy RC Machines",
-      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_closeup_of_an_RC_crawler_2.jpg",
       color: "yellow"
     }
   ]
