@@ -51,21 +51,21 @@ export default async function HomePage() {
             <div className="mb-8">
               <div className="inline-flex items-center px-6 py-3 rounded-full bg-fury-orange/20 border border-fury-orange/40 mb-8 backdrop-blur-sm">
                 <div className="w-2 h-2 bg-fury-orange rounded-full mr-3"></div>
-                <span className="text-fury-lightGray text-lg font-medium">Bangalore&apos;s Premier RC Racing Experience</span>
+                <span className="text-fury-lightGray text-xs sm:text-lg font-medium">Bangalore&apos;s Premier RC Racing Experience</span>
               </div>
             </div>
             
             {/* Main Title with Gradient */}
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-fury-orange via-fury-orange to-fury-orange bg-clip-text text-transparent">
+            <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-fury-orange via-fury-orange to-fury-orange bg-clip-text text-transparent">
               FURY ROAD
             </h1>
             
-            <div className="text-3xl md:text-4xl font-semibold text-fury-white mb-8">
+            <div className="text-xl sm:text-3xl md:text-4xl font-semibold text-fury-white mb-8">
               RC CLUB
             </div>
             
             {/* Subtitle */}
-            <p className="text-lg md:text-xl text-fury-lightGray mb-12 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-lg md:text-xl text-fury-lightGray mb-12 max-w-4xl mx-auto leading-relaxed">
               Experience the ultimate adrenaline rush with 
               <span className="text-fury-orange font-semibold"> high-speed RC racing</span>, 
               <span className="text-fury-lightGray font-semibold"> professional tracks</span>, and 
@@ -76,16 +76,16 @@ export default async function HomePage() {
             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
               <Link
                 href="/auth/signup"
-                className="group relative bg-gradient-to-r from-fury-orange to-primary-600 text-fury-white px-8 py-3.5 rounded-lg text-base font-semibold hover:from-primary-600 hover:to-primary-700 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25"
+                className="group relative bg-gradient-to-r from-fury-orange to-primary-600 text-fury-white px-4 py-2 sm:px-8 sm:py-3.5 rounded-lg text-xs sm:text-base font-semibold hover:from-primary-600 hover:to-primary-700 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25"
               >
                 <span className="relative flex items-center justify-center">
-                  <Zap className="h-5 w-5 mr-2 group-hover:animate-spin" />
+                  <Zap className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                   START RACING NOW
                 </span>
               </Link>
               <Link
                 href="/auth/signin"
-                className="group border-2 border-fury-white/40 text-fury-white px-8 py-3.5 rounded-lg text-base font-semibold hover:bg-fury-white/10 hover:border-fury-white/60 transition-all duration-300 backdrop-blur-sm"
+                className="group border-2 border-fury-white/40 text-fury-white px-4 py-2 sm:px-8 sm:py-3.5 rounded-lg text-xs sm:text-base font-semibold hover:bg-fury-white/10 hover:border-fury-white/60 transition-all duration-300 backdrop-blur-sm"
               >
                 SIGN IN
               </Link>
@@ -94,20 +94,20 @@ export default async function HomePage() {
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-fury-orange mb-2">500+</div>
-                <div className="text-fury-lightGray text-sm">Races Completed</div>
+                <div className="text-xl sm:text-3xl md:text-4xl font-bold text-fury-orange mb-2">500+</div>
+                <div className="text-fury-lightGray text-[10px] sm:text-sm">Races Completed</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-fury-orange mb-2">50+</div>
-                <div className="text-fury-lightGray text-sm">Active Members</div>
+                <div className="text-xl sm:text-3xl md:text-4xl font-bold text-fury-orange mb-2">50+</div>
+                <div className="text-fury-lightGray text-[10px] sm:text-sm">Active Members</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-fury-orange mb-2">4</div>
-                <div className="text-fury-lightGray text-sm">Professional Tracks</div>
+                <div className="text-xl sm:text-3xl md:text-4xl font-bold text-fury-orange mb-2">4</div>
+                <div className="text-fury-lightGray text-[10px] sm:text-sm">Professional Tracks</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-fury-orange mb-2">5★</div>
-                <div className="text-fury-lightGray text-sm">Member Rating</div>
+                <div className="text-xl sm:text-3xl md:text-4xl font-bold text-fury-orange mb-2">5★</div>
+                <div className="text-fury-lightGray text-[10px] sm:text-sm">Member Rating</div>
               </div>
             </div>
           </div>
@@ -136,16 +136,16 @@ export default async function HomePage() {
               <Trophy className="h-4 w-4 text-fury-orange mr-2" />
               <span className="text-fury-lightGray text-sm font-medium">Why Choose Us</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-white mb-6">
               Why <span className="bg-gradient-to-r from-fury-orange to-fury-orange bg-clip-text text-transparent">Fury Road</span>?
             </h2>
-            <p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
               We provide the most professional and thrilling RC car racing experience in Bangalore
             </p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-12">
-            <div className="group relative">
+            <Link href="/why/professional-racing" className="group relative block">
               <div className="absolute inset-0 bg-gradient-to-br from-fury-orange/20 to-primary-600/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
               <div className="relative bg-white/10 backdrop-blur-lg rounded-3xl p-10 hover:bg-white/20 transition-all duration-500 border border-white/20 group-hover:border-fury-orange/50">
                 <div className="w-20 h-20 bg-gradient-to-br from-fury-orange to-primary-600 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-2xl">
@@ -160,9 +160,9 @@ export default async function HomePage() {
                   <div className="ml-2 w-0 group-hover:w-8 h-0.5 bg-fury-orange transition-all duration-300"></div>
                 </div>
               </div>
-            </div>
+            </Link>
             
-            <div className="group relative">
+            <Link href="/why/flexible-timing" className="group relative block">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-blue-800/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
               <div className="relative bg-white/10 backdrop-blur-lg rounded-3xl p-10 hover:bg-white/20 transition-all duration-500 border border-white/20 group-hover:border-blue-500/50">
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-2xl">
@@ -177,9 +177,9 @@ export default async function HomePage() {
                   <div className="ml-2 w-0 group-hover:w-8 h-0.5 bg-blue-400 transition-all duration-300"></div>
                 </div>
               </div>
-            </div>
+            </Link>
             
-            <div className="group relative">
+            <Link href="/why/group-fun" className="group relative block">
               <div className="absolute inset-0 bg-gradient-to-br from-green-600/20 to-green-800/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
               <div className="relative bg-white/10 backdrop-blur-lg rounded-3xl p-10 hover:bg-white/20 transition-all duration-500 border border-white/20 group-hover:border-green-500/50">
                 <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-700 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-2xl">
@@ -194,7 +194,7 @@ export default async function HomePage() {
                   <div className="ml-2 w-0 group-hover:w-8 h-0.5 bg-green-400 transition-all duration-300"></div>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
@@ -220,10 +220,10 @@ export default async function HomePage() {
               <Car className="h-4 w-4 text-red-400 mr-2" />
               <span className="text-red-200 text-sm font-medium">Our Racing Tracks</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-white mb-6">
               Our <span className="bg-gradient-to-r from-red-300 via-yellow-300 to-blue-300 bg-clip-text text-transparent">Racing Tracks</span>
             </h2>
-            <p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Four specialized tracks designed for different RC vehicle types and racing styles
             </p>
           </div>
@@ -281,7 +281,7 @@ export default async function HomePage() {
                   <div className={`w-16 h-16 bg-gradient-to-br ${track.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-2xl`}>
                     <Trophy className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="text-2xl font-black text-white mb-2">{track.name}</h3>
+                  <h3 className="text-lg sm:text-2xl font-black text-white mb-2">{track.name}</h3>
                   <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold mb-4 ${
                     track.difficulty === 'Expert' ? 'bg-red-500/20 text-red-300' :
                     track.difficulty === 'Intermediate' ? 'bg-blue-500/20 text-blue-300' :
@@ -321,7 +321,7 @@ export default async function HomePage() {
                   
                   <Link
                     href={`/book?track=${encodeURIComponent(track.name)}`}
-                    className={`w-full py-2.5 px-5 rounded-lg text-sm font-semibold text-white transition-all duration-300 bg-gradient-to-r ${track.gradient} hover:opacity-90 shadow-lg hover:shadow-xl inline-block text-center`}
+                    className={`w-full py-2 px-4 sm:py-2.5 sm:px-5 rounded-lg text-xs sm:text-sm font-semibold text-white transition-all duration-300 bg-gradient-to-r ${track.gradient} hover:opacity-90 shadow-lg hover:shadow-xl inline-block text-center`}
                   >
                     Book This Track
                   </Link>
@@ -354,10 +354,10 @@ export default async function HomePage() {
                 <Zap className="h-4 w-4 text-red-400 mr-2" />
                 <span className="text-red-200 text-sm font-medium">The Ultimate Experience</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+              <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-white mb-6">
                 The Ultimate <span className="bg-gradient-to-r from-red-300 via-yellow-300 to-blue-300 bg-clip-text text-transparent">Racing Experience</span>
               </h2>
-              <p className="text-lg text-gray-300 mb-8 leading-relaxed">
+              <p className="text-sm sm:text-lg text-gray-300 mb-8 leading-relaxed">
                 Experience professional-grade RC car racing with state-of-the-art tracks, 
                 premium vehicles, and competitive racing environment.
               </p>

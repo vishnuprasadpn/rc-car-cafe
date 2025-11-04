@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { Plus, Edit, Trash2 } from "lucide-react"
 import Link from "next/link"
+import Navigation from "@/components/navigation"
 
 const gameSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -160,10 +161,10 @@ export default function AdminGamesPage() {
 
   if (status === "loading" || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-fury-orange"></div>
+          <p className="mt-4 text-gray-300">Loading...</p>
         </div>
       </div>
     )
@@ -174,43 +175,28 @@ export default function AdminGamesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">Fury Road RC Club - Admin</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link
-                href="/admin"
-                className="text-sm text-gray-500 hover:text-gray-700"
-              >
-                ← Back to Dashboard
-              </Link>
-              <span className="text-sm text-gray-700">Welcome, {session.user.name}</span>
-              <button
-                onClick={() => router.push("/api/auth/signout")}
-                className="text-sm text-gray-500 hover:text-gray-700"
-              >
-                Sign Out
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-black">
+      <Navigation />
 
       <div className="max-w-7xl mx-auto pt-20 py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Manage Games</h2>
+            <div>
+              <Link
+                href="/admin"
+                className="inline-flex items-center text-gray-400 hover:text-fury-orange mb-2 transition-colors text-sm"
+              >
+                ← Back to Dashboard
+              </Link>
+              <h2 className="text-2xl font-bold text-white">Manage Games</h2>
+            </div>
             <button
               onClick={() => {
                 setShowForm(true)
                 setEditingGame(null)
                 reset()
               }}
-              className="inline-flex items-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-lg text-white bg-fury-orange hover:bg-primary-600 transition-colors"
+              className="inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 border border-transparent text-xs sm:text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-fury-orange to-primary-600 hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Game
@@ -218,52 +204,52 @@ export default function AdminGamesPage() {
           </div>
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded mb-6">
+            <div className="bg-red-500/20 backdrop-blur-sm border border-red-500/40 text-red-400 px-4 py-3 rounded-lg mb-6">
               {error}
             </div>
           )}
 
           {showForm && (
-            <div className="bg-white shadow rounded-lg mb-6">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl mb-6">
               <div className="px-4 py-5 sm:p-6">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">
+                <h3 className="text-base sm:text-lg font-medium text-white mb-4">
                   {editingGame ? "Edit Game" : "Add New Game"}
                 </h3>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-300 mb-1">
                         Game Name
                       </label>
                       <input
                         {...register("name")}
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
                         placeholder="Enter game name"
                       />
                       {errors.name && (
-                        <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+                        <p className="mt-1 text-sm text-red-400">{errors.name.message}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-300 mb-1">
                         Duration (minutes)
                       </label>
                       <input
                         {...register("duration", { valueAsNumber: true })}
                         type="number"
                         min="1"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
                         placeholder="20"
                       />
                       {errors.duration && (
-                        <p className="mt-1 text-sm text-red-600">{errors.duration.message}</p>
+                        <p className="mt-1 text-sm text-red-400">{errors.duration.message}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-300 mb-1">
                         Price (₹)
                       </label>
                       <input
@@ -271,45 +257,45 @@ export default function AdminGamesPage() {
                         type="number"
                         min="0"
                         step="0.01"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
                         placeholder="500"
                       />
                       {errors.price && (
-                        <p className="mt-1 text-sm text-red-600">{errors.price.message}</p>
+                        <p className="mt-1 text-sm text-red-400">{errors.price.message}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-300 mb-1">
                         Max Players
                       </label>
                       <select
                         {...register("maxPlayers", { valueAsNumber: true })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
                       >
-                        <option value={1}>1 Player</option>
-                        <option value={2}>2 Players</option>
-                        <option value={3}>3 Players</option>
-                        <option value={4}>4 Players</option>
+                        <option value={1} className="bg-gray-900">1 Player</option>
+                        <option value={2} className="bg-gray-900">2 Players</option>
+                        <option value={3} className="bg-gray-900">3 Players</option>
+                        <option value={4} className="bg-gray-900">4 Players</option>
                       </select>
                       {errors.maxPlayers && (
-                        <p className="mt-1 text-sm text-red-600">{errors.maxPlayers.message}</p>
+                        <p className="mt-1 text-sm text-red-400">{errors.maxPlayers.message}</p>
                       )}
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-300 mb-1">
                       Description
                     </label>
                     <textarea
                       {...register("description")}
                       rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
                       placeholder="Enter game description"
                     />
                     {errors.description && (
-                      <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>
+                      <p className="mt-1 text-sm text-red-400">{errors.description.message}</p>
                     )}
                   </div>
 
@@ -321,14 +307,14 @@ export default function AdminGamesPage() {
                         setEditingGame(null)
                         reset()
                       }}
-                      className="px-5 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                      className="px-4 py-2 sm:px-5 sm:py-2.5 border border-white/20 rounded-lg text-xs sm:text-sm font-medium text-white hover:bg-white/10 transition-colors"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="px-5 py-2.5 bg-fury-orange text-white rounded-lg text-sm font-semibold hover:bg-primary-600 disabled:opacity-50 transition-colors"
+                      className="px-4 py-2 sm:px-5 sm:py-2.5 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg text-xs sm:text-sm font-semibold hover:from-primary-600 hover:to-primary-700 disabled:opacity-50 transition-all shadow-lg hover:shadow-fury-orange/25"
                     >
                       {submitting ? "Saving..." : editingGame ? "Update Game" : "Create Game"}
                     </button>
@@ -338,65 +324,65 @@ export default function AdminGamesPage() {
             </div>
           )}
 
-          <div className="bg-white shadow rounded-lg overflow-hidden">
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden">
             <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Games List</h3>
+              <h3 className="text-base sm:text-lg font-medium text-white mb-4">Games List</h3>
               {games.length === 0 ? (
-                <p className="text-gray-500 text-center py-8">No games found</p>
+                <p className="text-gray-400 text-center py-8">No games found</p>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                  <table className="min-w-full divide-y divide-white/10">
+                    <thead className="bg-white/5">
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Name
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Duration
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Price
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Max Players
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Status
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Actions
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-white/5 divide-y divide-white/10">
                       {games.map((game) => (
-                        <tr key={game.id}>
+                        <tr key={game.id} className="hover:bg-white/10 transition-colors">
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div>
-                              <div className="text-sm font-medium text-gray-900">
+                              <div className="text-sm font-medium text-white">
                                 {game.name}
                               </div>
                               {game.description && (
-                                <div className="text-sm text-gray-500">
+                                <div className="text-sm text-gray-400">
                                   {game.description}
                                 </div>
                               )}
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                             {game.duration} min
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                             ₹{game.price}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                             {game.maxPlayers}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                               game.isActive 
-                                ? 'bg-green-100 text-green-800' 
-                                : 'bg-red-100 text-red-800'
+                                ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+                                : 'bg-red-500/20 text-red-400 border border-red-500/30'
                             }`}>
                               {game.isActive ? 'Active' : 'Inactive'}
                             </span>
@@ -404,19 +390,19 @@ export default function AdminGamesPage() {
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                             <button
                               onClick={() => handleEdit(game)}
-                              className="text-indigo-600 hover:text-indigo-900"
+                              className="text-blue-400 hover:text-blue-300 transition-colors"
                             >
                               <Edit className="h-4 w-4" />
                             </button>
                             <button
                               onClick={() => handleToggleActive(game.id, game.isActive)}
-                              className="text-yellow-600 hover:text-yellow-900"
+                              className="text-yellow-400 hover:text-yellow-300 transition-colors"
                             >
                               {game.isActive ? 'Deactivate' : 'Activate'}
                             </button>
                             <button
                               onClick={() => handleDelete(game.id)}
-                              className="text-red-600 hover:text-red-900"
+                              className="text-red-400 hover:text-red-300 transition-colors"
                             >
                               <Trash2 className="h-4 w-4" />
                             </button>

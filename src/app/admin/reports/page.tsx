@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { BarChart3, TrendingUp, Users, Calendar, DollarSign } from "lucide-react"
+import Navigation from "@/components/navigation"
 
 interface ReportData {
   summary: {
@@ -73,10 +74,10 @@ export default function AdminReportsPage() {
 
   if (status === "loading" || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-fury-orange"></div>
+          <p className="mt-4 text-gray-300">Loading...</p>
         </div>
       </div>
     )
@@ -87,80 +88,63 @@ export default function AdminReportsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">Fury Road RC Club - Admin</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link
-                href="/admin"
-                className="text-sm text-gray-500 hover:text-gray-700"
-              >
-                ← Back to Dashboard
-              </Link>
-              <span className="text-sm text-gray-700">Welcome, {session.user.name}</span>
-              <button
-                onClick={() => router.push("/api/auth/signout")}
-                className="text-sm text-gray-500 hover:text-gray-700"
-              >
-                Sign Out
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-black">
+      <Navigation />
 
       <div className="max-w-7xl mx-auto pt-20 py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900">Reports & Analytics</h2>
-            <p className="text-gray-600">View detailed analytics and performance metrics</p>
+            <Link
+              href="/admin"
+              className="inline-flex items-center text-gray-400 hover:text-fury-orange mb-2 transition-colors text-sm"
+            >
+              ← Back to Dashboard
+            </Link>
+            <h2 className="text-lg sm:text-2xl font-bold text-white">Reports & Analytics</h2>
+            <p className="text-xs sm:text-sm text-gray-400">View detailed analytics and performance metrics</p>
           </div>
 
           {/* Filters */}
-          <div className="bg-white shadow rounded-lg mb-6">
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl mb-6">
             <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Filter Reports</h3>
+                <h3 className="text-base sm:text-lg font-medium text-white mb-4">Filter Reports</h3>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">
                     Period
                   </label>
                   <select
                     value={period}
                     onChange={(e) => setPeriod(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
                   >
-                    <option value="week">Last 7 days</option>
-                    <option value="month">Last 30 days</option>
-                    <option value="custom">Custom range</option>
+                    <option value="week" className="bg-gray-900">Last 7 days</option>
+                    <option value="month" className="bg-gray-900">Last 30 days</option>
+                    <option value="custom" className="bg-gray-900">Custom range</option>
                   </select>
                 </div>
                 {period === "custom" && (
                   <>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-300 mb-1">
                         Start Date
                       </label>
                       <input
                         type="date"
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-300 mb-1">
                         End Date
                       </label>
                       <input
                         type="date"
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
                       />
                     </div>
                   </>
@@ -168,7 +152,7 @@ export default function AdminReportsPage() {
                 <div className="flex items-end">
                   <button
                     onClick={fetchReports}
-                    className="w-full bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+                    className="w-full bg-gradient-to-r from-fury-orange to-primary-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-md hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 text-xs sm:text-sm font-semibold"
                   >
                     Update Reports
                   </button>
@@ -181,18 +165,18 @@ export default function AdminReportsPage() {
             <>
               {/* Summary Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div className="bg-white overflow-hidden shadow rounded-lg">
+                <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden hover:bg-white/20 transition-all">
                   <div className="p-5">
                     <div className="flex items-center">
                       <div className="flex-shrink-0">
-                        <DollarSign className="h-6 w-6 text-green-600" />
+                        <DollarSign className="h-6 w-6 text-green-400" />
                       </div>
                       <div className="ml-5 w-0 flex-1">
                         <dl>
-                          <dt className="text-sm font-medium text-gray-500 truncate">
+                          <dt className="text-sm font-medium text-gray-400 truncate">
                             Total Revenue
                           </dt>
-                          <dd className="text-lg font-medium text-gray-900">
+                          <dd className="text-lg font-medium text-white">
                             ₹{reportData.summary.totalRevenue.toLocaleString()}
                           </dd>
                         </dl>
@@ -201,18 +185,18 @@ export default function AdminReportsPage() {
                   </div>
                 </div>
 
-                <div className="bg-white overflow-hidden shadow rounded-lg">
+                <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden hover:bg-white/20 transition-all">
                   <div className="p-5">
                     <div className="flex items-center">
                       <div className="flex-shrink-0">
-                        <Calendar className="h-6 w-6 text-blue-600" />
+                        <Calendar className="h-6 w-6 text-blue-400" />
                       </div>
                       <div className="ml-5 w-0 flex-1">
                         <dl>
-                          <dt className="text-sm font-medium text-gray-500 truncate">
+                          <dt className="text-sm font-medium text-gray-400 truncate">
                             Total Bookings
                           </dt>
-                          <dd className="text-lg font-medium text-gray-900">
+                          <dd className="text-lg font-medium text-white">
                             {reportData.summary.totalBookings}
                           </dd>
                         </dl>
@@ -221,18 +205,18 @@ export default function AdminReportsPage() {
                   </div>
                 </div>
 
-                <div className="bg-white overflow-hidden shadow rounded-lg">
+                <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden hover:bg-white/20 transition-all">
                   <div className="p-5">
                     <div className="flex items-center">
                       <div className="flex-shrink-0">
-                        <Users className="h-6 w-6 text-purple-600" />
+                        <Users className="h-6 w-6 text-purple-400" />
                       </div>
                       <div className="ml-5 w-0 flex-1">
                         <dl>
-                          <dt className="text-sm font-medium text-gray-500 truncate">
+                          <dt className="text-sm font-medium text-gray-400 truncate">
                             New Users
                           </dt>
-                          <dd className="text-lg font-medium text-gray-900">
+                          <dd className="text-lg font-medium text-white">
                             {reportData.summary.newUsers}
                           </dd>
                         </dl>
@@ -241,18 +225,18 @@ export default function AdminReportsPage() {
                   </div>
                 </div>
 
-                <div className="bg-white overflow-hidden shadow rounded-lg">
+                <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden hover:bg-white/20 transition-all">
                   <div className="p-5">
                     <div className="flex items-center">
                       <div className="flex-shrink-0">
-                        <TrendingUp className="h-6 w-6 text-yellow-600" />
+                        <TrendingUp className="h-6 w-6 text-yellow-400" />
                       </div>
                       <div className="ml-5 w-0 flex-1">
                         <dl>
-                          <dt className="text-sm font-medium text-gray-500 truncate">
+                          <dt className="text-sm font-medium text-gray-400 truncate">
                             Avg Booking Value
                           </dt>
-                          <dd className="text-lg font-medium text-gray-900">
+                          <dd className="text-lg font-medium text-white">
                             ₹{reportData.summary.averageBookingValue.toFixed(0)}
                           </dd>
                         </dl>
@@ -264,21 +248,21 @@ export default function AdminReportsPage() {
 
               {/* Top Games */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div className="bg-white shadow rounded-lg">
+                <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
                   <div className="px-4 py-5 sm:p-6">
-                    <h3 className="text-lg font-medium text-gray-900 mb-4">Top Games by Revenue</h3>
+                    <h3 className="text-lg font-medium text-white mb-4">Top Games by Revenue</h3>
                     <div className="space-y-3">
                       {reportData.topGames.map((game, index) => (
-                        <div key={game.gameId} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                        <div key={game.gameId} className="flex justify-between items-center p-3 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors">
                           <div className="flex items-center">
-                            <span className="text-lg font-bold text-indigo-600 mr-3">
+                            <span className="text-lg font-bold text-fury-orange mr-3">
                               #{index + 1}
                             </span>
-                            <span className="font-medium">{game.gameName}</span>
+                            <span className="font-medium text-white">{game.gameName}</span>
                           </div>
                           <div className="text-right">
-                            <p className="font-medium">₹{game._sum.totalPrice.toLocaleString()}</p>
-                            <p className="text-sm text-gray-500">{game._count.id} bookings</p>
+                            <p className="font-medium text-white">₹{game._sum.totalPrice.toLocaleString()}</p>
+                            <p className="text-sm text-gray-400">{game._count.id} bookings</p>
                           </div>
                         </div>
                       ))}
@@ -286,21 +270,21 @@ export default function AdminReportsPage() {
                   </div>
                 </div>
 
-                <div className="bg-white shadow rounded-lg">
+                <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
                   <div className="px-4 py-5 sm:p-6">
-                    <h3 className="text-lg font-medium text-gray-900 mb-4">Booking Status</h3>
+                    <h3 className="text-lg font-medium text-white mb-4">Booking Status</h3>
                     <div className="space-y-3">
-                      <div className="flex justify-between items-center p-3 bg-green-50 rounded">
-                        <span className="text-green-800 font-medium">Completed</span>
-                        <span className="text-green-800 font-bold">{reportData.summary.completedBookings}</span>
+                      <div className="flex justify-between items-center p-3 bg-green-500/20 border border-green-500/30 rounded-lg">
+                        <span className="text-green-400 font-medium">Completed</span>
+                        <span className="text-green-400 font-bold">{reportData.summary.completedBookings}</span>
                       </div>
-                      <div className="flex justify-between items-center p-3 bg-red-50 rounded">
-                        <span className="text-red-800 font-medium">Cancelled</span>
-                        <span className="text-red-800 font-bold">{reportData.summary.cancelledBookings}</span>
+                      <div className="flex justify-between items-center p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
+                        <span className="text-red-400 font-medium">Cancelled</span>
+                        <span className="text-red-400 font-bold">{reportData.summary.cancelledBookings}</span>
                       </div>
-                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                        <span className="text-gray-800 font-medium">Total</span>
-                        <span className="text-gray-800 font-bold">{reportData.summary.totalBookings}</span>
+                      <div className="flex justify-between items-center p-3 bg-white/5 border border-white/10 rounded-lg">
+                        <span className="text-gray-300 font-medium">Total</span>
+                        <span className="text-white font-bold">{reportData.summary.totalBookings}</span>
                       </div>
                     </div>
                   </div>
@@ -308,10 +292,10 @@ export default function AdminReportsPage() {
               </div>
 
               {/* Daily Revenue Chart Placeholder */}
-              <div className="bg-white shadow rounded-lg">
+              <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
                 <div className="px-4 py-5 sm:p-6">
-                  <h3 className="text-lg font-medium text-gray-900 mb-4">Daily Revenue Trend</h3>
-                  <div className="text-center py-8 text-gray-500">
+                  <h3 className="text-lg font-medium text-white mb-4">Daily Revenue Trend</h3>
+                  <div className="text-center py-8 text-gray-400">
                     <BarChart3 className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                     <p>Chart visualization would be implemented here</p>
                     <p className="text-sm">Data available: {reportData.dailyRevenue.length} days</p>

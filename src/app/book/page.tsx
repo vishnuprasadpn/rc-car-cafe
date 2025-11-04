@@ -120,10 +120,10 @@ function BookPageContent() {
 
   if (status === "loading" || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-fury-orange"></div>
+          <p className="mt-4 text-gray-300">Loading...</p>
         </div>
       </div>
     )
@@ -134,17 +134,17 @@ function BookPageContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-black">
       <Navigation />
 
       <div className="max-w-3xl mx-auto pt-20 py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
-          <div className="bg-white shadow rounded-lg">
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
             <div className="px-4 py-5 sm:p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Book a Race</h2>
+              <h2 className="text-lg sm:text-2xl font-bold text-white mb-6">Book a Race</h2>
               
               {/* Disabled Notice */}
-              <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-6 py-4 rounded-lg mb-6">
+              <div className="bg-yellow-500/20 border border-yellow-500/40 text-yellow-400 px-6 py-4 rounded-lg mb-6 backdrop-blur-sm">
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
                     <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
@@ -152,10 +152,10 @@ function BookPageContent() {
                     </svg>
                   </div>
                   <div className="ml-3">
-                    <h3 className="text-sm font-medium text-yellow-800 mb-1">
+                    <h3 className="text-sm font-medium text-yellow-400 mb-1">
                       Booking Temporarily Disabled
                     </h3>
-                    <p className="text-sm text-yellow-700">
+                    <p className="text-sm text-yellow-300">
                       Booking and payment features are currently disabled. Please check back later or contact us for more information.
                     </p>
                   </div>
@@ -163,47 +163,47 @@ function BookPageContent() {
               </div>
 
               {error && (
-                <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded mb-6">
+                <div className="bg-red-500/20 border border-red-500/40 text-red-400 px-4 py-3 rounded-lg mb-6 backdrop-blur-sm">
                   {error}
                 </div>
               )}
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 opacity-50 pointer-events-none" style={{ position: 'relative' }}>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
                     Select Game
                   </label>
                   <select
                     {...register("gameId")}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 bg-white"
+                    className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white bg-white/10 backdrop-blur-sm"
                   >
                     <option value="">Choose a game...</option>
                     {games.map((game) => (
-                      <option key={game.id} value={game.id}>
+                      <option key={game.id} value={game.id} className="bg-gray-800">
                         {game.name} - ₹{game.price} ({game.duration} min)
                       </option>
                     ))}
                   </select>
                   {errors.gameId && (
-                    <p className="mt-1 text-sm text-red-600">{errors.gameId.message}</p>
+                    <p className="mt-1 text-sm text-red-400">{errors.gameId.message}</p>
                   )}
                 </div>
 
                 {selectedGame && (
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-gray-900 mb-2">{selectedGame.name}</h3>
-                    <p className="text-sm text-gray-600 mb-3">{selectedGame.description}</p>
+                  <div className="bg-white/5 border border-white/10 p-4 rounded-lg">
+                    <h3 className="font-medium text-white mb-2">{selectedGame.name}</h3>
+                    <p className="text-sm text-gray-400 mb-3">{selectedGame.description}</p>
                     <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div className="flex items-center">
-                        <Clock className="h-4 w-4 text-gray-400 mr-2" />
+                      <div className="flex items-center text-gray-300">
+                        <Clock className="h-4 w-4 text-fury-orange mr-2" />
                         <span>{selectedGame.duration} minutes</span>
                       </div>
-                      <div className="flex items-center">
-                        <DollarSign className="h-4 w-4 text-gray-400 mr-2" />
+                      <div className="flex items-center text-gray-300">
+                        <DollarSign className="h-4 w-4 text-fury-orange mr-2" />
                         <span>₹{selectedGame.price} per player</span>
                       </div>
-                      <div className="flex items-center">
-                        <Users className="h-4 w-4 text-gray-400 mr-2" />
+                      <div className="flex items-center text-gray-300">
+                        <Users className="h-4 w-4 text-fury-orange mr-2" />
                         <span>Max {selectedGame.maxPlayers} players</span>
                       </div>
                     </div>
@@ -212,61 +212,61 @@ function BookPageContent() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
                       Date
                     </label>
                     <input
                       {...register("date")}
                       type="date"
                       min={new Date().toISOString().split('T')[0]}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 bg-white"
+                      className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white bg-white/10 backdrop-blur-sm"
                     />
                     {errors.date && (
-                      <p className="mt-1 text-sm text-red-600">{errors.date.message}</p>
+                      <p className="mt-1 text-sm text-red-400">{errors.date.message}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
                       Time
                     </label>
                     <input
                       {...register("time")}
                       type="time"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 bg-white"
+                      className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white bg-white/10 backdrop-blur-sm"
                     />
                     {errors.time && (
-                      <p className="mt-1 text-sm text-red-600">{errors.time.message}</p>
+                      <p className="mt-1 text-sm text-red-400">{errors.time.message}</p>
                     )}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
                     Number of Players
                   </label>
                   <select
                     {...register("players", { valueAsNumber: true })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 bg-white"
+                    className="w-full px-3 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white bg-white/10 backdrop-blur-sm"
                   >
-                    <option value={1}>1 Player</option>
-                    <option value={2}>2 Players</option>
-                    <option value={3}>3 Players</option>
-                    <option value={4}>4 Players</option>
+                    <option value={1} className="bg-gray-800">1 Player</option>
+                    <option value={2} className="bg-gray-800">2 Players</option>
+                    <option value={3} className="bg-gray-800">3 Players</option>
+                    <option value={4} className="bg-gray-800">4 Players</option>
                   </select>
                   {errors.players && (
-                    <p className="mt-1 text-sm text-red-600">{errors.players.message}</p>
+                    <p className="mt-1 text-sm text-red-400">{errors.players.message}</p>
                   )}
                 </div>
 
                 {selectedGame && (
-                  <div className="bg-indigo-50 p-4 rounded-lg">
-                    <h4 className="font-medium text-indigo-900 mb-2">Booking Summary</h4>
-                    <div className="text-sm text-indigo-700">
+                  <div className="bg-fury-orange/20 border border-fury-orange/40 p-4 rounded-lg">
+                    <h4 className="font-medium text-white mb-2">Booking Summary</h4>
+                    <div className="text-sm text-gray-300">
                       <p>Game: {selectedGame.name}</p>
                       <p>Duration: {selectedGame.duration} minutes</p>
                       <p>Players: {watch("players") || 1}</p>
-                      <p className="font-semibold">
+                      <p className="font-semibold text-fury-orange">
                         Total: ₹{selectedGame.price * (watch("players") || 1)}
                       </p>
                     </div>
@@ -277,14 +277,14 @@ function BookPageContent() {
                   <button
                     type="button"
                     onClick={() => router.push("/dashboard")}
-                    className="px-5 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                    className="px-4 py-2 sm:px-5 sm:py-2.5 border border-white/20 rounded-lg text-xs sm:text-sm font-medium text-white hover:bg-white/10 transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="px-5 py-2.5 bg-fury-orange text-white rounded-lg text-sm font-semibold hover:bg-primary-600 disabled:opacity-50 transition-colors"
+                    className="px-4 py-2 sm:px-5 sm:py-2.5 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg text-xs sm:text-sm font-semibold hover:from-primary-600 hover:to-primary-700 disabled:opacity-50 transition-all shadow-lg hover:shadow-fury-orange/25"
                   >
                     {submitting ? "Creating Booking..." : "Create Booking"}
                   </button>
@@ -301,10 +301,10 @@ function BookPageContent() {
 export default function BookPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-fury-orange"></div>
+          <p className="mt-4 text-gray-300">Loading...</p>
         </div>
       </div>
     }>

@@ -55,7 +55,7 @@ export default function AboutPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <div className="min-h-screen bg-black">
       <Navigation />
       
       {/* Hero Section */}
@@ -86,7 +86,7 @@ export default function AboutPage() {
               Our Story
             </h1>
             
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
               Passionate about bringing the thrill of RC car racing to Bangalore. 
               We&apos;re more than just a racing club - we&apos;re a community of speed enthusiasts.
             </p>
@@ -95,12 +95,12 @@ export default function AboutPage() {
       </div>
 
       {/* Our Story Section */}
-      <div className="py-24">
+      <div className="py-24 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">How It All Started</h2>
-              <div className="space-y-4 text-gray-600 leading-relaxed">
+              <h2 className="text-2xl sm:text-4xl font-bold text-white mb-6">How It All Started</h2>
+              <div className="space-y-4 text-gray-300 leading-relaxed">
                 <p>
                   Fury Road RC Club was born from a simple passion - the love for high-speed RC car racing. 
                   Our founder, Rajesh Kumar, spent years racing RC cars as a hobby, but always dreamed of 
@@ -132,11 +132,11 @@ export default function AboutPage() {
       </div>
 
       {/* Stats Section */}
-      <div className="py-24 bg-white/50">
+      <div className="py-24 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Impact</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-2xl sm:text-4xl font-bold text-white mb-6">Our Impact</h2>
+            <p className="text-sm sm:text-xl text-gray-300 max-w-3xl mx-auto">
               Numbers that speak to our commitment to excellence and community building
             </p>
           </div>
@@ -144,8 +144,8 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-4xl font-bold text-red-600 mb-2">{stat.number}</div>
-                <div className="text-gray-600">{stat.label}</div>
+                <div className="text-2xl sm:text-4xl font-bold text-fury-orange mb-2">{stat.number}</div>
+                <div className="text-xs sm:text-sm text-gray-300">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -153,23 +153,23 @@ export default function AboutPage() {
       </div>
 
       {/* Values Section */}
-      <div className="py-24">
+      <div className="py-24 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Values</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-2xl sm:text-4xl font-bold text-white mb-6">Our Values</h2>
+            <p className="text-sm sm:text-xl text-gray-300 max-w-3xl mx-auto">
               The principles that guide everything we do at Fury Road RC Club
             </p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
-              <div key={index} className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 text-center border border-white/20">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <value.icon className="h-8 w-8 text-red-600" />
+              <div key={index} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 text-center hover:bg-white/20 transition-all">
+                <div className="w-16 h-16 bg-fury-orange/20 border border-fury-orange/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <value.icon className="h-8 w-8 text-fury-orange" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">{value.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{value.description}</p>
+                <h3 className="text-base sm:text-xl font-bold text-white mb-4">{value.title}</h3>
+                <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">{value.description}</p>
               </div>
             ))}
           </div>
@@ -177,18 +177,18 @@ export default function AboutPage() {
       </div>
 
       {/* Team Section */}
-      <div className="py-24 bg-white/50">
+      <div className="py-24 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Meet Our Team</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-2xl sm:text-4xl font-bold text-white mb-6">Meet Our Team</h2>
+            <p className="text-sm sm:text-xl text-gray-300 max-w-3xl mx-auto">
               The passionate people behind Fury Road RC Club
             </p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
             {team.map((member, index) => (
-              <div key={index} className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 text-center border border-white/20">
+              <div key={index} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 text-center hover:bg-white/20 transition-all">
                 <div className="relative w-24 h-24 mx-auto mb-6">
                   <Image
                     src={member.image}
@@ -197,9 +197,9 @@ export default function AboutPage() {
                     className="rounded-full object-cover"
                   />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{member.name}</h3>
-                <p className="text-red-600 font-semibold mb-4">{member.role}</p>
-                <p className="text-gray-600 leading-relaxed">{member.bio}</p>
+                <h3 className="text-xl font-bold text-white mb-2">{member.name}</h3>
+                <p className="text-fury-orange font-semibold mb-4">{member.role}</p>
+                <p className="text-gray-300 leading-relaxed">{member.bio}</p>
               </div>
             ))}
           </div>
@@ -207,11 +207,11 @@ export default function AboutPage() {
       </div>
 
       {/* Mission Section */}
-      <div className="py-24">
+      <div className="py-24 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-r from-red-600 to-red-700 rounded-2xl p-12 text-center text-white">
-            <h2 className="text-4xl font-bold mb-6">Our Mission</h2>
-            <p className="text-xl text-red-100 mb-8 max-w-4xl mx-auto leading-relaxed">
+          <div className="bg-gradient-to-r from-fury-orange to-primary-600 rounded-2xl p-12 text-center text-white">
+            <h2 className="text-2xl sm:text-4xl font-bold mb-6">Our Mission</h2>
+            <p className="text-sm sm:text-xl text-white/90 mb-8 max-w-4xl mx-auto leading-relaxed">
               To create the ultimate RC racing experience in Bangalore, bringing together speed enthusiasts 
               of all skill levels in a safe, exciting, and professional environment. We&apos;re building a 
               community where passion for racing meets cutting-edge technology.
@@ -219,13 +219,13 @@ export default function AboutPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/auth/signup"
-                className="bg-white text-red-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                className="bg-white text-fury-orange px-4 py-2 sm:px-8 sm:py-3 rounded-lg text-xs sm:text-base font-semibold hover:bg-gray-100 transition-colors"
               >
                 Join Our Community
               </a>
               <a
                 href="/contact"
-                className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors"
+                className="border-2 border-white text-white px-4 py-2 sm:px-8 sm:py-3 rounded-lg text-xs sm:text-base font-semibold hover:bg-white/10 transition-colors"
               >
                 Get in Touch
               </a>
@@ -238,18 +238,18 @@ export default function AboutPage() {
       <div className="py-16 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h3 className="text-2xl font-bold text-white mb-8">Ready to Start Racing?</h3>
+            <h3 className="text-lg sm:text-2xl font-bold text-white mb-8">Ready to Start Racing?</h3>
             <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
               <div className="flex items-center text-white">
-                <MapPin className="h-5 w-5 text-red-400 mr-2" />
+                <MapPin className="h-5 w-5 text-fury-orange mr-2" />
                 <span>Bangalore, Karnataka</span>
               </div>
               <div className="flex items-center text-white">
-                <Phone className="h-5 w-5 text-red-400 mr-2" />
+                <Phone className="h-5 w-5 text-fury-orange mr-2" />
                 <span>+91 98765 43210</span>
               </div>
               <div className="flex items-center text-white">
-                <Mail className="h-5 w-5 text-red-400 mr-2" />
+                <Mail className="h-5 w-5 text-fury-orange mr-2" />
                 <span>info@furyroadrc.com</span>
               </div>
             </div>

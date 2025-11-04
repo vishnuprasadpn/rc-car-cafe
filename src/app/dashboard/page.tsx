@@ -64,10 +64,10 @@ export default function DashboardPage() {
 
   if (status === "loading" || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-fury-orange"></div>
+          <p className="mt-4 text-gray-300">Loading...</p>
         </div>
       </div>
     )
@@ -78,98 +78,97 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <div className="min-h-screen bg-black">
       <Navigation />
 
       <div className="max-w-7xl mx-auto pt-20 py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
+          <div className="mb-8">
+            <h1 className="text-xl sm:text-3xl font-bold text-white mb-2">Dashboard</h1>
+            <p className="text-xs sm:text-sm text-gray-400">Welcome back, {session.user?.name || "User"}!</p>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <Calendar className="h-6 w-6 text-indigo-600" />
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Total Bookings
-                      </dt>
-                      <dd className="text-lg font-medium text-gray-900">
-                        {bookings.length}
-                      </dd>
-                    </dl>
-                  </div>
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-5 hover:bg-white/20 transition-all">
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <Calendar className="h-6 w-6 text-fury-orange" />
+                </div>
+                <div className="ml-5 w-0 flex-1">
+                  <dl>
+                    <dt className="text-sm font-medium text-gray-400 truncate">
+                      Total Bookings
+                    </dt>
+                    <dd className="text-base sm:text-lg font-medium text-white">
+                      {bookings.length}
+                    </dd>
+                  </dl>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <Trophy className="h-6 w-6 text-yellow-600" />
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Total Points
-                      </dt>
-                      <dd className="text-lg font-medium text-gray-900">
-                        {points.total}
-                      </dd>
-                    </dl>
-                  </div>
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-5 hover:bg-white/20 transition-all">
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <Trophy className="h-6 w-6 text-fury-orange" />
+                </div>
+                <div className="ml-5 w-0 flex-1">
+                  <dl>
+                    <dt className="text-sm font-medium text-gray-400 truncate">
+                      Total Points
+                    </dt>
+                    <dd className="text-base sm:text-lg font-medium text-white">
+                      {points.total}
+                    </dd>
+                  </dl>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <Clock className="h-6 w-6 text-green-600" />
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Pending Points
-                      </dt>
-                      <dd className="text-lg font-medium text-gray-900">
-                        {points.pending}
-                      </dd>
-                    </dl>
-                  </div>
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-5 hover:bg-white/20 transition-all">
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <Clock className="h-6 w-6 text-fury-orange" />
+                </div>
+                <div className="ml-5 w-0 flex-1">
+                  <dl>
+                    <dt className="text-sm font-medium text-gray-400 truncate">
+                      Pending Points
+                    </dt>
+                    <dd className="text-lg font-medium text-white">
+                      {points.pending}
+                    </dd>
+                  </dl>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white shadow rounded-lg">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
               <div className="px-4 py-5 sm:p-6">
-                <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
+                <h3 className="text-base sm:text-lg leading-6 font-medium text-white mb-4">
                   Recent Bookings
                 </h3>
                 {bookings.length === 0 ? (
-                  <p className="text-gray-500">No bookings yet</p>
+                  <p className="text-gray-400">No bookings yet</p>
                 ) : (
                   <div className="space-y-3">
                     {bookings.slice(0, 5).map((booking) => (
-                      <div key={booking.id} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                      <div key={booking.id} className="flex justify-between items-center p-3 bg-white/5 rounded-lg border border-white/10">
                         <div>
-                          <p className="font-medium">{booking.game.name}</p>
-                          <p className="text-sm text-gray-500">
+                          <p className="font-medium text-white">{booking.game.name}</p>
+                          <p className="text-sm text-gray-400">
                             {new Date(booking.startTime).toLocaleDateString()} at{" "}
                             {new Date(booking.startTime).toLocaleTimeString()}
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="font-medium">₹{booking.totalPrice}</p>
+                          <p className="font-medium text-white">₹{booking.totalPrice}</p>
                           <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                            booking.status === 'CONFIRMED' ? 'bg-green-100 text-green-800' :
-                            booking.status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' :
-                            'bg-red-100 text-red-800'
+                            booking.status === 'CONFIRMED' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+                            booking.status === 'PENDING' ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' :
+                            'bg-red-500/20 text-red-400 border border-red-500/30'
                           }`}>
                             {booking.status}
                           </span>
@@ -181,7 +180,7 @@ export default function DashboardPage() {
                 <div className="mt-4">
                   <Link
                     href="/bookings"
-                    className="text-indigo-600 hover:text-indigo-500 text-sm font-medium"
+                    className="text-fury-orange hover:text-primary-600 text-sm font-medium transition-colors"
                   >
                     View all bookings →
                   </Link>
@@ -189,21 +188,21 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="bg-white shadow rounded-lg">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
               <div className="px-4 py-5 sm:p-6">
-                <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
+                <h3 className="text-base sm:text-lg leading-6 font-medium text-white mb-4">
                   Quick Actions
                 </h3>
                 <div className="space-y-3">
                   <Link
                     href="/points"
-                    className="block w-full bg-gray-600 text-white text-center py-2.5 px-5 rounded-lg text-sm font-semibold hover:bg-gray-700 transition-colors"
+                    className="block w-full bg-gradient-to-r from-fury-orange to-primary-600 text-white text-center py-2 px-4 sm:py-2.5 sm:px-5 rounded-lg text-xs sm:text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25"
                   >
                     View Points
                   </Link>
                   <Link
                     href="/profile"
-                    className="block w-full bg-gray-600 text-white text-center py-2.5 px-5 rounded-lg text-sm font-semibold hover:bg-gray-700 transition-colors"
+                    className="block w-full bg-white/10 border border-white/20 text-white text-center py-2 px-4 sm:py-2.5 sm:px-5 rounded-lg text-xs sm:text-sm font-semibold hover:bg-white/20 transition-all"
                   >
                     Edit Profile
                   </Link>

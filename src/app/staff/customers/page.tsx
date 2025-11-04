@@ -59,8 +59,11 @@ export default function StaffCustomersPage() {
   }, [searchTerm, customers])
 
   if (status === "loading") {
-    return <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600"></div>
+    return <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-fury-orange"></div>
+        <p className="mt-4 text-gray-300">Loading...</p>
+      </div>
     </div>
   }
 
@@ -80,17 +83,20 @@ export default function StaffCustomersPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-black">
         <Navigation />
         <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600"></div>
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-fury-orange"></div>
+            <p className="mt-4 text-gray-300">Loading...</p>
+          </div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <div className="min-h-screen bg-black">
       <Navigation />
       
       <div className="max-w-7xl mx-auto pt-20 py-6 sm:px-6 lg:px-8">
@@ -98,15 +104,15 @@ export default function StaffCustomersPage() {
           <div className="mb-8">
             <div className="flex justify-between items-center">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 flex items-center">
-                  <Users className="h-8 w-8 text-red-600 mr-3" />
+                <h1 className="text-xl sm:text-3xl font-bold text-white flex items-center">
+                  <Users className="h-6 w-6 sm:h-8 sm:w-8 text-fury-orange mr-2 sm:mr-3" />
                   Customer Management
                 </h1>
-                <p className="text-gray-600 mt-2">Manage customer accounts and view their activity</p>
+                <p className="text-xs sm:text-sm text-gray-400 mt-2">Manage customer accounts and view their activity</p>
               </div>
               <a
                 href="/staff/register-customer"
-                className="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 text-xs sm:text-sm font-semibold"
               >
                 <UserPlus className="h-4 w-4 mr-2" />
                 Register New Customer
@@ -115,10 +121,10 @@ export default function StaffCustomersPage() {
           </div>
 
           {/* Search */}
-          <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-xl border border-white/20 mb-6">
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl mb-6">
             <div className="px-4 py-5 sm:p-6">
               <div className="max-w-md">
-                <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="search" className="block text-sm font-medium text-gray-300 mb-2">
                   Search Customers
                 </label>
                 <div className="relative">
@@ -129,7 +135,7 @@ export default function StaffCustomersPage() {
                     placeholder="Search by name, email, or phone..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 bg-white"
+                    className="w-full pl-10 pr-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white placeholder-gray-400 transition-all"
                   />
                 </div>
               </div>
@@ -141,7 +147,7 @@ export default function StaffCustomersPage() {
             {filteredCustomers.length === 0 ? (
               <div className="col-span-full text-center py-12">
                 <Users className="mx-auto h-12 w-12 text-gray-400" />
-                <h3 className="mt-2 text-sm font-medium text-gray-900">No customers found</h3>
+                <h3 className="mt-2 text-sm font-medium text-gray-300">No customers found</h3>
                 <p className="mt-1 text-sm text-gray-500">
                   {searchTerm 
                     ? "Try adjusting your search criteria"
@@ -151,22 +157,22 @@ export default function StaffCustomersPage() {
               </div>
             ) : (
               filteredCustomers.map((customer) => (
-                <div key={customer.id} className="bg-white/80 backdrop-blur-sm shadow-xl rounded-xl p-6 hover:shadow-2xl transition-all duration-300 border border-white/20">
+                <div key={customer.id} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 hover:bg-white/20 transition-all duration-300">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">{customer.name}</h3>
+                      <h3 className="text-base sm:text-lg font-semibold text-white mb-2">{customer.name}</h3>
                       <div className="space-y-2">
-                        <div className="flex items-center text-sm text-gray-600">
+                        <div className="flex items-center text-sm text-gray-300">
                           <Mail className="h-4 w-4 mr-2" />
                           {customer.email}
                         </div>
                         {customer.phone && (
-                          <div className="flex items-center text-sm text-gray-600">
+                          <div className="flex items-center text-sm text-gray-300">
                             <Phone className="h-4 w-4 mr-2" />
                             {customer.phone}
                           </div>
                         )}
-                        <div className="flex items-center text-sm text-gray-600">
+                        <div className="flex items-center text-sm text-gray-300">
                           <Calendar className="h-4 w-4 mr-2" />
                           Joined {formatDate(customer.createdAt)}
                         </div>
@@ -174,31 +180,31 @@ export default function StaffCustomersPage() {
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-4 border-t border-gray-200">
+                  <div className="mt-4 pt-4 border-t border-white/10">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="text-center">
-                        <div className="flex items-center justify-center text-2xl font-bold text-red-600 mb-1">
-                          <Gift className="h-5 w-5 mr-1" />
+                        <div className="flex items-center justify-center text-lg sm:text-2xl font-bold text-fury-orange mb-1">
+                          <Gift className="h-4 w-4 sm:h-5 sm:w-5 mr-1" />
                           {customer.points}
                         </div>
-                        <div className="text-xs text-gray-500">Points</div>
+                        <div className="text-[10px] sm:text-xs text-gray-400">Points</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-2xl font-bold text-blue-600 mb-1">
+                        <div className="text-lg sm:text-2xl font-bold text-blue-400 mb-1">
                           {customer.totalBookings}
                         </div>
-                        <div className="text-xs text-gray-500">Bookings</div>
+                        <div className="text-xs text-gray-400">Bookings</div>
                       </div>
                     </div>
                   </div>
 
                   <div className="mt-4 flex space-x-2">
-                    <button className="flex-1 bg-gray-100 text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-200 transition-colors flex items-center justify-center">
-                      <Eye className="h-4 w-4 mr-1" />
+                    <button className="flex-1 bg-white/10 text-gray-300 px-2 py-1.5 sm:px-3 sm:py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-white/20 transition-colors flex items-center justify-center border border-white/20">
+                      <Eye className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1" />
                       View Details
                     </button>
-                    <button className="flex-1 bg-red-100 text-red-700 px-3 py-2 rounded-md text-sm font-medium hover:bg-red-200 transition-colors flex items-center justify-center">
-                      <Gift className="h-4 w-4 mr-1" />
+                    <button className="flex-1 bg-fury-orange/20 text-fury-orange px-2 py-1.5 sm:px-3 sm:py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-fury-orange/30 transition-colors flex items-center justify-center border border-fury-orange/30">
+                      <Gift className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1" />
                       Allocate Points
                     </button>
                   </div>
@@ -209,30 +215,30 @@ export default function StaffCustomersPage() {
 
           {/* Summary Stats */}
           {filteredCustomers.length > 0 && (
-            <div className="mt-8 bg-white/80 backdrop-blur-sm shadow-xl rounded-xl border border-white/20 p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Customer Summary</h3>
+            <div className="mt-8 bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6">
+              <h3 className="text-base sm:text-lg font-medium text-white mb-4">Customer Summary</h3>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-gray-900">{filteredCustomers.length}</div>
-                  <div className="text-sm text-gray-500">Total Customers</div>
+                  <div className="text-lg sm:text-2xl font-bold text-white">{filteredCustomers.length}</div>
+                  <div className="text-xs sm:text-sm text-gray-400">Total Customers</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-red-600">
+                  <div className="text-lg sm:text-2xl font-bold text-fury-orange">
                     {filteredCustomers.reduce((sum, customer) => sum + customer.points, 0)}
                   </div>
-                  <div className="text-sm text-gray-500">Total Points</div>
+                  <div className="text-xs sm:text-sm text-gray-400">Total Points</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">
+                  <div className="text-lg sm:text-2xl font-bold text-blue-400">
                     {filteredCustomers.reduce((sum, customer) => sum + customer.totalBookings, 0)}
                   </div>
-                  <div className="text-sm text-gray-500">Total Bookings</div>
+                  <div className="text-xs sm:text-sm text-gray-400">Total Bookings</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">
+                  <div className="text-lg sm:text-2xl font-bold text-green-400">
                     {filteredCustomers.filter(customer => customer.points > 0).length}
                   </div>
-                  <div className="text-sm text-gray-500">Active Members</div>
+                  <div className="text-xs sm:text-sm text-gray-400">Active Members</div>
                 </div>
               </div>
             </div>

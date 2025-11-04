@@ -9,7 +9,7 @@
   }
   
   body {
-    @apply bg-gray-50 text-gray-900;
+    @apply bg-black text-white;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
@@ -231,7 +231,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #f1f5f9;
+    background: #1a1a1a;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -245,8 +245,8 @@
 
   /* Text Selection */
   ::selection {
-    background: rgba(255, 102, 0, 0.2); /* Fury Road orange */
-    color: #000000;
+    background: rgba(255, 102, 0, 0.3); /* Fury Road orange */
+    color: #FFFFFF;
   }
 }
 

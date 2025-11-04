@@ -67,24 +67,10 @@ export default function TracksPage() {
     }
   ]
 
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case "Beginner":
-        return "bg-green-100 text-green-800"
-      case "Intermediate":
-        return "bg-blue-100 text-blue-800"
-      case "Expert":
-        return "bg-red-100 text-red-800"
-      case "Pro":
-        return "bg-purple-100 text-purple-800"
-      default:
-        return "bg-gray-100 text-gray-800"
-    }
-  }
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <div className="min-h-screen bg-black">
       <Navigation />
       
       {/* Hero Section */}
@@ -115,7 +101,7 @@ export default function TracksPage() {
               Our Racing Tracks
             </h1>
             
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
               Four professional tracks designed for different skill levels and racing styles. 
               Experience the thrill of high-speed RC car racing on our state-of-the-art circuits.
             </p>
@@ -124,11 +110,11 @@ export default function TracksPage() {
       </div>
 
       {/* Tracks Grid */}
-      <div className="py-24">
+      <div className="py-24 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {tracks.map((track) => (
-              <div key={track.id} className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl overflow-hidden border border-white/20 hover:shadow-2xl transition-all duration-300">
+              <div key={track.id} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl overflow-hidden hover:bg-white/20 transition-all duration-300">
                 {/* Track Image */}
                 <div className="relative h-64 overflow-hidden">
                   <Image
@@ -139,12 +125,17 @@ export default function TracksPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute top-4 right-4">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getDifficultyColor(track.difficulty)}`}>
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                      track.difficulty === 'Expert' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
+                      track.difficulty === 'Intermediate' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
+                      track.difficulty === 'Beginner' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+                      'bg-purple-500/20 text-purple-400 border border-purple-500/30'
+                    }`}>
                       {track.difficulty}
                     </span>
                   </div>
                   <div className="absolute bottom-4 left-4">
-                    <h3 className="text-2xl font-bold text-white mb-2">{track.name}</h3>
+                    <h3 className="text-lg sm:text-2xl font-bold text-white mb-2">{track.name}</h3>
                     <div className="flex items-center text-white/80">
                       <MapPin className="h-4 w-4 mr-1" />
                       <span className="text-sm">{track.length}</span>
@@ -154,46 +145,46 @@ export default function TracksPage() {
 
                 {/* Track Details */}
                 <div className="p-8">
-                  <p className="text-gray-600 mb-6 leading-relaxed">{track.description}</p>
+                  <p className="text-gray-300 mb-6 leading-relaxed">{track.description}</p>
                   
                   {/* Track Stats */}
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     <div className="flex items-center">
                       <Clock className="h-5 w-5 text-gray-400 mr-2" />
                       <div>
-                        <div className="text-sm text-gray-500">Duration</div>
-                        <div className="font-semibold text-gray-900">{track.duration}</div>
+                        <div className="text-sm text-gray-400">Duration</div>
+                        <div className="font-semibold text-white">{track.duration}</div>
                       </div>
                     </div>
                     <div className="flex items-center">
                       <Users className="h-5 w-5 text-gray-400 mr-2" />
                       <div>
-                        <div className="text-sm text-gray-500">Max Players</div>
-                        <div className="font-semibold text-gray-900">{track.maxPlayers}</div>
+                        <div className="text-sm text-gray-400">Max Players</div>
+                        <div className="font-semibold text-white">{track.maxPlayers}</div>
                       </div>
                     </div>
                     <div className="flex items-center">
                       <Trophy className="h-5 w-5 text-gray-400 mr-2" />
                       <div>
-                        <div className="text-sm text-gray-500">Best Time</div>
-                        <div className="font-semibold text-gray-900">{track.bestTime}</div>
+                        <div className="text-sm text-gray-400">Best Time</div>
+                        <div className="font-semibold text-white">{track.bestTime}</div>
                       </div>
                     </div>
                     <div className="flex items-center">
-                      <Star className="h-5 w-5 text-yellow-500 mr-2" />
+                      <Star className="h-5 w-5 text-yellow-400 mr-2" />
                       <div>
-                        <div className="text-sm text-gray-500">Rating</div>
-                        <div className="font-semibold text-gray-900">5.0</div>
+                        <div className="text-sm text-gray-400">Rating</div>
+                        <div className="font-semibold text-white">5.0</div>
                       </div>
                     </div>
                   </div>
 
                   {/* Features */}
                   <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-gray-900 mb-3">Track Features</h4>
+                    <h4 className="text-sm font-semibold text-white mb-3">Track Features</h4>
                     <div className="flex flex-wrap gap-2">
                       {track.features.map((feature, index) => (
-                        <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                        <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 border border-white/20 text-gray-300">
                           {feature}
                         </span>
                       ))}
@@ -203,12 +194,7 @@ export default function TracksPage() {
                   {/* Action Button */}
                   <Link 
                     href={`/book?track=${encodeURIComponent(track.name)}`}
-                    className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-colors inline-block text-center ${
-                      track.color === 'red' ? 'bg-red-600 hover:bg-red-700' :
-                      track.color === 'blue' ? 'bg-blue-600 hover:bg-blue-700' :
-                      track.color === 'green' ? 'bg-green-600 hover:bg-green-700' :
-                      'bg-purple-600 hover:bg-purple-700'
-                    }`}
+                    className="w-full py-3 px-6 rounded-lg font-semibold text-white transition-all inline-block text-center bg-gradient-to-r from-fury-orange to-primary-600 hover:from-primary-600 hover:to-primary-700 shadow-lg hover:shadow-fury-orange/25"
                   >
                     Book This Track
                   </Link>
@@ -220,44 +206,49 @@ export default function TracksPage() {
       </div>
 
       {/* Track Comparison */}
-      <div className="py-24 bg-white/50">
+      <div className="py-24 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Track Comparison</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-2xl sm:text-4xl font-bold text-white mb-6">Track Comparison</h2>
+            <p className="text-sm sm:text-xl text-gray-300 max-w-3xl mx-auto">
               Compare our tracks to find the perfect one for your skill level and racing style
             </p>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl border border-white/20 overflow-hidden">
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl overflow-hidden">
             <div className="overflow-x-auto">
               <table className="min-w-full">
-                <thead className="bg-gray-50">
+                <thead className="bg-white/5">
                   <tr>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Track</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Difficulty</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Length</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Best Time</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Features</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-400">Track</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-400">Difficulty</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-400">Length</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-400">Best Time</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-400">Features</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-white/10">
                   {tracks.map((track) => (
-                    <tr key={track.id} className="hover:bg-gray-50">
+                    <tr key={track.id} className="hover:bg-white/10 transition-colors">
                       <td className="px-6 py-4">
-                        <div className="font-semibold text-gray-900">{track.name}</div>
+                        <div className="font-semibold text-white">{track.name}</div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getDifficultyColor(track.difficulty)}`}>
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          track.difficulty === 'Expert' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
+                          track.difficulty === 'Intermediate' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
+                          track.difficulty === 'Beginner' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+                          'bg-purple-500/20 text-purple-400 border border-purple-500/30'
+                        }`}>
                           {track.difficulty}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-gray-900">{track.length}</td>
-                      <td className="px-6 py-4 text-gray-900">{track.bestTime}</td>
+                      <td className="px-6 py-4 text-white">{track.length}</td>
+                      <td className="px-6 py-4 text-white">{track.bestTime}</td>
                       <td className="px-6 py-4">
                         <div className="flex flex-wrap gap-1">
                           {track.features.slice(0, 2).map((feature, index) => (
-                            <span key={index} className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">
+                            <span key={index} className="text-xs text-gray-300 bg-white/10 border border-white/20 px-2 py-1 rounded">
                               {feature}
                             </span>
                           ))}
@@ -273,22 +264,22 @@ export default function TracksPage() {
       </div>
 
       {/* Call to Action */}
-      <div className="py-24 bg-gradient-to-r from-red-600 to-red-700">
+      <div className="py-24 bg-gradient-to-r from-fury-orange to-primary-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">Ready to Race?</h2>
-          <p className="text-xl text-red-100 mb-8 max-w-3xl mx-auto">
+          <h2 className="text-2xl sm:text-4xl font-bold text-white mb-6">Ready to Race?</h2>
+          <p className="text-sm sm:text-xl text-white/90 mb-8 max-w-3xl mx-auto">
             Book your slot on any of our professional tracks and experience the thrill of RC car racing
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="/auth/signup"
-              className="bg-white text-red-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+              className="bg-white text-fury-orange px-4 py-2 sm:px-8 sm:py-3 rounded-lg text-xs sm:text-base font-semibold hover:bg-gray-100 transition-colors"
             >
               Join the Club
             </a>
             <a
               href="/auth/signin"
-              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors"
+              className="border-2 border-white text-white px-4 py-2 sm:px-8 sm:py-3 rounded-lg text-xs sm:text-base font-semibold hover:bg-white/10 transition-colors"
             >
               Sign In
             </a>

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Check, X, Clock, User, Trophy } from "lucide-react"
+import Navigation from "@/components/navigation"
 
 interface Point {
   id: string
@@ -97,10 +98,10 @@ export default function AdminPointsPage() {
 
   if (status === "loading" || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-fury-orange"></div>
+          <p className="mt-4 text-gray-300">Loading...</p>
         </div>
       </div>
     )
@@ -115,58 +116,41 @@ export default function AdminPointsPage() {
   const rejectedPoints = points.filter(p => p.status === "REJECTED")
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">Fury Road RC Club - Admin</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link
-                href="/admin"
-                className="text-sm text-gray-500 hover:text-gray-700"
-              >
-                ← Back to Dashboard
-              </Link>
-              <span className="text-sm text-gray-700">Welcome, {session.user.name}</span>
-              <button
-                onClick={() => router.push("/api/auth/signout")}
-                className="text-sm text-gray-500 hover:text-gray-700"
-              >
-                Sign Out
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-black">
+      <Navigation />
 
       <div className="max-w-7xl mx-auto pt-20 py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900">Points Management</h2>
-            <p className="text-gray-600">Review and approve customer points</p>
+            <Link
+              href="/admin"
+              className="inline-flex items-center text-gray-400 hover:text-fury-orange mb-2 transition-colors text-sm"
+            >
+              ← Back to Dashboard
+            </Link>
+            <h2 className="text-lg sm:text-2xl font-bold text-white">Points Management</h2>
+            <p className="text-xs sm:text-sm text-gray-400">Review and approve customer points</p>
           </div>
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded mb-6">
+            <div className="bg-red-500/20 backdrop-blur-sm border border-red-500/40 text-red-400 px-4 py-3 rounded-lg mb-6">
               {error}
             </div>
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden hover:bg-white/20 transition-all">
               <div className="p-5">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <Clock className="h-6 w-6 text-yellow-600" />
+                    <Clock className="h-6 w-6 text-yellow-400" />
                   </div>
                   <div className="ml-5 w-0 flex-1">
                     <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
+                      <dt className="text-sm font-medium text-gray-400 truncate">
                         Pending Points
                       </dt>
-                      <dd className="text-lg font-medium text-gray-900">
+                      <dd className="text-lg font-medium text-white">
                         {pendingPoints.length}
                       </dd>
                     </dl>
@@ -175,18 +159,18 @@ export default function AdminPointsPage() {
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden hover:bg-white/20 transition-all">
               <div className="p-5">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <Check className="h-6 w-6 text-green-600" />
+                    <Check className="h-6 w-6 text-green-400" />
                   </div>
                   <div className="ml-5 w-0 flex-1">
                     <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
+                      <dt className="text-sm font-medium text-gray-400 truncate">
                         Approved Points
                       </dt>
-                      <dd className="text-lg font-medium text-gray-900">
+                      <dd className="text-lg font-medium text-white">
                         {approvedPoints.length}
                       </dd>
                     </dl>
@@ -195,18 +179,18 @@ export default function AdminPointsPage() {
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden hover:bg-white/20 transition-all">
               <div className="p-5">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <X className="h-6 w-6 text-red-600" />
+                    <X className="h-6 w-6 text-red-400" />
                   </div>
                   <div className="ml-5 w-0 flex-1">
                     <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
+                      <dt className="text-sm font-medium text-gray-400 truncate">
                         Rejected Points
                       </dt>
-                      <dd className="text-lg font-medium text-gray-900">
+                      <dd className="text-lg font-medium text-white">
                         {rejectedPoints.length}
                       </dd>
                     </dl>
@@ -216,47 +200,47 @@ export default function AdminPointsPage() {
             </div>
           </div>
 
-          <div className="bg-white shadow rounded-lg">
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
             <div className="px-4 py-5 sm:p-6">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-medium text-gray-900">Points List</h3>
+                <h3 className="text-lg font-medium text-white">Points List</h3>
                 <div className="flex space-x-2">
                   <button
                     onClick={() => setFilter("ALL")}
-                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium rounded-lg transition-colors ${
                       filter === "ALL" 
-                        ? "bg-fury-orange/20 text-fury-orange border border-fury-orange/30" 
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        ? "bg-fury-orange/20 text-fury-orange border border-fury-orange/40" 
+                        : "bg-white/10 text-gray-300 hover:bg-white/20 border border-white/20"
                     }`}
                   >
                     All
                   </button>
                   <button
                     onClick={() => setFilter("PENDING")}
-                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium rounded-lg transition-colors ${
                       filter === "PENDING" 
-                        ? "bg-fury-orange/20 text-fury-orange border border-fury-orange/30" 
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        ? "bg-fury-orange/20 text-fury-orange border border-fury-orange/40" 
+                        : "bg-white/10 text-gray-300 hover:bg-white/20 border border-white/20"
                     }`}
                   >
                     Pending
                   </button>
                   <button
                     onClick={() => setFilter("APPROVED")}
-                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium rounded-lg transition-colors ${
                       filter === "APPROVED" 
-                        ? "bg-fury-orange/20 text-fury-orange border border-fury-orange/30" 
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        ? "bg-fury-orange/20 text-fury-orange border border-fury-orange/40" 
+                        : "bg-white/10 text-gray-300 hover:bg-white/20 border border-white/20"
                     }`}
                   >
                     Approved
                   </button>
                   <button
                     onClick={() => setFilter("REJECTED")}
-                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium rounded-lg transition-colors ${
                       filter === "REJECTED" 
-                        ? "bg-fury-orange/20 text-fury-orange border border-fury-orange/30" 
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        ? "bg-fury-orange/20 text-fury-orange border border-fury-orange/40" 
+                        : "bg-white/10 text-gray-300 hover:bg-white/20 border border-white/20"
                     }`}
                   >
                     Rejected
@@ -265,47 +249,47 @@ export default function AdminPointsPage() {
               </div>
 
               {points.length === 0 ? (
-                <p className="text-gray-500 text-center py-8">No points found</p>
+                <p className="text-gray-400 text-center py-8">No points found</p>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                  <table className="min-w-full divide-y divide-white/10">
+                    <thead className="bg-white/5">
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           User
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Amount
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Reason
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Status
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Date
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Actions
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-white/5 divide-y divide-white/10">
                       {points.map((point) => (
-                        <tr key={point.id}>
+                        <tr key={point.id} className="hover:bg-white/10 transition-colors">
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
                               <div className="flex-shrink-0 h-10 w-10">
-                                <div className="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
-                                  <User className="h-5 w-5 text-indigo-600" />
+                                <div className="h-10 w-10 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
+                                  <User className="h-5 w-5 text-blue-400" />
                                 </div>
                               </div>
                               <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">
+                                <div className="text-sm font-medium text-white">
                                   {point.user.name}
                                 </div>
-                                <div className="text-sm text-gray-500">
+                                <div className="text-sm text-gray-400">
                                   {point.user.email}
                                 </div>
                               </div>
@@ -313,27 +297,27 @@ export default function AdminPointsPage() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
-                              <Trophy className="h-4 w-4 text-yellow-500 mr-1" />
-                              <span className="text-sm font-medium text-gray-900">
+                              <Trophy className="h-4 w-4 text-fury-orange mr-1" />
+                              <span className="text-sm font-medium text-white">
                                 {point.amount}
                               </span>
                             </div>
                           </td>
                           <td className="px-6 py-4">
-                            <div className="text-sm text-gray-900">
+                            <div className="text-sm text-gray-300">
                               {point.reason}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                              point.status === 'APPROVED' ? 'bg-green-100 text-green-800' :
-                              point.status === 'REJECTED' ? 'bg-red-100 text-red-800' :
-                              'bg-yellow-100 text-yellow-800'
+                              point.status === 'APPROVED' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+                              point.status === 'REJECTED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
+                              'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
                             }`}>
                               {point.status}
                             </span>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
                             {new Date(point.createdAt).toLocaleDateString()}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
@@ -341,13 +325,13 @@ export default function AdminPointsPage() {
                               <>
                                 <button
                                   onClick={() => handleApprove(point.id)}
-                                  className="text-green-600 hover:text-green-900"
+                                  className="text-green-400 hover:text-green-300 transition-colors"
                                 >
                                   <Check className="h-4 w-4" />
                                 </button>
                                 <button
                                   onClick={() => handleReject(point.id)}
-                                  className="text-red-600 hover:text-red-900"
+                                  className="text-red-400 hover:text-red-300 transition-colors"
                                 >
                                   <X className="h-4 w-4" />
                                 </button>

@@ -57,8 +57,11 @@ export default function AllocatePointsPage() {
   }, [searchTerm, customers])
 
   if (status === "loading") {
-    return <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600"></div>
+    return <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-fury-orange"></div>
+        <p className="mt-4 text-gray-300">Loading...</p>
+      </div>
     </div>
   }
 
@@ -107,24 +110,24 @@ export default function AllocatePointsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <div className="min-h-screen bg-black">
       <Navigation />
       
       <div className="max-w-6xl mx-auto pt-20 py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 flex items-center">
-              <Gift className="h-8 w-8 text-red-600 mr-3" />
+            <h1 className="text-xl sm:text-3xl font-bold text-white flex items-center">
+              <Gift className="h-6 w-6 sm:h-8 sm:w-8 text-fury-orange mr-2 sm:mr-3" />
               Allocate Points
             </h1>
-            <p className="text-gray-600 mt-2">Award points to customers for achievements, referrals, or special occasions</p>
+            <p className="text-xs sm:text-sm text-gray-400 mt-2">Award points to customers for achievements, referrals, or special occasions</p>
           </div>
 
           {message && (
-            <div className={`mb-6 p-4 rounded-md flex items-center ${
+            <div className={`mb-6 p-4 rounded-lg flex items-center ${
               message.type === 'success' 
-                ? 'bg-green-50 text-green-800 border border-green-200' 
-                : 'bg-red-50 text-red-800 border border-red-200'
+                ? 'bg-green-500/20 text-green-400 border border-green-500/40' 
+                : 'bg-red-500/20 text-red-400 border border-red-500/40'
             }`}>
               {message.type === 'success' ? (
                 <CheckCircle className="h-5 w-5 mr-2" />
@@ -137,10 +140,10 @@ export default function AllocatePointsPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Customer Selection */}
-            <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-xl border border-white/20">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
               <div className="px-4 py-5 sm:p-6">
-                <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
-                  <Users className="h-5 w-5 text-red-600 mr-2" />
+                <h3 className="text-base sm:text-lg font-medium text-white mb-4 flex items-center">
+                  <Users className="h-4 w-4 sm:h-5 sm:w-5 text-fury-orange mr-2" />
                   Select Customer
                 </h3>
 
@@ -152,14 +155,14 @@ export default function AllocatePointsPage() {
                       placeholder="Search customers by name or email..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 bg-white"
+                      className="w-full pl-10 pr-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white placeholder-gray-400 transition-all"
                     />
                   </div>
                 </div>
 
                 <div className="max-h-96 overflow-y-auto">
                   {filteredCustomers.length === 0 ? (
-                    <p className="text-gray-500 text-center py-4">No customers found</p>
+                    <p className="text-gray-400 text-center py-4">No customers found</p>
                   ) : (
                     <div className="space-y-2">
                       {filteredCustomers.map((customer) => (
@@ -168,17 +171,17 @@ export default function AllocatePointsPage() {
                           onClick={() => setSelectedCustomer(customer)}
                           className={`p-3 rounded-lg border cursor-pointer transition-colors ${
                             selectedCustomer?.id === customer.id
-                              ? 'border-red-500 bg-red-50'
-                              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                              ? 'border-fury-orange bg-fury-orange/20'
+                              : 'border-white/20 hover:border-white/30 hover:bg-white/10'
                           }`}
                         >
                           <div className="flex justify-between items-center">
                             <div>
-                              <h4 className="font-medium text-gray-900">{customer.name}</h4>
-                              <p className="text-sm text-gray-500">{customer.email}</p>
+                              <h4 className="font-medium text-white">{customer.name}</h4>
+                              <p className="text-sm text-gray-400">{customer.email}</p>
                             </div>
                             <div className="text-right">
-                              <div className="text-sm font-medium text-red-600">
+                              <div className="text-sm font-medium text-fury-orange">
                                 {customer.points} pts
                               </div>
                             </div>
@@ -192,24 +195,24 @@ export default function AllocatePointsPage() {
             </div>
 
             {/* Points Allocation Form */}
-            <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-xl border border-white/20">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
               <div className="px-4 py-5 sm:p-6">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">
+                <h3 className="text-base sm:text-lg font-medium text-white mb-4">
                   Allocate Points
                 </h3>
 
                 {selectedCustomer ? (
-                  <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
-                    <p className="text-sm text-green-800">
+                  <div className="mb-4 p-3 bg-green-500/20 border border-green-500/40 rounded-lg">
+                    <p className="text-sm text-green-400">
                       <strong>Selected:</strong> {selectedCustomer.name} ({selectedCustomer.email})
                     </p>
-                    <p className="text-sm text-green-600">
+                    <p className="text-sm text-green-300">
                       Current points: {selectedCustomer.points}
                     </p>
                   </div>
                 ) : (
-                  <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                    <p className="text-sm text-yellow-800">
+                  <div className="mb-4 p-3 bg-yellow-500/20 border border-yellow-500/40 rounded-lg">
+                    <p className="text-sm text-yellow-400">
                       Please select a customer from the list to allocate points
                     </p>
                   </div>
@@ -217,7 +220,7 @@ export default function AllocatePointsPage() {
 
                 <form onSubmit={handleAllocatePoints} className="space-y-4">
                   <div>
-                    <label htmlFor="points" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="points" className="block text-sm font-medium text-gray-300 mb-2">
                       Points to Allocate
                     </label>
                     <input
@@ -228,13 +231,13 @@ export default function AllocatePointsPage() {
                       min="1"
                       max="1000"
                       required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 bg-white"
+                      className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white placeholder-gray-400 transition-all"
                       placeholder="Enter points (1-1000)"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="reason" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="reason" className="block text-sm font-medium text-gray-300 mb-2">
                       Reason for Allocation
                     </label>
                     <textarea
@@ -243,7 +246,7 @@ export default function AllocatePointsPage() {
                       onChange={(e) => setReason(e.target.value)}
                       required
                       rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 bg-white"
+                      className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white placeholder-gray-400 transition-all"
                       placeholder="e.g., Referral bonus, Birthday gift, Achievement reward..."
                     />
                   </div>
@@ -251,7 +254,7 @@ export default function AllocatePointsPage() {
                   <button
                     type="submit"
                     disabled={!selectedCustomer || !points || !reason || isLoading}
-                    className="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    className="w-full px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-md hover:from-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-lg hover:shadow-fury-orange/25 text-xs sm:text-sm font-semibold"
                   >
                     {isLoading ? (
                       <>

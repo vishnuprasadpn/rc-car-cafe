@@ -21,8 +21,11 @@ export default function RegisterCustomerPage() {
   })
 
   if (status === "loading") {
-    return <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600"></div>
+    return <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-fury-orange"></div>
+        <p className="mt-4 text-gray-300">Loading...</p>
+      </div>
     </div>
   }
 
@@ -71,26 +74,26 @@ export default function RegisterCustomerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <div className="min-h-screen bg-black">
       <Navigation />
       
       <div className="max-w-3xl mx-auto pt-20 py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 flex items-center">
-              <UserPlus className="h-8 w-8 text-red-600 mr-3" />
+            <h1 className="text-xl sm:text-3xl font-bold text-white flex items-center">
+              <UserPlus className="h-6 w-6 sm:h-8 sm:w-8 text-fury-orange mr-2 sm:mr-3" />
               Register New Customer
             </h1>
-            <p className="text-gray-600 mt-2">Add a new customer to the Fury Road RC Club</p>
+            <p className="text-xs sm:text-sm text-gray-400 mt-2">Add a new customer to the Fury Road RC Club</p>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-xl border border-white/20">
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
             <div className="px-4 py-5 sm:p-6">
               {message && (
-                <div className={`mb-6 p-4 rounded-md flex items-center ${
+                <div className={`mb-6 p-4 rounded-lg flex items-center ${
                   message.type === 'success' 
-                    ? 'bg-green-50 text-green-800 border border-green-200' 
-                    : 'bg-red-50 text-red-800 border border-red-200'
+                    ? 'bg-green-500/20 text-green-400 border border-green-500/40' 
+                    : 'bg-red-500/20 text-red-400 border border-red-500/40'
                 }`}>
                   {message.type === 'success' ? (
                     <CheckCircle className="h-5 w-5 mr-2" />
@@ -104,7 +107,7 @@ export default function RegisterCustomerPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                       <User className="h-4 w-4 inline mr-1" />
                       Full Name
                     </label>
@@ -115,13 +118,13 @@ export default function RegisterCustomerPage() {
                       required
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 bg-white"
+                      className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white placeholder-gray-400 transition-all"
                       placeholder="Enter customer's full name"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
                       <Mail className="h-4 w-4 inline mr-1" />
                       Email Address
                     </label>
@@ -132,13 +135,13 @@ export default function RegisterCustomerPage() {
                       required
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 bg-white"
+                      className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white placeholder-gray-400 transition-all"
                       placeholder="customer@example.com"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
                       <Phone className="h-4 w-4 inline mr-1" />
                       Phone Number <span className="text-gray-500 text-sm">(Optional)</span>
                     </label>
@@ -148,13 +151,13 @@ export default function RegisterCustomerPage() {
                       id="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 bg-white"
+                      className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white placeholder-gray-400 transition-all"
                       placeholder="+91 98765 43210 (Optional)"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
                       Password
                     </label>
                     <input
@@ -164,7 +167,7 @@ export default function RegisterCustomerPage() {
                       required
                       value={formData.password}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 bg-white"
+                      className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white placeholder-gray-400 transition-all"
                       placeholder="Set initial password"
                     />
                   </div>
@@ -174,14 +177,14 @@ export default function RegisterCustomerPage() {
                   <button
                     type="button"
                     onClick={() => router.back()}
-                    className="px-5 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:ring-offset-2 transition-colors"
+                    className="px-5 py-2.5 border border-white/20 rounded-lg text-sm font-medium text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:ring-offset-2 focus:ring-offset-black transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="px-5 py-2.5 bg-fury-orange text-white rounded-lg text-sm font-semibold hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center transition-colors"
+                    className="px-4 py-2 sm:px-5 sm:py-2.5 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg text-xs sm:text-sm font-semibold hover:from-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed flex items-center transition-all shadow-lg hover:shadow-fury-orange/25"
                   >
                     {isLoading ? (
                       <>

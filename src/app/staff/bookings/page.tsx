@@ -74,8 +74,11 @@ export default function StaffBookingsPage() {
   }, [bookings, searchTerm, statusFilter])
 
   if (status === "loading") {
-    return <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600"></div>
+    return <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-fury-orange"></div>
+        <p className="mt-4 text-gray-300">Loading...</p>
+      </div>
     </div>
   }
 
@@ -87,26 +90,13 @@ export default function StaffBookingsPage() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "CONFIRMED":
-        return <CheckCircle className="h-4 w-4 text-green-500" />
+        return <CheckCircle className="h-4 w-4 text-green-400" />
       case "CANCELLED":
-        return <XCircle className="h-4 w-4 text-red-500" />
+        return <XCircle className="h-4 w-4 text-red-400" />
       case "PENDING":
-        return <AlertCircle className="h-4 w-4 text-yellow-500" />
+        return <AlertCircle className="h-4 w-4 text-yellow-400" />
       default:
-        return <Clock className="h-4 w-4 text-gray-500" />
-    }
-  }
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "CONFIRMED":
-        return "bg-green-100 text-green-800"
-      case "CANCELLED":
-        return "bg-red-100 text-red-800"
-      case "PENDING":
-        return "bg-yellow-100 text-yellow-800"
-      default:
-        return "bg-gray-100 text-gray-800"
+        return <Clock className="h-4 w-4 text-gray-400" />
     }
   }
 
@@ -123,35 +113,38 @@ export default function StaffBookingsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-black">
         <Navigation />
         <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600"></div>
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-fury-orange"></div>
+            <p className="mt-4 text-gray-300">Loading...</p>
+          </div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <div className="min-h-screen bg-black">
       <Navigation />
       
       <div className="max-w-7xl mx-auto pt-20 py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 flex items-center">
-              <Calendar className="h-8 w-8 text-red-600 mr-3" />
+            <h1 className="text-xl sm:text-3xl font-bold text-white flex items-center">
+              <Calendar className="h-8 w-8 text-fury-orange mr-3" />
               Manage Bookings
             </h1>
-            <p className="text-gray-600 mt-2">View and manage all customer bookings</p>
+            <p className="text-gray-400 mt-2">View and manage all customer bookings</p>
           </div>
 
           {/* Filters */}
-          <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-xl border border-white/20 mb-6">
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl mb-6">
             <div className="px-4 py-5 sm:p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="search" className="block text-sm font-medium text-gray-300 mb-2">
                     Search Bookings
                   </label>
                   <div className="relative">
@@ -162,13 +155,13 @@ export default function StaffBookingsPage() {
                       placeholder="Search by customer name, email, or game..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 bg-white"
+                      className="w-full pl-10 pr-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white placeholder-gray-400 transition-all"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="status" className="block text-sm font-medium text-gray-300 mb-2">
                     Filter by Status
                   </label>
                   <div className="relative">
@@ -177,12 +170,12 @@ export default function StaffBookingsPage() {
                       id="status"
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
-                      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900 bg-white"
+                      className="w-full pl-10 pr-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white transition-all"
                     >
-                      <option value="ALL">All Statuses</option>
-                      <option value="PENDING">Pending</option>
-                      <option value="CONFIRMED">Confirmed</option>
-                      <option value="CANCELLED">Cancelled</option>
+                      <option value="ALL" className="bg-gray-900">All Statuses</option>
+                      <option value="PENDING" className="bg-gray-900">Pending</option>
+                      <option value="CONFIRMED" className="bg-gray-900">Confirmed</option>
+                      <option value="CANCELLED" className="bg-gray-900">Cancelled</option>
                     </select>
                   </div>
                 </div>
@@ -191,16 +184,16 @@ export default function StaffBookingsPage() {
           </div>
 
           {/* Bookings Table */}
-          <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-xl border border-white/20 overflow-hidden">
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden">
             <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">
+              <h3 className="text-base sm:text-lg font-medium text-white mb-4">
                 Bookings ({filteredBookings.length})
               </h3>
 
               {filteredBookings.length === 0 ? (
                 <div className="text-center py-8">
                   <Calendar className="mx-auto h-12 w-12 text-gray-400" />
-                  <h3 className="mt-2 text-sm font-medium text-gray-900">No bookings found</h3>
+                  <h3 className="mt-2 text-sm font-medium text-gray-300">No bookings found</h3>
                   <p className="mt-1 text-sm text-gray-500">
                     {searchTerm || statusFilter !== "ALL" 
                       ? "Try adjusting your search or filter criteria"
@@ -210,68 +203,72 @@ export default function StaffBookingsPage() {
                 </div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                  <table className="min-w-full divide-y divide-white/10">
+                    <thead className="bg-white/5">
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Customer
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Game
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Date & Time
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Players
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Amount
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Status
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Actions
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-white/5 divide-y divide-white/10">
                       {filteredBookings.map((booking) => (
-                        <tr key={booking.id} className="hover:bg-gray-50">
+                        <tr key={booking.id} className="hover:bg-white/10 transition-colors">
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div>
-                              <div className="text-sm font-medium text-gray-900">{booking.user.name}</div>
-                              <div className="text-sm text-gray-500">{booking.user.email}</div>
+                              <div className="text-sm font-medium text-white">{booking.user.name}</div>
+                              <div className="text-sm text-gray-400">{booking.user.email}</div>
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">{booking.game.name}</div>
-                            <div className="text-sm text-gray-500">{booking.game.duration} minutes</div>
+                            <div className="text-sm text-white">{booking.game.name}</div>
+                            <div className="text-sm text-gray-400">{booking.game.duration} minutes</div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">{formatDateTime(booking.startTime)}</div>
-                            <div className="text-sm text-gray-500">
+                            <div className="text-sm text-white">{formatDateTime(booking.startTime)}</div>
+                            <div className="text-sm text-gray-400">
                               Ends: {formatDateTime(booking.endTime)}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center text-sm text-gray-900">
+                            <div className="flex items-center text-sm text-white">
                               <Users className="h-4 w-4 mr-1" />
                               {booking.players}
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
                             ₹{booking.totalAmount}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(booking.status)}`}>
+                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                              booking.status === 'CONFIRMED' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+                              booking.status === 'PENDING' ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' :
+                              'bg-red-500/20 text-red-400 border border-red-500/30'
+                            }`}>
                               {getStatusIcon(booking.status)}
                               <span className="ml-1">{booking.status}</span>
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button className="text-red-600 hover:text-red-900 flex items-center">
+                            <button className="text-blue-400 hover:text-blue-300 flex items-center transition-colors">
                               <Eye className="h-4 w-4 mr-1" />
                               View
                             </button>
