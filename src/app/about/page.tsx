@@ -242,7 +242,7 @@ export default function AboutPage() {
               </div>
               <div className="flex items-center text-white">
                 <Phone className="h-5 w-5 text-fury-orange mr-2" />
-                <span>+91 98765 43210</span>
+                <span>+91 99455 76007</span>
               </div>
               <div className="flex items-center text-white">
                 <Mail className="h-5 w-5 text-fury-orange mr-2" />
