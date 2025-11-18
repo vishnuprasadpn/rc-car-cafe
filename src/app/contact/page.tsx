@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import Navigation from "@/components/navigation"
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle, AlertCircle } from "lucide-react"
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle, AlertCircle, Navigation as NavigationIcon, MessageCircle } from "lucide-react"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -45,13 +45,13 @@ export default function ContactPage() {
     {
       icon: MapPin,
       title: "Location",
-      details: ["Fury Road RC Club", "123 Race Track Road", "Bangalore, Karnataka 560001"],
+      details: ["Fury Road RC Club", "Bangalore, Karnataka", "India"],
       color: "text-red-600"
     },
     {
       icon: Phone,
       title: "Phone",
-      details: ["+91 98765 43210", "+91 98765 43211"],
+      details: ["+91 99455 76007"],
       color: "text-blue-600"
     },
     {
@@ -137,9 +137,36 @@ export default function ContactPage() {
                 </div>
                 <h3 className="font-heading text-xl text-white mb-4 uppercase">{info.title}</h3>
                 <div className="space-y-2">
-                  {info.details.map((detail, idx) => (
-                    <p key={idx} className="text-gray-300">{detail}</p>
-                  ))}
+                  {info.details.map((detail, idx) => {
+                    // Make phone numbers clickable
+                    if (info.title === "Phone" && detail.includes("+91")) {
+                      const phoneNumber = detail.replace(/\s/g, "");
+                      return (
+                        <a
+                          key={idx}
+                          href={`tel:${phoneNumber}`}
+                          className="text-gray-300 hover:text-fury-orange transition-colors block"
+                        >
+                          {detail}
+                        </a>
+                      );
+                    }
+                    // Make email addresses clickable
+                    if (info.title === "Email" && detail.includes("@")) {
+                      return (
+                        <a
+                          key={idx}
+                          href={`mailto:${detail}`}
+                          className="text-gray-300 hover:text-fury-orange transition-colors block"
+                        >
+                          {detail}
+                        </a>
+                      );
+                    }
+                    return (
+                      <p key={idx} className="text-gray-300">{detail}</p>
+                    );
+                  })}
                 </div>
               </div>
             ))}
@@ -279,16 +306,34 @@ export default function ContactPage() {
 
             {/* Map and Additional Info */}
             <div className="space-y-8">
-              {/* Map Placeholder */}
+              {/* Map Section */}
               <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8">
                 <h3 className="font-heading text-lg sm:text-2xl text-white mb-6 uppercase">Find Us</h3>
-                <div className="bg-white/5 border border-white/10 rounded-lg h-64 flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-300">Interactive Map</p>
-                    <p className="text-sm text-gray-500">123 Race Track Road, Bangalore</p>
-                  </div>
+                
+                {/* Google Maps Embed */}
+                <div className="bg-white/5 border border-white/10 rounded-lg overflow-hidden h-64 mb-4">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.585379867702!2d77.6165!3d12.8700349!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae6bc3383b02c3%3A0x8b95846cb45a30f0!2sFury%20Road%20RC%20Club!5e0!3m2!1sen!2sin!4v1763490290268!5m2!1sen!2sin"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="w-full h-full"
+                  ></iframe>
                 </div>
+
+                {/* Get Directions Button */}
+                <a
+                  href="https://share.google/r7JLjHvzbJmLpKoIZ"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-gradient-to-r from-fury-orange to-primary-600 text-white px-6 py-3 rounded-md font-semibold hover:from-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:ring-offset-2 focus:ring-offset-black flex items-center justify-center transition-all shadow-lg hover:shadow-fury-orange/25"
+                >
+                  <NavigationIcon className="h-5 w-5 mr-2" />
+                  Get Directions
+                </a>
               </div>
 
               {/* Quick Contact */}
@@ -299,14 +344,18 @@ export default function ContactPage() {
                     <Phone className="h-5 w-5 text-fury-orange mr-3" />
                     <div>
                       <div className="font-semibold text-white">Call Us</div>
-                      <div className="text-gray-300">+91 98765 43210</div>
+                      <a href="tel:+919945576007" className="text-gray-300 hover:text-fury-orange transition-colors">
+                        +91 99455 76007
+                      </a>
                     </div>
                   </div>
                   <div className="flex items-center">
                     <Mail className="h-5 w-5 text-fury-orange mr-3" />
                     <div>
                       <div className="font-semibold text-white">Email Us</div>
-                      <div className="text-gray-300">info@furyroadrc.com</div>
+                      <a href="mailto:info@furyroadrc.com" className="text-gray-300 hover:text-fury-orange transition-colors">
+                        info@furyroadrc.com
+                      </a>
                     </div>
                   </div>
                   <div className="flex items-center">
@@ -317,6 +366,17 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </div>
+                
+                {/* WhatsApp Chat Button */}
+                <a
+                  href="https://wa.me/919945576007"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 w-full bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-md font-semibold hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-black flex items-center justify-center transition-all shadow-lg hover:shadow-green-500/25"
+                >
+                  <MessageCircle className="h-5 w-5 mr-2" />
+                  Chat on WhatsApp
+                </a>
               </div>
             </div>
           </div>

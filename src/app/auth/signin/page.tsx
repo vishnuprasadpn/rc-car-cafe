@@ -62,9 +62,9 @@ export default function SignInPage() {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="min-h-screen">
       <Navigation />
-      <div className="flex flex-1 pt-20">
+      <div className="flex min-h-screen">
         {/* Left Section - Form */}
         <div className="flex-1 flex items-center justify-center py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-y-auto">
           <div className="w-full max-w-md space-y-6">

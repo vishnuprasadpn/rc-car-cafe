@@ -88,16 +88,13 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen overflow-hidden">
+    <div className="min-h-screen">
       <Navigation />
-      <div className="flex min-h-[calc(100vh-80px)] pt-20">
+      <div className="flex min-h-screen">
         {/* Left Section - Form */}
-        <div className="flex-1 flex items-center justify-center py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-y-auto">
+        <div className="flex-1 flex items-center justify-center py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-y-auto pt-28">
           <div className="w-full max-w-md space-y-6">
             <div className="text-center space-y-3">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-fury-orange/20 to-primary-600/20 rounded-2xl mb-2 border border-fury-orange/30 backdrop-blur-sm shadow-lg">
-                <UserPlus className="h-8 w-8 text-fury-orange" />
-              </div>
               <h2 className="font-heading text-2xl sm:text-4xl text-white mb-2 uppercase">
                 Join <span className="bg-gradient-to-r from-fury-orange via-fury-orange to-primary-600 bg-clip-text text-transparent">Fury Road</span>
               </h2>
@@ -115,125 +112,130 @@ export default function SignUpPage() {
               )}
 
               <div className="space-y-4">
-                <div className="space-y-2">
-                  <label htmlFor="name" className="flex items-center text-sm font-semibold text-gray-300">
-                    <UserPlus className="h-4 w-4 mr-2 text-fury-orange" />
-                    Full Name
-                  </label>
-                  <input
-                    {...register("name")}
-                    type="text"
-                    autoComplete="name"
-                    className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
-                    placeholder="Enter your full name"
-                  />
-                  {errors.name && (
-                    <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
-                      <span className="w-1 h-1 bg-red-400 rounded-full"></span>
-                      {errors.name.message}
-                    </p>
-                  )}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label htmlFor="name" className="flex items-center text-sm font-semibold text-gray-300">
+                      <UserPlus className="h-4 w-4 mr-2 text-fury-orange" />
+                      Full Name
+                    </label>
+                    <input
+                      {...register("name")}
+                      type="text"
+                      autoComplete="name"
+                      className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
+                      placeholder="Enter your full name"
+                    />
+                    {errors.name && (
+                      <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                        <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                        {errors.name.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="email" className="flex items-center text-sm font-semibold text-gray-300">
+                      <Mail className="h-4 w-4 mr-2 text-fury-orange" />
+                      Email address
+                    </label>
+                    <input
+                      {...register("email")}
+                      type="email"
+                      autoComplete="email"
+                      className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
+                      placeholder="Enter your email"
+                    />
+                    {errors.email && (
+                      <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                        <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                        {errors.email.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
 
-                <div className="space-y-2">
-                  <label htmlFor="email" className="flex items-center text-sm font-semibold text-gray-300">
-                    <Mail className="h-4 w-4 mr-2 text-fury-orange" />
-                    Email address
-                  </label>
-                  <input
-                    {...register("email")}
-                    type="email"
-                    autoComplete="email"
-                    className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
-                    placeholder="Enter your email"
-                  />
-                  {errors.email && (
-                    <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
-                      <span className="w-1 h-1 bg-red-400 rounded-full"></span>
-                      {errors.email.message}
-                    </p>
-                  )}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label htmlFor="phone" className="flex items-center text-sm font-semibold text-gray-300">
+                      <Phone className="h-4 w-4 mr-2 text-fury-orange" />
+                      Phone Number <span className="text-gray-500 text-xs ml-1 font-normal">(Optional)</span>
+                    </label>
+                    <input
+                      {...register("phone")}
+                      type="tel"
+                      autoComplete="tel"
+                      className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
+                      placeholder="Enter your phone number"
+                    />
+                    {errors.phone && (
+                      <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                        <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                        {errors.phone.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="password" className="flex items-center text-sm font-semibold text-gray-300">
+                      <Lock className="h-4 w-4 mr-2 text-fury-orange" />
+                      Password
+                    </label>
+                    <input
+                      {...register("password")}
+                      type="password"
+                      autoComplete="new-password"
+                      className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
+                      placeholder="Enter your password"
+                    />
+                    {errors.password && (
+                      <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                        <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                        {errors.password.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
 
-                <div className="space-y-2">
-                  <label htmlFor="phone" className="flex items-center text-sm font-semibold text-gray-300">
-                    <Phone className="h-4 w-4 mr-2 text-fury-orange" />
-                    Phone Number <span className="text-gray-500 text-xs ml-1 font-normal">(Optional)</span>
-                  </label>
-                  <input
-                    {...register("phone")}
-                    type="tel"
-                    autoComplete="tel"
-                    className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
-                    placeholder="Enter your phone number"
-                  />
-                  {errors.phone && (
-                    <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
-                      <span className="w-1 h-1 bg-red-400 rounded-full"></span>
-                      {errors.phone.message}
-                    </p>
-                  )}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label htmlFor="confirmPassword" className="flex items-center text-sm font-semibold text-gray-300">
+                      <Lock className="h-4 w-4 mr-2 text-fury-orange" />
+                      Confirm Password
+                    </label>
+                    <input
+                      {...register("confirmPassword")}
+                      type="password"
+                      autoComplete="new-password"
+                      className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
+                      placeholder="Confirm your password"
+                    />
+                    {errors.confirmPassword && (
+                      <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                        <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                        {errors.confirmPassword.message}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex items-end">
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full px-6 py-3.5 text-sm font-bold rounded-xl text-white bg-gradient-to-r from-fury-orange via-fury-orange to-primary-600 hover:from-primary-600 hover:via-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fury-orange disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-fury-orange/30 flex items-center justify-center gap-2 transform hover:scale-[1.02] active:scale-[0.98]"
+                    >
+                      {isLoading ? (
+                        <span className="flex items-center gap-2">
+                          <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                          Creating account...
+                        </span>
+                      ) : (
+                        <>
+                          <Zap className="h-4 w-4" />
+                          Create account
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="password" className="flex items-center text-sm font-semibold text-gray-300">
-                    <Lock className="h-4 w-4 mr-2 text-fury-orange" />
-                    Password
-                  </label>
-                  <input
-                    {...register("password")}
-                    type="password"
-                    autoComplete="new-password"
-                    className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
-                    placeholder="Enter your password"
-                  />
-                  {errors.password && (
-                    <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
-                      <span className="w-1 h-1 bg-red-400 rounded-full"></span>
-                      {errors.password.message}
-                    </p>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="confirmPassword" className="flex items-center text-sm font-semibold text-gray-300">
-                    <Lock className="h-4 w-4 mr-2 text-fury-orange" />
-                    Confirm Password
-                  </label>
-                  <input
-                    {...register("confirmPassword")}
-                    type="password"
-                    autoComplete="new-password"
-                    className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
-                    placeholder="Confirm your password"
-                  />
-                  {errors.confirmPassword && (
-                    <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
-                      <span className="w-1 h-1 bg-red-400 rounded-full"></span>
-                      {errors.confirmPassword.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div className="pt-2">
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full px-6 py-3.5 text-sm font-bold rounded-xl text-white bg-gradient-to-r from-fury-orange via-fury-orange to-primary-600 hover:from-primary-600 hover:via-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fury-orange disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-fury-orange/30 flex items-center justify-center gap-2 transform hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  {isLoading ? (
-                    <span className="flex items-center gap-2">
-                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                      Creating account...
-                    </span>
-                  ) : (
-                    <>
-                      <Zap className="h-4 w-4" />
-                      Create account
-                    </>
-                  )}
-                </button>
               </div>
 
               <div className="text-center pt-2">
