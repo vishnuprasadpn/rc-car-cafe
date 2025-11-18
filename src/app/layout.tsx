@@ -20,6 +20,10 @@ const bebasNeue = Bebas_Neue({
 export const metadata: Metadata = {
   title: "Fury Road RC Club - Indoor Racing Experience",
   description: "Book your slot for an exciting indoor RC car racing experience in Bangalore",
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/favicon.ico',
+  },
 }
 
 export default function RootLayout({
