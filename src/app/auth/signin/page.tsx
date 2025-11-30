@@ -1,15 +1,15 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { signIn, getSession } from "next-auth/react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import Navigation from "@/components/navigation"
-import { Zap, Mail, Lock, Trophy, Clock, Users } from "lucide-react"
+import { Zap, Mail, Lock, Trophy, Clock, Users, CheckCircle } from "lucide-react"
 
 const signInSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -18,10 +18,20 @@ const signInSchema = z.object({
 
 type SignInForm = z.infer<typeof signInSchema>
 
-export default function SignInPage() {
+function SignInPageContent() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
+  const [resetSuccess, setResetSuccess] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    if (searchParams.get("reset") === "success") {
+      setResetSuccess(true)
+      // Clear the query parameter
+      router.replace("/auth/signin", { scroll: false })
+    }
+  }, [searchParams, router])
 
   const {
     register,
@@ -81,6 +91,12 @@ export default function SignInPage() {
             </div>
 
             <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+              {resetSuccess && (
+                <div className="bg-green-500/20 backdrop-blur-sm border border-green-500/40 text-green-400 px-4 py-3 rounded-xl text-sm flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4" />
+                  Password reset successfully! You can now sign in with your new password.
+                </div>
+              )}
               {error && (
                 <div className="bg-red-500/20 backdrop-blur-sm border border-red-500/40 text-red-400 px-4 py-3 rounded-xl text-sm flex items-center gap-2 animate-pulse">
                   <div className="w-1 h-4 bg-red-500 rounded-full"></div>
@@ -110,10 +126,18 @@ export default function SignInPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="password" className="flex items-center text-sm font-semibold text-gray-300">
-                    <Lock className="h-4 w-4 mr-2 text-fury-orange" />
-                    Password
-                  </label>
+                  <div className="flex items-center justify-between">
+                    <label htmlFor="password" className="flex items-center text-sm font-semibold text-gray-300">
+                      <Lock className="h-4 w-4 mr-2 text-fury-orange" />
+                      Password
+                    </label>
+                    <Link
+                      href="/auth/forgot-password"
+                      className="text-xs text-fury-orange hover:text-primary-500 transition-colors font-medium"
+                    >
+                      Forgot password?
+                    </Link>
+                  </div>
                   <input
                     {...register("password")}
                     type="password"
@@ -213,5 +237,20 @@ export default function SignInPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-fury-orange"></div>
+          <p className="mt-4 text-gray-300">Loading...</p>
+        </div>
+      </div>
+    }>
+      <SignInPageContent />
+    </Suspense>
   )
 }

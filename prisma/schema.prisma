@@ -95,6 +95,17 @@ model VerificationToken {
   @@map("verificationtokens")
 }
 
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  code      String   // 6-digit code
+  expires   DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("password_reset_tokens")
+}
+
 model Game {
   id          String   @id @default(cuid())
   name        String
