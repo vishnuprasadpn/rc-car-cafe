@@ -11,21 +11,21 @@ export default function GroupFunPage() {
       title: "Friends & Family",
       description: "Perfect for groups of 2-4 friends or family members. Race together, compete, and create lasting memories.",
       icon: Users,
-      maxPlayers: "Up to 4 players",
+      groupSize: "Up to 4 players",
       idealFor: "Birthday parties, weekend fun, family bonding"
     },
     {
       title: "Corporate Events",
       description: "Team building activities that bring your team closer. Great for company outings, team building, and corporate events.",
       icon: UserPlus,
-      maxPlayers: "Multiple groups",
+      groupSize: "Multiple groups",
       idealFor: "Team building, corporate outings, company events"
     },
     {
       title: "Special Occasions",
       description: "Celebrate special moments with an exciting racing experience. Perfect for birthdays, anniversaries, or any celebration.",
       icon: PartyPopper,
-      maxPlayers: "Custom groups",
+      groupSize: "Custom groups",
       idealFor: "Birthdays, anniversaries, celebrations"
     }
   ]
@@ -144,7 +144,7 @@ export default function GroupFunPage() {
                   <div className="space-y-3">
                     <div className="flex items-center text-green-400 text-sm">
                       <Users className="h-4 w-4 mr-2" />
-                      <span>{option.maxPlayers}</span>
+                      <span>{option.groupSize}</span>
                     </div>
                     <div className="flex items-center text-gray-400 text-sm">
                       <Smile className="h-4 w-4 mr-2" />

@@ -70,9 +70,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate players count
-    if (players < 1 || players > game.maxPlayers) {
+    if (players < 1) {
       return NextResponse.json(
-        { message: `Number of players must be between 1 and ${game.maxPlayers}` },
+        { message: "Number of players must be at least 1" },
         { status: 400 }
       )
     }

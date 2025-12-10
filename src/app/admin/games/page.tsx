@@ -15,7 +15,6 @@ const gameSchema = z.object({
   description: z.string().optional(),
   duration: z.number().min(1, "Duration must be at least 1 minute"),
   price: z.number().min(0, "Price must be non-negative"),
-  maxPlayers: z.number().min(1).max(4, "Max players must be between 1 and 4"),
 })
 
 type GameForm = z.infer<typeof gameSchema>
@@ -26,7 +25,6 @@ interface Game {
   description: string | null
   duration: number
   price: number
-  maxPlayers: number
   isActive: boolean
   createdAt: string
   updatedAt: string
@@ -114,7 +112,6 @@ export default function AdminGamesPage() {
       description: game.description || "",
       duration: game.duration,
       price: game.price,
-      maxPlayers: game.maxPlayers,
     })
     setShowForm(true)
   }
@@ -265,23 +262,6 @@ export default function AdminGamesPage() {
                       )}
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">
-                        Max Players
-                      </label>
-                      <select
-                        {...register("maxPlayers", { valueAsNumber: true })}
-                        className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent transition-all"
-                      >
-                        <option value={1} className="bg-gray-900">1 Player</option>
-                        <option value={2} className="bg-gray-900">2 Players</option>
-                        <option value={3} className="bg-gray-900">3 Players</option>
-                        <option value={4} className="bg-gray-900">4 Players</option>
-                      </select>
-                      {errors.maxPlayers && (
-                        <p className="mt-1 text-sm text-red-400">{errors.maxPlayers.message}</p>
-                      )}
-                    </div>
                   </div>
 
                   <div>
@@ -344,9 +324,6 @@ export default function AdminGamesPage() {
                           Price
                         </th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                          Max Players
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                           Status
                         </th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
@@ -374,9 +351,6 @@ export default function AdminGamesPage() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                             ₹{game.price}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                            {game.maxPlayers}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${

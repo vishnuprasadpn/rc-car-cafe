@@ -10,7 +10,6 @@ const createGameSchema = z.object({
   description: z.string().optional(),
   duration: z.number().min(1, "Duration must be at least 1 minute"),
   price: z.number().min(0, "Price must be non-negative"),
-  maxPlayers: z.number().min(1).max(4, "Max players must be between 1 and 4"),
 })
 
 export async function GET(_request: NextRequest) {
@@ -48,15 +47,14 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { name, description, duration, price, maxPlayers } = createGameSchema.parse(body)
+    const { name, description, duration, price } = createGameSchema.parse(body)
 
     const game = await prisma.game.create({
       data: {
         name,
         description,
         duration,
-        price,
-        maxPlayers
+        price
       }
     })
 

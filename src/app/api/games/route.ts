@@ -24,15 +24,14 @@ export async function GET(_request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, description, duration, price, maxPlayers } = await request.json()
+    const { name, description, duration, price } = await request.json()
 
     const game = await prisma.game.create({
       data: {
         name,
         description,
         duration: parseInt(duration),
-        price: parseFloat(price),
-        maxPlayers: parseInt(maxPlayers)
+        price: parseFloat(price)
       }
     })
 

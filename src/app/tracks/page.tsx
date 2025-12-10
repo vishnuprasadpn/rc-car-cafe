@@ -11,7 +11,6 @@ export default function TracksPage() {
       difficulty: "All Levels",
       length: "2.5km",
       duration: "15/30/60 minutes",
-      maxPlayers: 4,
       bestTime: "1:23.45",
       description: "High-speed asphalt track with Toy Grade and Hobby Grade RC cars. Choose from 15 mins (₹149/₹249), 30 mins (₹249/₹399), or 1 hour (₹449/₹699) sessions.",
       features: ["Toy Grade & Hobby Grade options", "Multiple duration options", "High-speed sections", "Professional timing"],
@@ -26,7 +25,6 @@ export default function TracksPage() {
       difficulty: "Intermediate",
       length: "1.8km",
       duration: "15/30/60 minutes",
-      maxPlayers: 4,
       bestTime: "2:15.30",
       description: "Off-road mud track with Land Cruiser RC vehicles. Experience challenging terrain with water hazards. Pricing: 15 mins (₹249), 30 mins (₹399), 1 hr (₹699).",
       features: ["Land Cruiser vehicles", "Water hazards", "Mud sections", "Off-road terrain"],
@@ -41,7 +39,6 @@ export default function TracksPage() {
       difficulty: "Beginner",
       length: "1.2km",
       duration: "15/30/60 minutes",
-      maxPlayers: 4,
       bestTime: "3:45.12",
       description: "Technical rock crawling course with Defender and Land Rover RC vehicles. Perfect for precision control. Pricing: 15 mins (₹249), 30 mins (₹399), 1 hr (₹699).",
       features: ["Defender & Land Rover", "Rock obstacles", "Steep inclines", "Precision control"],
@@ -56,7 +53,6 @@ export default function TracksPage() {
       difficulty: "Advanced",
       length: "3.2km",
       duration: "15/30/60 minutes",
-      maxPlayers: 4,
       bestTime: "4:12.88",
       description: "Sand track with RC Trucks, JCB, and Bulldozer vehicles. Heavy machinery racing on sand terrain. Truck: 15 mins (₹149), 30 mins (₹249), 1 hr (₹449). JCB/Bulldozer: 15 mins (₹249), 30 mins (₹399), 1 hr (₹699).",
       features: ["Trucks, JCB & Bulldozer", "Sand dunes", "Heavy machinery", "Advanced terrain"],
@@ -154,13 +150,6 @@ export default function TracksPage() {
                       <div>
                         <div className="text-sm text-gray-400">Duration</div>
                         <div className="font-semibold text-white">{track.duration}</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <Users className="h-5 w-5 text-gray-400 mr-2" />
-                      <div>
-                        <div className="text-sm text-gray-400">Max Players</div>
-                        <div className="font-semibold text-white">{track.maxPlayers}</div>
                       </div>
                     </div>
                     <div className="flex items-center">

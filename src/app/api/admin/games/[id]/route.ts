@@ -10,7 +10,6 @@ const updateGameSchema = z.object({
   description: z.string().optional(),
   duration: z.number().min(1, "Duration must be at least 1 minute").optional(),
   price: z.number().min(0, "Price must be non-negative").optional(),
-  maxPlayers: z.number().min(1).max(4, "Max players must be between 1 and 4").optional(),
   isActive: z.boolean().optional(),
 })
 

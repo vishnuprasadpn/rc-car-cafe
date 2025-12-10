@@ -62,7 +62,6 @@ async function main() {
       description: 'Fast track with toy grade RC cars. Perfect for beginners and quick sessions.',
       duration: 15,
       price: 149,
-      maxPlayers: 4,
       isActive: true
     },
     {
@@ -70,7 +69,6 @@ async function main() {
       description: 'Fast track with toy grade RC cars. Extended session for more racing fun.',
       duration: 30,
       price: 249,
-      maxPlayers: 4,
       isActive: true
     },
     {
@@ -78,7 +76,6 @@ async function main() {
       description: 'Fast track with toy grade RC cars. Full hour of racing excitement.',
       duration: 60,
       price: 449,
-      maxPlayers: 4,
       isActive: true
     },
     // Fast Track - Hobby Grade
@@ -87,7 +84,6 @@ async function main() {
       description: 'Fast track with hobby grade RC cars. Professional quality racing experience.',
       duration: 15,
       price: 249,
-      maxPlayers: 4,
       isActive: true
     },
     {
@@ -95,7 +91,6 @@ async function main() {
       description: 'Fast track with hobby grade RC cars. Extended professional racing session.',
       duration: 30,
       price: 399,
-      maxPlayers: 4,
       isActive: true
     },
     {
@@ -103,7 +98,6 @@ async function main() {
       description: 'Fast track with hobby grade RC cars. Full hour of professional racing.',
       duration: 60,
       price: 699,
-      maxPlayers: 4,
       isActive: true
     },
     // Sand Track - Truck
@@ -112,7 +106,6 @@ async function main() {
       description: 'Sand track with RC trucks. Experience off-road racing on sand terrain.',
       duration: 15,
       price: 149,
-      maxPlayers: 4,
       isActive: true
     },
     {
@@ -120,7 +113,6 @@ async function main() {
       description: 'Sand track with RC trucks. Extended off-road racing session.',
       duration: 30,
       price: 249,
-      maxPlayers: 4,
       isActive: true
     },
     {
@@ -128,7 +120,6 @@ async function main() {
       description: 'Sand track with RC trucks. Full hour of sand track racing.',
       duration: 60,
       price: 449,
-      maxPlayers: 4,
       isActive: true
     },
     // Sand Track - JCB / Bulldozer
@@ -137,7 +128,6 @@ async function main() {
       description: 'Sand track with JCB and Bulldozer RC vehicles. Heavy machinery racing experience.',
       duration: 15,
       price: 249,
-      maxPlayers: 4,
       isActive: true
     },
     {
@@ -145,7 +135,6 @@ async function main() {
       description: 'Sand track with JCB and Bulldozer RC vehicles. Extended heavy machinery session.',
       duration: 30,
       price: 399,
-      maxPlayers: 4,
       isActive: true
     },
     {
@@ -153,7 +142,6 @@ async function main() {
       description: 'Sand track with JCB and Bulldozer RC vehicles. Full hour of heavy machinery racing.',
       duration: 60,
       price: 699,
-      maxPlayers: 4,
       isActive: true
     },
     // Crawler Track - Defender / Land Rover
@@ -162,7 +150,6 @@ async function main() {
       description: 'Crawler track with Defender and Land Rover RC vehicles. Technical rock crawling experience.',
       duration: 15,
       price: 249,
-      maxPlayers: 4,
       isActive: true
     },
     {
@@ -170,7 +157,6 @@ async function main() {
       description: 'Crawler track with Defender and Land Rover RC vehicles. Extended crawling session.',
       duration: 30,
       price: 399,
-      maxPlayers: 4,
       isActive: true
     },
     {
@@ -178,7 +164,6 @@ async function main() {
       description: 'Crawler track with Defender and Land Rover RC vehicles. Full hour of technical crawling.',
       duration: 60,
       price: 699,
-      maxPlayers: 4,
       isActive: true
     },
     // Mud Track - Land Cruiser
@@ -187,7 +172,6 @@ async function main() {
       description: 'Mud track with Land Cruiser RC vehicles. Off-road mud racing experience.',
       duration: 15,
       price: 249,
-      maxPlayers: 4,
       isActive: true
     },
     {
@@ -195,7 +179,6 @@ async function main() {
       description: 'Mud track with Land Cruiser RC vehicles. Extended mud racing session.',
       duration: 30,
       price: 399,
-      maxPlayers: 4,
       isActive: true
     },
     {
@@ -203,7 +186,6 @@ async function main() {
       description: 'Mud track with Land Cruiser RC vehicles. Full hour of mud track racing.',
       duration: 60,
       price: 699,
-      maxPlayers: 4,
       isActive: true
     }
   ]

@@ -26,7 +26,6 @@ interface Game {
   description: string
   duration: number
   price: number
-  maxPlayers: number
 }
 
 function BookPageContent() {
@@ -182,10 +181,6 @@ function BookPageContent() {
                       <div className="flex items-center text-gray-300">
                         <DollarSign className="h-4 w-4 text-fury-orange mr-2" />
                         <span>₹{selectedGame.price} per player</span>
-                      </div>
-                      <div className="flex items-center text-gray-300">
-                        <Users className="h-4 w-4 text-fury-orange mr-2" />
-                        <span>Max {selectedGame.maxPlayers} players</span>
                       </div>
                     </div>
                   </div>
