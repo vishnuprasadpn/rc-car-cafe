@@ -50,6 +50,24 @@ interface BookingConfirmationData {
   }
 }
 
+interface BookingRequestData {
+  user: {
+    name: string
+    email: string
+  }
+  booking: {
+    id: string
+    startTime: string
+    endTime: string
+    totalPrice: number
+    players: number
+  }
+  game: {
+    name: string
+    duration: number
+  }
+}
+
 interface BookingCancellationData {
   user: {
     name: string
@@ -62,6 +80,57 @@ interface BookingCancellationData {
   }
   game: {
     name: string
+  }
+}
+
+export const sendBookingRequestEmail = async (data: BookingRequestData) => {
+  if (!transporter) {
+    console.warn('⚠️  SMTP not configured. Booking request email not sent.')
+    return
+  }
+
+  const { user, booking, game } = data
+
+  const mailOptions = {
+    from: process.env.SMTP_USER,
+    to: user.email,
+    subject: `Booking Request Received - ${game.name} at Fury Road RC Club`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #F97316;">Booking Request Received!</h2>
+        <p>Dear ${user.name},</p>
+        <p>Thank you for your booking request. We have received it and it is pending admin confirmation.</p>
+        
+        <div style="background-color: #FFF7ED; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F97316;">
+          <h3 style="margin-top: 0; color: #F97316;">Booking Details</h3>
+          <p><strong>Game:</strong> ${game.name}</p>
+          <p><strong>Date & Time:</strong> ${new Date(booking.startTime).toLocaleString()}</p>
+          <p><strong>Duration:</strong> ${game.duration} minutes</p>
+          <p><strong>End Time:</strong> ${new Date(booking.endTime).toLocaleString()}</p>
+          <p><strong>Players:</strong> ${booking.players}</p>
+          <p><strong>Total Amount:</strong> ₹${booking.totalPrice}</p>
+          <p><strong>Booking ID:</strong> ${booking.id}</p>
+          <p><strong>Status:</strong> <span style="color: #F59E0B; font-weight: bold;">Pending Confirmation</span></p>
+        </div>
+        
+        <p style="background-color: #FEF3C7; padding: 15px; border-radius: 8px; border-left: 4px solid #F59E0B;">
+          <strong>Next Steps:</strong> Our admin team will review your booking and send you a confirmation email shortly. 
+          Please wait for confirmation before arriving at the venue.
+        </p>
+        
+        <p>If you have any questions, please contact us at <a href="mailto:furyroadrcclub@gmail.com">furyroadrcclub@gmail.com</a> or call us at +91 99455 76007.</p>
+        
+        <p>Best regards,<br>Fury Road RC Club Team</p>
+      </div>
+    `,
+  }
+
+  try {
+    await transporter.sendMail(mailOptions)
+    console.log('Booking request email sent to customer:', user.email)
+  } catch (error) {
+    console.error('Error sending booking request email to customer:', error)
+    throw error
   }
 }
 

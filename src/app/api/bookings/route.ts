@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth/next"
 import type { Session } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { sendBookingNotificationToAdmin } from "@/lib/email"
+import { sendBookingNotificationToAdmin, sendBookingRequestEmail } from "@/lib/email"
 
 export async function GET(_request: NextRequest) {
   try {
@@ -149,8 +149,33 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    // Send notification email to admin
+    // Send emails to both customer and admin
     try {
+      // Send booking request email to customer
+      await sendBookingRequestEmail({
+        user: {
+          name: user.name,
+          email: user.email,
+        },
+        booking: {
+          id: booking.id,
+          startTime: booking.startTime.toISOString(),
+          endTime: booking.endTime.toISOString(),
+          totalPrice: Number(booking.totalPrice),
+          players: booking.players,
+        },
+        game: {
+          name: game.name,
+          duration: game.duration,
+        },
+      })
+    } catch (error) {
+      console.error("Error sending booking request email to customer:", error)
+      // Don't fail the booking creation if email fails
+    }
+
+    try {
+      // Send notification email to admin
       await sendBookingNotificationToAdmin({
         customer: {
           name: user.name,
