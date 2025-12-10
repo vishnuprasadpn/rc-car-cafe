@@ -425,6 +425,122 @@ export default async function HomePage() {
         </div>
       </div>
 
+      {/* Group Bookings Section */}
+      <div className="py-24 relative overflow-hidden transition-all duration-700">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_truck_rac_2.jpg"
+            alt="Group Bookings Background"
+            fill
+            className="object-cover"
+            quality={85}
+          />
+          {/* Overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-900/80 via-black/75 to-blue-900/80"></div>
+        </div>
+        
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-500/20 mb-8 backdrop-blur-sm">
+              <Users className="h-4 w-4 text-purple-400 mr-2" />
+              <span className="text-purple-200 text-sm font-medium">Perfect for Groups</span>
+            </div>
+            <h2 className="font-heading text-xl sm:text-3xl md:text-4xl text-white mb-6 uppercase">
+              Group <span className="bg-gradient-to-r from-purple-300 via-pink-300 to-blue-300 bg-clip-text text-transparent">Bookings</span>
+            </h2>
+            <p className="text-sm sm:text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              Perfect for parties, corporate events, team building, and group celebrations. Book multiple slots for your entire group!
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {[
+              {
+                icon: Users,
+                title: "Corporate Events",
+                description: "Team building activities and corporate outings. Perfect for bonding and fun competition.",
+                gradient: "from-blue-500 to-blue-700",
+                borderColor: "border-blue-400/40"
+              },
+              {
+                icon: Heart,
+                title: "Birthday Parties",
+                description: "Celebrate special occasions with exciting RC racing. Memorable experiences for all ages.",
+                gradient: "from-pink-500 to-pink-700",
+                borderColor: "border-pink-400/40"
+              },
+              {
+                icon: Trophy,
+                title: "Group Competitions",
+                description: "Organize tournaments and competitions. Race with friends and family for the ultimate bragging rights.",
+                gradient: "from-purple-500 to-purple-700",
+                borderColor: "border-purple-400/40"
+              }
+            ].map((feature, index) => (
+              <div key={index} className="group relative">
+                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-20 rounded-2xl blur-xl transition-all duration-500`}></div>
+                <div className={`relative bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 border border-white/20 group-hover:${feature.borderColor}`}>
+                  <div className={`w-14 h-14 bg-gradient-to-br ${feature.gradient} rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300`}>
+                    <feature.icon className="h-7 w-7 text-white" />
+                  </div>
+                  <h3 className="font-heading text-lg text-white mb-3 uppercase">{feature.title}</h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">{feature.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 sm:p-12 border border-white/20">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <h3 className="font-heading text-xl sm:text-2xl text-white mb-4 uppercase">Why Choose Group Bookings?</h3>
+                <ul className="space-y-3">
+                  {[
+                    "Book multiple time slots for your entire group",
+                    "Special group pricing available for large bookings",
+                    "Perfect for 4-20+ participants",
+                    "Flexible scheduling to accommodate your group",
+                    "Dedicated track time for your event",
+                    "Professional equipment and guidance included"
+                  ].map((benefit, index) => (
+                    <li key={index} className="flex items-start">
+                      <div className="w-5 h-5 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                      </div>
+                      <span className="text-gray-300 text-sm">{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="text-center">
+                <div className="bg-gradient-to-br from-purple-600/20 to-blue-600/20 rounded-2xl p-8 border border-purple-500/30">
+                  <Users className="h-12 w-12 text-purple-400 mx-auto mb-4" />
+                  <h4 className="font-heading text-xl text-white mb-2 uppercase">Ready to Book?</h4>
+                  <p className="text-gray-300 text-sm mb-6">
+                    Contact us for group booking inquiries and special pricing
+                  </p>
+                  <div className="space-y-3">
+                    <Link
+                      href="/contact"
+                      className="block w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
+                    >
+                      Contact Us for Group Bookings
+                    </Link>
+                    <Link
+                      href="/book"
+                      className="block w-full border-2 border-white/40 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:bg-white/10 hover:border-white/60 transition-all duration-300 backdrop-blur-sm"
+                    >
+                      Book Individual Slots
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Location & Final CTA Section */}
       <div className="py-16 sm:py-24 relative overflow-hidden transition-all duration-700">
         {/* Background Image */}
