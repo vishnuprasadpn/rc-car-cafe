@@ -211,51 +211,51 @@ export default async function HomePage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                name: "Racing Track",
-                difficulty: "Expert",
+                name: "Fast Track",
+                difficulty: "All Levels",
                 color: "red",
-                description: "High-speed asphalt track with challenging turns and elevation changes",
+                description: "High-speed racing track with Toy Grade and Hobby Grade RC cars. Choose from 15 mins, 30 mins, or 1 hour sessions.",
                 length: "2.5km",
                 bestTime: "1:23.45",
                 gradient: "from-red-500 to-red-700",
                 surface: "Asphalt",
-                vehicles: "High-speed RC cars",
+                vehicles: "Toy Grade & Hobby Grade RC cars",
                 image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_0.jpg"
               },
               {
                 name: "Mud Track",
                 difficulty: "Intermediate",
                 color: "brown",
-                description: "Off-road mud track with water hazards and challenging terrain",
+                description: "Off-road mud track with Land Cruiser RC vehicles. Experience challenging terrain with water hazards.",
                 length: "1.8km",
                 bestTime: "2:15.30",
                 gradient: "from-amber-600 to-amber-800",
                 surface: "Mud & Water",
-                vehicles: "Off-road RC vehicles",
+                vehicles: "Land Cruiser RC vehicles",
                 image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_truck_rac_3.jpg"
               },
               {
                 name: "Crawler Track",
                 difficulty: "Beginner",
                 color: "green",
-                description: "Technical rock crawling course with obstacles and steep inclines",
+                description: "Technical rock crawling course with Defender and Land Rover RC vehicles. Perfect for precision control.",
                 length: "1.2km",
                 bestTime: "3:45.12",
                 gradient: "from-green-500 to-green-700",
                 surface: "Rocks & Obstacles",
-                vehicles: "RC Crawlers",
+                vehicles: "Defender & Land Rover RC Crawlers",
                 image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_closeup_of_an_RC_crawler_0.jpg"
               },
               {
                 name: "Sand Track",
                 difficulty: "Advanced",
                 color: "yellow",
-                description: "Heavy machinery sand track for large-scale RC vehicles",
+                description: "Sand track with RC Trucks, JCB, and Bulldozer vehicles. Heavy machinery racing on sand terrain.",
                 length: "3.2km",
                 bestTime: "4:12.88",
                 gradient: "from-yellow-500 to-yellow-700",
                 surface: "Sand & Dunes",
-                vehicles: "Heavy RC Machines",
+                vehicles: "Trucks, JCB & Bulldozer RC Machines",
                 image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_closeup_of_an_RC_crawler_2.jpg"
               }
             ].map((track, index) => (

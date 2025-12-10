@@ -48,38 +48,156 @@ async function main() {
     }
   })
 
-  // Create sample games
+  // Create games based on actual pricing structure
   const games = [
+    // Fast Track - Toy Grade
     {
-      name: 'Racing Track 1',
-      description: 'Fast track for experienced racers with challenging turns and high-speed sections',
-      duration: 20,
-      price: 500,
-      maxPlayers: 4,
-      isActive: true
-    },
-    {
-      name: 'Racing Track 2',
-      description: 'Beginner-friendly track with wide turns and smooth surfaces',
-      duration: 20,
-      price: 400,
-      maxPlayers: 4,
-      isActive: true
-    },
-    {
-      name: 'Racing Track 3',
-      description: 'Advanced track with obstacles and technical sections',
-      duration: 30,
-      price: 750,
-      maxPlayers: 2,
-      isActive: true
-    },
-    {
-      name: 'Mini Track',
-      description: 'Compact track for quick races and practice sessions',
+      name: 'Fast Track - Toy Grade (15 mins)',
+      description: 'Fast track with toy grade RC cars. Perfect for beginners and quick sessions.',
       duration: 15,
-      price: 300,
-      maxPlayers: 2,
+      price: 149,
+      maxPlayers: 4,
+      isActive: true
+    },
+    {
+      name: 'Fast Track - Toy Grade (30 mins)',
+      description: 'Fast track with toy grade RC cars. Extended session for more racing fun.',
+      duration: 30,
+      price: 249,
+      maxPlayers: 4,
+      isActive: true
+    },
+    {
+      name: 'Fast Track - Toy Grade (1 hr)',
+      description: 'Fast track with toy grade RC cars. Full hour of racing excitement.',
+      duration: 60,
+      price: 449,
+      maxPlayers: 4,
+      isActive: true
+    },
+    // Fast Track - Hobby Grade
+    {
+      name: 'Fast Track - Hobby Grade (15 mins)',
+      description: 'Fast track with hobby grade RC cars. Professional quality racing experience.',
+      duration: 15,
+      price: 249,
+      maxPlayers: 4,
+      isActive: true
+    },
+    {
+      name: 'Fast Track - Hobby Grade (30 mins)',
+      description: 'Fast track with hobby grade RC cars. Extended professional racing session.',
+      duration: 30,
+      price: 399,
+      maxPlayers: 4,
+      isActive: true
+    },
+    {
+      name: 'Fast Track - Hobby Grade (1 hr)',
+      description: 'Fast track with hobby grade RC cars. Full hour of professional racing.',
+      duration: 60,
+      price: 699,
+      maxPlayers: 4,
+      isActive: true
+    },
+    // Sand Track - Truck
+    {
+      name: 'Sand Track - Truck (15 mins)',
+      description: 'Sand track with RC trucks. Experience off-road racing on sand terrain.',
+      duration: 15,
+      price: 149,
+      maxPlayers: 4,
+      isActive: true
+    },
+    {
+      name: 'Sand Track - Truck (30 mins)',
+      description: 'Sand track with RC trucks. Extended off-road racing session.',
+      duration: 30,
+      price: 249,
+      maxPlayers: 4,
+      isActive: true
+    },
+    {
+      name: 'Sand Track - Truck (1 hr)',
+      description: 'Sand track with RC trucks. Full hour of sand track racing.',
+      duration: 60,
+      price: 449,
+      maxPlayers: 4,
+      isActive: true
+    },
+    // Sand Track - JCB / Bulldozer
+    {
+      name: 'Sand Track - JCB / Bulldozer (15 mins)',
+      description: 'Sand track with JCB and Bulldozer RC vehicles. Heavy machinery racing experience.',
+      duration: 15,
+      price: 249,
+      maxPlayers: 4,
+      isActive: true
+    },
+    {
+      name: 'Sand Track - JCB / Bulldozer (30 mins)',
+      description: 'Sand track with JCB and Bulldozer RC vehicles. Extended heavy machinery session.',
+      duration: 30,
+      price: 399,
+      maxPlayers: 4,
+      isActive: true
+    },
+    {
+      name: 'Sand Track - JCB / Bulldozer (1 hr)',
+      description: 'Sand track with JCB and Bulldozer RC vehicles. Full hour of heavy machinery racing.',
+      duration: 60,
+      price: 699,
+      maxPlayers: 4,
+      isActive: true
+    },
+    // Crawler Track - Defender / Land Rover
+    {
+      name: 'Crawler Track - Defender / Land Rover (15 mins)',
+      description: 'Crawler track with Defender and Land Rover RC vehicles. Technical rock crawling experience.',
+      duration: 15,
+      price: 249,
+      maxPlayers: 4,
+      isActive: true
+    },
+    {
+      name: 'Crawler Track - Defender / Land Rover (30 mins)',
+      description: 'Crawler track with Defender and Land Rover RC vehicles. Extended crawling session.',
+      duration: 30,
+      price: 399,
+      maxPlayers: 4,
+      isActive: true
+    },
+    {
+      name: 'Crawler Track - Defender / Land Rover (1 hr)',
+      description: 'Crawler track with Defender and Land Rover RC vehicles. Full hour of technical crawling.',
+      duration: 60,
+      price: 699,
+      maxPlayers: 4,
+      isActive: true
+    },
+    // Mud Track - Land Cruiser
+    {
+      name: 'Mud Track - Land Cruiser (15 mins)',
+      description: 'Mud track with Land Cruiser RC vehicles. Off-road mud racing experience.',
+      duration: 15,
+      price: 249,
+      maxPlayers: 4,
+      isActive: true
+    },
+    {
+      name: 'Mud Track - Land Cruiser (30 mins)',
+      description: 'Mud track with Land Cruiser RC vehicles. Extended mud racing session.',
+      duration: 30,
+      price: 399,
+      maxPlayers: 4,
+      isActive: true
+    },
+    {
+      name: 'Mud Track - Land Cruiser (1 hr)',
+      description: 'Mud track with Land Cruiser RC vehicles. Full hour of mud track racing.',
+      duration: 60,
+      price: 699,
+      maxPlayers: 4,
       isActive: true
     }
   ]
@@ -219,3 +337,4 @@ main()
   .finally(async () => {
     await prisma.$disconnect()
   })
+
