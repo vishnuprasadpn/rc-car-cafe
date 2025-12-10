@@ -57,7 +57,7 @@ export default function ContactPage() {
     {
       icon: Mail,
       title: "Email",
-      details: ["info@furyroadrc.com", "bookings@furyroadrc.com"],
+      details: ["furyroadrcclub@gmail.com"],
       color: "text-green-600"
     },
     {
@@ -353,8 +353,8 @@ export default function ContactPage() {
                     <Mail className="h-5 w-5 text-fury-orange mr-3" />
                     <div>
                       <div className="font-semibold text-white">Email Us</div>
-                      <a href="mailto:info@furyroadrc.com" className="text-gray-300 hover:text-fury-orange transition-colors">
-                        info@furyroadrc.com
+                      <a href="mailto:furyroadrcclub@gmail.com" className="text-gray-300 hover:text-fury-orange transition-colors">
+                        furyroadrcclub@gmail.com
                       </a>
                     </div>
                   </div>

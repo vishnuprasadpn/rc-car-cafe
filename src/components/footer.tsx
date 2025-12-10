@@ -69,8 +69,8 @@ export default function Footer() {
               </li>
               <li className="flex items-center text-gray-400 text-sm">
                 <Mail className="h-4 w-4 mr-2 text-fury-orange" />
-                <a href="mailto:info@furyroadrc.com" className="hover:text-fury-orange transition-colors">
-                  info@furyroadrc.com
+                <a href="mailto:furyroadrcclub@gmail.com" className="hover:text-fury-orange transition-colors">
+                  furyroadrcclub@gmail.com
                 </a>
               </li>
             </ul>
