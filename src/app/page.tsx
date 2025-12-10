@@ -477,7 +477,7 @@ export default async function HomePage() {
                   </div>
                   <div>
                     <div className="text-xs text-gray-400 mb-1">Operating Hours</div>
-                    <div className="text-sm font-semibold text-white">Daily 9 AM - 11 PM</div>
+                    <div className="text-sm font-semibold text-white">Daily 11 AM - 11 PM</div>
                   </div>
                 </div>
               </div>

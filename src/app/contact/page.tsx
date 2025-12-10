@@ -63,7 +63,7 @@ export default function ContactPage() {
     {
       icon: Clock,
       title: "Hours",
-      details: ["Mon - Fri: 10:00 AM - 10:00 PM", "Sat - Sun: 9:00 AM - 11:00 PM"],
+      details: ["Everyday: 11:00 AM - 11:00 PM"],
       color: "text-purple-600"
     }
   ]
@@ -362,7 +362,7 @@ export default function ContactPage() {
                     <Clock className="h-5 w-5 text-fury-orange mr-3" />
                     <div>
                       <div className="font-semibold text-white">Visit Us</div>
-                      <div className="text-gray-300">Mon-Sun: 9:00 AM - 11:00 PM</div>
+                      <div className="text-gray-300">Everyday: 11:00 AM - 11:00 PM</div>
                     </div>
                   </div>
                 </div>
