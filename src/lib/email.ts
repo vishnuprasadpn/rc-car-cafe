@@ -189,6 +189,78 @@ export const sendPointsApprovalEmail = async (userEmail: string, userName: strin
   }
 }
 
+interface BookingNotificationData {
+  customer: {
+    name: string
+    email: string
+    phone?: string
+  }
+  booking: {
+    id: string
+    startTime: string
+    endTime: string
+    totalPrice: number
+    players: number
+  }
+  game: {
+    name: string
+    duration: number
+  }
+}
+
+export const sendBookingNotificationToAdmin = async (data: BookingNotificationData) => {
+  if (!transporter) {
+    console.warn('⚠️  SMTP not configured. Booking notification email to admin not sent.')
+    return
+  }
+
+  // Get admin email from environment or use a default
+  const adminEmail = process.env.ADMIN_EMAIL || process.env.SMTP_USER || 'admin@furyroadrc.com'
+
+  const { customer, booking, game } = data
+
+  const mailOptions = {
+    from: process.env.SMTP_USER,
+    to: adminEmail,
+    subject: `New Booking Request - ${game.name} at Fury Road RC Club`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #F97316;">New Booking Request</h2>
+        <p>Dear Admin,</p>
+        <p>A new booking has been created and requires your confirmation:</p>
+        
+        <div style="background-color: #FFF7ED; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F97316;">
+          <h3 style="margin-top: 0; color: #F97316;">Booking Details</h3>
+          <p><strong>Customer Name:</strong> ${customer.name}</p>
+          <p><strong>Customer Email:</strong> ${customer.email}</p>
+          ${customer.phone ? `<p><strong>Customer Phone:</strong> ${customer.phone}</p>` : ''}
+          <p><strong>Game:</strong> ${game.name}</p>
+          <p><strong>Date & Time:</strong> ${new Date(booking.startTime).toLocaleString()}</p>
+          <p><strong>Duration:</strong> ${game.duration} minutes</p>
+          <p><strong>End Time:</strong> ${new Date(booking.endTime).toLocaleString()}</p>
+          <p><strong>Players:</strong> ${booking.players}</p>
+          <p><strong>Total Amount:</strong> ₹${booking.totalPrice}</p>
+          <p><strong>Booking ID:</strong> ${booking.id}</p>
+        </div>
+        
+        <p style="background-color: #FEF3C7; padding: 15px; border-radius: 8px; border-left: 4px solid #F59E0B;">
+          <strong>Action Required:</strong> Please log in to the admin panel to confirm this booking.
+        </p>
+        
+        <p>Best regards,<br>Fury Road RC Club System</p>
+      </div>
+    `,
+  }
+
+  try {
+    await transporter.sendMail(mailOptions)
+    console.log('Booking notification email sent to admin:', adminEmail)
+  } catch (error) {
+    console.error('Error sending booking notification email to admin:', error)
+    throw error
+  }
+}
+
 export const sendPasswordResetCodeEmail = async (userEmail: string, userName: string, code: string) => {
   if (!transporter) {
     console.error('❌ Cannot send email: SMTP not configured')

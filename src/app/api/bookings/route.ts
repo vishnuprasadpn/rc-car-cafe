@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next"
 import type { Session } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { sendBookingNotificationToAdmin } from "@/lib/email"
 
 export async function GET(_request: NextRequest) {
   try {
@@ -121,6 +122,15 @@ export async function POST(request: NextRequest) {
     // Calculate total price
     const totalPrice = Number(game.price) * players
 
+    // Get user details for email
+    const user = await prisma.user.findUnique({
+      where: { id: (session.user as { id: string }).id },
+    })
+
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 })
+    }
+
     // Create booking
     const booking = await prisma.booking.create({
       data: {
@@ -138,6 +148,31 @@ export async function POST(request: NextRequest) {
         game: true,
       },
     })
+
+    // Send notification email to admin
+    try {
+      await sendBookingNotificationToAdmin({
+        customer: {
+          name: user.name,
+          email: user.email,
+          phone: user.phone || undefined,
+        },
+        booking: {
+          id: booking.id,
+          startTime: booking.startTime.toISOString(),
+          endTime: booking.endTime.toISOString(),
+          totalPrice: Number(booking.totalPrice),
+          players: booking.players,
+        },
+        game: {
+          name: game.name,
+          duration: game.duration,
+        },
+      })
+    } catch (error) {
+      console.error("Error sending admin notification email:", error)
+      // Don't fail the booking creation if email fails
+    }
 
     return NextResponse.json({ booking }, { status: 201 })
   } catch (error) {

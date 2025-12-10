@@ -97,6 +97,7 @@ export default function Navigation() {
       return [
         { name: "Home", href: "/", icon: Home },
         { name: "Dashboard", href: "/admin", icon: Home },
+        { name: "Bookings", href: "/admin/bookings", icon: Calendar },
         { name: "Games", href: "/admin/games", icon: Trophy },
         { name: "Points", href: "/admin/points", icon: Trophy },
         { name: "Reports", href: "/admin/reports", icon: Settings },
