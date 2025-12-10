@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma"
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // @ts-expect-error - getServerSession accepts authOptions but types don't match NextAuth v4
@@ -16,7 +16,7 @@ export async function DELETE(
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 
-    const bookingId = params.id
+    const { id: bookingId } = await params
 
     // Check if booking exists and belongs to the user
     const booking = await prisma.booking.findUnique({
