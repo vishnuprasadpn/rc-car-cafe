@@ -48,6 +48,12 @@ async function main() {
     }
   })
 
+  // Delete all existing games and their bookings to start fresh
+  console.log('🗑️  Removing old games and bookings...')
+  await prisma.booking.deleteMany({}) // Delete bookings first due to foreign key constraint
+  await prisma.game.deleteMany({}) // Delete all old games
+  console.log('✅ Old games and bookings removed')
+
   // Create games based on actual pricing structure
   const games = [
     // Fast Track - Toy Grade
@@ -202,18 +208,14 @@ async function main() {
     }
   ]
 
-  // Create games (check if they exist first)
+  // Create all new games
+  console.log('🎮 Creating new games...')
   for (const gameData of games) {
-    const existingGame = await prisma.game.findFirst({
-      where: { name: gameData.name }
+    await prisma.game.create({
+      data: gameData
     })
-    
-    if (!existingGame) {
-      await prisma.game.create({
-        data: gameData
-      })
-    }
   }
+  console.log(`✅ Created ${games.length} games`)
 
   // Create sample points for customer (only if doesn't exist)
   const existingPoint = await prisma.point.findFirst({
