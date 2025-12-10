@@ -331,10 +331,20 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
 }
 
 export const sendPasswordResetCodeEmail = async (userEmail: string, userName: string, code: string) => {
+  console.log('📧 Attempting to send password reset code email to:', userEmail)
+  
   if (!transporter) {
     console.error('❌ Cannot send email: SMTP not configured')
+    console.error('   SMTP_HOST:', process.env.SMTP_HOST ? '✅ Set' : '❌ Missing')
+    console.error('   SMTP_USER:', process.env.SMTP_USER ? '✅ Set' : '❌ Missing')
+    console.error('   SMTP_PASS:', process.env.SMTP_PASS ? '✅ Set' : '❌ Missing')
     throw new Error('Email service is not configured. Please contact the administrator.')
   }
+
+  console.log('✅ Transporter is configured, preparing email...')
+  console.log('   From:', process.env.SMTP_USER)
+  console.log('   To:', userEmail)
+  console.log('   Code:', code)
 
   const mailOptions = {
     from: process.env.SMTP_USER,
@@ -363,13 +373,19 @@ export const sendPasswordResetCodeEmail = async (userEmail: string, userName: st
   }
 
   try {
+    console.log('📤 Sending email via SMTP...')
     const info = await transporter.sendMail(mailOptions)
     console.log('✅ Password reset code email sent successfully to:', userEmail)
     console.log('   Message ID:', info.messageId)
-    console.log('   Preview URL:', nodemailer.getTestMessageUrl(info)) // Only available if using ethereal
+    if (nodemailer.getTestMessageUrl) {
+      const previewUrl = nodemailer.getTestMessageUrl(info)
+      if (previewUrl) {
+        console.log('   Preview URL:', previewUrl)
+      }
+    }
     return info
   } catch (error) {
-    console.error('❌ Error sending password reset code email to', userEmail, ':', error)
+    console.error('❌ Error sending password reset code email to', userEmail, ':')
     // Log detailed error information
     if (error instanceof Error) {
       console.error('Error message:', error.message)

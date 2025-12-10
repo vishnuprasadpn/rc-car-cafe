@@ -50,17 +50,32 @@ export async function POST(request: NextRequest) {
     let emailSent = false
     let emailError: string | null = null
     
+    console.log("📧 Preparing to send password reset email...")
+    console.log("   User email:", user.email)
+    console.log("   User name:", user.name)
+    console.log("   Reset code:", code)
+    
     try {
       await sendPasswordResetCodeEmail(user.email, user.name, code)
-      console.log("✅ Password reset code sent to:", user.email)
+      console.log("✅ Password reset code sent successfully to:", user.email)
       emailSent = true
     } catch (error) {
-      console.error("❌ Failed to send password reset email to", user.email, ":", error)
+      console.error("❌ Failed to send password reset email to", user.email)
+      console.error("   Error details:", error)
+      
       // Log detailed error
       if (error instanceof Error) {
-        console.error("Error message:", error.message)
+        console.error("   Error message:", error.message)
+        console.error("   Error stack:", error.stack)
         emailError = error.message
       }
+      
+      // Check if it's an SMTP configuration error
+      if (error instanceof Error && error.message.includes('not configured')) {
+        console.error("   ⚠️  SMTP is not properly configured!")
+        console.error("   Please check SMTP_HOST, SMTP_USER, and SMTP_PASS environment variables")
+      }
+      
       // Still return success to prevent email enumeration, but log the error
       // In production, you might want to return an error or queue the email for retry
     }
