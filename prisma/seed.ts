@@ -14,7 +14,7 @@ async function main() {
     }
   })
 
-  // Create admin user
+  // Create first admin user
   const adminPassword = await bcrypt.hash('FurY@2024', 12)
   const admin = await prisma.user.upsert({
     where: { email: 'furyroadrcclub@gmail.com' },
@@ -27,6 +27,22 @@ async function main() {
       password: adminPassword,
       role: 'ADMIN',
       phone: '+91 9876543210'
+    }
+  })
+
+  // Create second admin user
+  const admin2Password = await bcrypt.hash('Vpn@1991', 12)
+  await prisma.user.upsert({
+    where: { email: 'vishnuprasad1990@gmail.com' },
+    update: {
+      password: admin2Password, // Update password if admin already exists
+    },
+    create: {
+      email: 'vishnuprasad1990@gmail.com',
+      name: 'Vishnu Prasad',
+      password: admin2Password,
+      role: 'ADMIN',
+      phone: '+91 9876543211'
     }
   })
 
@@ -318,7 +334,8 @@ RC Car Café Team`
   }
 
   console.log('✅ Database seeded successfully!')
-  console.log('👤 Admin user: furyroadrcclub@gmail.com / FurY@2024')
+  console.log('👤 Admin user 1: furyroadrcclub@gmail.com / FurY@2024')
+  console.log('👤 Admin user 2: vishnuprasad1990@gmail.com / Vpn@1991')
   console.log('👤 Staff user: staff@rccarcafe.com / staff123')
   console.log('👤 Customer user: customer@rccarcafe.com / customer123')
 }
