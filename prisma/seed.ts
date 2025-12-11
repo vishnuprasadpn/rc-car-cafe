@@ -7,12 +7,17 @@ async function main() {
   console.log('🌱 Starting database seed...')
 
   // Delete old admin user if exists (to migrate to new email)
-  await prisma.user.deleteMany({
-    where: { 
-      email: 'admin@rccarcafe.com',
-      role: 'ADMIN'
-    }
-  })
+  // Wrap in try-catch to handle connection pool issues gracefully
+  try {
+    await prisma.user.deleteMany({
+      where: { 
+        email: 'admin@rccarcafe.com',
+        role: 'ADMIN'
+      }
+    })
+  } catch (error) {
+    console.log('ℹ️  Could not delete old admin user (this is okay if it doesn\'t exist or connection pool is full)')
+  }
 
   // Create first admin user
   const adminPassword = await bcrypt.hash('FurY@2024', 12)
