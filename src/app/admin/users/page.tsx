@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { Users, Search, Filter, Mail, Phone, Calendar, Trophy, CalendarCheck } from "lucide-react"
+import { Users, Search, Filter, Phone, Calendar, Trophy, CalendarCheck } from "lucide-react"
 import Navigation from "@/components/navigation"
 
 interface User {

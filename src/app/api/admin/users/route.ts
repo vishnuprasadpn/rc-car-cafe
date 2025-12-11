@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search')
 
     const whereClause: {
-      role?: string
+      role?: 'ADMIN' | 'STAFF' | 'CUSTOMER'
       OR?: Array<{
         name?: { contains: string; mode: 'insensitive' }
         email?: { contains: string; mode: 'insensitive' }
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     } = {}
 
     if (role && ['ADMIN', 'STAFF', 'CUSTOMER'].includes(role)) {
-      whereClause.role = role
+      whereClause.role = role as 'ADMIN' | 'STAFF' | 'CUSTOMER'
     }
 
     if (search) {
