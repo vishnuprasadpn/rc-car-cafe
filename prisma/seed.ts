@@ -1,10 +1,22 @@
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+  log: ['error', 'warn'],
+})
 
 async function main() {
   console.log('🌱 Starting database seed...')
+
+  // Test database connection first
+  try {
+    await prisma.$connect()
+    console.log('✅ Database connection established')
+  } catch (error) {
+    console.error('❌ Failed to connect to database:', error)
+    console.error('💡 Tip: Close Prisma Studio and dev server, then try again')
+    process.exit(1)
+  }
 
   // Delete old admin user if exists (to migrate to new email)
   // Wrap in try-catch to handle connection pool issues gracefully
@@ -15,11 +27,13 @@ async function main() {
         role: 'ADMIN'
       }
     })
+    console.log('✅ Old admin user deleted (if existed)')
   } catch (error) {
     console.log('ℹ️  Could not delete old admin user (this is okay if it doesn\'t exist or connection pool is full)')
   }
 
   // Create first admin user
+  console.log('🔐 Creating first admin user...')
   const adminPassword = await bcrypt.hash('FurY@2024', 12)
   const admin = await prisma.user.upsert({
     where: { email: 'furyroadrcclub@gmail.com' },
@@ -377,9 +391,18 @@ RC Car Café Team`
 main()
   .catch((e) => {
     console.error('❌ Error seeding database:', e)
+    if (e.message && e.message.includes('MaxClients')) {
+      console.error('\n💡 Connection pool exhausted. Try:')
+      console.error('   1. Stop the dev server (Ctrl+C)')
+      console.error('   2. Close Prisma Studio if open')
+      console.error('   3. Wait 30 seconds')
+      console.error('   4. Run: npm run db:seed')
+      console.error('\n   Or use the SQL script directly in Supabase SQL Editor')
+    }
     process.exit(1)
   })
   .finally(async () => {
     await prisma.$disconnect()
+    console.log('🔌 Database connection closed')
   })
 
