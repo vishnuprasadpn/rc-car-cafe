@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
-import Navigation from "@/components/navigation"
 import { Calendar, Clock, Users, Search, Filter, Eye, CheckCircle, XCircle, AlertCircle } from "lucide-react"
 
 interface Booking {
@@ -114,7 +113,6 @@ export default function StaffBookingsPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
-        <Navigation />
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-fury-orange"></div>
@@ -127,9 +125,7 @@ export default function StaffBookingsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
-      <Navigation />
-      
-      <div className="max-w-7xl mx-auto pt-20 py-6 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="mb-8">
             <h1 className="text-xl sm:text-3xl font-bold text-white flex items-center">

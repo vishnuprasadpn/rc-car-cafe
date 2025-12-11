@@ -11,7 +11,6 @@ import {
   Plus,
   Clock
 } from "lucide-react"
-import Navigation from "@/components/navigation"
 
 interface DashboardStats {
   totalBookings: number

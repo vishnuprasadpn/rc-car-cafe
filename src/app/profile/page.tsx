@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import Link from "next/link"
-import Navigation from "@/components/navigation"
 import { User, Mail, Phone, ArrowLeft, Save, CheckCircle } from "lucide-react"
 
 const profileSchema = z.object({
