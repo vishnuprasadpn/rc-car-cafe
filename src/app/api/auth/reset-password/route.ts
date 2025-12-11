@@ -14,11 +14,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { email, code, newPassword } = resetPasswordSchema.parse(body)
 
-    // Verify reset token is valid and not used
+    // Verify reset token is valid, not used, and not expired
     const resetToken = await prisma.passwordResetToken.findFirst({
       where: {
         email: email.toLowerCase(),
         code,
+        used: false,
         expires: {
           gt: new Date(), // Not expired
         },
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
 
     if (!resetToken) {
       return NextResponse.json(
-        { message: "Invalid or expired reset code. Please request a new one." },
+        { message: "Invalid, expired, or already used reset code. Please request a new one." },
         { status: 400 }
       )
     }
@@ -56,7 +57,12 @@ export async function POST(request: NextRequest) {
       data: { password: hashedPassword },
     })
 
-    // Delete all reset tokens for this email (cleanup)
+    // Mark this token as used and delete all reset tokens for this email (cleanup)
+    await prisma.passwordResetToken.update({
+      where: { id: resetToken.id },
+      data: { used: true },
+    })
+    
     await prisma.passwordResetToken.deleteMany({
       where: { email: email.toLowerCase() },
     })

@@ -46,12 +46,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Mark token as used (but don't delete yet, in case reset fails)
-    await prisma.passwordResetToken.update({
-      where: { id: resetToken.id },
-      data: { used: true },
-    })
-
+    // Don't mark token as used yet - only mark it after successful password reset
+    // This allows the user to proceed to the password reset form
     return NextResponse.json(
       { message: "Code verified successfully", tokenId: resetToken.id },
       { status: 200 }
