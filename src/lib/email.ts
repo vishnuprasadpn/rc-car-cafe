@@ -288,13 +288,20 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
     throw new Error('Email service is not configured. Please contact the administrator.')
   }
 
-  // Get admin email from environment or use a default
-  const adminEmail = process.env.ADMIN_EMAIL || process.env.SMTP_USER || 'admin@furyroadrc.com'
+  // Get admin emails - send to both admins
+  const adminEmails = [
+    'furyroadrcclub@gmail.com',
+    'vishnuprasad1990@gmail.com'
+  ]
+  
+  // Also include ADMIN_EMAIL from env if set and different
+  if (process.env.ADMIN_EMAIL && !adminEmails.includes(process.env.ADMIN_EMAIL)) {
+    adminEmails.push(process.env.ADMIN_EMAIL)
+  }
   
   console.log('✅ Transporter is configured, preparing admin notification email...')
   console.log('   From:', process.env.SMTP_USER)
-  console.log('   To (Admin):', adminEmail)
-  console.log('   ADMIN_EMAIL env var:', process.env.ADMIN_EMAIL || 'Not set (using SMTP_USER as fallback)')
+  console.log('   To (Admins):', adminEmails.join(', '))
 
   const { customer, booking, game } = data
 
@@ -306,7 +313,7 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
 
   const mailOptions = {
     from: process.env.SMTP_USER,
-    to: adminEmail,
+    to: adminEmails.join(','), // Send to all admin emails
     subject: `New Booking Request - ${game.name} at Fury Road RC Club`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -340,7 +347,7 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
   try {
     console.log('📤 Sending admin notification email via SMTP...')
     const info = await transporter.sendMail(mailOptions)
-    console.log('✅ Booking notification email sent successfully to admin:', adminEmail)
+    console.log('✅ Booking notification email sent successfully to admins:', adminEmails.join(', '))
     console.log('   Message ID:', info.messageId)
     if (nodemailer.getTestMessageUrl) {
       const previewUrl = nodemailer.getTestMessageUrl(info)
@@ -350,7 +357,7 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
     }
     return info
   } catch (error) {
-    console.error('❌ Error sending booking notification email to admin:', adminEmail)
+    console.error('❌ Error sending booking notification email to admins:', adminEmails.join(', '))
     console.error('   Error details:', error)
     if (error instanceof Error) {
       console.error('   Error message:', error.message)
