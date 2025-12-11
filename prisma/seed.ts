@@ -74,9 +74,37 @@ async function main() {
     }
   })
 
-  // Note: We preserve existing bookings and games to avoid data loss
-  // Only create new games if they don't exist
-  console.log('📦 Preserving existing data...')
+  // Delete only dummy/test data (bookings from test customer)
+  console.log('🗑️  Removing dummy/test data...')
+  
+  // Find test customer
+  const testCustomer = await prisma.user.findUnique({
+    where: { email: 'customer@rccarcafe.com' }
+  })
+  
+  // Delete only bookings from test customer (dummy data)
+  if (testCustomer) {
+    const deletedBookings = await prisma.booking.deleteMany({
+      where: {
+        userId: testCustomer.id
+      }
+    })
+    console.log(`✅ Deleted ${deletedBookings.count} dummy bookings from test customer`)
+  }
+  
+  // Delete only test customer's points (dummy data)
+  if (testCustomer) {
+    const deletedPoints = await prisma.point.deleteMany({
+      where: {
+        userId: testCustomer.id,
+        reason: 'Welcome bonus' // Only delete the welcome bonus test points
+      }
+    })
+    console.log(`✅ Deleted ${deletedPoints.count} dummy points from test customer`)
+  }
+  
+  // Preserve all real user data (bookings, games, etc.)
+  console.log('📦 Preserving all real user data...')
 
   // Create games based on actual pricing structure
   const games = [
