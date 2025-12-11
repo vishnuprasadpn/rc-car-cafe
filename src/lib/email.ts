@@ -278,15 +278,31 @@ interface BookingNotificationData {
 }
 
 export const sendBookingNotificationToAdmin = async (data: BookingNotificationData) => {
+  console.log('📧 Attempting to send booking notification email to admin...')
+  
   if (!transporter) {
-    console.warn('⚠️  SMTP not configured. Booking notification email to admin not sent.')
-    return
+    console.error('❌ Cannot send email: SMTP not configured')
+    console.error('   SMTP_HOST:', process.env.SMTP_HOST ? '✅ Set' : '❌ Missing')
+    console.error('   SMTP_USER:', process.env.SMTP_USER ? '✅ Set' : '❌ Missing')
+    console.error('   SMTP_PASS:', process.env.SMTP_PASS ? '✅ Set' : '❌ Missing')
+    throw new Error('Email service is not configured. Please contact the administrator.')
   }
 
   // Get admin email from environment or use a default
   const adminEmail = process.env.ADMIN_EMAIL || process.env.SMTP_USER || 'admin@furyroadrc.com'
+  
+  console.log('✅ Transporter is configured, preparing admin notification email...')
+  console.log('   From:', process.env.SMTP_USER)
+  console.log('   To (Admin):', adminEmail)
+  console.log('   ADMIN_EMAIL env var:', process.env.ADMIN_EMAIL || 'Not set (using SMTP_USER as fallback)')
 
   const { customer, booking, game } = data
+
+  console.log('   Booking details:')
+  console.log('     - Customer:', customer.name, `(${customer.email})`)
+  console.log('     - Game:', game.name)
+  console.log('     - Booking ID:', booking.id)
+  console.log('     - Total Price: ₹', booking.totalPrice)
 
   const mailOptions = {
     from: process.env.SMTP_USER,
@@ -322,10 +338,30 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
   }
 
   try {
-    await transporter.sendMail(mailOptions)
-    console.log('Booking notification email sent to admin:', adminEmail)
+    console.log('📤 Sending admin notification email via SMTP...')
+    const info = await transporter.sendMail(mailOptions)
+    console.log('✅ Booking notification email sent successfully to admin:', adminEmail)
+    console.log('   Message ID:', info.messageId)
+    if (nodemailer.getTestMessageUrl) {
+      const previewUrl = nodemailer.getTestMessageUrl(info)
+      if (previewUrl) {
+        console.log('   Preview URL:', previewUrl)
+      }
+    }
+    return info
   } catch (error) {
-    console.error('Error sending booking notification email to admin:', error)
+    console.error('❌ Error sending booking notification email to admin:', adminEmail)
+    console.error('   Error details:', error)
+    if (error instanceof Error) {
+      console.error('   Error message:', error.message)
+      console.error('   Error stack:', error.stack)
+    }
+    if (error && typeof error === 'object' && 'response' in error) {
+      console.error('   SMTP Response:', (error as { response: unknown }).response)
+    }
+    if (error && typeof error === 'object' && 'code' in error) {
+      console.error('   Error code:', (error as { code: unknown }).code)
+    }
     throw error
   }
 }

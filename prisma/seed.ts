@@ -6,13 +6,21 @@ const prisma = new PrismaClient()
 async function main() {
   console.log('🌱 Starting database seed...')
 
+  // Delete old admin user if exists (to migrate to new email)
+  await prisma.user.deleteMany({
+    where: { 
+      email: 'admin@rccarcafe.com',
+      role: 'ADMIN'
+    }
+  })
+
   // Create admin user
   const adminPassword = await bcrypt.hash('admin123', 12)
   const admin = await prisma.user.upsert({
-    where: { email: 'admin@rccarcafe.com' },
+    where: { email: 'furyroadrcclub@gmail.com' },
     update: {},
     create: {
-      email: 'admin@rccarcafe.com',
+      email: 'furyroadrcclub@gmail.com',
       name: 'Admin User',
       password: adminPassword,
       role: 'ADMIN',
@@ -308,7 +316,7 @@ RC Car Café Team`
   }
 
   console.log('✅ Database seeded successfully!')
-  console.log('👤 Admin user: admin@rccarcafe.com / admin123')
+  console.log('👤 Admin user: furyroadrcclub@gmail.com / admin123')
   console.log('👤 Staff user: staff@rccarcafe.com / staff123')
   console.log('👤 Customer user: customer@rccarcafe.com / customer123')
 }
