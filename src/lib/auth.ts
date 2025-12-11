@@ -14,27 +14,36 @@ export const authOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
+          console.log('❌ Auth: Missing email or password')
           return null
         }
 
+        const email = credentials.email.toLowerCase().trim()
         const user = await prisma.user.findUnique({
           where: {
-            email: credentials.email
+            email: email
           }
         })
 
         if (!user) {
+          console.log(`❌ Auth: User not found for email: ${email}`)
           return null
         }
 
-        // For now, we'll use a simple password check
-        // In production, you'd hash the password and compare
-        const isPasswordValid = await bcrypt.compare(credentials.password, user.password || "")
+        if (!user.password) {
+          console.log(`❌ Auth: No password set for user: ${email}`)
+          return null
+        }
+
+        // Compare password using bcrypt
+        const isPasswordValid = await bcrypt.compare(credentials.password, user.password)
 
         if (!isPasswordValid) {
+          console.log(`❌ Auth: Invalid password for user: ${email}`)
           return null
         }
 
+        console.log(`✅ Auth: Successful login for ${email} (${user.role})`)
         return {
           id: user.id,
           email: user.email,
