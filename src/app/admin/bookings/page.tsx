@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Calendar, Clock, Users, CheckCircle, X, AlertCircle, Trophy } from "lucide-react"
-import Navigation from "@/components/navigation"
 
 interface Booking {
   id: string

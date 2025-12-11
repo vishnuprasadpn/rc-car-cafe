@@ -3,6 +3,7 @@ import { Inter, Bebas_Neue } from "next/font/google"
 import "./globals.css"
 import { Providers } from "@/components/providers"
 import Footer from "@/components/footer"
+import Sidebar from "@/components/sidebar"
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -36,10 +37,13 @@ export default function RootLayout({
       <body className={`${inter.variable} ${bebasNeue.variable} ${inter.className}`}>
         <Providers>
           <div className="min-h-screen flex flex-col">
-            <main className="flex-1">
-              {children}
-            </main>
-            <Footer />
+            <Sidebar />
+            <div className="flex-1 md:ml-64">
+              <main className="min-h-screen">
+                {children}
+              </main>
+              <Footer />
+            </div>
           </div>
         </Providers>
       </body>

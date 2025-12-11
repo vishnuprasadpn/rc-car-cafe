@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { BarChart3, TrendingUp, Users, Calendar, DollarSign } from "lucide-react"
-import Navigation from "@/components/navigation"
 
 interface ReportData {
   summary: {

@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { Plus, Edit, Trash2 } from "lucide-react"
 import Link from "next/link"
-import Navigation from "@/components/navigation"
 
 const gameSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -173,9 +172,7 @@ export default function AdminGamesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
-      <Navigation />
-
-      <div className="max-w-7xl mx-auto pt-20 py-6 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="flex justify-between items-center mb-6">
             <div>

@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Check, X, Clock, User, Trophy } from "lucide-react"
-import Navigation from "@/components/navigation"
 
 interface Point {
   id: string

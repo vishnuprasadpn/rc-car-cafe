@@ -74,11 +74,9 @@ async function main() {
     }
   })
 
-  // Delete all existing games and their bookings to start fresh
-  console.log('🗑️  Removing old games and bookings...')
-  await prisma.booking.deleteMany({}) // Delete bookings first due to foreign key constraint
-  await prisma.game.deleteMany({}) // Delete all old games
-  console.log('✅ Old games and bookings removed')
+  // Note: We preserve existing bookings and games to avoid data loss
+  // Only create new games if they don't exist
+  console.log('📦 Preserving existing data...')
 
   // Create games based on actual pricing structure
   const games = [
@@ -225,7 +223,7 @@ async function main() {
   }
   console.log(`✅ Created ${games.length} games`)
 
-  // Create sample points for customer (only if doesn't exist)
+  // Create sample points for customer (only if doesn't exist) - preserve existing points
   const existingPoint = await prisma.point.findFirst({
     where: {
       userId: customer.id,
@@ -244,6 +242,9 @@ async function main() {
         approvedAt: new Date()
       }
     })
+    console.log('✅ Created welcome bonus points for customer')
+  } else {
+    console.log('ℹ️  Welcome bonus points already exist for customer')
   }
 
   // Create email templates
@@ -313,7 +314,7 @@ RC Car Café Team`
     })
   }
 
-  // Create system settings
+  // Create/update system settings (preserve existing)
   const systemSettings = [
     { key: 'business_name', value: 'RC Car Café', type: 'string' },
     { key: 'business_email', value: 'info@rccarcafe.com', type: 'string' },
