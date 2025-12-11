@@ -117,13 +117,13 @@ export default function Sidebar() {
           {/* User Info Section */}
           <div className="p-4 border-b border-white/10">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full flex items-center justify-center flex-shrink-0">
                 <span className="text-white text-sm font-bold">
                   {session.user?.name?.charAt(0).toUpperCase() || "U"}
                 </span>
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-white text-sm font-medium truncate">
+              <div className="flex-1 min-w-0 overflow-hidden">
+                <p className="text-white text-sm font-semibold truncate break-words">
                   {session.user?.name || "User"}
                 </p>
                 <p className="text-gray-400 text-xs capitalize truncate">
