@@ -2,8 +2,7 @@ import type { Metadata } from "next"
 import { Inter, Bebas_Neue } from "next/font/google"
 import "./globals.css"
 import { Providers } from "@/components/providers"
-import Footer from "@/components/footer"
-import Sidebar from "@/components/sidebar"
+import LayoutWrapper from "@/components/layout-wrapper"
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -36,15 +35,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${bebasNeue.variable} ${inter.className}`}>
         <Providers>
-          <div className="min-h-screen flex flex-col">
-            <Sidebar />
-            <div className="flex-1 md:ml-64">
-              <main className="min-h-screen">
-                {children}
-              </main>
-              <Footer />
-            </div>
-          </div>
+          <LayoutWrapper>
+            {children}
+          </LayoutWrapper>
         </Providers>
       </body>
     </html>

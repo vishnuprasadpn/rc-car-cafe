@@ -28,7 +28,10 @@ export default function Sidebar() {
     router.push("/")
   }
 
-  if (!session) return null
+  // Don't render sidebar if no session
+  if (!session) {
+    return null
+  }
 
   const getNavigationItems = () => {
     const userRole = (session.user as { role?: string }).role
@@ -171,7 +174,7 @@ export default function Sidebar() {
         </div>
       </aside>
 
-      {/* Main Content Spacer for Desktop */}
+      {/* Main Content Spacer for Desktop - only show when sidebar is visible */}
       <div className="hidden md:block w-64 flex-shrink-0" />
     </>
   )
