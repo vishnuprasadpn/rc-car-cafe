@@ -15,10 +15,12 @@ async function main() {
   })
 
   // Create admin user
-  const adminPassword = await bcrypt.hash('admin123', 12)
+  const adminPassword = await bcrypt.hash('FurY@2024', 12)
   const admin = await prisma.user.upsert({
     where: { email: 'furyroadrcclub@gmail.com' },
-    update: {},
+    update: {
+      password: adminPassword, // Update password if admin already exists
+    },
     create: {
       email: 'furyroadrcclub@gmail.com',
       name: 'Admin User',
@@ -316,7 +318,7 @@ RC Car Café Team`
   }
 
   console.log('✅ Database seeded successfully!')
-  console.log('👤 Admin user: furyroadrcclub@gmail.com / admin123')
+  console.log('👤 Admin user: furyroadrcclub@gmail.com / FurY@2024')
   console.log('👤 Staff user: staff@rccarcafe.com / staff123')
   console.log('👤 Customer user: customer@rccarcafe.com / customer123')
 }
