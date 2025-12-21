@@ -32,6 +32,28 @@ function SignInPageContent() {
       // Clear the query parameter
       router.replace("/auth/signin", { scroll: false })
     }
+    
+    // Handle OAuth errors
+    const errorParam = searchParams.get("error")
+    if (errorParam) {
+      if (errorParam === "OAuthSignin") {
+        setError("Google sign-in failed. Please check your Google OAuth configuration or try again.")
+      } else if (errorParam === "OAuthCallback") {
+        setError("OAuth callback error. Please try signing in again.")
+      } else if (errorParam === "OAuthCreateAccount") {
+        setError("Failed to create account. Please try again.")
+      } else if (errorParam === "EmailCreateAccount") {
+        setError("Failed to create account with this email. Please try again.")
+      } else if (errorParam === "Callback") {
+        setError("Callback error occurred. Please try again.")
+      } else if (errorParam === "OAuthAccountNotLinked") {
+        setError("An account with this email already exists. Please sign in with your password.")
+      } else {
+        setError("Authentication error. Please try again.")
+      }
+      // Clear the error parameter from URL
+      router.replace("/auth/signin", { scroll: false })
+    }
   }, [searchParams, router])
 
   const {
