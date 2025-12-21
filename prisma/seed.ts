@@ -265,30 +265,6 @@ async function main() {
   }
   console.log(`✅ Created ${games.length} games`)
 
-  // Create sample points for customer (only if doesn't exist) - preserve existing points
-  const existingPoint = await prisma.point.findFirst({
-    where: {
-      userId: customer.id,
-      reason: 'Welcome bonus'
-    }
-  })
-  
-  if (!existingPoint) {
-    await prisma.point.create({
-      data: {
-        userId: customer.id,
-        amount: 100,
-        reason: 'Welcome bonus',
-        status: 'APPROVED',
-        approvedBy: admin.id,
-        approvedAt: new Date()
-      }
-    })
-    console.log('✅ Created welcome bonus points for customer')
-  } else {
-    console.log('ℹ️  Welcome bonus points already exist for customer')
-  }
-
   // Create email templates
   const emailTemplates = [
     {

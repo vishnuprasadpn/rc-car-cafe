@@ -41,7 +41,6 @@ export default function AdminPointsPage() {
   const [error, setError] = useState("")
   const [deletingPointId, setDeletingPointId] = useState<string | null>(null)
   const [editingPointId, setEditingPointId] = useState<string | null>(null)
-  const [editingPoint, setEditingPoint] = useState<Point | null>(null)
   
   const {
     register: registerEdit,
@@ -141,6 +140,46 @@ export default function AdminPointsPage() {
       setError("An error occurred while deleting the point")
     } finally {
       setDeletingPointId(null)
+    }
+  }
+
+  const handleEdit = (point: Point) => {
+    setEditingPointId(point.id)
+    resetEdit({
+      amount: point.amount,
+      reason: point.reason,
+      status: point.status as "PENDING" | "APPROVED" | "REJECTED",
+    })
+  }
+
+  const handleCancelEdit = () => {
+    setEditingPointId(null)
+    resetEdit()
+  }
+
+  const onSubmitEdit = async (data: EditPointForm) => {
+    if (!editingPointId) return
+
+    try {
+      setError("")
+      const response = await fetch(`/api/admin/points/${editingPointId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (response.ok) {
+        await fetchPoints()
+        handleCancelEdit()
+      } else {
+        const errorData = await response.json()
+        setError(errorData.message || "Failed to update point")
+      }
+    } catch (error) {
+      console.error("Error updating point:", error)
+      setError("An error occurred while updating the point")
     }
   }
 

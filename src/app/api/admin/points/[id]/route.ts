@@ -33,8 +33,8 @@ export async function PATCH(
       amount?: number
       reason?: string
       status?: "PENDING" | "APPROVED" | "REJECTED"
-      approvedBy?: string
-      approvedAt?: Date
+      approvedBy?: string | null
+      approvedAt?: Date | null
     } = {}
 
     if (updateData.amount !== undefined) {
@@ -51,8 +51,9 @@ export async function PATCH(
         data.approvedAt = new Date()
       } else {
         // Clear approval fields if status is changed away from APPROVED
-        data.approvedBy = null
-        data.approvedAt = null
+        // Prisma accepts null for nullable fields
+        data.approvedBy = null as string | null
+        data.approvedAt = null as Date | null
       }
     }
 
