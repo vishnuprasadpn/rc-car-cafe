@@ -92,7 +92,7 @@ export default function AdminPointsPage() {
         const errorData = await response.json()
         setError(errorData.message || "Failed to approve points")
       }
-    } catch (error) {
+    } catch {
       setError("An error occurred. Please try again.")
     }
   }
@@ -113,7 +113,7 @@ export default function AdminPointsPage() {
         const errorData = await response.json()
         setError(errorData.message || "Failed to reject points")
       }
-    } catch (error) {
+    } catch {
       setError("An error occurred. Please try again.")
     }
   }

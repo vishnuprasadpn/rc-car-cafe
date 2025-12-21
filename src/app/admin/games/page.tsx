@@ -98,7 +98,7 @@ export default function AdminGamesPage() {
         const errorData = await response.json()
         setError(errorData.message || "Failed to save game")
       }
-    } catch (error) {
+    } catch {
       setError("An error occurred. Please try again.")
     } finally {
       setSubmitting(false)

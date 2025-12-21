@@ -2,33 +2,13 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { useSession, signOut } from "next-auth/react"
-import { useRouter, usePathname } from "next/navigation"
-import { 
-  Home, 
-  Calendar, 
-  Trophy, 
-  Users, 
-  Settings, 
-  LogOut,
-  Menu,
-  X,
-  ChevronDown,
-  Zap
-} from "lucide-react"
-import { useState } from "react"
+import { useSession } from "next-auth/react"
+import { usePathname } from "next/navigation"
+import { Zap } from "lucide-react"
 
 export default function Navigation() {
   const { data: session, status } = useSession()
-  const router = useRouter()
   const pathname = usePathname()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
-
-  const handleSignOut = async () => {
-    await signOut({ redirect: false })
-    router.push("/")
-  }
 
   // Define public routes where navigation should always show
   const publicRoutes = [
