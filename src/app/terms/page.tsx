@@ -1,5 +1,4 @@
 import Navigation from "@/components/navigation"
-import Footer from "@/components/footer"
 import { FileText, AlertCircle, CheckCircle, XCircle } from "lucide-react"
 
 export const metadata = {
@@ -9,9 +8,9 @@ export const metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <>
       <Navigation />
-      <main className="flex-1 pt-16 md:pt-20">
+      <main className="pt-16 md:pt-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-8 md:p-12">
             <div className="flex items-center mb-8">
@@ -197,8 +196,7 @@ export default function TermsPage() {
           </div>
         </div>
       </main>
-      <Footer />
-    </div>
+    </>
   )
 }
 
