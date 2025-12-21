@@ -4,8 +4,11 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { Check, X, Clock, User, Trophy, Trash2 } from "lucide-react"
+import { Check, X, Clock, User, Trophy, Trash2, Edit, Save } from "lucide-react"
 import { AUTHORIZED_DELETE_ADMIN_EMAIL } from "@/lib/admin-auth"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
 
 interface Point {
   id: string
@@ -21,6 +24,14 @@ interface Point {
   }
 }
 
+const editPointSchema = z.object({
+  amount: z.number().int().positive("Amount must be a positive number"),
+  reason: z.string().min(1, "Reason is required"),
+  status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
+})
+
+type EditPointForm = z.infer<typeof editPointSchema>
+
 export default function AdminPointsPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
@@ -29,6 +40,17 @@ export default function AdminPointsPage() {
   const [filter, setFilter] = useState("ALL")
   const [error, setError] = useState("")
   const [deletingPointId, setDeletingPointId] = useState<string | null>(null)
+  const [editingPointId, setEditingPointId] = useState<string | null>(null)
+  const [editingPoint, setEditingPoint] = useState<Point | null>(null)
+  
+  const {
+    register: registerEdit,
+    handleSubmit: handleSubmitEdit,
+    reset: resetEdit,
+    formState: { errors: editErrors },
+  } = useForm<EditPointForm>({
+    resolver: zodResolver(editPointSchema),
+  })
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -302,78 +324,163 @@ export default function AdminPointsPage() {
                     <tbody className="bg-white/5 divide-y divide-white/10">
                       {points.map((point) => (
                         <tr key={point.id} className="hover:bg-white/10 transition-colors">
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <div className="flex-shrink-0 h-10 w-10">
-                                <div className="h-10 w-10 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
-                                  <User className="h-5 w-5 text-blue-400" />
+                          {editingPointId === point.id ? (
+                            // Edit mode
+                            <>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="flex items-center">
+                                  <div className="flex-shrink-0 h-10 w-10">
+                                    <div className="h-10 w-10 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
+                                      <User className="h-5 w-5 text-blue-400" />
+                                    </div>
+                                  </div>
+                                  <div className="ml-4">
+                                    <div className="text-sm font-medium text-white">
+                                      {point.user.name}
+                                    </div>
+                                    <div className="text-sm text-gray-400">
+                                      {point.user.email}
+                                    </div>
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="ml-4">
-                                <div className="text-sm font-medium text-white">
-                                  {point.user.name}
-                                </div>
-                                <div className="text-sm text-gray-400">
-                                  {point.user.email}
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <Trophy className="h-4 w-4 text-fury-orange mr-1" />
-                              <span className="text-sm font-medium text-white">
-                                {point.amount}
-                              </span>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4">
-                            <div className="text-sm text-gray-300">
-                              {point.reason}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                              point.status === 'APPROVED' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
-                              point.status === 'REJECTED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
-                              'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
-                            }`}>
-                              {point.status}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                            {new Date(point.createdAt).toLocaleDateString()}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                            {point.status === "PENDING" && (
-                              <>
-                                <button
-                                  onClick={() => handleApprove(point.id)}
-                                  className="text-green-400 hover:text-green-300 transition-colors"
-                                  title="Approve"
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <input
+                                  type="number"
+                                  {...registerEdit("amount", { valueAsNumber: true })}
+                                  className="w-20 px-2 py-1 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange"
+                                />
+                                {editErrors.amount && (
+                                  <p className="text-red-400 text-xs mt-1">{editErrors.amount.message}</p>
+                                )}
+                              </td>
+                              <td className="px-6 py-4">
+                                <input
+                                  type="text"
+                                  {...registerEdit("reason")}
+                                  className="w-full px-2 py-1 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange"
+                                />
+                                {editErrors.reason && (
+                                  <p className="text-red-400 text-xs mt-1">{editErrors.reason.message}</p>
+                                )}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <select
+                                  {...registerEdit("status")}
+                                  className="px-2 py-1 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange"
                                 >
-                                  <Check className="h-4 w-4" />
+                                  <option value="PENDING">PENDING</option>
+                                  <option value="APPROVED">APPROVED</option>
+                                  <option value="REJECTED">REJECTED</option>
+                                </select>
+                                {editErrors.status && (
+                                  <p className="text-red-400 text-xs mt-1">{editErrors.status.message}</p>
+                                )}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                {new Date(point.createdAt).toLocaleDateString()}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                <button
+                                  onClick={handleSubmitEdit(onSubmitEdit)}
+                                  className="text-green-400 hover:text-green-300 transition-colors"
+                                  title="Save changes"
+                                >
+                                  <Save className="h-4 w-4" />
                                 </button>
                                 <button
-                                  onClick={() => handleReject(point.id)}
-                                  className="text-red-400 hover:text-red-300 transition-colors"
-                                  title="Reject"
+                                  onClick={handleCancelEdit}
+                                  className="text-gray-400 hover:text-gray-300 transition-colors"
+                                  title="Cancel"
                                 >
                                   <X className="h-4 w-4" />
                                 </button>
-                              </>
-                            )}
-                            {session?.user?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
-                              <button
-                                onClick={() => handleDelete(point.id)}
-                                disabled={deletingPointId === point.id}
-                                className="text-red-400 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                title="Delete point (only authorized admin)"
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </button>
-                            )}
-                          </td>
+                              </td>
+                            </>
+                          ) : (
+                            // View mode
+                            <>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="flex items-center">
+                                  <div className="flex-shrink-0 h-10 w-10">
+                                    <div className="h-10 w-10 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
+                                      <User className="h-5 w-5 text-blue-400" />
+                                    </div>
+                                  </div>
+                                  <div className="ml-4">
+                                    <div className="text-sm font-medium text-white">
+                                      {point.user.name}
+                                    </div>
+                                    <div className="text-sm text-gray-400">
+                                      {point.user.email}
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="flex items-center">
+                                  <Trophy className="h-4 w-4 text-fury-orange mr-1" />
+                                  <span className="text-sm font-medium text-white">
+                                    {point.amount}
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="text-sm text-gray-300">
+                                  {point.reason}
+                                </div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                  point.status === 'APPROVED' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+                                  point.status === 'REJECTED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
+                                  'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                                }`}>
+                                  {point.status}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                {new Date(point.createdAt).toLocaleDateString()}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                <button
+                                  onClick={() => handleEdit(point)}
+                                  className="text-blue-400 hover:text-blue-300 transition-colors"
+                                  title="Edit point"
+                                >
+                                  <Edit className="h-4 w-4" />
+                                </button>
+                                {point.status === "PENDING" && (
+                                  <>
+                                    <button
+                                      onClick={() => handleApprove(point.id)}
+                                      className="text-green-400 hover:text-green-300 transition-colors"
+                                      title="Approve"
+                                    >
+                                      <Check className="h-4 w-4" />
+                                    </button>
+                                    <button
+                                      onClick={() => handleReject(point.id)}
+                                      className="text-red-400 hover:text-red-300 transition-colors"
+                                      title="Reject"
+                                    >
+                                      <X className="h-4 w-4" />
+                                    </button>
+                                  </>
+                                )}
+                                {session?.user?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
+                                  <button
+                                    onClick={() => handleDelete(point.id)}
+                                    disabled={deletingPointId === point.id}
+                                    className="text-red-400 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    title="Delete point (only authorized admin)"
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </button>
+                                )}
+                              </td>
+                            </>
+                          )}
                         </tr>
                       ))}
                     </tbody>

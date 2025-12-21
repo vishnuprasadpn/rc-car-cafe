@@ -7,7 +7,9 @@ import { isAuthorizedDeleteAdmin } from "@/lib/admin-auth"
 import { z } from "zod"
 
 const updatePointSchema = z.object({
-  status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
+  status: z.enum(["PENDING", "APPROVED", "REJECTED"]).optional(),
+  amount: z.number().int().positive().optional(),
+  reason: z.string().min(1).optional(),
 })
 
 export async function PATCH(
@@ -24,15 +26,39 @@ export async function PATCH(
 
     const { id } = await params
     const body = await request.json()
-    const { status } = updatePointSchema.parse(body)
+    const updateData = updatePointSchema.parse(body)
+
+    // Build update data object
+    const data: {
+      amount?: number
+      reason?: string
+      status?: "PENDING" | "APPROVED" | "REJECTED"
+      approvedBy?: string
+      approvedAt?: Date
+    } = {}
+
+    if (updateData.amount !== undefined) {
+      data.amount = updateData.amount
+    }
+    if (updateData.reason !== undefined) {
+      data.reason = updateData.reason
+    }
+    if (updateData.status !== undefined) {
+      data.status = updateData.status
+      // Set approvedBy and approvedAt if status is being changed to APPROVED
+      if (updateData.status === "APPROVED") {
+        data.approvedBy = (session.user as { id: string }).id
+        data.approvedAt = new Date()
+      } else {
+        // Clear approval fields if status is changed away from APPROVED
+        data.approvedBy = null
+        data.approvedAt = null
+      }
+    }
 
     const point = await prisma.point.update({
       where: { id },
-      data: {
-        status,
-        approvedBy: (session.user as { id: string }).id,
-        approvedAt: new Date()
-      },
+      data,
       include: {
         user: {
           select: {
