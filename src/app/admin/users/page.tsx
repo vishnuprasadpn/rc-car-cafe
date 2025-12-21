@@ -315,6 +315,117 @@ export default function AdminUsersPage() {
             </div>
           )}
 
+          {/* Edit User Section */}
+          {editingUserId && editingUser && (
+            <div className="mb-6 bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-white">Edit User</h3>
+                  <p className="text-sm text-gray-400 mt-1">Update user information</p>
+                </div>
+                <button
+                  onClick={handleCancelEdit}
+                  className="text-gray-400 hover:text-white transition-colors"
+                  title="Cancel"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <form onSubmit={handleSubmitEdit(onSubmitEdit)} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Name Field */}
+                  <div>
+                    <label htmlFor="edit-name" className="block text-sm font-medium text-gray-300 mb-2">
+                      Name <span className="text-red-400">*</span>
+                    </label>
+                    <input
+                      id="edit-name"
+                      type="text"
+                      {...registerEdit("name")}
+                      className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
+                      placeholder="Enter name"
+                    />
+                    {editErrors.name && (
+                      <p className="text-red-400 text-xs mt-1">{editErrors.name.message}</p>
+                    )}
+                  </div>
+
+                  {/* Email Field */}
+                  <div>
+                    <label htmlFor="edit-email" className="block text-sm font-medium text-gray-300 mb-2">
+                      Email <span className="text-red-400">*</span>
+                    </label>
+                    <input
+                      id="edit-email"
+                      type="email"
+                      {...registerEdit("email")}
+                      className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
+                      placeholder="Enter email"
+                    />
+                    {editErrors.email && (
+                      <p className="text-red-400 text-xs mt-1">{editErrors.email.message}</p>
+                    )}
+                  </div>
+
+                  {/* Phone Field */}
+                  <div>
+                    <label htmlFor="edit-phone" className="block text-sm font-medium text-gray-300 mb-2">
+                      Phone
+                    </label>
+                    <input
+                      id="edit-phone"
+                      type="text"
+                      {...registerEdit("phone")}
+                      className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
+                      placeholder="Enter phone (optional)"
+                    />
+                    {editErrors.phone && (
+                      <p className="text-red-400 text-xs mt-1">{editErrors.phone.message}</p>
+                    )}
+                  </div>
+
+                  {/* Role Field */}
+                  <div>
+                    <label htmlFor="edit-role" className="block text-sm font-medium text-gray-300 mb-2">
+                      Role <span className="text-red-400">*</span>
+                    </label>
+                    <select
+                      id="edit-role"
+                      {...registerEdit("role")}
+                      className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
+                    >
+                      <option value="CUSTOMER">CUSTOMER</option>
+                      <option value="STAFF">STAFF</option>
+                      <option value="ADMIN">ADMIN</option>
+                    </select>
+                    {editErrors.role && (
+                      <p className="text-red-400 text-xs mt-1">{editErrors.role.message}</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+                  <button
+                    type="button"
+                    onClick={handleCancelEdit}
+                    className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-6 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 flex items-center"
+                  >
+                    <Save className="h-4 w-4 mr-2" />
+                    Save Changes
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
           {/* Users Table */}
           <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden">
             <div className="overflow-x-auto">
