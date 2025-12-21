@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { Plus, Edit, Trash2 } from "lucide-react"
 import Link from "next/link"
+import { AUTHORIZED_DELETE_ADMIN_EMAIL } from "@/lib/admin-auth"
 
 const gameSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -371,12 +372,15 @@ export default function AdminGamesPage() {
                             >
                               {game.isActive ? 'Deactivate' : 'Activate'}
                             </button>
-                            <button
-                              onClick={() => handleDelete(game.id)}
-                              className="text-red-400 hover:text-red-300 transition-colors"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </button>
+                            {(session?.user as { email?: string })?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
+                              <button
+                                onClick={() => handleDelete(game.id)}
+                                className="text-red-400 hover:text-red-300 transition-colors"
+                                title="Only authorized admin can delete"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))}

@@ -3,7 +3,8 @@
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { Users, Search, Filter, Phone, Calendar, Trophy, CalendarCheck } from "lucide-react"
+import { Users, Search, Filter, Phone, Calendar, Trophy, CalendarCheck, Trash2 } from "lucide-react"
+import { AUTHORIZED_DELETE_ADMIN_EMAIL } from "@/lib/admin-auth"
 
 interface User {
   id: string
@@ -24,6 +25,7 @@ export default function AdminUsersPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [roleFilter, setRoleFilter] = useState<string>("")
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
+  const [deletingUserId, setDeletingUserId] = useState<string | null>(null)
 
   const fetchUsers = async () => {
     try {
@@ -80,6 +82,31 @@ export default function AdminUsersPage() {
   }
 
   const stats = getRoleStats()
+
+  const handleDeleteUser = async (userId: string, userName: string) => {
+    if (!confirm(`Are you sure you want to delete user "${userName}"? This action cannot be undone.`)) {
+      return
+    }
+
+    try {
+      setDeletingUserId(userId)
+      const response = await fetch(`/api/admin/users/${userId}`, {
+        method: "DELETE",
+      })
+
+      if (response.ok) {
+        await fetchUsers()
+      } else {
+        const errorData = await response.json()
+        alert(errorData.message || "Failed to delete user")
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error)
+      alert("An error occurred while deleting the user")
+    } finally {
+      setDeletingUserId(null)
+    }
+  }
 
   if (status === "loading" || loading) {
     return (
@@ -217,12 +244,15 @@ export default function AdminUsersPage() {
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Bookings</th>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Points</th>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Joined</th>
+                    {(session?.user as { email?: string })?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Actions</th>
+                    )}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/10">
                   {filteredUsers.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="px-6 py-12 text-center">
+                      <td colSpan={(session?.user as { email?: string })?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() ? 7 : 6} className="px-6 py-12 text-center">
                         <div className="inline-flex items-center justify-center w-16 h-16 bg-white/5 rounded-full mb-4 border border-white/10">
                           <Users className="h-8 w-8 text-gray-400" />
                         </div>
@@ -283,6 +313,22 @@ export default function AdminUsersPage() {
                             {new Date(user.createdAt).toLocaleDateString()}
                           </div>
                         </td>
+                        {(session?.user as { email?: string })?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            {user.email.toLowerCase() !== AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && user.bookingsCount === 0 && user.pointsCount === 0 ? (
+                              <button
+                                onClick={() => handleDeleteUser(user.id, user.name)}
+                                disabled={deletingUserId === user.id}
+                                className="text-red-400 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                title="Delete user (only if no bookings or points)"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </button>
+                            ) : (
+                              <span className="text-gray-500 text-xs">Protected</span>
+                            )}
+                          </td>
+                        )}
                       </tr>
                     ))
                   )}
