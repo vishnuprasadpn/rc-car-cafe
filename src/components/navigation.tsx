@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { usePathname } from "next/navigation"
-import { Zap, Home, MapPin, Info, Mail, LogIn, UserPlus } from "lucide-react"
+import { Zap, Home, Car, Info, Mail, LogIn, UserPlus } from "lucide-react"
 
 export default function Navigation() {
   const { data: session, status } = useSession()
@@ -74,7 +74,7 @@ export default function Navigation() {
                   }`}
                   title="Tracks"
                 >
-                  <MapPin className="h-5 w-5" />
+                  <Car className="h-5 w-5" />
                 </Link>
                 <Link 
                   href="/about" 
