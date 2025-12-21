@@ -79,47 +79,42 @@ async function main() {
     }
   })
 
-  // Create sample customer
-  const customerPassword = await bcrypt.hash('customer123', 12)
-  const customer = await prisma.user.upsert({
-    where: { email: 'customer@rccarcafe.com' },
-    update: {},
-    create: {
-      email: 'customer@rccarcafe.com',
-      name: 'John Doe',
-      password: customerPassword,
-      role: 'CUSTOMER',
-      phone: '+91 9876543212'
+  // Delete test customer account and all associated data
+  console.log('🗑️  Removing test customer account...')
+  
+  try {
+    // Find test customer
+    const testCustomer = await prisma.user.findUnique({
+      where: { email: 'customer@rccarcafe.com' }
+    })
+    
+    if (testCustomer) {
+      // Delete bookings from test customer
+      const deletedBookings = await prisma.booking.deleteMany({
+        where: {
+          userId: testCustomer.id
+        }
+      })
+      console.log(`✅ Deleted ${deletedBookings.count} bookings from test customer`)
+      
+      // Delete points from test customer
+      const deletedPoints = await prisma.point.deleteMany({
+        where: {
+          userId: testCustomer.id
+        }
+      })
+      console.log(`✅ Deleted ${deletedPoints.count} points from test customer`)
+      
+      // Delete the test customer account
+      await prisma.user.delete({
+        where: { email: 'customer@rccarcafe.com' }
+      })
+      console.log('✅ Test customer account deleted')
+    } else {
+      console.log('ℹ️  Test customer account not found (already deleted or never existed)')
     }
-  })
-
-  // Delete only dummy/test data (bookings from test customer)
-  console.log('🗑️  Removing dummy/test data...')
-  
-  // Find test customer
-  const testCustomer = await prisma.user.findUnique({
-    where: { email: 'customer@rccarcafe.com' }
-  })
-  
-  // Delete only bookings from test customer (dummy data)
-  if (testCustomer) {
-    const deletedBookings = await prisma.booking.deleteMany({
-      where: {
-        userId: testCustomer.id
-      }
-    })
-    console.log(`✅ Deleted ${deletedBookings.count} dummy bookings from test customer`)
-  }
-  
-  // Delete only test customer's points (dummy data)
-  if (testCustomer) {
-    const deletedPoints = await prisma.point.deleteMany({
-      where: {
-        userId: testCustomer.id,
-        reason: 'Welcome bonus' // Only delete the welcome bonus test points
-      }
-    })
-    console.log(`✅ Deleted ${deletedPoints.count} dummy points from test customer`)
+  } catch (error) {
+    console.log('ℹ️  Could not delete test customer account (this is okay if it doesn\'t exist)')
   }
   
   // Preserve all real user data (bookings, games, etc.)
