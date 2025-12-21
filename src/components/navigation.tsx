@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useSession, signOut } from "next-auth/react"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { 
   Home, 
   Calendar, 
@@ -21,6 +21,7 @@ import { useState } from "react"
 export default function Navigation() {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
 
@@ -29,9 +30,30 @@ export default function Navigation() {
     router.push("/")
   }
 
-  // Show navigation for non-authenticated users (public pages)
-  // Also show during loading state to prevent flicker
-  if (status === "loading" || !session) {
+  // Define public routes where navigation should always show
+  const publicRoutes = [
+    '/',
+    '/about',
+    '/contact',
+    '/tracks',
+    '/book',
+    '/auth/signin',
+    '/auth/signup',
+    '/auth/forgot-password',
+    '/auth/verify-code',
+    '/auth/reset-password',
+  ]
+
+  // Check if current path is a public route
+  const isPublicRoute = publicRoutes.some(route => {
+    if (route === '/') {
+      return pathname === '/'
+    }
+    return pathname?.startsWith(route)
+  })
+
+  // Show navigation on public routes (regardless of auth status) or when loading/unauthenticated
+  if (isPublicRoute || status === "loading" || !session) {
     return (
       <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
         <div className="bg-white/10 backdrop-blur-xl rounded-full shadow-lg border border-white/20 px-6 py-4">
@@ -66,21 +88,33 @@ export default function Navigation() {
               </Link>
             </div>
             
-            {/* Sign In / Sign Up */}
+            {/* Sign In / Sign Up or User Menu */}
             <div className="flex items-center space-x-4">
-              <Link
-                href="/auth/signin"
-                className="text-white/90 hover:text-white px-4 py-2 text-sm font-medium transition-colors"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/auth/signup"
-                className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-white/30 shadow-sm transition-all flex items-center"
-              >
-                <Zap className="h-4 w-4 mr-2 text-white" />
-                Join Club
-              </Link>
+              {session ? (
+                <Link
+                  href="/dashboard"
+                  className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-white/30 shadow-sm transition-all flex items-center"
+                >
+                  <Zap className="h-4 w-4 mr-2 text-white" />
+                  Dashboard
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    href="/auth/signin"
+                    className="text-white/90 hover:text-white px-4 py-2 text-sm font-medium transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/auth/signup"
+                    className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-white/30 shadow-sm transition-all flex items-center"
+                  >
+                    <Zap className="h-4 w-4 mr-2 text-white" />
+                    Join Club
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -88,7 +122,7 @@ export default function Navigation() {
     )
   }
 
-  // For authenticated users, return null (sidebar will handle navigation)
+  // For authenticated users on non-public routes, return null (sidebar will handle navigation)
   return null
 }
 
