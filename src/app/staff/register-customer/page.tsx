@@ -28,7 +28,9 @@ export default function RegisterCustomerPage() {
     </div>
   }
 
-  if (!session || !session.user || (session.user as { role?: string }).role !== "STAFF") {
+  // Allow both ADMIN and STAFF to register customers
+  const userRole = (session?.user as { role?: string })?.role
+  if (!session || !session.user || (userRole !== "STAFF" && userRole !== "ADMIN")) {
     redirect("/auth/signin")
   }
 
@@ -81,7 +83,11 @@ export default function RegisterCustomerPage() {
               <UserPlus className="h-6 w-6 sm:h-8 sm:w-8 text-fury-orange mr-2 sm:mr-3" />
               Register New Customer
             </h1>
-            <p className="text-xs sm:text-sm text-gray-400 mt-2">Add a new customer to the Fury Road RC Club</p>
+            <p className="text-xs sm:text-sm text-gray-400 mt-2">
+              {userRole === "ADMIN" 
+                ? "Add a new customer to the Fury Road RC Club" 
+                : "Add a new customer to the Fury Road RC Club"}
+            </p>
           </div>
 
           <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">

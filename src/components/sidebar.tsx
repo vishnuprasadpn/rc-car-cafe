@@ -13,7 +13,8 @@ import {
   LogOut,
   Menu,
   X,
-  Zap
+  Zap,
+  UserPlus
 } from "lucide-react"
 import { useState } from "react"
 
@@ -40,6 +41,7 @@ export default function Sidebar() {
         { name: "Home", href: "/", icon: Home },
         { name: "Dashboard", href: "/admin", icon: Home },
         { name: "Users", href: "/admin/users", icon: Users },
+        { name: "Add Customer", href: "/staff/register-customer", icon: UserPlus },
         { name: "Bookings", href: "/admin/bookings", icon: Calendar },
         { name: "Games", href: "/admin/games", icon: Trophy },
         { name: "Points", href: "/admin/points", icon: Trophy },
@@ -51,6 +53,7 @@ export default function Sidebar() {
         { name: "Dashboard", href: "/staff", icon: Home },
         { name: "Bookings", href: "/staff/bookings", icon: Calendar },
         { name: "Customers", href: "/staff/customers", icon: Users },
+        { name: "Register Customer", href: "/staff/register-customer", icon: UserPlus },
       ]
     } else {
       return [

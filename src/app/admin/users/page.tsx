@@ -3,8 +3,9 @@
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { Users, Search, Filter, Phone, Calendar, Trophy, CalendarCheck, Trash2 } from "lucide-react"
+import { Users, Search, Filter, Phone, Calendar, Trophy, CalendarCheck, Trash2, UserPlus } from "lucide-react"
 import { AUTHORIZED_DELETE_ADMIN_EMAIL } from "@/lib/admin-auth"
+import Link from "next/link"
 
 interface User {
   id: string
@@ -134,6 +135,13 @@ export default function AdminUsersPage() {
                 <h1 className="text-xl sm:text-3xl font-bold text-white mb-2">User Management</h1>
                 <p className="text-xs sm:text-sm text-gray-400">Manage all users of Fury Road RC Club</p>
               </div>
+              <Link
+                href="/staff/register-customer"
+                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 text-sm font-semibold"
+              >
+                <UserPlus className="h-4 w-4 mr-2" />
+                Add New Customer
+              </Link>
             </div>
           </div>
 
