@@ -13,7 +13,6 @@ import {
   LogOut,
   Menu,
   X,
-  Zap,
   UserPlus
 } from "lucide-react"
 import { useState } from "react"
