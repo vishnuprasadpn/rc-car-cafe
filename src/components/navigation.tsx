@@ -29,11 +29,9 @@ export default function Navigation() {
     router.push("/")
   }
 
-  if (status === "loading") {
-    return null
-  }
-
-  if (!session) {
+  // Show navigation for non-authenticated users (public pages)
+  // Also show during loading state to prevent flicker
+  if (!session || status === "loading") {
     return (
       <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
         <div className="bg-white/10 backdrop-blur-xl rounded-full shadow-lg border border-white/20 px-6 py-4">
@@ -89,37 +87,6 @@ export default function Navigation() {
       </nav>
     )
   }
-
-  const getNavigationItems = () => {
-    if (!session?.user) return []
-    const userRole = (session.user as { role?: string }).role
-    if (userRole === "ADMIN") {
-      return [
-        { name: "Home", href: "/", icon: Home },
-        { name: "Dashboard", href: "/admin", icon: Home },
-        { name: "Users", href: "/admin/users", icon: Users },
-        { name: "Bookings", href: "/admin/bookings", icon: Calendar },
-        { name: "Games", href: "/admin/games", icon: Trophy },
-        { name: "Points", href: "/admin/points", icon: Trophy },
-        { name: "Reports", href: "/admin/reports", icon: Settings },
-      ]
-    } else if (userRole === "STAFF") {
-      return [
-        { name: "Home", href: "/", icon: Home },
-        { name: "Dashboard", href: "/staff", icon: Home },
-        { name: "Bookings", href: "/staff/bookings", icon: Calendar },
-        { name: "Customers", href: "/staff/customers", icon: Users },
-      ]
-    } else {
-      return [
-        { name: "Home", href: "/", icon: Home },
-        { name: "Dashboard", href: "/dashboard", icon: Home },
-        { name: "My Bookings", href: "/dashboard", icon: Calendar },
-      ]
-    }
-  }
-
-  const navigationItems = getNavigationItems()
 
   // For authenticated users, return null (sidebar will handle navigation)
   return null
