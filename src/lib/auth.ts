@@ -1,11 +1,17 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import CredentialsProvider from "next-auth/providers/credentials"
+import GoogleProvider from "next-auth/providers/google"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      allowDangerousEmailAccountLinking: true, // Allow linking accounts with same email
+    }),
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -58,10 +64,43 @@ export const authOptions = {
   },
   callbacks: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async jwt({ token, user }: any) {
+    async signIn({ user, account, profile }: any) {
+      // If signing in with Google OAuth
+      if (account?.provider === "google") {
+        // Check if user already exists
+        const existingUser = await prisma.user.findUnique({
+          where: { email: user.email?.toLowerCase() }
+        })
+
+        // If user doesn't exist, create a new user with CUSTOMER role
+        if (!existingUser) {
+          await prisma.user.create({
+            data: {
+              email: user.email?.toLowerCase() || "",
+              name: user.name || "User",
+              role: "CUSTOMER",
+              // No password for OAuth users
+            }
+          })
+        }
+      }
+      return true
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async jwt({ token, user, account }: any) {
       if (user) {
         token.role = user.role
         token.email = user.email
+      }
+      // If signing in with OAuth, fetch user role from database
+      if (account?.provider === "google" && user?.email) {
+        const dbUser = await prisma.user.findUnique({
+          where: { email: user.email.toLowerCase() },
+          select: { role: true }
+        })
+        if (dbUser) {
+          token.role = dbUser.role
+        }
       }
       return token
     },
