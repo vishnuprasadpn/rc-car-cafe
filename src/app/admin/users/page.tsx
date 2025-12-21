@@ -3,9 +3,12 @@
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { Users, Search, Filter, Phone, Calendar, Trophy, CalendarCheck, Trash2, UserPlus } from "lucide-react"
+import { Users, Search, Filter, Phone, Calendar, Trophy, CalendarCheck, Trash2, UserPlus, Edit, Save, X } from "lucide-react"
 import { AUTHORIZED_DELETE_ADMIN_EMAIL } from "@/lib/admin-auth"
 import Link from "next/link"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
 
 interface User {
   id: string
@@ -18,6 +21,15 @@ interface User {
   pointsCount: number
 }
 
+const editUserSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email address"),
+  phone: z.string().optional(),
+  role: z.enum(["CUSTOMER", "STAFF", "ADMIN"]),
+})
+
+type EditUserForm = z.infer<typeof editUserSchema>
+
 export default function AdminUsersPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
@@ -27,6 +39,17 @@ export default function AdminUsersPage() {
   const [roleFilter, setRoleFilter] = useState<string>("")
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
   const [deletingUserId, setDeletingUserId] = useState<string | null>(null)
+  const [editingUserId, setEditingUserId] = useState<string | null>(null)
+  const [error, setError] = useState("")
+  
+  const {
+    register: registerEdit,
+    handleSubmit: handleSubmitEdit,
+    reset: resetEdit,
+    formState: { errors: editErrors },
+  } = useForm<EditUserForm>({
+    resolver: zodResolver(editUserSchema),
+  })
 
   const fetchUsers = async () => {
     try {
@@ -106,6 +129,48 @@ export default function AdminUsersPage() {
       alert("An error occurred while deleting the user")
     } finally {
       setDeletingUserId(null)
+    }
+  }
+
+  const handleEdit = (user: User) => {
+    setEditingUserId(user.id)
+    resetEdit({
+      name: user.name,
+      email: user.email,
+      phone: user.phone || "",
+      role: user.role as "CUSTOMER" | "STAFF" | "ADMIN",
+    })
+  }
+
+  const handleCancelEdit = () => {
+    setEditingUserId(null)
+    resetEdit()
+    setError("")
+  }
+
+  const onSubmitEdit = async (data: EditUserForm) => {
+    if (!editingUserId) return
+
+    try {
+      setError("")
+      const response = await fetch(`/api/admin/users/${editingUserId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (response.ok) {
+        await fetchUsers()
+        handleCancelEdit()
+      } else {
+        const errorData = await response.json()
+        setError(errorData.message || "Failed to update user")
+      }
+    } catch (error) {
+      console.error("Error updating user:", error)
+      setError("An error occurred while updating the user")
     }
   }
 
@@ -240,6 +305,13 @@ export default function AdminUsersPage() {
             </div>
           </div>
 
+          {/* Error Message */}
+          {error && (
+            <div className="mb-4 bg-red-500/20 border border-red-500/40 rounded-lg p-4">
+              <p className="text-red-400 text-sm">{error}</p>
+            </div>
+          )}
+
           {/* Users Table */}
           <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden">
             <div className="overflow-x-auto">
@@ -252,15 +324,13 @@ export default function AdminUsersPage() {
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Bookings</th>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Points</th>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Joined</th>
-                    {session?.user?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
-                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Actions</th>
-                    )}
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/10">
                   {filteredUsers.length === 0 ? (
                     <tr>
-                      <td colSpan={session?.user?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() ? 7 : 6} className="px-6 py-12 text-center">
+                      <td colSpan={7} className="px-6 py-12 text-center">
                         <div className="inline-flex items-center justify-center w-16 h-16 bg-white/5 rounded-full mb-4 border border-white/10">
                           <Users className="h-8 w-8 text-gray-400" />
                         </div>
@@ -273,69 +343,169 @@ export default function AdminUsersPage() {
                   ) : (
                     filteredUsers.map((user) => (
                       <tr key={user.id} className="hover:bg-white/5 transition-colors">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="w-10 h-10 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full flex items-center justify-center mr-3">
-                              <span className="text-white text-sm font-bold">
-                                {user.name.charAt(0).toUpperCase()}
-                              </span>
-                            </div>
-                            <div>
-                              <div className="text-sm font-medium text-white">{user.name}</div>
-                              <div className="text-xs text-gray-400">{user.email}</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-300">
-                            {user.phone ? (
-                              <div className="flex items-center text-gray-300">
-                                <Phone className="h-4 w-4 mr-2" />
-                                {user.phone}
+                        {editingUserId === user.id ? (
+                          // Edit mode
+                          <>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="flex items-center">
+                                <div className="w-10 h-10 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full flex items-center justify-center mr-3">
+                                  <span className="text-white text-sm font-bold">
+                                    {user.name.charAt(0).toUpperCase()}
+                                  </span>
+                                </div>
+                                <div className="flex-1">
+                                  <input
+                                    type="text"
+                                    {...registerEdit("name")}
+                                    className="w-full px-2 py-1 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange mb-1"
+                                  />
+                                  {editErrors.name && (
+                                    <p className="text-red-400 text-xs">{editErrors.name.message}</p>
+                                  )}
+                                  <input
+                                    type="email"
+                                    {...registerEdit("email")}
+                                    className="w-full px-2 py-1 bg-white/10 border border-white/20 rounded text-white text-xs focus:outline-none focus:ring-2 focus:ring-fury-orange mt-1"
+                                  />
+                                  {editErrors.email && (
+                                    <p className="text-red-400 text-xs">{editErrors.email.message}</p>
+                                  )}
+                                </div>
                               </div>
-                            ) : (
-                              <span className="text-gray-500">No phone</span>
-                            )}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${getRoleBadgeColor(user.role)}`}>
-                            {user.role}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center text-sm text-gray-300">
-                            <CalendarCheck className="h-4 w-4 mr-2 text-fury-orange" />
-                            {user.bookingsCount}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center text-sm text-gray-300">
-                            <Trophy className="h-4 w-4 mr-2 text-yellow-400" />
-                            {user.pointsCount}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                          <div className="flex items-center">
-                            <Calendar className="h-4 w-4 mr-2" />
-                            {new Date(user.createdAt).toLocaleDateString()}
-                          </div>
-                        </td>
-                        {session?.user?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            {user.email.toLowerCase() !== AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && user.bookingsCount === 0 && user.pointsCount === 0 ? (
-                              <button
-                                onClick={() => handleDeleteUser(user.id, user.name)}
-                                disabled={deletingUserId === user.id}
-                                className="text-red-400 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                title="Delete user (only if no bookings or points)"
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <input
+                                type="text"
+                                {...registerEdit("phone")}
+                                className="w-full px-2 py-1 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange"
+                                placeholder="Phone (optional)"
+                              />
+                              {editErrors.phone && (
+                                <p className="text-red-400 text-xs">{editErrors.phone.message}</p>
+                              )}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <select
+                                {...registerEdit("role")}
+                                className="px-2 py-1 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange"
                               >
-                                <Trash2 className="h-4 w-4" />
+                                <option value="CUSTOMER">CUSTOMER</option>
+                                <option value="STAFF">STAFF</option>
+                                <option value="ADMIN">ADMIN</option>
+                              </select>
+                              {editErrors.role && (
+                                <p className="text-red-400 text-xs">{editErrors.role.message}</p>
+                              )}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="flex items-center text-sm text-gray-300">
+                                <CalendarCheck className="h-4 w-4 mr-2 text-fury-orange" />
+                                {user.bookingsCount}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="flex items-center text-sm text-gray-300">
+                                <Trophy className="h-4 w-4 mr-2 text-yellow-400" />
+                                {user.pointsCount}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                              <div className="flex items-center">
+                                <Calendar className="h-4 w-4 mr-2" />
+                                {new Date(user.createdAt).toLocaleDateString()}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                              <button
+                                onClick={handleSubmitEdit(onSubmitEdit)}
+                                className="text-green-400 hover:text-green-300 transition-colors"
+                                title="Save changes"
+                              >
+                                <Save className="h-4 w-4" />
                               </button>
-                            ) : (
-                              <span className="text-gray-500 text-xs">Protected</span>
-                            )}
-                          </td>
+                              <button
+                                onClick={handleCancelEdit}
+                                className="text-gray-400 hover:text-gray-300 transition-colors"
+                                title="Cancel"
+                              >
+                                <X className="h-4 w-4" />
+                              </button>
+                            </td>
+                          </>
+                        ) : (
+                          // View mode
+                          <>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="flex items-center">
+                                <div className="w-10 h-10 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full flex items-center justify-center mr-3">
+                                  <span className="text-white text-sm font-bold">
+                                    {user.name.charAt(0).toUpperCase()}
+                                  </span>
+                                </div>
+                                <div>
+                                  <div className="text-sm font-medium text-white">{user.name}</div>
+                                  <div className="text-xs text-gray-400">{user.email}</div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="text-sm text-gray-300">
+                                {user.phone ? (
+                                  <div className="flex items-center text-gray-300">
+                                    <Phone className="h-4 w-4 mr-2" />
+                                    {user.phone}
+                                  </div>
+                                ) : (
+                                  <span className="text-gray-500">No phone</span>
+                                )}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${getRoleBadgeColor(user.role)}`}>
+                                {user.role}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="flex items-center text-sm text-gray-300">
+                                <CalendarCheck className="h-4 w-4 mr-2 text-fury-orange" />
+                                {user.bookingsCount}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="flex items-center text-sm text-gray-300">
+                                <Trophy className="h-4 w-4 mr-2 text-yellow-400" />
+                                {user.pointsCount}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                              <div className="flex items-center">
+                                <Calendar className="h-4 w-4 mr-2" />
+                                {new Date(user.createdAt).toLocaleDateString()}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                              <button
+                                onClick={() => handleEdit(user)}
+                                className="text-blue-400 hover:text-blue-300 transition-colors"
+                                title="Edit user"
+                              >
+                                <Edit className="h-4 w-4" />
+                              </button>
+                              {session?.user?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && 
+                               user.email.toLowerCase() !== AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && 
+                               user.bookingsCount === 0 && 
+                               user.pointsCount === 0 && (
+                                <button
+                                  onClick={() => handleDeleteUser(user.id, user.name)}
+                                  disabled={deletingUserId === user.id}
+                                  className="text-red-400 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                  title="Delete user (only if no bookings or points)"
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </button>
+                              )}
+                            </td>
+                          </>
                         )}
                       </tr>
                     ))
