@@ -169,6 +169,7 @@ function VerifyCodePageContent() {
                     </label>
                     <input
                       {...registerCode("code")}
+                      id="code"
                       type="text"
                       inputMode="numeric"
                       maxLength={6}
@@ -269,6 +270,7 @@ function VerifyCodePageContent() {
                       <div className="relative">
                         <input
                           {...registerPassword("newPassword")}
+                          id="newPassword"
                           type={showPassword ? "text" : "password"}
                           autoComplete="new-password"
                           className="w-full px-4 py-3 pr-12 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
@@ -298,6 +300,7 @@ function VerifyCodePageContent() {
                       <div className="relative">
                         <input
                           {...registerPassword("confirmPassword")}
+                          id="confirmPassword"
                           type={showConfirmPassword ? "text" : "password"}
                           autoComplete="new-password"
                           className="w-full px-4 py-3 pr-12 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"

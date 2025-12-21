@@ -103,6 +103,7 @@ export default function ForgotPasswordPage() {
                   </label>
                   <input
                     {...register("email")}
+                    id="email"
                     type="email"
                     autoComplete="email"
                     className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
