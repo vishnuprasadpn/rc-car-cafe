@@ -74,21 +74,38 @@ export const authOptions = {
     async signIn({ user, account, profile }: any) {
       // If signing in with Google OAuth
       if (account?.provider === "google") {
-        // Check if user already exists
-        const existingUser = await prisma.user.findUnique({
-          where: { email: user.email?.toLowerCase() }
-        })
+        try {
+          if (!user?.email) {
+            console.error("❌ OAuth: No email provided by Google")
+            return false
+          }
 
-        // If user doesn't exist, create a new user with CUSTOMER role
-        if (!existingUser) {
-          await prisma.user.create({
-            data: {
-              email: user.email?.toLowerCase() || "",
-              name: user.name || "User",
-              role: "CUSTOMER",
-              // No password for OAuth users
-            }
+          const email = user.email.toLowerCase()
+          
+          // Check if user already exists
+          const existingUser = await prisma.user.findUnique({
+            where: { email }
           })
+
+          // If user doesn't exist, create a new user with CUSTOMER role
+          if (!existingUser) {
+            await prisma.user.create({
+              data: {
+                email,
+                name: user.name || "User",
+                role: "CUSTOMER",
+                // No password for OAuth users
+              }
+            })
+            console.log(`✅ OAuth: Created new user ${email}`)
+          } else {
+            console.log(`✅ OAuth: Existing user ${email} signed in`)
+          }
+        } catch (error) {
+          console.error("❌ OAuth signIn callback error:", error)
+          // Return false to prevent sign-in if there's an error
+          // This allows NextAuth to handle the error properly
+          return false
         }
       }
       return true
