@@ -491,18 +491,24 @@ export default function AdminUsersPage() {
                               >
                                 <Edit className="h-4 w-4" />
                               </button>
-                              {session?.user?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && 
-                               user.email.toLowerCase() !== AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && 
-                               user.bookingsCount === 0 && 
-                               user.pointsCount === 0 && (
-                                <button
-                                  onClick={() => handleDeleteUser(user.id, user.name)}
-                                  disabled={deletingUserId === user.id}
-                                  className="text-red-400 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                  title="Delete user (only if no bookings or points)"
-                                >
-                                  <Trash2 className="h-4 w-4" />
-                                </button>
+                              {user.email.toLowerCase() !== AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
+                                user.bookingsCount === 0 && user.pointsCount === 0 ? (
+                                  <button
+                                    onClick={() => handleDeleteUser(user.id, user.name)}
+                                    disabled={deletingUserId === user.id}
+                                    className="text-red-400 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    title="Delete user"
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </button>
+                                ) : (
+                                  <span 
+                                    className="text-gray-500 text-xs cursor-help" 
+                                    title={`Cannot delete: User has ${user.bookingsCount} booking(s) and ${user.pointsCount} point(s)`}
+                                  >
+                                    <Trash2 className="h-4 w-4 opacity-50" />
+                                  </span>
+                                )
                               )}
                             </td>
                           </>
