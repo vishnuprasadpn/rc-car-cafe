@@ -47,47 +47,50 @@ export default async function HomePage() {
         {/* Main Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="text-fury-white">
-            {/* Badge */}
-            <div className="mb-8">
-              <div className="inline-flex items-center px-6 py-3 rounded-full bg-fury-orange/20 border border-fury-orange/40 mb-8 backdrop-blur-sm">
-                <div className="w-2 h-2 bg-fury-orange rounded-full mr-3"></div>
-                <span className="text-fury-lightGray text-xs sm:text-lg font-medium">Bangalore&apos;s Premier RC Racing Experience</span>
+            {/* Badge - Mobile Optimized */}
+            <div className="mb-4 md:mb-8">
+              <div className="inline-flex items-center px-3 py-1.5 md:px-6 md:py-3 rounded-full bg-fury-orange/20 border border-fury-orange/40 backdrop-blur-sm">
+                <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-fury-orange rounded-full mr-2 md:mr-3"></div>
+                <span className="text-fury-lightGray text-[10px] sm:text-xs md:text-lg font-medium leading-tight">
+                  <span className="hidden sm:inline">Bangalore&apos;s Premier RC Racing Experience</span>
+                  <span className="sm:hidden">Premier RC Racing</span>
+                </span>
               </div>
             </div>
             
-            {/* Main Title with Gradient */}
-            <h1 className="font-heading text-3xl sm:text-5xl md:text-7xl mb-6 bg-gradient-to-r from-fury-orange via-fury-orange to-fury-orange bg-clip-text text-transparent uppercase">
+            {/* Main Title with Gradient - Better Mobile Scaling */}
+            <h1 className="font-heading text-4xl sm:text-5xl md:text-7xl mb-3 md:mb-6 bg-gradient-to-r from-fury-orange via-fury-orange to-fury-orange bg-clip-text text-transparent uppercase leading-tight">
               FURY ROAD
             </h1>
             
-            <div className="font-heading text-xl sm:text-3xl md:text-4xl text-fury-white mb-8 uppercase">
+            <div className="font-heading text-lg sm:text-3xl md:text-4xl text-fury-white mb-4 md:mb-8 uppercase leading-tight">
               RC CLUB
             </div>
             
-            {/* Subtitle */}
-            <p className="text-sm sm:text-lg md:text-xl text-fury-lightGray mb-12 max-w-4xl mx-auto leading-relaxed">
-              Experience the ultimate adrenaline rush with 
-              <span className="text-fury-orange font-semibold"> high-speed RC racing</span>, 
-              <span className="text-fury-lightGray font-semibold"> professional tracks</span>, and 
-              <span className="text-fury-orange font-semibold"> competitive spirit</span>
+            {/* Subtitle - Mobile Optimized */}
+            <p className="text-xs sm:text-base md:text-xl text-fury-lightGray mb-6 md:mb-12 max-w-4xl mx-auto leading-relaxed px-2">
+              Experience the ultimate adrenaline rush with{' '}
+              <span className="text-fury-orange font-semibold">high-speed RC racing</span>,{' '}
+              <span className="text-fury-lightGray font-semibold">professional tracks</span>, and{' '}
+              <span className="text-fury-orange font-semibold">competitive spirit</span>
             </p>
             
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+            {/* CTA Buttons - Mobile Optimized */}
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 justify-center mb-8 md:mb-16 px-2">
               <Link
                 href="/auth/signup"
-                className="group relative bg-gradient-to-r from-fury-orange to-primary-600 text-fury-white px-4 py-2 sm:px-8 sm:py-3.5 rounded-lg text-xs sm:text-base font-semibold hover:from-primary-600 hover:to-primary-700 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25"
+                className="group relative bg-gradient-to-r from-fury-orange to-primary-600 text-fury-white px-6 py-3 sm:px-8 sm:py-3.5 rounded-lg text-sm sm:text-base font-semibold hover:from-primary-600 hover:to-primary-700 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25 w-full sm:w-auto"
               >
                 <span className="relative flex items-center justify-center">
                   <Zap className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                  START RACING NOW
+                  <span className="whitespace-nowrap">START RACING NOW</span>
                 </span>
               </Link>
               <Link
                 href="/auth/signin"
-                className="group border-2 border-fury-white/40 text-fury-white px-4 py-2 sm:px-8 sm:py-3.5 rounded-lg text-xs sm:text-base font-semibold hover:bg-fury-white/10 hover:border-fury-white/60 transition-all duration-300 backdrop-blur-sm"
+                className="group border-2 border-fury-white/40 text-fury-white px-6 py-3 sm:px-8 sm:py-3.5 rounded-lg text-sm sm:text-base font-semibold hover:bg-fury-white/10 hover:border-fury-white/60 transition-all duration-300 backdrop-blur-sm w-full sm:w-auto"
               >
-                SIGN IN
+                <span className="whitespace-nowrap">SIGN IN</span>
               </Link>
             </div>
           </div>
