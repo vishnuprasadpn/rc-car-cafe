@@ -252,7 +252,7 @@ export default function AdminUsersPage() {
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Bookings</th>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Points</th>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Joined</th>
-                    {(session?.user as { email?: string })?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
+                    {session?.user?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
                       <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Actions</th>
                     )}
                   </tr>
@@ -260,7 +260,7 @@ export default function AdminUsersPage() {
                 <tbody className="divide-y divide-white/10">
                   {filteredUsers.length === 0 ? (
                     <tr>
-                      <td colSpan={(session?.user as { email?: string })?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() ? 7 : 6} className="px-6 py-12 text-center">
+                      <td colSpan={session?.user?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() ? 7 : 6} className="px-6 py-12 text-center">
                         <div className="inline-flex items-center justify-center w-16 h-16 bg-white/5 rounded-full mb-4 border border-white/10">
                           <Users className="h-8 w-8 text-gray-400" />
                         </div>
@@ -321,7 +321,7 @@ export default function AdminUsersPage() {
                             {new Date(user.createdAt).toLocaleDateString()}
                           </div>
                         </td>
-                        {(session?.user as { email?: string })?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
+                        {session?.user?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             {user.email.toLowerCase() !== AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && user.bookingsCount === 0 && user.pointsCount === 0 ? (
                               <button

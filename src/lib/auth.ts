@@ -61,14 +61,16 @@ export const authOptions = {
     async jwt({ token, user }: any) {
       if (user) {
         token.role = user.role
+        token.email = user.email
       }
       return token
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-explicit-any
     async session({ session, token }: any) {
       if (token) {
         session.user.id = token.sub!
         session.user.role = token.role as string
+        session.user.email = token.email as string
       }
       return session
     }

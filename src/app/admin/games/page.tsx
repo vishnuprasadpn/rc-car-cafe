@@ -372,7 +372,7 @@ export default function AdminGamesPage() {
                             >
                               {game.isActive ? 'Deactivate' : 'Activate'}
                             </button>
-                            {(session?.user as { email?: string })?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
+                            {session?.user?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
                               <button
                                 onClick={() => handleDelete(game.id)}
                                 className="text-red-400 hover:text-red-300 transition-colors"
