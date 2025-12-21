@@ -28,7 +28,7 @@ export default async function HomePage() {
       <Navigation />
       
       {/* Hero Section with Advanced Animations */}
-      <div className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+      <div className="relative min-h-screen flex items-center justify-center pt-16 md:pt-20 overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image

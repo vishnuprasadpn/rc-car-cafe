@@ -136,7 +136,7 @@ function BookPageContent() {
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
       <Navigation />
 
-      <div className="max-w-3xl mx-auto pt-20 py-6 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto pt-16 md:pt-20 py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
             <div className="px-4 py-5 sm:p-6">
