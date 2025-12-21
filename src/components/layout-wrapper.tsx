@@ -15,11 +15,22 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
     '/about',
     '/contact',
     '/book',
+    '/tracks',
     '/auth/signin',
     '/auth/signup',
     '/auth/forgot-password',
     '/auth/verify-code',
     '/auth/reset-password',
+  ]
+
+  // Define authenticated dashboard routes where sidebar SHOULD appear
+  const dashboardRoutes = [
+    '/dashboard',
+    '/admin',
+    '/staff',
+    '/bookings',
+    '/points',
+    '/profile',
   ]
 
   // Check if current path is a public route
@@ -30,13 +41,18 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
     return pathname?.startsWith(route)
   })
 
-  // Only apply margin when session exists and NOT on public routes
-  const hasSession = status === "authenticated" && session && !isPublicRoute
+  // Check if current path is a dashboard route
+  const isDashboardRoute = dashboardRoutes.some(route => {
+    return pathname?.startsWith(route)
+  })
+
+  // Only apply margin when user is authenticated AND on a dashboard route
+  const shouldShowSidebar = status === "authenticated" && session && isDashboardRoute && !isPublicRoute
 
   return (
     <div className="min-h-screen flex flex-col">
       <Sidebar />
-      <div className={`flex-1 ${hasSession ? 'md:ml-64' : ''}`}>
+      <div className={`flex-1 ${shouldShowSidebar ? 'md:ml-64' : ''}`}>
         <main className="min-h-screen">
           {children}
         </main>

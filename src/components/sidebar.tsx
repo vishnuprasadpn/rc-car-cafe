@@ -35,11 +35,22 @@ export default function Sidebar() {
     '/about',
     '/contact',
     '/book',
+    '/tracks',
     '/auth/signin',
     '/auth/signup',
     '/auth/forgot-password',
     '/auth/verify-code',
     '/auth/reset-password',
+  ]
+
+  // Define authenticated dashboard routes where sidebar SHOULD appear
+  const dashboardRoutes = [
+    '/dashboard',
+    '/admin',
+    '/staff',
+    '/bookings',
+    '/points',
+    '/profile',
   ]
 
   // Check if current path is a public route
@@ -50,8 +61,13 @@ export default function Sidebar() {
     return pathname?.startsWith(route)
   })
 
-  // Don't render sidebar if no session or on public routes
-  if (!session || isPublicRoute) {
+  // Check if current path is a dashboard route
+  const isDashboardRoute = dashboardRoutes.some(route => {
+    return pathname?.startsWith(route)
+  })
+
+  // Only show sidebar if user is authenticated AND on a dashboard route
+  if (!session || !isDashboardRoute || isPublicRoute) {
     return null
   }
 
