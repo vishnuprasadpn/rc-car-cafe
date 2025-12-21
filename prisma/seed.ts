@@ -385,7 +385,6 @@ RC Car Café Team`
   console.log('👤 Admin user 1: furyroadrcclub@gmail.com / FurY@2024')
   console.log('👤 Admin user 2: vishnuprasad1990@gmail.com / Vpn@1991')
   console.log('👤 Staff user: staff@rccarcafe.com / staff123')
-  console.log('👤 Customer user: customer@rccarcafe.com / customer123')
 }
 
 main()
