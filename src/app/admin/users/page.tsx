@@ -346,55 +346,57 @@ export default function AdminUsersPage() {
                         {editingUserId === user.id ? (
                           // Edit mode
                           <>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="flex items-center">
-                                <div className="w-10 h-10 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full flex items-center justify-center mr-3">
+                            <td className="px-6 py-4">
+                              <div className="flex items-start">
+                                <div className="w-10 h-10 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
                                   <span className="text-white text-sm font-bold">
                                     {user.name.charAt(0).toUpperCase()}
                                   </span>
                                 </div>
-                                <div className="flex-1">
+                                <div className="flex-1 min-w-0">
                                   <input
                                     type="text"
                                     {...registerEdit("name")}
-                                    className="w-full px-2 py-1 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange mb-1"
+                                    className="w-full min-w-[150px] px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange mb-2"
+                                    placeholder="Name"
                                   />
                                   {editErrors.name && (
-                                    <p className="text-red-400 text-xs">{editErrors.name.message}</p>
+                                    <p className="text-red-400 text-xs mb-1">{editErrors.name.message}</p>
                                   )}
                                   <input
                                     type="email"
                                     {...registerEdit("email")}
-                                    className="w-full px-2 py-1 bg-white/10 border border-white/20 rounded text-white text-xs focus:outline-none focus:ring-2 focus:ring-fury-orange mt-1"
+                                    className="w-full min-w-[200px] px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange"
+                                    placeholder="Email"
                                   />
                                   {editErrors.email && (
-                                    <p className="text-red-400 text-xs">{editErrors.email.message}</p>
+                                    <p className="text-red-400 text-xs mt-1">{editErrors.email.message}</p>
                                   )}
                                 </div>
                               </div>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
+                            <td className="px-6 py-4">
                               <input
                                 type="text"
                                 {...registerEdit("phone")}
-                                className="w-full px-2 py-1 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange"
+                                className="w-full min-w-[120px] px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange"
                                 placeholder="Phone (optional)"
                               />
                               {editErrors.phone && (
-                                <p className="text-red-400 text-xs">{editErrors.phone.message}</p>
+                                <p className="text-red-400 text-xs mt-1">{editErrors.phone.message}</p>
                               )}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
+                            <td className="px-6 py-4">
                               <select
                                 {...registerEdit("role")}
-                                className="px-2 py-1 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange"
+                                className="w-full min-w-[120px] px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange"
                               >
                                 <option value="CUSTOMER">CUSTOMER</option>
                                 <option value="STAFF">STAFF</option>
                                 <option value="ADMIN">ADMIN</option>
                               </select>
                               {editErrors.role && (
-                                <p className="text-red-400 text-xs">{editErrors.role.message}</p>
+                                <p className="text-red-400 text-xs mt-1">{editErrors.role.message}</p>
                               )}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
