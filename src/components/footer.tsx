@@ -79,9 +79,20 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-700/50 pt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm mb-4 md:mb-0">
-            © {currentYear} Fury Road RC Club. All rights reserved.
-          </p>
+          <div className="flex flex-col md:flex-row items-center mb-4 md:mb-0">
+            <p className="text-gray-400 text-sm mb-2 md:mb-0 md:mr-4">
+              © {currentYear} Fury Road RC Club. All rights reserved.
+            </p>
+            <div className="flex space-x-4 text-sm">
+              <Link href="/privacy" className="text-gray-400 hover:text-fury-orange transition-colors">
+                Privacy Policy
+              </Link>
+              <span className="text-gray-600">|</span>
+              <Link href="/terms" className="text-gray-400 hover:text-fury-orange transition-colors">
+                Terms & Conditions
+              </Link>
+            </div>
+          </div>
           <div className="flex space-x-4">
             <a
               href="#"
