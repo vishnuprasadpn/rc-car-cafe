@@ -29,8 +29,29 @@ export default function Sidebar() {
     router.push("/")
   }
 
-  // Don't render sidebar if no session
-  if (!session) {
+  // Define public routes where sidebar should NOT appear
+  const publicRoutes = [
+    '/',
+    '/about',
+    '/contact',
+    '/book',
+    '/auth/signin',
+    '/auth/signup',
+    '/auth/forgot-password',
+    '/auth/verify-code',
+    '/auth/reset-password',
+  ]
+
+  // Check if current path is a public route
+  const isPublicRoute = publicRoutes.some(route => {
+    if (route === '/') {
+      return pathname === '/'
+    }
+    return pathname?.startsWith(route)
+  })
+
+  // Don't render sidebar if no session or on public routes
+  if (!session || isPublicRoute) {
     return null
   }
 
