@@ -40,6 +40,7 @@ export default function AdminUsersPage() {
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
   const [deletingUserId, setDeletingUserId] = useState<string | null>(null)
   const [editingUserId, setEditingUserId] = useState<string | null>(null)
+  const [editingUser, setEditingUser] = useState<User | null>(null)
   const [error, setError] = useState("")
   
   const {
@@ -134,6 +135,7 @@ export default function AdminUsersPage() {
 
   const handleEdit = (user: User) => {
     setEditingUserId(user.id)
+    setEditingUser(user)
     resetEdit({
       name: user.name,
       email: user.email,
@@ -144,6 +146,7 @@ export default function AdminUsersPage() {
 
   const handleCancelEdit = () => {
     setEditingUserId(null)
+    setEditingUser(null)
     resetEdit()
     setError("")
   }
@@ -342,179 +345,83 @@ export default function AdminUsersPage() {
                     </tr>
                   ) : (
                     filteredUsers.map((user) => (
-                      <tr key={user.id} className="hover:bg-white/5 transition-colors">
-                        {editingUserId === user.id ? (
-                          // Edit mode
-                          <>
-                            <td className="px-6 py-4">
-                              <div className="flex items-start">
-                                <div className="w-10 h-10 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                                  <span className="text-white text-sm font-bold">
-                                    {user.name.charAt(0).toUpperCase()}
-                                  </span>
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <input
-                                    type="text"
-                                    {...registerEdit("name")}
-                                    className="w-full min-w-[150px] px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange mb-2"
-                                    placeholder="Name"
-                                  />
-                                  {editErrors.name && (
-                                    <p className="text-red-400 text-xs mb-1">{editErrors.name.message}</p>
-                                  )}
-                                  <input
-                                    type="email"
-                                    {...registerEdit("email")}
-                                    className="w-full min-w-[200px] px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange"
-                                    placeholder="Email"
-                                  />
-                                  {editErrors.email && (
-                                    <p className="text-red-400 text-xs mt-1">{editErrors.email.message}</p>
-                                  )}
-                                </div>
-                              </div>
-                            </td>
-                            <td className="px-6 py-4">
-                              <input
-                                type="text"
-                                {...registerEdit("phone")}
-                                className="w-full min-w-[120px] px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange"
-                                placeholder="Phone (optional)"
-                              />
-                              {editErrors.phone && (
-                                <p className="text-red-400 text-xs mt-1">{editErrors.phone.message}</p>
-                              )}
-                            </td>
-                            <td className="px-6 py-4">
-                              <select
-                                {...registerEdit("role")}
-                                className="w-full min-w-[120px] px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange"
-                              >
-                                <option value="CUSTOMER">CUSTOMER</option>
-                                <option value="STAFF">STAFF</option>
-                                <option value="ADMIN">ADMIN</option>
-                              </select>
-                              {editErrors.role && (
-                                <p className="text-red-400 text-xs mt-1">{editErrors.role.message}</p>
-                              )}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="flex items-center text-sm text-gray-300">
-                                <CalendarCheck className="h-4 w-4 mr-2 text-fury-orange" />
-                                {user.bookingsCount}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="flex items-center text-sm text-gray-300">
-                                <Trophy className="h-4 w-4 mr-2 text-yellow-400" />
-                                {user.pointsCount}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                              <div className="flex items-center">
-                                <Calendar className="h-4 w-4 mr-2" />
-                                {new Date(user.createdAt).toLocaleDateString()}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                              <button
-                                onClick={handleSubmitEdit(onSubmitEdit)}
-                                className="text-green-400 hover:text-green-300 transition-colors"
-                                title="Save changes"
-                              >
-                                <Save className="h-4 w-4" />
-                              </button>
-                              <button
-                                onClick={handleCancelEdit}
-                                className="text-gray-400 hover:text-gray-300 transition-colors"
-                                title="Cancel"
-                              >
-                                <X className="h-4 w-4" />
-                              </button>
-                            </td>
-                          </>
-                        ) : (
-                          // View mode
-                          <>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="flex items-center">
-                                <div className="w-10 h-10 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full flex items-center justify-center mr-3">
-                                  <span className="text-white text-sm font-bold">
-                                    {user.name.charAt(0).toUpperCase()}
-                                  </span>
-                                </div>
-                                <div>
-                                  <div className="text-sm font-medium text-white">{user.name}</div>
-                                  <div className="text-xs text-gray-400">{user.email}</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="text-sm text-gray-300">
-                                {user.phone ? (
-                                  <div className="flex items-center text-gray-300">
-                                    <Phone className="h-4 w-4 mr-2" />
-                                    {user.phone}
-                                  </div>
-                                ) : (
-                                  <span className="text-gray-500">No phone</span>
-                                )}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${getRoleBadgeColor(user.role)}`}>
-                                {user.role}
+                      <tr key={user.id} className={`hover:bg-white/5 transition-colors ${editingUserId === user.id ? 'bg-fury-orange/10' : ''}`}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div className="w-10 h-10 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full flex items-center justify-center mr-3">
+                              <span className="text-white text-sm font-bold">
+                                {user.name.charAt(0).toUpperCase()}
                               </span>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="flex items-center text-sm text-gray-300">
-                                <CalendarCheck className="h-4 w-4 mr-2 text-fury-orange" />
-                                {user.bookingsCount}
+                            </div>
+                            <div>
+                              <div className="text-sm font-medium text-white">{user.name}</div>
+                              <div className="text-xs text-gray-400">{user.email}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-300">
+                            {user.phone ? (
+                              <div className="flex items-center text-gray-300">
+                                <Phone className="h-4 w-4 mr-2" />
+                                {user.phone}
                               </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="flex items-center text-sm text-gray-300">
-                                <Trophy className="h-4 w-4 mr-2 text-yellow-400" />
-                                {user.pointsCount}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                              <div className="flex items-center">
-                                <Calendar className="h-4 w-4 mr-2" />
-                                {new Date(user.createdAt).toLocaleDateString()}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                            ) : (
+                              <span className="text-gray-500">No phone</span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${getRoleBadgeColor(user.role)}`}>
+                            {user.role}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center text-sm text-gray-300">
+                            <CalendarCheck className="h-4 w-4 mr-2 text-fury-orange" />
+                            {user.bookingsCount}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Trophy className="h-4 w-4 mr-2 text-yellow-400" />
+                            {user.pointsCount}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                          <div className="flex items-center">
+                            <Calendar className="h-4 w-4 mr-2" />
+                            {new Date(user.createdAt).toLocaleDateString()}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                          <button
+                            onClick={() => handleEdit(user)}
+                            className="text-blue-400 hover:text-blue-300 transition-colors"
+                            title="Edit user"
+                          >
+                            <Edit className="h-4 w-4" />
+                          </button>
+                          {user.email.toLowerCase() !== AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
+                            user.bookingsCount === 0 && user.pointsCount === 0 ? (
                               <button
-                                onClick={() => handleEdit(user)}
-                                className="text-blue-400 hover:text-blue-300 transition-colors"
-                                title="Edit user"
+                                onClick={() => handleDeleteUser(user.id, user.name)}
+                                disabled={deletingUserId === user.id}
+                                className="text-red-400 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                title="Delete user"
                               >
-                                <Edit className="h-4 w-4" />
+                                <Trash2 className="h-4 w-4" />
                               </button>
-                              {user.email.toLowerCase() !== AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
-                                user.bookingsCount === 0 && user.pointsCount === 0 ? (
-                                  <button
-                                    onClick={() => handleDeleteUser(user.id, user.name)}
-                                    disabled={deletingUserId === user.id}
-                                    className="text-red-400 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                    title="Delete user"
-                                  >
-                                    <Trash2 className="h-4 w-4" />
-                                  </button>
-                                ) : (
-                                  <span 
-                                    className="text-gray-500 text-xs cursor-help" 
-                                    title={`Cannot delete: User has ${user.bookingsCount} booking(s) and ${user.pointsCount} point(s)`}
-                                  >
-                                    <Trash2 className="h-4 w-4 opacity-50" />
-                                  </span>
-                                )
-                              )}
-                            </td>
-                          </>
-                        )}
+                            ) : (
+                              <span 
+                                className="text-gray-500 text-xs cursor-help" 
+                                title={`Cannot delete: User has ${user.bookingsCount} booking(s) and ${user.pointsCount} point(s)`}
+                              >
+                                <Trash2 className="h-4 w-4 opacity-50" />
+                              </span>
+                            )
+                          )}
+                        </td>
                       </tr>
                     ))
                   )}
