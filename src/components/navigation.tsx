@@ -31,7 +31,7 @@ export default function Navigation() {
 
   // Show navigation for non-authenticated users (public pages)
   // Also show during loading state to prevent flicker
-  if (!session || status === "loading") {
+  if (status === "loading" || !session) {
     return (
       <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
         <div className="bg-white/10 backdrop-blur-xl rounded-full shadow-lg border border-white/20 px-6 py-4">
