@@ -4,7 +4,8 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { Check, X, Clock, User, Trophy } from "lucide-react"
+import { Check, X, Clock, User, Trophy, Trash2 } from "lucide-react"
+import { AUTHORIZED_DELETE_ADMIN_EMAIL } from "@/lib/admin-auth"
 
 interface Point {
   id: string
@@ -27,6 +28,7 @@ export default function AdminPointsPage() {
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState("ALL")
   const [error, setError] = useState("")
+  const [deletingPointId, setDeletingPointId] = useState<string | null>(null)
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -92,6 +94,31 @@ export default function AdminPointsPage() {
       }
     } catch (error) {
       setError("An error occurred. Please try again.")
+    }
+  }
+
+  const handleDelete = async (pointId: string) => {
+    if (!confirm("Are you sure you want to delete this point entry? This action cannot be undone.")) {
+      return
+    }
+
+    try {
+      setDeletingPointId(pointId)
+      const response = await fetch(`/api/admin/points/${pointId}`, {
+        method: "DELETE",
+      })
+
+      if (response.ok) {
+        await fetchPoints()
+      } else {
+        const errorData = await response.json()
+        setError(errorData.message || "Failed to delete point")
+      }
+    } catch (error) {
+      console.error("Error deleting point:", error)
+      setError("An error occurred while deleting the point")
+    } finally {
+      setDeletingPointId(null)
     }
   }
 
@@ -323,16 +350,28 @@ export default function AdminPointsPage() {
                                 <button
                                   onClick={() => handleApprove(point.id)}
                                   className="text-green-400 hover:text-green-300 transition-colors"
+                                  title="Approve"
                                 >
                                   <Check className="h-4 w-4" />
                                 </button>
                                 <button
                                   onClick={() => handleReject(point.id)}
                                   className="text-red-400 hover:text-red-300 transition-colors"
+                                  title="Reject"
                                 >
                                   <X className="h-4 w-4" />
                                 </button>
                               </>
+                            )}
+                            {session?.user?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
+                              <button
+                                onClick={() => handleDelete(point.id)}
+                                disabled={deletingPointId === point.id}
+                                className="text-red-400 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                title="Delete point (only authorized admin)"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </button>
                             )}
                           </td>
                         </tr>
