@@ -164,11 +164,17 @@ export const authOptions = {
       return true
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async jwt({ token, user, account }: any) {
+    async jwt({ token, user, account, isNewUser }: any) {
+      console.log(`🔑 JWT callback: isNewUser=${isNewUser}, account.provider=${account?.provider}`)
+      
       if (user) {
         token.role = user.role || "CUSTOMER" // Default role if not set
         token.email = user.email
+        if (user.id) {
+          token.sub = user.id // Set user ID from user object
+        }
       }
+      
       // If signing in with OAuth, always fetch fresh user data from database
       if (account?.provider === "google" && user?.email) {
         try {
@@ -179,6 +185,7 @@ export const authOptions = {
           if (dbUser) {
             token.role = dbUser.role || "CUSTOMER"
             token.sub = dbUser.id // Ensure user ID is set
+            console.log(`✅ JWT: Set role=${token.role}, id=${token.sub} for ${user.email}`)
           } else {
             console.warn(`⚠️ OAuth: User ${user.email} not found in database during JWT creation`)
             token.role = "CUSTOMER" // Default role
@@ -199,6 +206,24 @@ export const authOptions = {
         session.user.email = token.email as string
       }
       return session
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async redirect({ url, baseUrl }: any) {
+      // Handle OAuth redirects properly
+      console.log(`🔀 OAuth redirect: url=${url}, baseUrl=${baseUrl}`)
+      
+      // If url is relative, make it absolute
+      if (url.startsWith("/")) {
+        return `${baseUrl}${url}`
+      }
+      
+      // If url is on the same origin, allow it
+      if (new URL(url).origin === baseUrl) {
+        return url
+      }
+      
+      // Default: redirect to dashboard
+      return `${baseUrl}/dashboard`
     }
   },
   pages: {
