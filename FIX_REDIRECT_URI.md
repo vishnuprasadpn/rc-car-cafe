@@ -37,7 +37,7 @@ https://furyroadclub.com/api/auth/callback/google
 In the **"Authorized JavaScript origins"** section, add:
 
 ```
-https://furyroadclub.com
+    https://furyroadclub.com
 ```
 
 **Important:**

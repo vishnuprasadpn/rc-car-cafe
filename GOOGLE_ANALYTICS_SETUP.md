@@ -41,8 +41,10 @@ Add the Measurement ID to your environment variables:
 
 **Development (`.env.local`):**
 ```env
-NEXT_PUBLIC_GA_MEASUREMENT_ID="G-XXXXXXXXXX"
+NEXT_PUBLIC_GA_MEASUREMENT_ID="G-3YGNXQ9MRP"
 ```
+
+**Note:** Your Measurement ID is `G-3YGNXQ9MRP`. The `@next/third-parties` package will automatically load the gtag.js script - no need to add the script tag manually!
 
 **Production (Vercel/Deployment):**
 Add the same variable in your deployment platform's environment variables.
