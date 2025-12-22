@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 
 export const authOptions = {
+  // Note: Using JWT strategy, so PrismaAdapter is optional but helps with OAuth account linking
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
