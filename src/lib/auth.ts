@@ -88,6 +88,16 @@ export const authOptions = {
         }
 
         console.log(`✅ Auth: Successful login for ${email} (${user.role})`)
+        
+        // Update last login time
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { 
+            lastLoginAt: new Date(),
+            authMethod: user.password ? "email" : undefined // Ensure authMethod is set
+          }
+        })
+        
         return {
           id: user.id,
           email: user.email,
@@ -130,6 +140,10 @@ export const authOptions = {
                   email,
                   name: user.name || "User",
                   role: "CUSTOMER",
+                  image: user.image || null, // Profile image from Google
+                  emailVerified: user.emailVerified ? new Date(user.emailVerified) : null,
+                  authMethod: "google", // Track that this user uses Google OAuth
+                  lastLoginAt: new Date(), // Set initial login time
                   // No password for OAuth users
                 }
               })
@@ -158,6 +172,44 @@ export const authOptions = {
             }
           } else {
             console.log(`✅ OAuth: Existing user ${email} (ID: ${existingUser.id}) signed in`)
+            
+            // Update user info from OAuth (name, image might have changed)
+            // Also update authMethod if user previously used email/password
+            const updateData: {
+              name?: string
+              image?: string | null
+              emailVerified?: Date | null
+              authMethod?: string
+              lastLoginAt: Date
+            } = {
+              lastLoginAt: new Date()
+            }
+            
+            if (user.name && user.name !== existingUser.name) {
+              updateData.name = user.name
+            }
+            if (user.image !== undefined) {
+              updateData.image = user.image || null
+            }
+            if (user.emailVerified) {
+              updateData.emailVerified = new Date(user.emailVerified)
+            }
+            
+            // Update authMethod: if user had password, now they use both methods
+            if (existingUser.password && existingUser.authMethod !== "email+google") {
+              updateData.authMethod = "email+google"
+            } else if (!existingUser.authMethod) {
+              updateData.authMethod = "google"
+            }
+            
+            // Only update if there are changes
+            if (Object.keys(updateData).length > 1) {
+              await prisma.user.update({
+                where: { id: existingUser.id },
+                data: updateData
+              })
+              console.log(`✅ OAuth: Updated user info for ${email}`)
+            }
           }
           
           // Ensure user has a role (in case it was created by PrismaAdapter without role)

@@ -38,22 +38,27 @@ enum PointStatus {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String
-  phone     String?
-  password  String?
-  role      UserRole @default(CUSTOMER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  phone         String?
+  password      String? // Optional: only for email/password users, null for OAuth users
+  image         String? // Profile image URL (from OAuth providers like Google)
+  emailVerified DateTime? // Email verification status (from OAuth providers)
+  authMethod    String? // "email" | "google" | "email+google" (tracks how user authenticates)
+  lastLoginAt   DateTime? // Track last login time
+  role          UserRole  @default(CUSTOMER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   // Relations
   bookings     Booking[]
   points       Point[]
   staffActions StaffAction[]
   sessions     Session[]
-  accounts     Account[]
+  accounts     Account[] // OAuth account links (Google, etc.)
 
+  @@index([email]) // Index for faster email lookups
   @@map("users")
 }
 
@@ -99,7 +104,7 @@ model VerificationToken {
 model PasswordResetToken {
   id        String   @id @default(cuid())
   email     String
-  code      String   // 6-digit code
+  code      String // 6-digit code
   expires   DateTime
   used      Boolean  @default(false)
   createdAt DateTime @default(now())
@@ -111,7 +116,7 @@ model Game {
   id          String   @id @default(cuid())
   name        String
   description String?
-  duration    Int      // Duration in minutes
+  duration    Int // Duration in minutes
   price       Decimal  @db.Decimal(10, 2)
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
@@ -129,7 +134,7 @@ model Booking {
   gameId        String
   startTime     DateTime
   endTime       DateTime
-  duration      Int           // Duration in minutes
+  duration      Int // Duration in minutes
   players       Int           @default(1)
   totalPrice    Decimal       @db.Decimal(10, 2)
   status        BookingStatus @default(PENDING)
@@ -140,22 +145,22 @@ model Booking {
   updatedAt     DateTime      @updatedAt
 
   // Relations
-  user User  @relation(fields: [userId], references: [id])
-  game Game  @relation(fields: [gameId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  game Game @relation(fields: [gameId], references: [id])
 
   @@map("bookings")
 }
 
 model Point {
-  id          String      @id @default(cuid())
-  userId      String
-  amount      Int
-  reason      String
-  status      PointStatus @default(PENDING)
-  approvedBy  String?
-  approvedAt  DateTime?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id         String      @id @default(cuid())
+  userId     String
+  amount     Int
+  reason     String
+  status     PointStatus @default(PENDING)
+  approvedBy String?
+  approvedAt DateTime?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 
   // Relations
   user User @relation(fields: [userId], references: [id])
@@ -190,14 +195,14 @@ model EmailTemplate {
 }
 
 model EmailLog {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   to        String
   subject   String
-  body      String   @db.Text
-  status    String   @default("PENDING")
+  body      String    @db.Text
+  status    String    @default("PENDING")
   sentAt    DateTime?
   error     String?
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
 
   @@map("email_logs")
 }
