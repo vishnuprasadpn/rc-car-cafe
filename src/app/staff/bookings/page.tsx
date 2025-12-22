@@ -31,6 +31,7 @@ export default function StaffBookingsPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("ALL")
   const [isLoading, setIsLoading] = useState(true)
+  const [processing, setProcessing] = useState<string | null>(null)
 
   const fetchBookings = async () => {
     try {
@@ -43,6 +44,33 @@ export default function StaffBookingsPage() {
       console.error("Error fetching bookings:", error)
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const handleDeleteBooking = async (bookingId: string) => {
+    if (!confirm("Are you sure you want to delete this booking? This action cannot be undone.")) {
+      return
+    }
+
+    setProcessing(bookingId)
+    try {
+      const response = await fetch(`/api/admin/bookings/${bookingId}`, {
+        method: "DELETE",
+      })
+
+      if (response.ok) {
+        // Refresh bookings list
+        fetchBookings()
+        alert("Booking deleted successfully")
+      } else {
+        const errorData = await response.json()
+        alert(errorData.message || "Failed to delete booking")
+      }
+    } catch (error) {
+      console.error("Error deleting booking:", error)
+      alert("Failed to delete booking. Please try again.")
+    } finally {
+      setProcessing(null)
     }
   }
 
