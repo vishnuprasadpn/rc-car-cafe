@@ -4,6 +4,34 @@ import GoogleProvider from "next-auth/providers/google"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 
+// Validate production environment variables on server startup
+if (process.env.NODE_ENV === "production") {
+  const requiredVars = ["GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "NEXTAUTH_URL", "NEXTAUTH_SECRET"]
+  const missingVars = requiredVars.filter(varName => !process.env[varName])
+  
+  if (missingVars.length > 0) {
+    console.error("❌ PRODUCTION ERROR: Missing required environment variables:")
+    missingVars.forEach(varName => console.error(`   - ${varName}`))
+    console.error("Please set these in your production environment (Vercel/Railway/etc.)")
+  } else {
+    // Validate NEXTAUTH_URL format
+    const nextAuthUrl = process.env.NEXTAUTH_URL || ""
+    if (nextAuthUrl.endsWith("/")) {
+      console.error("❌ PRODUCTION ERROR: NEXTAUTH_URL should NOT have a trailing slash!")
+      console.error(`   Current: ${nextAuthUrl}`)
+      console.error(`   Should be: ${nextAuthUrl.slice(0, -1)}`)
+    } else {
+      // Log configuration (without exposing secrets)
+      console.log("✅ Production OAuth configuration validated")
+      console.log(`   NEXTAUTH_URL: ${process.env.NEXTAUTH_URL}`)
+      console.log(`   Callback URL: ${process.env.NEXTAUTH_URL}/api/auth/callback/google`)
+      if (process.env.GOOGLE_CLIENT_ID) {
+        console.log(`   GOOGLE_CLIENT_ID: ${process.env.GOOGLE_CLIENT_ID.substring(0, 20)}...`)
+      }
+    }
+  }
+}
+
 export const authOptions = {
   // Using JWT strategy - PrismaAdapter helps with OAuth account linking
   adapter: PrismaAdapter(prisma),
