@@ -90,7 +90,7 @@ export const authOptions = {
 
           // If user doesn't exist, create a new user with CUSTOMER role
           if (!existingUser) {
-            await prisma.user.create({
+            const newUser = await prisma.user.create({
               data: {
                 email,
                 name: user.name || "User",
@@ -98,16 +98,21 @@ export const authOptions = {
                 // No password for OAuth users
               }
             })
-            console.log(`✅ OAuth: Created new user ${email}`)
+            console.log(`✅ OAuth: Created new user ${email} with ID ${newUser.id}`)
           } else {
-            console.log(`✅ OAuth: Existing user ${email} signed in`)
+            console.log(`✅ OAuth: Existing user ${email} (ID: ${existingUser.id}) signed in`)
           }
+          
+          // Return true to allow sign-in
+          return true
         } catch (error) {
           console.error("❌ OAuth signIn callback error:", error)
+          console.error("Error details:", JSON.stringify(error, null, 2))
           // Return false to prevent sign-in if there's an error
           return false
         }
       }
+      // For credentials provider, always allow
       return true
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
