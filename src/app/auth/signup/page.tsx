@@ -142,8 +142,8 @@ export default function SignUpPage() {
                 </div>
               )}
 
-              {/* Google Sign In Button */}
-              <button
+              {/* Google Sign In Button - Hidden */}
+              {/* <button
                 type="button"
                 onClick={handleGoogleSignIn}
                 disabled={isGoogleLoading || isLoading}
@@ -188,7 +188,7 @@ export default function SignUpPage() {
                     Or create account with email
                   </span>
                 </div>
-              </div>
+              </div> */}
 
             <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
               <div className="space-y-4">
