@@ -86,23 +86,50 @@ export const authOptions = {
           const email = user.email.toLowerCase()
           
           // Check if user already exists
-          const existingUser = await prisma.user.findUnique({
+          let existingUser = await prisma.user.findUnique({
             where: { email }
           })
 
           // If user doesn't exist, create a new user with CUSTOMER role
+          // This must happen before PrismaAdapter tries to link the account
           if (!existingUser) {
-            const newUser = await prisma.user.create({
-              data: {
-                email,
-                name: user.name || "User",
-                role: "CUSTOMER",
-                // No password for OAuth users
+            try {
+              const newUser = await prisma.user.create({
+                data: {
+                  email,
+                  name: user.name || "User",
+                  role: "CUSTOMER",
+                  // No password for OAuth users
+                }
+              })
+              console.log(`✅ OAuth: Created new user ${email} with ID ${newUser.id}`)
+              existingUser = newUser
+            } catch (createError) {
+              // If creation fails (e.g., race condition), try to fetch again
+              if (createError instanceof Error && createError.message.includes("Unique constraint")) {
+                existingUser = await prisma.user.findUnique({
+                  where: { email }
+                })
+                if (existingUser) {
+                  console.log(`✅ OAuth: User ${email} was created by another process`)
+                } else {
+                  throw createError
+                }
+              } else {
+                throw createError
               }
-            })
-            console.log(`✅ OAuth: Created new user ${email} with ID ${newUser.id}`)
+            }
           } else {
             console.log(`✅ OAuth: Existing user ${email} (ID: ${existingUser.id}) signed in`)
+          }
+          
+          // Ensure user has a role (in case it was created by PrismaAdapter without role)
+          if (existingUser && !existingUser.role) {
+            await prisma.user.update({
+              where: { id: existingUser.id },
+              data: { role: "CUSTOMER" }
+            })
+            console.log(`✅ OAuth: Set role for user ${email}`)
           }
           
           // Return true to allow sign-in
