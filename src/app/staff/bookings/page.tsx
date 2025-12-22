@@ -47,6 +47,33 @@ export default function StaffBookingsPage() {
     }
   }
 
+  const handleCancelBooking = async (bookingId: string) => {
+    if (!confirm("Are you sure you want to cancel this booking?")) {
+      return
+    }
+
+    setProcessing(bookingId)
+    try {
+      const response = await fetch(`/api/admin/bookings/${bookingId}/cancel`, {
+        method: "POST",
+      })
+
+      if (response.ok) {
+        // Refresh bookings list
+        fetchBookings()
+        alert("Booking cancelled successfully")
+      } else {
+        const errorData = await response.json()
+        alert(errorData.message || "Failed to cancel booking")
+      }
+    } catch (error) {
+      console.error("Error cancelling booking:", error)
+      alert("Failed to cancel booking. Please try again.")
+    } finally {
+      setProcessing(null)
+    }
+  }
+
   const handleDeleteBooking = async (bookingId: string) => {
     if (!confirm("Are you sure you want to delete this booking? This action cannot be undone.")) {
       return

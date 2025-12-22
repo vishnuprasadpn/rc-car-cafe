@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { Calendar, Clock, Users, CheckCircle, X, AlertCircle, Trophy, Trash2 } from "lucide-react"
+import { Calendar, Clock, Users, CheckCircle, X, AlertCircle, Trophy, Trash2, XCircle } from "lucide-react"
 
 interface Booking {
   id: string
@@ -78,6 +78,33 @@ export default function AdminBookingsPage() {
     } catch (error) {
       console.error("Error confirming booking:", error)
       alert("Failed to confirm booking. Please try again.")
+    } finally {
+      setProcessing(null)
+    }
+  }
+
+  const handleCancelBooking = async (bookingId: string) => {
+    if (!confirm("Are you sure you want to cancel this booking?")) {
+      return
+    }
+
+    setProcessing(bookingId)
+    try {
+      const response = await fetch(`/api/admin/bookings/${bookingId}/cancel`, {
+        method: "POST",
+      })
+
+      if (response.ok) {
+        // Refresh bookings list
+        fetchBookings()
+        alert("Booking cancelled successfully")
+      } else {
+        const errorData = await response.json()
+        alert(errorData.message || "Failed to cancel booking")
+      }
+    } catch (error) {
+      console.error("Error cancelling booking:", error)
+      alert("Failed to cancel booking. Please try again.")
     } finally {
       setProcessing(null)
     }
@@ -293,6 +320,16 @@ export default function AdminBookingsPage() {
                               Confirm Booking
                             </>
                           )}
+                        </button>
+                      )}
+                      {(booking.status === "PENDING" || booking.status === "CONFIRMED") && (
+                        <button
+                          onClick={() => handleCancelBooking(booking.id)}
+                          disabled={processing === booking.id}
+                          className="px-4 py-2 bg-orange-500/20 border border-orange-500/30 text-orange-400 rounded-lg text-sm font-medium hover:bg-orange-500/30 transition-all flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <XCircle className="h-4 w-4 mr-2" />
+                          {processing === booking.id ? "Cancelling..." : "Cancel"}
                         </button>
                       )}
                       <button
