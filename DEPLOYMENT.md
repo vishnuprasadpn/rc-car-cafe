@@ -86,6 +86,7 @@ Vercel provides the easiest deployment with automatic builds and deployments.
    NEXTAUTH_SECRET=your-secret-key
    GOOGLE_CLIENT_ID=your-google-client-id
    GOOGLE_CLIENT_SECRET=your-google-client-secret
+   NEXT_PUBLIC_GA_MEASUREMENT_ID=G-3YGNXQ9MRP
    SMTP_HOST=smtp.gmail.com
    SMTP_PORT=587
    SMTP_USER=your-email@gmail.com
