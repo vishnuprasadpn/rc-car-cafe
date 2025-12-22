@@ -139,8 +139,14 @@ export const authOptions = {
             console.log(`✅ OAuth: Set role for user ${email}`)
           }
           
+          // IMPORTANT: Update the user object with the database user ID
+          // This ensures PrismaAdapter can properly link the Account
+          user.id = existingUser.id
+          user.email = existingUser.email
+          user.name = existingUser.name
+          
           // Return true to allow sign-in - PrismaAdapter will handle Account creation
-          console.log(`✅ OAuth: Sign-in approved for ${email}`)
+          console.log(`✅ OAuth: Sign-in approved for ${email} (User ID: ${existingUser.id})`)
           return true
         } catch (error) {
           console.error("❌ OAuth signIn callback error:", error)
