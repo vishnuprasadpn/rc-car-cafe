@@ -84,6 +84,7 @@ export const authOptions = {
           }
 
           const email = user.email.toLowerCase()
+          console.log(`🔍 OAuth: Processing sign-in for ${email}`)
           
           // Check if user already exists
           let existingUser = await prisma.user.findUnique({
@@ -106,16 +107,22 @@ export const authOptions = {
               existingUser = newUser
             } catch (createError) {
               // If creation fails (e.g., race condition), try to fetch again
-              if (createError instanceof Error && createError.message.includes("Unique constraint")) {
+              if (createError instanceof Error && (
+                createError.message.includes("Unique constraint") ||
+                createError.message.includes("duplicate key")
+              )) {
+                console.log(`⚠️ OAuth: User creation conflict, fetching existing user...`)
                 existingUser = await prisma.user.findUnique({
                   where: { email }
                 })
                 if (existingUser) {
-                  console.log(`✅ OAuth: User ${email} was created by another process`)
+                  console.log(`✅ OAuth: User ${email} was created by another process (ID: ${existingUser.id})`)
                 } else {
+                  console.error("❌ OAuth: User creation failed and user not found")
                   throw createError
                 }
               } else {
+                console.error("❌ OAuth: User creation error:", createError)
                 throw createError
               }
             }
@@ -132,7 +139,8 @@ export const authOptions = {
             console.log(`✅ OAuth: Set role for user ${email}`)
           }
           
-          // Return true to allow sign-in
+          // Return true to allow sign-in - PrismaAdapter will handle Account creation
+          console.log(`✅ OAuth: Sign-in approved for ${email}`)
           return true
         } catch (error) {
           console.error("❌ OAuth signIn callback error:", error)
