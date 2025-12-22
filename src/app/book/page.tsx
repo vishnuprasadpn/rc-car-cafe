@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { Clock, Users, DollarSign } from "lucide-react"
 import Navigation from "@/components/navigation"
+import { trackBooking, trackButtonClick, trackFormSubmit } from "@/lib/analytics"
 
 const bookingSchema = z.object({
   gameId: z.string().min(1, "Please select a game"),
@@ -88,9 +89,12 @@ function BookPageContent() {
   const onSubmit = async (data: BookingForm) => {
     setSubmitting(true)
     setError("")
+    trackButtonClick("Create Booking", "book_page")
 
     try {
       const startTime = new Date(`${data.date}T${data.time}`)
+      const selectedGame = games.find(game => game.id === data.gameId)
+      const estimatedPrice = selectedGame ? selectedGame.price * data.players : 0
       
       const response = await fetch("/api/bookings", {
         method: "POST",
@@ -105,12 +109,21 @@ function BookPageContent() {
       })
 
       if (response.ok) {
+        const responseData = await response.json()
+        trackBooking("create", data.gameId, estimatedPrice)
+        trackFormSubmit("booking_form", true, {
+          game_id: data.gameId,
+          players: data.players,
+          amount: estimatedPrice,
+        })
         router.push("/dashboard?success=booking_created")
       } else {
         const errorData = await response.json()
+        trackFormSubmit("booking_form", false, { error: errorData.message })
         setError(errorData.message || "Failed to create booking")
       }
     } catch {
+      trackFormSubmit("booking_form", false, { error: "network_error" })
       setError("An error occurred. Please try again.")
     } finally {
       setSubmitting(false)

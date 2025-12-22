@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import Navigation from "@/components/navigation"
 import { Zap, Mail, Lock, Trophy, Clock, Users, CheckCircle } from "lucide-react"
+import { trackAuth, trackButtonClick } from "@/lib/analytics"
 
 const signInSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -63,12 +64,14 @@ function SignInPageContent() {
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true)
     setError("")
+    trackButtonClick("Google Sign In", "signin_page")
 
     try {
       await signIn("google", {
         callbackUrl: "/dashboard",
         redirect: true,
       })
+      trackAuth("sign_in", "google")
     } catch {
       setError("Failed to sign in with Google. Please try again.")
       setIsGoogleLoading(false)
@@ -78,6 +81,7 @@ function SignInPageContent() {
   const onSubmit = async (data: SignInForm) => {
     setIsLoading(true)
     setError("")
+    trackButtonClick("Email Sign In", "signin_page")
 
     try {
       const result = await signIn("credentials", {
@@ -89,6 +93,7 @@ function SignInPageContent() {
       if (result?.error) {
         setError("Invalid credentials")
       } else {
+        trackAuth("sign_in", "email")
         const session = await getSession()
         if (session?.user && (session.user as { role?: string }).role === "ADMIN") {
           router.push("/admin")

@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import Navigation from "@/components/navigation"
 import { Zap, UserPlus, Mail, Lock, Phone, CheckCircle } from "lucide-react"
+import { trackAuth, trackButtonClick, trackFormSubmit } from "@/lib/analytics"
 
 const signUpSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -42,6 +43,7 @@ export default function SignUpPage() {
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true)
     setError("")
+    trackButtonClick("Google Sign Up", "signup_page")
 
     try {
       const result = await signIn("google", {
@@ -52,6 +54,8 @@ export default function SignUpPage() {
       if (result?.error) {
         setError("Failed to sign in with Google. Please try again.")
         setIsGoogleLoading(false)
+      } else {
+        trackAuth("sign_up", "google")
       }
     } catch {
       setError("An error occurred. Please try again.")
@@ -62,6 +66,7 @@ export default function SignUpPage() {
   const onSubmit = async (data: SignUpForm) => {
     setIsLoading(true)
     setError("")
+    trackButtonClick("Email Sign Up", "signup_page")
 
     try {
       const response = await fetch("/api/auth/register", {
@@ -78,15 +83,19 @@ export default function SignUpPage() {
       })
 
       if (response.ok) {
+        trackFormSubmit("signup_form", true)
+        trackAuth("sign_up", "email")
         setSuccess(true)
         setTimeout(() => {
           router.push("/auth/signin")
         }, 2000)
       } else {
         const errorData = await response.json()
+        trackFormSubmit("signup_form", false, { error: errorData.message })
         setError(errorData.message || "Registration failed")
       }
     } catch {
+      trackFormSubmit("signup_form", false, { error: "network_error" })
       setError("An error occurred. Please try again.")
     } finally {
       setIsLoading(false)

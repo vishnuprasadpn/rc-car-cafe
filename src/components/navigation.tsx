@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { usePathname } from "next/navigation"
 import { Zap, Home, Car, Info, Mail, LogIn, UserPlus } from "lucide-react"
+import { trackNavigation, trackButtonClick } from "@/lib/analytics"
 
 export default function Navigation() {
   const { data: session, status } = useSession()
@@ -56,6 +57,7 @@ export default function Navigation() {
               <div className="flex items-center space-x-4">
                 <Link 
                   href="/" 
+                  onClick={() => trackNavigation("/", pathname || "")}
                   className={`p-2 rounded-lg transition-colors ${
                     pathname === '/' 
                       ? 'bg-fury-orange/20 text-fury-orange' 
@@ -67,6 +69,7 @@ export default function Navigation() {
                 </Link>
                 <Link 
                   href="/tracks" 
+                  onClick={() => trackNavigation("/tracks", pathname || "")}
                   className={`p-2 rounded-lg transition-colors ${
                     pathname?.startsWith('/tracks') 
                       ? 'bg-fury-orange/20 text-fury-orange' 
@@ -78,6 +81,7 @@ export default function Navigation() {
                 </Link>
                 <Link 
                   href="/about" 
+                  onClick={() => trackNavigation("/about", pathname || "")}
                   className={`p-2 rounded-lg transition-colors ${
                     pathname?.startsWith('/about') 
                       ? 'bg-fury-orange/20 text-fury-orange' 
@@ -89,6 +93,7 @@ export default function Navigation() {
                 </Link>
                 <Link 
                   href="/contact" 
+                  onClick={() => trackNavigation("/contact", pathname || "")}
                   className={`p-2 rounded-lg transition-colors ${
                     pathname?.startsWith('/contact') 
                       ? 'bg-fury-orange/20 text-fury-orange' 
@@ -101,6 +106,10 @@ export default function Navigation() {
                 {session ? (
                   <Link
                     href="/dashboard"
+                    onClick={() => {
+                      trackNavigation("/dashboard", pathname || "")
+                      trackButtonClick("Dashboard", "navigation")
+                    }}
                     className="p-2 rounded-lg bg-fury-orange/20 text-fury-orange hover:bg-fury-orange/30 transition-colors"
                     title="Dashboard"
                   >
@@ -110,6 +119,10 @@ export default function Navigation() {
                   <>
                     <Link
                       href="/auth/signin"
+                      onClick={() => {
+                        trackNavigation("/auth/signin", pathname || "")
+                        trackButtonClick("Sign In", "navigation")
+                      }}
                       className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors"
                       title="Sign In"
                     >
@@ -117,6 +130,10 @@ export default function Navigation() {
                     </Link>
                     <Link
                       href="/auth/signup"
+                      onClick={() => {
+                        trackNavigation("/auth/signup", pathname || "")
+                        trackButtonClick("Join Club", "navigation")
+                      }}
                       className="p-2 rounded-lg bg-fury-orange/20 text-fury-orange hover:bg-fury-orange/30 transition-colors"
                       title="Join Club"
                     >
@@ -149,16 +166,32 @@ export default function Navigation() {
               
               {/* Navigation Links */}
               <div className="flex items-center space-x-8">
-                <Link href="/" className="text-white/90 hover:text-white text-sm font-medium transition-colors">
+                <Link 
+                  href="/" 
+                  onClick={() => trackNavigation("/", pathname || "")}
+                  className="text-white/90 hover:text-white text-sm font-medium transition-colors"
+                >
                   Home
                 </Link>
-                <Link href="/tracks" className="text-white/90 hover:text-white text-sm font-medium transition-colors">
+                <Link 
+                  href="/tracks" 
+                  onClick={() => trackNavigation("/tracks", pathname || "")}
+                  className="text-white/90 hover:text-white text-sm font-medium transition-colors"
+                >
                   Tracks
                 </Link>
-                <Link href="/about" className="text-white/90 hover:text-white text-sm font-medium transition-colors">
+                <Link 
+                  href="/about" 
+                  onClick={() => trackNavigation("/about", pathname || "")}
+                  className="text-white/90 hover:text-white text-sm font-medium transition-colors"
+                >
                   About
                 </Link>
-                <Link href="/contact" className="text-white/90 hover:text-white text-sm font-medium transition-colors">
+                <Link 
+                  href="/contact" 
+                  onClick={() => trackNavigation("/contact", pathname || "")}
+                  className="text-white/90 hover:text-white text-sm font-medium transition-colors"
+                >
                   Contact
                 </Link>
               </div>

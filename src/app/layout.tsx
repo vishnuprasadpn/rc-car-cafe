@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Inter, Bebas_Neue } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
+import { GoogleAnalytics } from "@next/third-parties/google"
 import "./globals.css"
 import { Providers } from "@/components/providers"
 import LayoutWrapper from "@/components/layout-wrapper"
@@ -41,6 +42,9 @@ export default function RootLayout({
           </LayoutWrapper>
         </Providers>
         <Analytics />
+        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+        )}
       </body>
     </html>
   )
