@@ -279,13 +279,23 @@ interface BookingNotificationData {
 
 export const sendBookingNotificationToAdmin = async (data: BookingNotificationData) => {
   console.log('📧 Attempting to send booking notification email to admin...')
+  console.log('   Environment check:')
+  console.log('     NODE_ENV:', process.env.NODE_ENV)
+  console.log('     SMTP_HOST:', process.env.SMTP_HOST ? `✅ ${process.env.SMTP_HOST}` : '❌ Missing')
+  console.log('     SMTP_USER:', process.env.SMTP_USER ? `✅ ${process.env.SMTP_USER}` : '❌ Missing')
+  console.log('     SMTP_PASS:', process.env.SMTP_PASS ? '✅ Set (hidden)' : '❌ Missing')
+  console.log('     SMTP_PORT:', process.env.SMTP_PORT || '587 (default)')
   
   if (!transporter) {
-    console.error('❌ Cannot send email: SMTP not configured')
-    console.error('   SMTP_HOST:', process.env.SMTP_HOST ? '✅ Set' : '❌ Missing')
-    console.error('   SMTP_USER:', process.env.SMTP_USER ? '✅ Set' : '❌ Missing')
-    console.error('   SMTP_PASS:', process.env.SMTP_PASS ? '✅ Set' : '❌ Missing')
-    throw new Error('Email service is not configured. Please contact the administrator.')
+    console.error('❌ CRITICAL: Cannot send email - SMTP transporter is null')
+    console.error('   This means SMTP configuration is missing or invalid')
+    console.error('   Required environment variables:')
+    console.error('     - SMTP_HOST (e.g., smtp.gmail.com)')
+    console.error('     - SMTP_USER (your email address)')
+    console.error('     - SMTP_PASS (your app password for Gmail)')
+    console.error('   Optional:')
+    console.error('     - SMTP_PORT (default: 587)')
+    throw new Error('Email service is not configured. Please check SMTP environment variables.')
   }
 
   // Get admin emails - send to both admins
@@ -346,9 +356,17 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
 
   try {
     console.log('📤 Sending admin notification email via SMTP...')
+    console.log('   From:', process.env.SMTP_USER)
+    console.log('   To:', adminEmails.join(', '))
+    console.log('   Subject:', mailOptions.subject)
+    
     const info = await transporter.sendMail(mailOptions)
-    console.log('✅ Booking notification email sent successfully to admins:', adminEmails.join(', '))
+    
+    console.log('✅ SUCCESS: Booking notification email sent successfully!')
+    console.log('   To admins:', adminEmails.join(', '))
     console.log('   Message ID:', info.messageId)
+    console.log('   Response:', info.response || 'No response')
+    
     if (nodemailer.getTestMessageUrl) {
       const previewUrl = nodemailer.getTestMessageUrl(info)
       if (previewUrl) {
@@ -357,18 +375,46 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
     }
     return info
   } catch (error) {
-    console.error('❌ Error sending booking notification email to admins:', adminEmails.join(', '))
-    console.error('   Error details:', error)
+    console.error('❌ CRITICAL ERROR: Failed to send booking notification email to admins!')
+    console.error('   Target emails:', adminEmails.join(', '))
+    console.error('   Error type:', error?.constructor?.name || typeof error)
+    
     if (error instanceof Error) {
       console.error('   Error message:', error.message)
-      console.error('   Error stack:', error.stack)
+      console.error('   Error name:', error.name)
+      if (error.stack) {
+        console.error('   Error stack:', error.stack)
+      }
     }
-    if (error && typeof error === 'object' && 'response' in error) {
-      console.error('   SMTP Response:', (error as { response: unknown }).response)
+    
+    // Check for specific SMTP error codes
+    if (error && typeof error === 'object') {
+      if ('code' in error) {
+        console.error('   Error code:', (error as { code: unknown }).code)
+        const errorCode = String((error as { code: unknown }).code)
+        if (errorCode === 'EAUTH') {
+          console.error('   ⚠️  Authentication failed! Check SMTP_USER and SMTP_PASS')
+          console.error('   For Gmail: Use App Password (not regular password)')
+        } else if (errorCode === 'ECONNECTION') {
+          console.error('   ⚠️  Connection failed! Check SMTP_HOST and SMTP_PORT')
+        } else if (errorCode === 'ETIMEDOUT') {
+          console.error('   ⚠️  Connection timeout! Check network/firewall settings')
+        }
+      }
+      if ('response' in error) {
+        console.error('   SMTP Response:', (error as { response: unknown }).response)
+      }
+      if ('responseCode' in error) {
+        console.error('   SMTP Response Code:', (error as { responseCode: unknown }).responseCode)
+      }
+      if ('command' in error) {
+        console.error('   Failed SMTP Command:', (error as { command: unknown }).command)
+      }
     }
-    if (error && typeof error === 'object' && 'code' in error) {
-      console.error('   Error code:', (error as { code: unknown }).code)
-    }
+    
+    // Log full error object for debugging
+    console.error('   Full error object:', JSON.stringify(error, Object.getOwnPropertyNames(error), 2))
+    
     throw error
   }
 }

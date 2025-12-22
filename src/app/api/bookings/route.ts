@@ -176,6 +176,7 @@ export async function POST(request: NextRequest) {
 
     try {
       // Send notification email to admin
+      console.log("📧 Attempting to send admin notification email for booking:", booking.id)
       await sendBookingNotificationToAdmin({
         customer: {
           name: user.name,
@@ -194,9 +195,21 @@ export async function POST(request: NextRequest) {
           duration: game.duration,
         },
       })
+      console.log("✅ Admin notification email sent successfully for booking:", booking.id)
     } catch (error) {
-      console.error("Error sending admin notification email:", error)
-      // Don't fail the booking creation if email fails
+      console.error("❌ CRITICAL: Error sending admin notification email for booking:", booking.id)
+      console.error("   Error details:", error)
+      if (error instanceof Error) {
+        console.error("   Error message:", error.message)
+        console.error("   Error stack:", error.stack)
+      }
+      // Log SMTP configuration status
+      console.error("   SMTP Configuration Check:")
+      console.error("     SMTP_HOST:", process.env.SMTP_HOST ? "✅ Set" : "❌ Missing")
+      console.error("     SMTP_USER:", process.env.SMTP_USER ? "✅ Set" : "❌ Missing")
+      console.error("     SMTP_PASS:", process.env.SMTP_PASS ? "✅ Set (hidden)" : "❌ Missing")
+      console.error("     SMTP_PORT:", process.env.SMTP_PORT || "587 (default)")
+      // Don't fail the booking creation if email fails, but log it prominently
     }
 
     return NextResponse.json({ booking }, { status: 201 })
