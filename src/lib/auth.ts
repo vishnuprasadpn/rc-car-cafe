@@ -152,22 +152,27 @@ export const authOptions = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async jwt({ token, user, account }: any) {
       if (user) {
-        token.role = user.role
+        token.role = user.role || "CUSTOMER" // Default role if not set
         token.email = user.email
       }
-      // If signing in with OAuth, fetch user role from database
+      // If signing in with OAuth, always fetch fresh user data from database
       if (account?.provider === "google" && user?.email) {
         try {
           const dbUser = await prisma.user.findUnique({
             where: { email: user.email.toLowerCase() },
-            select: { role: true }
+            select: { role: true, id: true }
           })
           if (dbUser) {
-            token.role = dbUser.role
+            token.role = dbUser.role || "CUSTOMER"
+            token.sub = dbUser.id // Ensure user ID is set
+          } else {
+            console.warn(`⚠️ OAuth: User ${user.email} not found in database during JWT creation`)
+            token.role = "CUSTOMER" // Default role
           }
         } catch (error) {
           console.error("❌ Error fetching user role in jwt callback:", error)
-          // Don't fail the JWT creation, just log the error
+          // Don't fail the JWT creation, use default role
+          token.role = token.role || "CUSTOMER"
         }
       }
       return token
