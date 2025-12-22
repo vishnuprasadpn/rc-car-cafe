@@ -1,24 +1,25 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import CredentialsProvider from "next-auth/providers/credentials"
-import GoogleProvider from "next-auth/providers/google"
+// import GoogleProvider from "next-auth/providers/google" // Disabled temporarily
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-      allowDangerousEmailAccountLinking: true, // Allow linking accounts with same email
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code"
-        }
-      }
-    }),
+    // Google OAuth disabled temporarily
+    // GoogleProvider({
+    //   clientId: process.env.GOOGLE_CLIENT_ID || "",
+    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    //   allowDangerousEmailAccountLinking: true,
+    //   authorization: {
+    //     params: {
+    //       prompt: "consent",
+    //       access_type: "offline",
+    //       response_type: "code"
+    //     }
+    //   }
+    // }),
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -70,44 +71,10 @@ export const authOptions = {
     strategy: "jwt"
   },
   callbacks: {
+    // Google OAuth signIn callback disabled
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async signIn({ user, account, profile }: any) {
-      // If signing in with Google OAuth
-      if (account?.provider === "google") {
-        try {
-          if (!user?.email) {
-            console.error("❌ OAuth: No email provided by Google")
-            return false
-          }
-
-          const email = user.email.toLowerCase()
-          
-          // Check if user already exists
-          const existingUser = await prisma.user.findUnique({
-            where: { email }
-          })
-
-          // If user doesn't exist, create a new user with CUSTOMER role
-          if (!existingUser) {
-            await prisma.user.create({
-              data: {
-                email,
-                name: user.name || "User",
-                role: "CUSTOMER",
-                // No password for OAuth users
-              }
-            })
-            console.log(`✅ OAuth: Created new user ${email}`)
-          } else {
-            console.log(`✅ OAuth: Existing user ${email} signed in`)
-          }
-        } catch (error) {
-          console.error("❌ OAuth signIn callback error:", error)
-          // Return false to prevent sign-in if there's an error
-          // This allows NextAuth to handle the error properly
-          return false
-        }
-      }
+      // Google OAuth is disabled, so we only handle credentials
       return true
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
