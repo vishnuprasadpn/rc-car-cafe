@@ -108,7 +108,12 @@ export const authOptions = {
           return true
         } catch (error) {
           console.error("❌ OAuth signIn callback error:", error)
-          console.error("Error details:", JSON.stringify(error, null, 2))
+          if (error instanceof Error) {
+            console.error("Error message:", error.message)
+            console.error("Error stack:", error.stack)
+          } else {
+            console.error("Error details:", JSON.stringify(error, null, 2))
+          }
           // Return false to prevent sign-in if there's an error
           return false
         }
@@ -124,12 +129,17 @@ export const authOptions = {
       }
       // If signing in with OAuth, fetch user role from database
       if (account?.provider === "google" && user?.email) {
-        const dbUser = await prisma.user.findUnique({
-          where: { email: user.email.toLowerCase() },
-          select: { role: true }
-        })
-        if (dbUser) {
-          token.role = dbUser.role
+        try {
+          const dbUser = await prisma.user.findUnique({
+            where: { email: user.email.toLowerCase() },
+            select: { role: true }
+          })
+          if (dbUser) {
+            token.role = dbUser.role
+          }
+        } catch (error) {
+          console.error("❌ Error fetching user role in jwt callback:", error)
+          // Don't fail the JWT creation, just log the error
         }
       }
       return token
