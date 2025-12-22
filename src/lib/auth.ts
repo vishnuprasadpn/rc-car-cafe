@@ -7,6 +7,7 @@ import bcrypt from "bcryptjs"
 export const authOptions = {
   // Note: Using JWT strategy, so PrismaAdapter is optional but helps with OAuth account linking
   adapter: PrismaAdapter(prisma),
+  debug: process.env.NODE_ENV === "development", // Enable debug logging in development
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
