@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { Calendar, Clock, Users, CheckCircle, X, AlertCircle, Trophy } from "lucide-react"
+import { Calendar, Clock, Users, CheckCircle, X, AlertCircle, Trophy, Trash2 } from "lucide-react"
 
 interface Booking {
   id: string
@@ -78,6 +78,33 @@ export default function AdminBookingsPage() {
     } catch (error) {
       console.error("Error confirming booking:", error)
       alert("Failed to confirm booking. Please try again.")
+    } finally {
+      setProcessing(null)
+    }
+  }
+
+  const handleDeleteBooking = async (bookingId: string) => {
+    if (!confirm("Are you sure you want to delete this booking? This action cannot be undone.")) {
+      return
+    }
+
+    setProcessing(bookingId)
+    try {
+      const response = await fetch(`/api/admin/bookings/${bookingId}`, {
+        method: "DELETE",
+      })
+
+      if (response.ok) {
+        // Refresh bookings list
+        fetchBookings()
+        alert("Booking deleted successfully")
+      } else {
+        const errorData = await response.json()
+        alert(errorData.message || "Failed to delete booking")
+      }
+    } catch (error) {
+      console.error("Error deleting booking:", error)
+      alert("Failed to delete booking. Please try again.")
     } finally {
       setProcessing(null)
     }

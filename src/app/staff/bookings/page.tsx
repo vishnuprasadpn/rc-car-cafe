@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
-import { Calendar, Clock, Users, Search, Filter, Eye, CheckCircle, XCircle, AlertCircle } from "lucide-react"
+import { Calendar, Clock, Users, Search, Filter, Eye, CheckCircle, XCircle, AlertCircle, Trash2 } from "lucide-react"
 
 interface Booking {
   id: string
@@ -264,10 +264,17 @@ export default function StaffBookingsPage() {
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button className="text-blue-400 hover:text-blue-300 flex items-center transition-colors">
-                              <Eye className="h-4 w-4 mr-1" />
-                              View
-                            </button>
+                            <div className="flex items-center space-x-3">
+                              <button
+                                onClick={() => handleDeleteBooking(booking.id)}
+                                disabled={processing === booking.id}
+                                className="text-red-400 hover:text-red-300 flex items-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                title="Delete booking"
+                              >
+                                <Trash2 className="h-4 w-4 mr-1" />
+                                {processing === booking.id ? "Deleting..." : "Delete"}
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}
