@@ -320,6 +320,17 @@ export default function StaffBookingsPage() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div className="flex items-center space-x-3">
+                              {(booking.status === "PENDING" || booking.status === "CONFIRMED") && (
+                                <button
+                                  onClick={() => handleCancelBooking(booking.id)}
+                                  disabled={processing === booking.id}
+                                  className="text-orange-400 hover:text-orange-300 flex items-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                  title="Cancel booking"
+                                >
+                                  <XCircle className="h-4 w-4 mr-1" />
+                                  {processing === booking.id ? "Cancelling..." : "Cancel"}
+                                </button>
+                              )}
                               <button
                                 onClick={() => handleDeleteBooking(booking.id)}
                                 disabled={processing === booking.id}
