@@ -33,7 +33,18 @@ sudo -u postgres createuser --interactive
 - **AWS RDS**: Enterprise-grade database hosting
 - **PlanetScale**: Serverless MySQL (requires schema migration)
 
-### 2. Email Service Setup
+### 2. Google OAuth Setup (Optional)
+
+For Google sign-in functionality, see the detailed guide: [GOOGLE_OAUTH_SETUP.md](./GOOGLE_OAUTH_SETUP.md)
+
+**Quick steps:**
+1. Create OAuth 2.0 credentials in [Google Cloud Console](https://console.cloud.google.com/)
+2. Configure authorized redirect URIs:
+   - Development: `http://localhost:3000/api/auth/callback/google`
+   - Production: `https://yourdomain.com/api/auth/callback/google`
+3. Add `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` to environment variables
+
+### 3. Email Service Setup
 
 #### Gmail SMTP
 1. Enable 2-factor authentication
@@ -45,7 +56,7 @@ sudo -u postgres createuser --interactive
 2. Generate API key
 3. Configure SMTP settings
 
-### 3. Payment Gateway Setup
+### 4. Payment Gateway Setup
 
 #### Razorpay
 1. Create Razorpay account
@@ -73,6 +84,8 @@ Vercel provides the easiest deployment with automatic builds and deployments.
    DATABASE_URL=postgresql://username:password@host:port/database
    NEXTAUTH_URL=https://yourdomain.vercel.app
    NEXTAUTH_SECRET=your-secret-key
+   GOOGLE_CLIENT_ID=your-google-client-id
+   GOOGLE_CLIENT_SECRET=your-google-client-secret
    SMTP_HOST=smtp.gmail.com
    SMTP_PORT=587
    SMTP_USER=your-email@gmail.com

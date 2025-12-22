@@ -70,6 +70,10 @@ A production-ready responsive web application for an indoor RC Car Café in Bang
    NEXTAUTH_URL="http://localhost:3000"
    NEXTAUTH_SECRET="your-secret-key-here"
    
+   # Google OAuth (Optional - see GOOGLE_OAUTH_SETUP.md)
+   GOOGLE_CLIENT_ID="your-google-client-id"
+   GOOGLE_CLIENT_SECRET="your-google-client-secret"
+   
    # Email Configuration
    SMTP_HOST="smtp.gmail.com"
    SMTP_PORT=587
