@@ -18,6 +18,13 @@ const transporter = isSMTPConfigured() ? nodemailer.createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+  // Add connection timeout and retry settings
+  connectionTimeout: 10000, // 10 seconds
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
+  // Enable debug logging in development
+  debug: process.env.NODE_ENV === "development",
+  logger: process.env.NODE_ENV === "development",
 }) : null
 
 // Verify transporter connection on startup (optional, can be removed if causing issues)
