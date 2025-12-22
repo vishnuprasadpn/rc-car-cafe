@@ -6,9 +6,10 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DATABASE_URL_DIRECT") // Optional: for migrations/seeds when using pooled connection
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // directUrl is optional - only needed for migrations/seeds when using pooled connection
+  // If not set, Prisma will use the regular DATABASE_URL
 }
 
 enum UserRole {
