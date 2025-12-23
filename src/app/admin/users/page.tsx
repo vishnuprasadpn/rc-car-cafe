@@ -371,7 +371,7 @@ export default function AdminUsersPage() {
                   {/* Phone Field */}
                   <div>
                     <label htmlFor="edit-phone" className="block text-sm font-medium text-gray-300 mb-2">
-                      Phone
+                      Phone <span className="text-red-400 text-xs">*</span>
                     </label>
                     <input
                       id="edit-phone"
