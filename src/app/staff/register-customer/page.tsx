@@ -146,16 +146,19 @@ export default function RegisterCustomerPage() {
                   <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
                       <Phone className="h-4 w-4 inline mr-1" />
-                      Phone Number <span className="text-gray-500 text-sm">(Optional)</span>
+                      Phone Number <span className="text-red-400 text-sm">*</span>
                     </label>
                     <input
                       type="tel"
                       name="phone"
                       id="phone"
+                      required
                       value={formData.phone}
                       onChange={handleInputChange}
                       className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white placeholder-gray-400 transition-all"
-                      placeholder="+91 99455 76007 (Optional)"
+                      placeholder="+91 99455 76007"
+                      pattern="[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}"
+                      title="Please enter a valid phone number (e.g., +91 99455 76007)"
                     />
                   </div>
 

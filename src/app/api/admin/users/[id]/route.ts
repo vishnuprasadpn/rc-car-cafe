@@ -8,7 +8,7 @@ import { z } from "zod"
 const updateUserSchema = z.object({
   name: z.string().min(1, "Name is required").optional(),
   email: z.string().email("Invalid email address").optional(),
-  phone: z.string().optional().nullable(),
+  phone: z.string().min(10, "Phone number must be at least 10 digits").regex(/^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/, "Invalid phone number format").optional(),
   role: z.enum(["CUSTOMER", "STAFF", "ADMIN"]).optional(),
 })
 

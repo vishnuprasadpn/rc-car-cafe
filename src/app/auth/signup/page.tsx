@@ -17,7 +17,7 @@ const signUpSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
   confirmPassword: z.string(),
-  phone: z.string().optional(),
+  phone: z.string().min(10, "Phone number must be at least 10 digits").regex(/^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/, "Invalid phone number format"),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
@@ -240,15 +240,16 @@ export default function SignUpPage() {
                   <div className="space-y-2">
                     <label htmlFor="phone" className="flex items-center text-sm font-semibold text-gray-300">
                       <Phone className="h-4 w-4 mr-2 text-fury-orange" />
-                      Phone Number <span className="text-gray-500 text-xs ml-1 font-normal">(Optional)</span>
+                      Phone Number <span className="text-red-400 text-xs ml-1 font-normal">*</span>
                     </label>
                     <input
                       {...register("phone")}
                       id="phone"
                       type="tel"
                       autoComplete="tel"
+                      required
                       className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
-                      placeholder="Enter your phone number"
+                      placeholder="Enter your phone number (e.g., +91 99455 76007)"
                     />
                     {errors.phone && (
                       <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
