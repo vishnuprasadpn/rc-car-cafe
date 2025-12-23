@@ -29,7 +29,7 @@ export default function ProfessionalRacingPage() {
 
   const specifications = [
     { label: "Motor Type", value: "Brushless 3500KV" },
-    { label: "Top Speed", value: "80+ km/h" },
+    { label: "Top Speed", value: "80+ mph" },
     { label: "Battery Life", value: "15-20 minutes" },
     { label: "Control Range", value: "150 meters" },
     { label: "Suspension", value: "Oil-filled adjustable" },

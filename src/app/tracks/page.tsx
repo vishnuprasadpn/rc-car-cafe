@@ -1,7 +1,7 @@
 import Link from "next/link"
 import Navigation from "@/components/navigation"
 import Image from "next/image"
-import { Trophy, Clock, Users, Star, MapPin } from "lucide-react"
+import { Trophy, Clock, Users, Star } from "lucide-react"
 
 export default function TracksPage() {
   const tracks = [
@@ -9,9 +9,7 @@ export default function TracksPage() {
       id: 1,
       name: "Fast Track",
       difficulty: "All Levels",
-      length: "2.5km",
       duration: "15/30/60 minutes",
-      bestTime: "1:23.45",
       description: "High-speed asphalt track with Toy Grade and Hobby Grade RC cars. Choose from 15 mins (₹149/₹249), 30 mins (₹249/₹399), or 1 hour (₹449/₹699) sessions.",
       features: ["Toy Grade & Hobby Grade options", "Multiple duration options", "High-speed sections", "Professional timing"],
       surface: "Asphalt",
@@ -23,9 +21,7 @@ export default function TracksPage() {
       id: 2,
       name: "Mud Track",
       difficulty: "Intermediate",
-      length: "1.8km",
       duration: "15/30/60 minutes",
-      bestTime: "2:15.30",
       description: "Off-road mud track with Land Cruiser RC vehicles. Experience challenging terrain with water hazards. Pricing: 15 mins (₹249), 30 mins (₹399), 1 hr (₹699).",
       features: ["Land Cruiser vehicles", "Water hazards", "Mud sections", "Off-road terrain"],
       surface: "Mud & Water",
@@ -37,9 +33,7 @@ export default function TracksPage() {
       id: 3,
       name: "Crawler Track",
       difficulty: "Beginner",
-      length: "1.2km",
       duration: "15/30/60 minutes",
-      bestTime: "3:45.12",
       description: "Technical rock crawling course with Defender and Land Rover RC vehicles. Perfect for precision control. Pricing: 15 mins (₹249), 30 mins (₹399), 1 hr (₹699).",
       features: ["Defender & Land Rover", "Rock obstacles", "Steep inclines", "Precision control"],
       surface: "Rocks & Obstacles",
@@ -51,9 +45,7 @@ export default function TracksPage() {
       id: 4,
       name: "Sand Track",
       difficulty: "Advanced",
-      length: "3.2km",
       duration: "15/30/60 minutes",
-      bestTime: "4:12.88",
       description: "Sand track with RC Trucks, JCB, and Bulldozer vehicles. Heavy machinery racing on sand terrain. Truck: 15 mins (₹149), 30 mins (₹249), 1 hr (₹449). JCB/Bulldozer: 15 mins (₹249), 30 mins (₹399), 1 hr (₹699).",
       features: ["Trucks, JCB & Bulldozer", "Sand dunes", "Heavy machinery", "Advanced terrain"],
       surface: "Sand & Dunes",
@@ -132,10 +124,6 @@ export default function TracksPage() {
                   </div>
                   <div className="absolute bottom-4 left-4">
                     <h3 className="font-heading text-lg sm:text-2xl text-white mb-2 uppercase">{track.name}</h3>
-                    <div className="flex items-center text-white/80">
-                      <MapPin className="h-4 w-4 mr-1" />
-                      <span className="text-sm">{track.length}</span>
-                    </div>
                   </div>
                 </div>
 
@@ -150,13 +138,6 @@ export default function TracksPage() {
                       <div>
                         <div className="text-sm text-gray-400">Duration</div>
                         <div className="font-semibold text-white">{track.duration}</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <Trophy className="h-5 w-5 text-gray-400 mr-2" />
-                      <div>
-                        <div className="text-sm text-gray-400">Best Time</div>
-                        <div className="font-semibold text-white">{track.bestTime}</div>
                       </div>
                     </div>
                     <div className="flex items-center">
@@ -211,8 +192,6 @@ export default function TracksPage() {
                   <tr>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-gray-400">Track</th>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-gray-400">Difficulty</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-400">Length</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-400">Best Time</th>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-gray-400">Features</th>
                   </tr>
                 </thead>
@@ -232,8 +211,6 @@ export default function TracksPage() {
                           {track.difficulty}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-white">{track.length}</td>
-                      <td className="px-6 py-4 text-white">{track.bestTime}</td>
                       <td className="px-6 py-4">
                         <div className="flex flex-wrap gap-1">
                           {track.features.slice(0, 2).map((feature, index) => (
