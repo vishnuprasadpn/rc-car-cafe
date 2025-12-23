@@ -143,8 +143,8 @@ function SignInPageContent() {
                 </div>
               )}
 
-              {/* Google Sign In Button - Hidden */}
-              {/* <button
+              {/* Google Sign In Button */}
+              <button
                 type="button"
                 onClick={handleGoogleSignIn}
                 disabled={isGoogleLoading || isLoading}
@@ -189,7 +189,7 @@ function SignInPageContent() {
                     Or sign in with email
                   </span>
                 </div>
-              </div> */}
+              </div>
 
             <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
               <div className="space-y-4">
