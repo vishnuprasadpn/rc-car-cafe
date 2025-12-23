@@ -375,10 +375,13 @@ export default function AdminUsersPage() {
                     </label>
                     <input
                       id="edit-phone"
-                      type="text"
+                      type="tel"
                       {...registerEdit("phone")}
+                      required
                       className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
-                      placeholder="Enter phone (optional)"
+                      placeholder="Enter phone number (e.g., +91 99455 76007)"
+                      pattern="[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}"
+                      title="Please enter a valid phone number"
                     />
                     {editErrors.phone && (
                       <p className="text-red-400 text-xs mt-1">{editErrors.phone.message}</p>
