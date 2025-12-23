@@ -132,19 +132,12 @@ export default function TracksPage() {
                   <p className="text-gray-300 mb-6 leading-relaxed">{track.description}</p>
                   
                   {/* Track Stats */}
-                  <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div className="mb-6">
                     <div className="flex items-center">
                       <Clock className="h-5 w-5 text-gray-400 mr-2" />
                       <div>
                         <div className="text-sm text-gray-400">Duration</div>
                         <div className="font-semibold text-white">{track.duration}</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <Star className="h-5 w-5 text-yellow-400 mr-2" />
-                      <div>
-                        <div className="text-sm text-gray-400">Rating</div>
-                        <div className="font-semibold text-white">5.0</div>
                       </div>
                     </div>
                   </div>
