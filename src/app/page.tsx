@@ -218,8 +218,6 @@ export default async function HomePage() {
                 difficulty: "All Levels",
                 color: "red",
                 description: "High-speed racing track with Toy Grade and Hobby Grade RC cars. Choose from 15 mins, 30 mins, or 1 hour sessions.",
-                length: "2.5km",
-                bestTime: "1:23.45",
                 gradient: "from-red-500 to-red-700",
                 surface: "Asphalt",
                 vehicles: "Toy Grade & Hobby Grade RC cars",
@@ -230,8 +228,6 @@ export default async function HomePage() {
                 difficulty: "Intermediate",
                 color: "brown",
                 description: "Off-road mud track with Land Cruiser RC vehicles. Experience challenging terrain with water hazards.",
-                length: "1.8km",
-                bestTime: "2:15.30",
                 gradient: "from-amber-600 to-amber-800",
                 surface: "Mud & Water",
                 vehicles: "Land Cruiser RC vehicles",
@@ -242,8 +238,6 @@ export default async function HomePage() {
                 difficulty: "Beginner",
                 color: "green",
                 description: "Technical rock crawling course with Defender and Land Rover RC vehicles. Perfect for precision control.",
-                length: "1.2km",
-                bestTime: "3:45.12",
                 gradient: "from-green-500 to-green-700",
                 surface: "Rocks & Obstacles",
                 vehicles: "Defender & Land Rover RC Crawlers",
@@ -254,8 +248,6 @@ export default async function HomePage() {
                 difficulty: "Advanced",
                 color: "yellow",
                 description: "Sand track with RC Trucks, JCB, and Bulldozer vehicles. Heavy machinery racing on sand terrain.",
-                length: "3.2km",
-                bestTime: "4:12.88",
                 gradient: "from-yellow-500 to-yellow-700",
                 surface: "Sand & Dunes",
                 vehicles: "Trucks, JCB & Bulldozer RC Machines",
@@ -289,17 +281,7 @@ export default async function HomePage() {
                       </div>
                     </div>
                     <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="text-lg sm:text-xl font-bold text-white mb-1">{track.name}</h3>
-                      <div className="flex items-center gap-3 text-white/90 text-xs">
-                        <div className="flex items-center">
-                          <MapPin className="h-3 w-3 mr-1" />
-                          <span>{track.length}</span>
-                        </div>
-                        <div className="flex items-center">
-                          <Clock className="h-3 w-3 mr-1" />
-                          <span>{track.bestTime}</span>
-                        </div>
-                      </div>
+                      <h3 className="text-lg sm:text-xl font-bold text-white">{track.name}</h3>
                     </div>
                   </div>
                   
