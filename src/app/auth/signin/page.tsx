@@ -68,21 +68,34 @@ function SignInPageContent() {
 
     try {
       console.log("🔵 Initiating Google OAuth sign-in...")
+      console.log("🔵 NEXTAUTH_URL:", process.env.NEXT_PUBLIC_APP_URL || "Not set in client")
+      
+      // Note: signIn with redirect: true returns undefined because it redirects
+      // Errors are handled via URL query parameters (?error=...)
       const result = await signIn("google", {
         callbackUrl: "/dashboard",
-        redirect: true,
+        redirect: true, // This causes redirect, so result will be undefined
       })
+      
+      // This won't execute if redirect: true (because page redirects)
+      // But if redirect fails or is false, we'll see the result
       console.log("🔵 Google signIn result:", result)
       
-      // If signIn returns an error, handle it
+      // If we get here and result has an error, handle it
       if (result?.error) {
         console.error("❌ Google sign-in error:", result.error)
-        setError(`Google sign-in failed: ${result.error}. Please check the console for details.`)
+        setError(`Google sign-in failed: ${result.error}. Check server logs for details.`)
         setIsGoogleLoading(false)
         return
       }
       
-      trackAuth("sign_in", "google")
+      // If redirect: true, this code won't run (page redirects)
+      // If redirect: false, we need to handle the result
+      if (result && !result.error) {
+        trackAuth("sign_in", "google")
+        // Redirect manually if needed
+        router.push("/dashboard")
+      }
     } catch (error) {
       console.error("❌ Google sign-in exception:", error)
       if (error instanceof Error) {
