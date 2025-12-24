@@ -492,7 +492,132 @@ export const sendPasswordResetCodeEmail = async (userEmail: string, userName: st
     }
     if (error && typeof error === 'object' && 'code' in error) {
       console.error('Error code:', (error as { code: unknown }).code)
+      }
+      throw error
     }
-    throw error
+  }
+
+/**
+ * Send a test email when an admin logs in
+ * This is useful for testing email functionality
+ */
+export const sendAdminLoginTestEmail = async (adminEmail: string, adminName: string, loginMethod: string) => {
+  console.log('📧 Attempting to send admin login test email to:', adminEmail)
+  
+  if (!transporter) {
+    console.error('❌ Cannot send admin login test email - SMTP transporter is null')
+    return
+  }
+
+  try {
+    // Get admin emails - send to both admins
+    const adminEmails = [
+      'furyroadrcclub@gmail.com',
+      'vishnuprasad1990@gmail.com'
+    ]
+    
+    // Also include ADMIN_EMAIL from env if set and different
+    if (process.env.ADMIN_EMAIL && !adminEmails.includes(process.env.ADMIN_EMAIL)) {
+      adminEmails.push(process.env.ADMIN_EMAIL)
+    }
+
+    const mailOptions = {
+      from: `"Fury Road RC Club" <${process.env.SMTP_USER}>`,
+      to: adminEmails.join(','), // Send to all admin emails
+      subject: `🔐 Admin Login Test - ${adminName} logged in`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
+            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
+            .info-box { background: white; padding: 15px; border-radius: 5px; margin: 15px 0; border-left: 4px solid #FF6B35; }
+            .footer { text-align: center; margin-top: 20px; color: #666; font-size: 12px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>🔐 Admin Login Test</h1>
+            </div>
+            <div class="content">
+              <p>Hello Admin Team,</p>
+              <p>This is a test email to confirm that email functionality is working correctly.</p>
+              
+              <div class="info-box">
+                <strong>Login Details:</strong><br>
+                <strong>Admin Name:</strong> ${adminName}<br>
+                <strong>Admin Email:</strong> ${adminEmail}<br>
+                <strong>Login Method:</strong> ${loginMethod}<br>
+                <strong>Login Time:</strong> ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}<br>
+                <strong>IP Address:</strong> ${process.env.NODE_ENV === 'production' ? 'Not available' : 'Development'}
+              </div>
+              
+              <p>If you received this email, it means:</p>
+              <ul>
+                <li>✅ SMTP configuration is correct</li>
+                <li>✅ Email service is operational</li>
+                <li>✅ Admin login detection is working</li>
+              </ul>
+              
+              <p>This is an automated test email sent when an admin logs into the system.</p>
+            </div>
+            <div class="footer">
+              <p>Fury Road RC Club - Admin System</p>
+              <p>This is an automated message. Please do not reply.</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+      text: `
+Admin Login Test
+
+Hello Admin Team,
+
+This is a test email to confirm that email functionality is working correctly.
+
+Login Details:
+- Admin Name: ${adminName}
+- Admin Email: ${adminEmail}
+- Login Method: ${loginMethod}
+- Login Time: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
+
+If you received this email, it means:
+- SMTP configuration is correct
+- Email service is operational
+- Admin login detection is working
+
+This is an automated test email sent when an admin logs into the system.
+
+Fury Road RC Club - Admin System
+      `
+    }
+
+    console.log('📤 Sending admin login test email via SMTP...')
+    console.log('   To:', adminEmails.join(', '))
+    
+    const info = await transporter.sendMail(mailOptions)
+    
+    console.log('✅ Admin login test email sent successfully!')
+    console.log('   Message ID:', info.messageId)
+    console.log('   To:', adminEmails.join(', '))
+    
+    return info
+  } catch (error) {
+    console.error('❌ Error sending admin login test email:')
+    if (error instanceof Error) {
+      console.error('   Error message:', error.message)
+      console.error('   Error stack:', error.stack)
+    }
+    if (error && typeof error === 'object' && 'response' in error) {
+      console.error('   SMTP Response:', (error as { response: unknown }).response)
+    }
+    // Don't throw - we don't want login to fail if email fails
+    console.error('   Continuing with login despite email error...')
   }
 }

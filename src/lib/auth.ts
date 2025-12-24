@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
+import { sendAdminLoginTestEmail } from "@/lib/email"
 
 // Validate production environment variables on server startup
 if (process.env.NODE_ENV === "production") {
@@ -103,6 +104,16 @@ export const authOptions = {
           }
         })
         
+        // Send test email if admin logged in
+        if (user.role === "ADMIN") {
+          console.log(`📧 Admin login detected, sending test email...`)
+          // Don't await - send email asynchronously so it doesn't block login
+          sendAdminLoginTestEmail(user.email, user.name, "email/password").catch((error) => {
+            console.error("❌ Failed to send admin login test email:", error)
+            // Don't throw - login should succeed even if email fails
+          })
+        }
+        
         return {
           id: user.id,
           email: user.email,
@@ -154,6 +165,16 @@ export const authOptions = {
               })
               console.log(`✅ OAuth: Created new user ${email} with ID ${newUser.id}`)
               existingUser = newUser
+              
+              // Send test email if new admin user logged in via OAuth
+              if (newUser.role === "ADMIN") {
+                console.log(`📧 New admin OAuth login detected, sending test email...`)
+                // Don't await - send email asynchronously so it doesn't block login
+                sendAdminLoginTestEmail(newUser.email, newUser.name, "Google OAuth (new user)").catch((error) => {
+                  console.error("❌ Failed to send admin login test email:", error)
+                  // Don't throw - login should succeed even if email fails
+                })
+              }
             } catch (createError) {
               // If creation fails (e.g., race condition), try to fetch again
               if (createError instanceof Error && (
@@ -214,6 +235,22 @@ export const authOptions = {
                 data: updateData
               })
               console.log(`✅ OAuth: Updated user info for ${email}`)
+            } else {
+              // Still update lastLoginAt even if nothing else changed
+              await prisma.user.update({
+                where: { id: existingUser.id },
+                data: { lastLoginAt: new Date() }
+              })
+            }
+            
+            // Send test email if admin logged in via OAuth
+            if (existingUser.role === "ADMIN") {
+              console.log(`📧 Admin OAuth login detected, sending test email...`)
+              // Don't await - send email asynchronously so it doesn't block login
+              sendAdminLoginTestEmail(existingUser.email, existingUser.name, "Google OAuth").catch((error) => {
+                console.error("❌ Failed to send admin login test email:", error)
+                // Don't throw - login should succeed even if email fails
+              })
             }
           }
           
