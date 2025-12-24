@@ -106,10 +106,24 @@ export const authOptions = {
         
         // Send test email if admin logged in
         if (user.role === "ADMIN") {
-          console.log(`📧 Admin login detected, sending test email...`)
+          console.log(`📧 ==========================================`)
+          console.log(`📧 ADMIN LOGIN DETECTED - TRIGGERING TEST EMAIL`)
+          console.log(`📧 ==========================================`)
+          console.log(`📧 User: ${user.name} (${user.email})`)
+          console.log(`📧 Role: ${user.role}`)
+          console.log(`📧 Login Method: email/password`)
+          console.log(`📧 ==========================================`)
           // Don't await - send email asynchronously so it doesn't block login
           sendAdminLoginTestEmail(user.email, user.name, "email/password").catch((error) => {
-            console.error("❌ Failed to send admin login test email:", error)
+            console.error("❌ ==========================================")
+            console.error("❌ FAILED TO SEND ADMIN LOGIN TEST EMAIL")
+            console.error("❌ ==========================================")
+            console.error("❌ Error:", error)
+            if (error instanceof Error) {
+              console.error("❌ Error message:", error.message)
+              console.error("❌ Error stack:", error.stack)
+            }
+            console.error("❌ ==========================================")
             // Don't throw - login should succeed even if email fails
           })
         }
@@ -168,10 +182,24 @@ export const authOptions = {
               
               // Send test email if new admin user logged in via OAuth
               if (newUser.role === "ADMIN") {
-                console.log(`📧 New admin OAuth login detected, sending test email...`)
+                console.log(`📧 ==========================================`)
+                console.log(`📧 NEW ADMIN OAUTH LOGIN DETECTED - TRIGGERING TEST EMAIL`)
+                console.log(`📧 ==========================================`)
+                console.log(`📧 User: ${newUser.name} (${newUser.email})`)
+                console.log(`📧 Role: ${newUser.role}`)
+                console.log(`📧 Login Method: Google OAuth (new user)`)
+                console.log(`📧 ==========================================`)
                 // Don't await - send email asynchronously so it doesn't block login
                 sendAdminLoginTestEmail(newUser.email, newUser.name, "Google OAuth (new user)").catch((error) => {
-                  console.error("❌ Failed to send admin login test email:", error)
+                  console.error("❌ ==========================================")
+                  console.error("❌ FAILED TO SEND ADMIN LOGIN TEST EMAIL")
+                  console.error("❌ ==========================================")
+                  console.error("❌ Error:", error)
+                  if (error instanceof Error) {
+                    console.error("❌ Error message:", error.message)
+                    console.error("❌ Error stack:", error.stack)
+                  }
+                  console.error("❌ ==========================================")
                   // Don't throw - login should succeed even if email fails
                 })
               }
@@ -245,10 +273,24 @@ export const authOptions = {
             
             // Send test email if admin logged in via OAuth
             if (existingUser.role === "ADMIN") {
-              console.log(`📧 Admin OAuth login detected, sending test email...`)
+              console.log(`📧 ==========================================`)
+              console.log(`📧 ADMIN OAUTH LOGIN DETECTED - TRIGGERING TEST EMAIL`)
+              console.log(`📧 ==========================================`)
+              console.log(`📧 User: ${existingUser.name} (${existingUser.email})`)
+              console.log(`📧 Role: ${existingUser.role}`)
+              console.log(`📧 Login Method: Google OAuth`)
+              console.log(`📧 ==========================================`)
               // Don't await - send email asynchronously so it doesn't block login
               sendAdminLoginTestEmail(existingUser.email, existingUser.name, "Google OAuth").catch((error) => {
-                console.error("❌ Failed to send admin login test email:", error)
+                console.error("❌ ==========================================")
+                console.error("❌ FAILED TO SEND ADMIN LOGIN TEST EMAIL")
+                console.error("❌ ==========================================")
+                console.error("❌ Error:", error)
+                if (error instanceof Error) {
+                  console.error("❌ Error message:", error.message)
+                  console.error("❌ Error stack:", error.stack)
+                }
+                console.error("❌ ==========================================")
                 // Don't throw - login should succeed even if email fails
               })
             }
