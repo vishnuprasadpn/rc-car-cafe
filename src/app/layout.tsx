@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/react"
 import "./globals.css"
 import { Providers } from "@/components/providers"
 import LayoutWrapper from "@/components/layout-wrapper"
+import { VersionLogger } from "@/components/version-logger"
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -54,12 +55,13 @@ export default function RootLayout({
             </Script>
           </>
         )}
-        <Providers>
-          <LayoutWrapper>
-            {children}
-          </LayoutWrapper>
-        </Providers>
-        <Analytics />
+              <Providers>
+                <LayoutWrapper>
+                  {children}
+                </LayoutWrapper>
+              </Providers>
+              <VersionLogger />
+              <Analytics />
       </body>
     </html>
   )
