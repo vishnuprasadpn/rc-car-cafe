@@ -67,13 +67,29 @@ function SignInPageContent() {
     trackButtonClick("Google Sign In", "signin_page")
 
     try {
-      await signIn("google", {
+      console.log("🔵 Initiating Google OAuth sign-in...")
+      const result = await signIn("google", {
         callbackUrl: "/dashboard",
         redirect: true,
       })
+      console.log("🔵 Google signIn result:", result)
+      
+      // If signIn returns an error, handle it
+      if (result?.error) {
+        console.error("❌ Google sign-in error:", result.error)
+        setError(`Google sign-in failed: ${result.error}. Please check the console for details.`)
+        setIsGoogleLoading(false)
+        return
+      }
+      
       trackAuth("sign_in", "google")
-    } catch {
-      setError("Failed to sign in with Google. Please try again.")
+    } catch (error) {
+      console.error("❌ Google sign-in exception:", error)
+      if (error instanceof Error) {
+        setError(`Failed to sign in with Google: ${error.message}`)
+      } else {
+        setError("Failed to sign in with Google. Please check your browser console and server logs.")
+      }
       setIsGoogleLoading(false)
     }
   }
