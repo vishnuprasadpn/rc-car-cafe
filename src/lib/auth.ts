@@ -38,20 +38,23 @@ export const authOptions = {
   debug: process.env.NODE_ENV === "development", // Enable debug logging in development
   trustHost: true, // Trust the host header (important for production)
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-      allowDangerousEmailAccountLinking: true, // Allow linking accounts with same email
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code"
-        }
-      },
-      // Enhanced logging for debugging
-      checks: ["pkce", "state"],
-    }),
+    // Only add GoogleProvider if credentials are configured
+    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET ? [
+      GoogleProvider({
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        allowDangerousEmailAccountLinking: true, // Allow linking accounts with same email
+        authorization: {
+          params: {
+            prompt: "consent",
+            access_type: "offline",
+            response_type: "code"
+          }
+        },
+        // Enhanced logging for debugging
+        checks: ["pkce", "state"],
+      })
+    ] : []),
     CredentialsProvider({
       name: "credentials",
       credentials: {

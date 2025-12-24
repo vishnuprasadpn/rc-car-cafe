@@ -68,39 +68,56 @@ function SignInPageContent() {
 
     try {
       console.log("🔵 Initiating Google OAuth sign-in...")
-      console.log("🔵 NEXTAUTH_URL:", process.env.NEXT_PUBLIC_APP_URL || "Not set in client")
+      console.log("🔵 Window location:", window.location.href)
       
-      // Note: signIn with redirect: true returns undefined because it redirects
-      // Errors are handled via URL query parameters (?error=...)
+      // First, try with redirect: false to catch any immediate errors
+      console.log("🔵 Calling signIn('google') with redirect: false to check for errors...")
       const result = await signIn("google", {
         callbackUrl: "/dashboard",
-        redirect: true, // This causes redirect, so result will be undefined
+        redirect: false, // Don't redirect automatically - we'll handle it
       })
       
-      // This won't execute if redirect: true (because page redirects)
-      // But if redirect fails or is false, we'll see the result
       console.log("🔵 Google signIn result:", result)
       
-      // If we get here and result has an error, handle it
+      // Check for errors
       if (result?.error) {
         console.error("❌ Google sign-in error:", result.error)
-        setError(`Google sign-in failed: ${result.error}. Check server logs for details.`)
+        console.error("❌ Error details:", result)
+        setError(`Google sign-in failed: ${result.error}. This usually means:\n1. GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET not set\n2. Invalid credentials\n3. Redirect URI mismatch\n\nCheck server logs for details.`)
         setIsGoogleLoading(false)
         return
       }
       
-      // If redirect: true, this code won't run (page redirects)
-      // If redirect: false, we need to handle the result
-      if (result && !result.error) {
+      // If we got a URL, redirect to it (this is the Google OAuth page)
+      if (result?.url) {
+        console.log("✅ Got OAuth URL, redirecting to:", result.url)
         trackAuth("sign_in", "google")
-        // Redirect manually if needed
-        router.push("/dashboard")
+        window.location.href = result.url
+        // Don't set loading to false - we're redirecting
+        return
       }
+      
+      // If result.ok is true but no URL, something unexpected happened
+      if (result?.ok) {
+        console.log("✅ Sign-in successful but no redirect URL")
+        trackAuth("sign_in", "google")
+        router.push("/dashboard")
+        return
+      }
+      
+      // Unexpected result
+      console.warn("⚠️ Unexpected signIn result:", result)
+      setError("Unexpected response from Google sign-in. Please check console and server logs.")
+      setIsGoogleLoading(false)
+      
     } catch (error) {
       console.error("❌ Google sign-in exception:", error)
       if (error instanceof Error) {
-        setError(`Failed to sign in with Google: ${error.message}`)
+        console.error("❌ Error message:", error.message)
+        console.error("❌ Error stack:", error.stack)
+        setError(`Failed to sign in with Google: ${error.message}. Check browser console for details.`)
       } else {
+        console.error("❌ Unknown error:", error)
         setError("Failed to sign in with Google. Please check your browser console and server logs.")
       }
       setIsGoogleLoading(false)
