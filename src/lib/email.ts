@@ -565,17 +565,10 @@ export const sendAdminLoginTestEmail = async (adminEmail: string, adminName: str
   console.log('✅ SMTP transporter is configured')
 
   try {
-    // Get admin emails - send to both admins
+    // Send admin login email only to vishnuprasad1990@gmail.com
     const adminEmails = [
-      'furyroadrcclub@gmail.com',
       'vishnuprasad1990@gmail.com'
     ]
-    
-    // Also include ADMIN_EMAIL from env if set and different
-    if (process.env.ADMIN_EMAIL && !adminEmails.includes(process.env.ADMIN_EMAIL)) {
-      adminEmails.push(process.env.ADMIN_EMAIL)
-      console.log('📧 Added ADMIN_EMAIL from env:', process.env.ADMIN_EMAIL)
-    }
 
     console.log('📧 Recipient emails:', adminEmails.join(', '))
     console.log('📧 From email:', process.env.SMTP_USER || 'NOT SET')
