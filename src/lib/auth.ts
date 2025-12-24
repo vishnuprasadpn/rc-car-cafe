@@ -48,7 +48,9 @@ export const authOptions = {
           access_type: "offline",
           response_type: "code"
         }
-      }
+      },
+      // Enhanced logging for debugging
+      checks: ["pkce", "state"],
     }),
     CredentialsProvider({
       name: "credentials",
