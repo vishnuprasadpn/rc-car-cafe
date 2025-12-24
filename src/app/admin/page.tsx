@@ -38,24 +38,6 @@ export default function AdminDashboard() {
     } else if (status === "authenticated" && (session?.user as { role?: string })?.role !== "ADMIN") {
       router.push("/dashboard")
     } else if (status === "authenticated") {
-      // Log admin dashboard access
-      const userRole = (session?.user as { role?: string })?.role
-      const userEmail = session?.user?.email || "unknown"
-      const userName = session?.user?.name || "Admin"
-      
-      console.log("🔐 ==========================================")
-      console.log("🔐 BROWSER: Admin Dashboard Accessed")
-      console.log("🔐 ==========================================")
-      console.log("🔐 Admin Name:", userName)
-      console.log("🔐 Admin Email:", userEmail)
-      console.log("🔐 User Role:", userRole)
-      console.log("🔐 Timestamp:", new Date().toISOString())
-      console.log("🔐 ==========================================")
-      console.log("🔐 If you just logged in, check:")
-      console.log("   1. Server logs for email sending status")
-      console.log("   2. Admin email inboxes for test email")
-      console.log("🔐 ==========================================")
-      
       fetchStats()
     }
   }, [status, session, router])

@@ -90,11 +90,7 @@ function SignInPageContent() {
       
       // If we got a URL, redirect to it (this is the Google OAuth page)
       if (result?.url) {
-        console.log("✅ ==========================================")
-        console.log("✅ BROWSER: Got OAuth URL")
-        console.log("✅ ==========================================")
-        console.log("✅ Redirecting to Google OAuth page")
-        console.log("✅ URL:", result.url)
+        console.log("✅ Got OAuth URL, redirecting to:", result.url)
         trackAuth("sign_in", "google")
         window.location.href = result.url
         // Don't set loading to false - we're redirecting
@@ -103,42 +99,9 @@ function SignInPageContent() {
       
       // If result.ok is true but no URL, something unexpected happened
       if (result?.ok) {
-        console.log("✅ ==========================================")
-        console.log("✅ BROWSER: Google sign-in successful")
-        console.log("✅ ==========================================")
+        console.log("✅ Sign-in successful but no redirect URL")
         trackAuth("sign_in", "google")
-        
-        // Get session to check if admin
-        const session = await getSession()
-        if (session?.user) {
-          const userRole = (session.user as { role?: string }).role
-          const userEmail = session.user.email || "unknown"
-          const userName = session.user.name || "User"
-          
-          console.log("✅ User session retrieved")
-          console.log("✅ User Email:", userEmail)
-          console.log("✅ User Name:", userName)
-          console.log("✅ User Role:", userRole)
-          
-          if (userRole === "ADMIN") {
-            console.log("🔐 ==========================================")
-            console.log("🔐 BROWSER: ADMIN LOGIN DETECTED (Google OAuth)!")
-            console.log("🔐 ==========================================")
-            console.log("🔐 Admin Name:", userName)
-            console.log("🔐 Admin Email:", userEmail)
-            console.log("🔐 Login Method: Google OAuth")
-            console.log("🔐 Timestamp:", new Date().toISOString())
-            console.log("🔐 ==========================================")
-            console.log("🔐 Test email should be sent to admin emails")
-            console.log("🔐 Check server logs for email sending status")
-            console.log("🔐 ==========================================")
-            router.push("/admin")
-          } else {
-            router.push("/dashboard")
-          }
-        } else {
-          router.push("/dashboard")
-        }
+        router.push("/dashboard")
         return
       }
       
@@ -166,13 +129,6 @@ function SignInPageContent() {
     setError("")
     trackButtonClick("Email Sign In", "signin_page")
 
-    console.log("🔵 ==========================================")
-    console.log("🔵 BROWSER: Sign-in attempt started")
-    console.log("🔵 ==========================================")
-    console.log("🔵 Email:", data.email)
-    console.log("🔵 Method: email/password")
-    console.log("🔵 Timestamp:", new Date().toISOString())
-
     try {
       const result = await signIn("credentials", {
         email: data.email,
@@ -180,66 +136,20 @@ function SignInPageContent() {
         redirect: false,
       })
 
-      console.log("🔵 Sign-in result:", result)
-
       if (result?.error) {
-        console.error("❌ ==========================================")
-        console.error("❌ BROWSER: Sign-in failed")
-        console.error("❌ ==========================================")
-        console.error("❌ Error:", result.error)
         setError("Invalid credentials")
       } else {
-        console.log("✅ ==========================================")
-        console.log("✅ BROWSER: Sign-in successful")
-        console.log("✅ ==========================================")
         trackAuth("sign_in", "email")
         const session = await getSession()
-        
-        if (session?.user) {
-          const userRole = (session.user as { role?: string }).role
-          const userEmail = session.user.email || data.email
-          const userName = session.user.name || "User"
-          
-          console.log("✅ User session retrieved")
-          console.log("✅ User Email:", userEmail)
-          console.log("✅ User Name:", userName)
-          console.log("✅ User Role:", userRole)
-          
-          if (userRole === "ADMIN") {
-            console.log("🔐 ==========================================")
-            console.log("🔐 BROWSER: ADMIN LOGIN DETECTED!")
-            console.log("🔐 ==========================================")
-            console.log("🔐 Admin Name:", userName)
-            console.log("🔐 Admin Email:", userEmail)
-            console.log("🔐 Login Method: email/password")
-            console.log("🔐 Timestamp:", new Date().toISOString())
-            console.log("🔐 ==========================================")
-            console.log("🔐 Test email should be sent to admin emails")
-            console.log("🔐 Check server logs for email sending status")
-            console.log("🔐 ==========================================")
-            router.push("/admin")
-          } else if (userRole === "STAFF") {
-            console.log("👤 Staff login detected, redirecting to staff dashboard")
-            router.push("/staff")
-          } else {
-            console.log("👤 Customer login detected, redirecting to dashboard")
-            router.push("/dashboard")
-          }
+        if (session?.user && (session.user as { role?: string }).role === "ADMIN") {
+          router.push("/admin")
+        } else if (session?.user && (session.user as { role?: string }).role === "STAFF") {
+          router.push("/staff")
         } else {
-          console.warn("⚠️ Session retrieved but no user data")
           router.push("/dashboard")
         }
       }
     } catch (error) {
-      console.error("❌ ==========================================")
-      console.error("❌ BROWSER: Sign-in exception")
-      console.error("❌ ==========================================")
-      console.error("❌ Error:", error)
-      if (error instanceof Error) {
-        console.error("❌ Error message:", error.message)
-        console.error("❌ Error stack:", error.stack)
-      }
-      console.error("❌ ==========================================")
       setError("An error occurred. Please try again.")
     } finally {
       setIsLoading(false)
