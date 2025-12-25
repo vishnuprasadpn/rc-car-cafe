@@ -41,7 +41,7 @@ export async function GET(
           include: {
             sessions: {
               orderBy: {
-                usedDate: "desc",
+                usedAt: "desc",
               },
             },
           },
