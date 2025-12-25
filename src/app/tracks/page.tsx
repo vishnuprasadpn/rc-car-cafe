@@ -10,7 +10,7 @@ export default function TracksPage() {
       name: "Fast Track",
       difficulty: "All Levels",
       duration: "15/30/60 minutes",
-      description: "High-speed asphalt track with Toy Grade and Hobby Grade RC cars. Choose from 15 mins (₹149/₹249), 30 mins (₹249/₹399), or 1 hour (₹449/₹699) sessions.",
+      description: "Book high-speed racing on our asphalt track. Available with Toy Grade (₹149/₹249/₹449) or Hobby Grade (₹249/₹399/₹699) RC cars for 15 mins, 30 mins, or 1 hour sessions. Perfect for speed enthusiasts!",
       features: ["Toy Grade & Hobby Grade options", "Multiple duration options", "High-speed sections", "Professional timing"],
       surface: "Asphalt",
       vehicles: "Toy Grade & Hobby Grade RC cars",
@@ -22,7 +22,7 @@ export default function TracksPage() {
       name: "Mud Track",
       difficulty: "Intermediate",
       duration: "15/30/60 minutes",
-      description: "Off-road mud track with Land Cruiser RC vehicles. Experience challenging terrain with water hazards. Pricing: 15 mins (₹249), 30 mins (₹399), 1 hr (₹699).",
+      description: "Book an off-road adventure on our mud track. Drive Land Cruiser RC vehicles through challenging terrain with water hazards. Sessions: 15 mins (₹249), 30 mins (₹399), or 1 hr (₹699).",
       features: ["Land Cruiser vehicles", "Water hazards", "Mud sections", "Off-road terrain"],
       surface: "Mud & Water",
       vehicles: "Land Cruiser RC vehicles",
@@ -34,7 +34,7 @@ export default function TracksPage() {
       name: "Crawler Track",
       difficulty: "Beginner",
       duration: "15/30/60 minutes",
-      description: "Technical rock crawling course with Defender and Land Rover RC vehicles. Perfect for precision control. Pricing: 15 mins (₹249), 30 mins (₹399), 1 hr (₹699).",
+      description: "Book a technical rock crawling session. Master precision control with Defender and Land Rover RC vehicles on challenging rock obstacles. Sessions: 15 mins (₹249), 30 mins (₹399), or 1 hr (₹699).",
       features: ["Defender & Land Rover", "Rock obstacles", "Steep inclines", "Precision control"],
       surface: "Rocks & Obstacles",
       vehicles: "Defender & Land Rover RC Crawlers",
@@ -46,7 +46,7 @@ export default function TracksPage() {
       name: "Sand Track",
       difficulty: "Advanced",
       duration: "15/30/60 minutes",
-      description: "Sand track with RC Trucks, JCB, and Bulldozer vehicles. Heavy machinery racing on sand terrain. Truck: 15 mins (₹149), 30 mins (₹249), 1 hr (₹449). JCB/Bulldozer: 15 mins (₹249), 30 mins (₹399), 1 hr (₹699).",
+      description: "Book heavy machinery racing on our sand track. Choose from RC Trucks (₹149/₹249/₹449) or JCB/Bulldozer (₹249/₹399/₹699) for 15 mins, 30 mins, or 1 hr sessions. Experience power on sand terrain!",
       features: ["Trucks, JCB & Bulldozer", "Sand dunes", "Heavy machinery", "Advanced terrain"],
       surface: "Sand & Dunes",
       vehicles: "Trucks, JCB & Bulldozer RC Machines",
@@ -81,17 +81,17 @@ export default function TracksPage() {
             <div className="mb-8">
               <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-600/10 border border-red-500/20 mb-6">
                 <Trophy className="h-4 w-4 text-red-400 mr-2" />
-                <span className="text-red-200 text-sm font-medium">Professional Racing Tracks</span>
+                <span className="text-red-200 text-sm font-medium">Book Your Racing Session</span>
               </div>
             </div>
             
             <h1 className="font-heading text-5xl md:text-6xl mb-6 text-white uppercase">
-              Our Racing Tracks
+              Choose Your Track & Start Racing
             </h1>
             
             <p className="text-sm sm:text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
-              Four professional tracks designed for different skill levels and racing styles. 
-              Experience the thrill of high-speed RC car racing on our state-of-the-art circuits.
+              Select from our professional racing tracks and book your session. 
+              Each track offers unique challenges and vehicles. Book now to secure your slot!
             </p>
           </div>
         </div>
@@ -159,7 +159,7 @@ export default function TracksPage() {
                     href={`/book?track=${encodeURIComponent(track.name)}`}
                     className="w-full py-3 px-6 rounded-lg font-semibold text-white transition-all inline-block text-center bg-gradient-to-r from-fury-orange to-primary-600 hover:from-primary-600 hover:to-primary-700 shadow-lg hover:shadow-fury-orange/25"
                   >
-                    Book This Track
+                    Book Now & Start Racing
                   </Link>
                 </div>
               </div>
@@ -172,9 +172,9 @@ export default function TracksPage() {
       <div className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="font-heading text-2xl sm:text-4xl text-white mb-6 uppercase">Track Comparison</h2>
+            <h2 className="font-heading text-2xl sm:text-4xl text-white mb-6 uppercase">Compare Tracks & Book</h2>
             <p className="text-sm sm:text-xl text-gray-300 max-w-3xl mx-auto">
-              Compare our tracks to find the perfect one for your skill level and racing style
+              Compare all available tracks below and select the perfect one for your racing session
             </p>
           </div>
 
@@ -225,23 +225,23 @@ export default function TracksPage() {
       {/* Call to Action */}
       <div className="py-24 bg-gradient-to-r from-fury-orange to-primary-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-white mb-6 tracking-tight">Ready to Race?</h2>
+          <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-white mb-6 tracking-tight">Ready to Book Your Session?</h2>
           <p className="text-sm sm:text-xl text-white/90 mb-8 max-w-3xl mx-auto">
-            Book your slot on any of our professional tracks and experience the thrill of RC car racing
+            Select any track above and book your racing session. Sign up or sign in to get started!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
+            <Link
               href="/auth/signup"
               className="bg-white text-fury-orange px-4 py-2 sm:px-8 sm:py-3 rounded-lg text-xs sm:text-base font-semibold hover:bg-gray-100 transition-colors"
             >
-              Join the Club
-            </a>
-            <a
+              Sign Up to Book
+            </Link>
+            <Link
               href="/auth/signin"
               className="border-2 border-white text-white px-4 py-2 sm:px-8 sm:py-3 rounded-lg text-xs sm:text-base font-semibold hover:bg-white/10 transition-colors"
             >
-              Sign In
-            </a>
+              Sign In to Book
+            </Link>
           </div>
         </div>
       </div>
