@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth/next"
+import type { Session } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
+    // @ts-expect-error - getServerSession accepts authOptions but types don't match NextAuth v4
+    const session = await getServerSession(authOptions) as Session | null
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
@@ -17,7 +19,7 @@ export async function GET(request: NextRequest) {
       include: {
         sessions: {
           orderBy: {
-            usedDate: "desc",
+            usedAt: "desc",
           },
         },
       },
@@ -31,7 +33,7 @@ export async function GET(request: NextRequest) {
     const activeMembership = memberships.find(
       (m) =>
         m.status === "ACTIVE" &&
-        m.usedSessions < m.totalSessions &&
+        m.sessionsUsed < m.sessionsTotal &&
         m.expiryDate > now
     )
 
@@ -39,7 +41,7 @@ export async function GET(request: NextRequest) {
       memberships,
       activeMembership,
       remainingSessions: activeMembership
-        ? activeMembership.totalSessions - activeMembership.usedSessions
+        ? activeMembership.sessionsTotal - activeMembership.sessionsUsed
         : 0,
     })
   } catch (error) {
