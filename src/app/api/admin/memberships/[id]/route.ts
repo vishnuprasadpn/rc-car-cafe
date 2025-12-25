@@ -94,7 +94,7 @@ export async function PATCH(
       }
     }
 
-    const updateData: any = {}
+    const updateData: { status?: string; startDate?: Date; expiryDate?: Date } = {}
     if (body.status) updateData.status = body.status
     if (body.startDate) {
       updateData.startDate = new Date(body.startDate)

@@ -21,7 +21,7 @@ type SignInForm = z.infer<typeof signInSchema>
 
 function SignInPageContent() {
   const [isLoading, setIsLoading] = useState(false)
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false)
+  // const [isGoogleLoading, setIsGoogleLoading] = useState(false) // Hidden for now
   const [error, setError] = useState("")
   const [resetSuccess, setResetSuccess] = useState(false)
   const router = useRouter()
@@ -34,23 +34,23 @@ function SignInPageContent() {
       router.replace("/auth/signin", { scroll: false })
     }
     
-    // Handle OAuth errors
-    const errorParam = searchParams.get("error")
-    if (errorParam) {
-      if (errorParam === "OAuthSignin") {
-        setError("Google sign-in failed. Please check your Google OAuth configuration or try again.")
-      } else if (errorParam === "OAuthCallback") {
-        setError("OAuth callback error. Please try signing in again.")
-      } else if (errorParam === "OAuthCreateAccount") {
-        setError("Failed to create account. Please try again.")
-      } else if (errorParam === "OAuthAccountNotLinked") {
-        setError("An account with this email already exists. Please sign in with your password.")
-      } else {
-        setError("Authentication error. Please try again.")
-      }
-      // Clear the error parameter from URL
-      router.replace("/auth/signin", { scroll: false })
-    }
+      // Handle OAuth errors (commented out since Google auth is hidden)
+      // const errorParam = searchParams.get("error")
+      // if (errorParam) {
+      //   if (errorParam === "OAuthSignin") {
+      //     setError("Google sign-in failed. Please check your Google OAuth configuration or try again.")
+      //   } else if (errorParam === "OAuthCallback") {
+      //     setError("OAuth callback error. Please try signing in again.")
+      //   } else if (errorParam === "OAuthCreateAccount") {
+      //     setError("Failed to create account. Please try again.")
+      //   } else if (errorParam === "OAuthAccountNotLinked") {
+      //     setError("An account with this email already exists. Please sign in with your password.")
+      //   } else {
+      //     setError("Authentication error. Please try again.")
+      //   }
+      //   // Clear the error parameter from URL
+      //   router.replace("/auth/signin", { scroll: false })
+      // }
   }, [searchParams, router])
 
   const {
@@ -61,68 +61,69 @@ function SignInPageContent() {
     resolver: zodResolver(signInSchema),
   })
 
-  const handleGoogleSignIn = async () => {
-    setIsGoogleLoading(true)
-    setError("")
-    trackButtonClick("Google Sign In", "signin_page")
+  // Google Sign In Handler - Hidden for now
+  // const handleGoogleSignIn = async () => {
+  //   setIsGoogleLoading(true)
+  //   setError("")
+  //   trackButtonClick("Google Sign In", "signin_page")
 
-    try {
-      console.log("🔵 Initiating Google OAuth sign-in...")
-      console.log("🔵 Window location:", window.location.href)
+  //   try {
+  //     console.log("🔵 Initiating Google OAuth sign-in...")
+  //     console.log("🔵 Window location:", window.location.href)
       
-      // First, try with redirect: false to catch any immediate errors
-      console.log("🔵 Calling signIn('google') with redirect: false to check for errors...")
-      const result = await signIn("google", {
-        callbackUrl: "/dashboard",
-        redirect: false, // Don't redirect automatically - we'll handle it
-      })
+  //     // First, try with redirect: false to catch any immediate errors
+  //     console.log("🔵 Calling signIn('google') with redirect: false to check for errors...")
+  //     const result = await signIn("google", {
+  //       callbackUrl: "/dashboard",
+  //       redirect: false, // Don't redirect automatically - we'll handle it
+  //     })
       
-      console.log("🔵 Google signIn result:", result)
+  //     console.log("🔵 Google signIn result:", result)
       
-      // Check for errors
-      if (result?.error) {
-        console.error("❌ Google sign-in error:", result.error)
-        console.error("❌ Error details:", result)
-        setError(`Google sign-in failed: ${result.error}. This usually means:\n1. GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET not set\n2. Invalid credentials\n3. Redirect URI mismatch\n\nCheck server logs for details.`)
-        setIsGoogleLoading(false)
-        return
-      }
+  //     // Check for errors
+  //     if (result?.error) {
+  //       console.error("❌ Google sign-in error:", result.error)
+  //       console.error("❌ Error details:", result)
+  //       setError(`Google sign-in failed: ${result.error}. This usually means:\n1. GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET not set\n2. Invalid credentials\n3. Redirect URI mismatch\n\nCheck server logs for details.`)
+  //       setIsGoogleLoading(false)
+  //       return
+  //     }
       
-      // If we got a URL, redirect to it (this is the Google OAuth page)
-      if (result?.url) {
-        console.log("✅ Got OAuth URL, redirecting to:", result.url)
-        trackAuth("sign_in", "google")
-        window.location.href = result.url
-        // Don't set loading to false - we're redirecting
-        return
-      }
+  //     // If we got a URL, redirect to it (this is the Google OAuth page)
+  //     if (result?.url) {
+  //       console.log("✅ Got OAuth URL, redirecting to:", result.url)
+  //       trackAuth("sign_in", "google")
+  //       window.location.href = result.url
+  //       // Don't set loading to false - we're redirecting
+  //       return
+  //     }
       
-      // If result.ok is true but no URL, something unexpected happened
-      if (result?.ok) {
-        console.log("✅ Sign-in successful but no redirect URL")
-        trackAuth("sign_in", "google")
-        router.push("/dashboard")
-        return
-      }
+  //     // If result.ok is true but no URL, something unexpected happened
+  //     if (result?.ok) {
+  //       console.log("✅ Sign-in successful but no redirect URL")
+  //       trackAuth("sign_in", "google")
+  //       router.push("/dashboard")
+  //       return
+  //     }
       
-      // Unexpected result
-      console.warn("⚠️ Unexpected signIn result:", result)
-      setError("Unexpected response from Google sign-in. Please check console and server logs.")
-      setIsGoogleLoading(false)
+  //     // Unexpected result
+  //     console.warn("⚠️ Unexpected signIn result:", result)
+  //     setError("Unexpected response from Google sign-in. Please check console and server logs.")
+  //     setIsGoogleLoading(false)
       
-    } catch (error) {
-      console.error("❌ Google sign-in exception:", error)
-      if (error instanceof Error) {
-        console.error("❌ Error message:", error.message)
-        console.error("❌ Error stack:", error.stack)
-        setError(`Failed to sign in with Google: ${error.message}. Check browser console for details.`)
-      } else {
-        console.error("❌ Unknown error:", error)
-        setError("Failed to sign in with Google. Please check your browser console and server logs.")
-      }
-      setIsGoogleLoading(false)
-    }
-  }
+  //   } catch (error) {
+  //     console.error("❌ Google sign-in exception:", error)
+  //     if (error instanceof Error) {
+  //       console.error("❌ Error message:", error.message)
+  //       console.error("❌ Error stack:", error.stack)
+  //       setError(`Failed to sign in with Google: ${error.message}. Check browser console for details.`)
+  //     } else {
+  //       console.error("❌ Unknown error:", error)
+  //       setError("Failed to sign in with Google. Please check your browser console and server logs.")
+  //     }
+  //     setIsGoogleLoading(false)
+  //   }
+  // }
 
   const onSubmit = async (data: SignInForm) => {
     setIsLoading(true)
@@ -189,8 +190,8 @@ function SignInPageContent() {
                 </div>
               )}
 
-              {/* Google Sign In Button */}
-              <button
+              {/* Google Sign In Button - Hidden */}
+              {/* <button
                 type="button"
                 onClick={handleGoogleSignIn}
                 disabled={isGoogleLoading || isLoading}
@@ -235,7 +236,7 @@ function SignInPageContent() {
                     Or sign in with email
                   </span>
                 </div>
-              </div>
+              </div> */}
 
             <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
               <div className="space-y-4">

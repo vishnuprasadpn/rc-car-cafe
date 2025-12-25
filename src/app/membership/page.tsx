@@ -2,14 +2,9 @@ import Link from "next/link"
 import Navigation from "@/components/navigation"
 import Image from "next/image"
 import { 
-  Trophy, 
-  Clock, 
-  Users, 
-  Star, 
   Check,
   Car,
   Gamepad2,
-  Zap,
   Calendar,
   Shield,
   Gift

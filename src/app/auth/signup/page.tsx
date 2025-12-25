@@ -27,7 +27,7 @@ type SignUpForm = z.infer<typeof signUpSchema>
 
 export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false)
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false)
+  // const [isGoogleLoading, setIsGoogleLoading] = useState(false) // Hidden for now
   const [error, setError] = useState("")
   const [success, setSuccess] = useState(false)
   const router = useRouter()
@@ -40,28 +40,29 @@ export default function SignUpPage() {
     resolver: zodResolver(signUpSchema),
   })
 
-  const handleGoogleSignIn = async () => {
-    setIsGoogleLoading(true)
-    setError("")
-    trackButtonClick("Google Sign Up", "signup_page")
+  // Google Sign In Handler - Hidden for now
+  // const handleGoogleSignIn = async () => {
+  //   setIsGoogleLoading(true)
+  //   setError("")
+  //   trackButtonClick("Google Sign Up", "signup_page")
 
-    try {
-      const result = await signIn("google", {
-        callbackUrl: "/dashboard",
-        redirect: true,
-      })
+  //   try {
+  //     const result = await signIn("google", {
+  //       callbackUrl: "/dashboard",
+  //       redirect: true,
+  //     })
 
-      if (result?.error) {
-        setError("Failed to sign in with Google. Please try again.")
-        setIsGoogleLoading(false)
-      } else {
-        trackAuth("sign_up", "google")
-      }
-    } catch {
-      setError("An error occurred. Please try again.")
-      setIsGoogleLoading(false)
-    }
-  }
+  //     if (result?.error) {
+  //       setError("Failed to sign in with Google. Please try again.")
+  //       setIsGoogleLoading(false)
+  //     } else {
+  //       trackAuth("sign_up", "google")
+  //     }
+  //   } catch {
+  //     setError("An error occurred. Please try again.")
+  //     setIsGoogleLoading(false)
+  //   }
+  // }
 
   const onSubmit = async (data: SignUpForm) => {
     setIsLoading(true)
@@ -142,8 +143,8 @@ export default function SignUpPage() {
                 </div>
               )}
 
-              {/* Google Sign In Button */}
-              <button
+              {/* Google Sign In Button - Hidden */}
+              {/* <button
                 type="button"
                 onClick={handleGoogleSignIn}
                 disabled={isGoogleLoading || isLoading}
@@ -188,7 +189,7 @@ export default function SignUpPage() {
                     Or create account with email
                   </span>
                 </div>
-              </div>
+              </div> */}
 
             <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
               <div className="space-y-4">

@@ -1,7 +1,7 @@
 import Link from "next/link"
 import Navigation from "@/components/navigation"
 import Image from "next/image"
-import { Trophy, Clock, Users, Star } from "lucide-react"
+import { Trophy, Clock } from "lucide-react"
 
 export default function TracksPage() {
   const tracks = [

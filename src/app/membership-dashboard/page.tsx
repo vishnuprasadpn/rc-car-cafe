@@ -115,7 +115,7 @@ export default function MembershipDashboard() {
           <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-12 text-center">
             <Trophy className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-white mb-2">No Active Membership</h3>
-            <p className="text-gray-400 mb-6">You don't have an active membership yet.</p>
+            <p className="text-gray-400 mb-6">You don&apos;t have an active membership yet.</p>
             <Link
               href="/membership"
               className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 font-semibold"

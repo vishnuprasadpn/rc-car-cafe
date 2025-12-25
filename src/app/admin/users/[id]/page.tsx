@@ -96,7 +96,7 @@ export default function UserDetailPage() {
       const userResponse = await fetch(`/api/admin/users`)
       if (userResponse.ok) {
         const userData = await userResponse.json()
-        const foundUser = userData.users.find((u: any) => u.id === userId)
+        const foundUser = userData.users.find((u: { id: string }) => u.id === userId)
         if (foundUser && foundUser.membership) {
           const membershipResponse = await fetch(`/api/admin/memberships/${foundUser.membership.id}`)
           if (membershipResponse.ok) {
@@ -578,7 +578,7 @@ export default function UserDetailPage() {
               <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-12 text-center">
                 <Trophy className="h-16 w-16 text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-400 mb-2 text-lg">No active membership</p>
-                <p className="text-sm text-gray-500">Click "Create Membership" to activate a membership for this user</p>
+                <p className="text-sm text-gray-500">Click &quot;Create Membership&quot; to activate a membership for this user</p>
               </div>
             )}
           </div>
