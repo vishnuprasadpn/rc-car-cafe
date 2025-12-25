@@ -4,7 +4,7 @@
       "maxDuration": 30
     }
   },
-  "buildCommand": "prisma generate && node scripts/set-build-version.js && next build",
+  "buildCommand": "npm run build",
   "installCommand": "npm install"
 }
 

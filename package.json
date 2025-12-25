@@ -1,11 +1,11 @@
 {
   "name": "rc-car-cafe",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "prisma generate && next build --turbopack",
-    "build:version": "prisma generate && node scripts/set-build-version.js && next build --turbopack",
+    "build": "prisma generate && node scripts/set-build-version.js && next build --turbopack",
+    "build:no-version": "prisma generate && next build --turbopack",
     "start": "next start",
     "lint": "eslint",
     "test": "jest",
