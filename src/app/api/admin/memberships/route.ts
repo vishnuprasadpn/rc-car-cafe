@@ -4,6 +4,7 @@ import type { Session } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { z } from "zod"
+import { MembershipStatus } from "@prisma/client"
 
 const createMembershipSchema = z.object({
   userId: z.string().min(1),
@@ -26,8 +27,8 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status')
     const userId = searchParams.get('userId')
 
-    const whereClause: { status?: string; userId?: string } = {}
-    if (status) whereClause.status = status
+    const whereClause: { status?: MembershipStatus; userId?: string } = {}
+    if (status) whereClause.status = status as MembershipStatus
     if (userId) whereClause.userId = userId
 
     const memberships = await prisma.membership.findMany({
@@ -124,7 +125,7 @@ export async function POST(request: NextRequest) {
     console.error("Error creating membership:", error)
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { message: "Validation error", errors: error.errors },
+        { message: "Validation error", errors: error.issues },
         { status: 400 }
       )
     }
