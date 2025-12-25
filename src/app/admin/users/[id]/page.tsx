@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react"
 import { useRouter, useParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import { ArrowLeft, Calendar, Clock, CheckCircle, DollarSign, User, Mail, Phone, Trophy, CalendarCheck, Plus } from "lucide-react"
+import { ArrowLeft, Calendar, Clock, CheckCircle, DollarSign, User, Mail, Phone, Trophy, CalendarCheck, Plus, Receipt, Gift } from "lucide-react"
 import Link from "next/link"
 
 interface MembershipSession {
@@ -43,6 +43,27 @@ interface Membership {
   transactions: MembershipTransaction[]
 }
 
+interface Booking {
+  id: string
+  game: {
+    name: string
+  }
+  startTime: string
+  players: number
+  status: string
+  totalPrice: number | null
+  paymentStatus: string | null
+  createdAt: string
+}
+
+interface Point {
+  id: string
+  amount: number
+  reason: string
+  status: string
+  createdAt: string
+}
+
 interface UserDetail {
   id: string
   name: string
@@ -51,6 +72,8 @@ interface UserDetail {
   role: string
   createdAt: string
   membership: Membership | null
+  bookings?: Booking[]
+  points?: Point[]
 }
 
 export default function UserDetailPage() {
@@ -93,23 +116,38 @@ export default function UserDetailPage() {
     if (!userId) return
     try {
       setLoading(true)
-      const userResponse = await fetch(`/api/admin/users`)
-      if (userResponse.ok) {
-        const userData = await userResponse.json()
-        const foundUser = userData.users.find((u: { id: string }) => u.id === userId)
-        if (foundUser && foundUser.membership) {
-          const membershipResponse = await fetch(`/api/admin/memberships/${foundUser.membership.id}`)
+      // Fetch user details with bookings and points
+      const userDetailResponse = await fetch(`/api/admin/users/${userId}`)
+      if (userDetailResponse.ok) {
+        const userDetailData = await userDetailResponse.json()
+        const userData = userDetailData.user
+        
+        // If user has membership, fetch full membership details
+        if (userData.memberships && userData.memberships.length > 0) {
+          const membershipResponse = await fetch(`/api/admin/memberships/${userData.memberships[0].id}`)
           if (membershipResponse.ok) {
             const membershipData = await membershipResponse.json()
             setUser({
-              ...foundUser,
-              membership: membershipData.membership
+              ...userData,
+              membership: membershipData.membership,
+              bookings: userData.bookings || [],
+              points: userData.points || []
             })
           } else {
-            setUser(foundUser)
+            setUser({
+              ...userData,
+              membership: userData.memberships[0] || null,
+              bookings: userData.bookings || [],
+              points: userData.points || []
+            })
           }
         } else {
-          setUser(foundUser)
+          setUser({
+            ...userData,
+            membership: null,
+            bookings: userData.bookings || [],
+            points: userData.points || []
+          })
         }
       }
     } catch (error) {
@@ -406,11 +444,11 @@ export default function UserDetailPage() {
               </div>
             </div>
 
-            {/* Transaction History */}
-            <div>
+            {/* Membership Transaction History */}
+            <div className="mb-8">
               <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
                 <DollarSign className="h-5 w-5 mr-2 text-fury-orange" />
-                Transaction History
+                Membership Transaction History
               </h2>
               <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden">
                 {user.membership.transactions.length === 0 ? (
@@ -583,6 +621,128 @@ export default function UserDetailPage() {
             )}
           </div>
         )}
+
+        {/* Booking History */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
+            <Receipt className="h-5 w-5 mr-2 text-fury-orange" />
+            Booking History
+          </h2>
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden">
+            {!user.bookings || user.bookings.length === 0 ? (
+              <div className="p-6 text-center text-gray-400">
+                No bookings found
+              </div>
+            ) : (
+              <table className="w-full">
+                <thead className="bg-white/5">
+                  <tr>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300">Date & Time</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300">Game</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300">Players</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300">Amount</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300">Status</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300">Payment</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/10">
+                  {user.bookings.map((booking) => (
+                    <tr key={booking.id} className="hover:bg-white/5">
+                      <td className="px-6 py-4 text-sm text-white">
+                        {formatDateTime(booking.startTime)}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-300">
+                        {booking.game.name}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-300">
+                        {booking.players}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-white font-medium">
+                        {booking.totalPrice ? `₹${Number(booking.totalPrice).toLocaleString()}` : "N/A"}
+                      </td>
+                      <td className="px-6 py-4 text-sm">
+                        <span className={`px-2 py-1 rounded text-xs font-medium ${
+                          booking.status === "CONFIRMED" 
+                            ? "bg-green-500/20 text-green-400"
+                            : booking.status === "PENDING"
+                            ? "bg-yellow-500/20 text-yellow-400"
+                            : booking.status === "CANCELLED"
+                            ? "bg-red-500/20 text-red-400"
+                            : "bg-gray-500/20 text-gray-400"
+                        }`}>
+                          {booking.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-sm">
+                        <span className={`px-2 py-1 rounded text-xs font-medium ${
+                          booking.paymentStatus === "COMPLETED" 
+                            ? "bg-green-500/20 text-green-400"
+                            : booking.paymentStatus === "PENDING"
+                            ? "bg-yellow-500/20 text-yellow-400"
+                            : "bg-gray-500/20 text-gray-400"
+                        }`}>
+                          {booking.paymentStatus || "N/A"}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </div>
+
+        {/* Points History */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
+            <Gift className="h-5 w-5 mr-2 text-fury-orange" />
+            Points History
+          </h2>
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden">
+            {!user.points || user.points.length === 0 ? (
+              <div className="p-6 text-center text-gray-400">
+                No points history found
+              </div>
+            ) : (
+              <table className="w-full">
+                <thead className="bg-white/5">
+                  <tr>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300">Date</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300">Amount</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300">Reason</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/10">
+                  {user.points.map((point) => (
+                    <tr key={point.id} className="hover:bg-white/5">
+                      <td className="px-6 py-4 text-sm text-white">
+                        {formatDate(point.createdAt)}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-white font-medium">
+                        {point.amount > 0 ? "+" : ""}{point.amount}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-300">
+                        {point.reason}
+                      </td>
+                      <td className="px-6 py-4 text-sm">
+                        <span className={`px-2 py-1 rounded text-xs font-medium ${
+                          point.status === "APPROVED" 
+                            ? "bg-green-500/20 text-green-400"
+                            : point.status === "PENDING"
+                            ? "bg-yellow-500/20 text-yellow-400"
+                            : "bg-red-500/20 text-red-400"
+                        }`}>
+                          {point.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )
