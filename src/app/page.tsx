@@ -78,7 +78,7 @@ export default async function HomePage() {
             {/* CTA Buttons - Mobile Optimized */}
             <div className="flex justify-center mb-8 md:mb-16 px-2">
               <Link
-                href="/auth/signup"
+                href="/tracks"
                 className="group relative bg-gradient-to-r from-fury-orange to-primary-600 text-fury-white px-6 py-3 sm:px-8 sm:py-3.5 rounded-lg text-sm sm:text-base font-semibold hover:from-primary-600 hover:to-primary-700 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25 w-full sm:w-auto"
               >
                 <span className="relative flex items-center justify-center">
