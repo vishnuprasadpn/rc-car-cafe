@@ -3,12 +3,21 @@
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { Users, Search, Filter, Phone, Calendar, Trophy, CalendarCheck, Trash2, UserPlus, Edit, Save, X } from "lucide-react"
+import { Users, Search, Filter, Phone, Calendar, Trophy, CalendarCheck, Trash2, UserPlus, Edit, Save, X, Gift } from "lucide-react"
 import { AUTHORIZED_DELETE_ADMIN_EMAIL } from "@/lib/admin-auth"
 import Link from "next/link"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
+
+interface Membership {
+  id: string
+  status: string
+  planType: string
+  startDate: string
+  expiryDate: string
+  sessionsRemaining: number
+}
 
 interface User {
   id: string
@@ -19,6 +28,7 @@ interface User {
   createdAt: string
   bookingsCount: number
   pointsCount: number
+  membership: Membership | null
 }
 
 const editUserSchema = z.object({
@@ -37,6 +47,7 @@ export default function AdminUsersPage() {
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
   const [roleFilter, setRoleFilter] = useState<string>("")
+  const [membershipFilter, setMembershipFilter] = useState<string>("")
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
   const [deletingUserId, setDeletingUserId] = useState<string | null>(null)
   const [editingUserId, setEditingUserId] = useState<string | null>(null)
@@ -58,6 +69,7 @@ export default function AdminUsersPage() {
       const params = new URLSearchParams()
       if (roleFilter) params.append('role', roleFilter)
       if (searchTerm) params.append('search', searchTerm)
+      if (membershipFilter) params.append('membershipStatus', membershipFilter)
 
       const response = await fetch(`/api/admin/users?${params.toString()}`)
       if (response.ok) {
@@ -81,7 +93,7 @@ export default function AdminUsersPage() {
       fetchUsers()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, session, router, roleFilter, searchTerm])
+  }, [status, session, router, roleFilter, searchTerm, membershipFilter])
 
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
@@ -278,7 +290,7 @@ export default function AdminUsersPage() {
 
           {/* Search and Filter Section */}
           <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Search */}
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -303,6 +315,20 @@ export default function AdminUsersPage() {
                   <option value="ADMIN">Admin</option>
                   <option value="STAFF">Staff</option>
                   <option value="CUSTOMER">Customer</option>
+                </select>
+              </div>
+
+              {/* Membership Status Filter */}
+              <div className="relative">
+                <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <select
+                  value={membershipFilter}
+                  onChange={(e) => setMembershipFilter(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent appearance-none"
+                >
+                  <option value="">All Membership Status</option>
+                  <option value="ACTIVE">Active Members</option>
+                  <option value="NONE">No Membership</option>
                 </select>
               </div>
             </div>
@@ -438,6 +464,7 @@ export default function AdminUsersPage() {
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">User</th>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Contact</th>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Role</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Membership</th>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Bookings</th>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Points</th>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Joined</th>
@@ -447,7 +474,7 @@ export default function AdminUsersPage() {
                 <tbody className="divide-y divide-white/10">
                   {filteredUsers.length === 0 ? (
                     <tr>
-                      <td colSpan={7} className="px-6 py-12 text-center">
+                      <td colSpan={8} className="px-6 py-12 text-center">
                         <div className="inline-flex items-center justify-center w-16 h-16 bg-white/5 rounded-full mb-4 border border-white/10">
                           <Users className="h-8 w-8 text-gray-400" />
                         </div>
@@ -459,19 +486,29 @@ export default function AdminUsersPage() {
                     </tr>
                   ) : (
                     filteredUsers.map((user) => (
-                      <tr key={user.id} className={`hover:bg-white/5 transition-colors ${editingUserId === user.id ? 'bg-fury-orange/10' : ''}`}>
+                      <tr 
+                        key={user.id} 
+                        className={`hover:bg-white/5 transition-colors ${editingUserId === user.id ? 'bg-fury-orange/10' : ''}`}
+                      >
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
+                          <Link href={`/admin/users/${user.id}`} className="flex items-center hover:opacity-80 transition-opacity">
                             <div className="w-10 h-10 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full flex items-center justify-center mr-3">
                               <span className="text-white text-sm font-bold">
                                 {user.name.charAt(0).toUpperCase()}
                               </span>
                             </div>
                             <div>
-                              <div className="text-sm font-medium text-white">{user.name}</div>
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm font-medium text-white">{user.name}</span>
+                                {user.membership && user.membership.status === "ACTIVE" && (
+                                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-500/30 text-green-200 border border-green-400/50">
+                                    MEMBER
+                                  </span>
+                                )}
+                              </div>
                               <div className="text-xs text-gray-400">{user.email}</div>
                             </div>
-                          </div>
+                          </Link>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-300">
@@ -491,6 +528,26 @@ export default function AdminUsersPage() {
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
+                          {user.membership ? (
+                            <div className="flex flex-col gap-1">
+                              <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
+                                user.membership.status === "ACTIVE" 
+                                  ? "bg-green-500/20 text-green-400 border border-green-500/30"
+                                  : user.membership.status === "EXPIRED"
+                                  ? "bg-red-500/20 text-red-400 border border-red-500/30"
+                                  : "bg-gray-500/20 text-gray-400 border border-gray-500/30"
+                              }`}>
+                                {user.membership.status}
+                              </span>
+                              <span className="text-xs text-gray-400">
+                                {user.membership.sessionsRemaining} sessions left
+                              </span>
+                            </div>
+                          ) : (
+                            <span className="text-xs text-gray-500">No membership</span>
+                          )}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center text-sm text-gray-300">
                             <CalendarCheck className="h-4 w-4 mr-2 text-fury-orange" />
                             {user.bookingsCount}
@@ -508,33 +565,51 @@ export default function AdminUsersPage() {
                             {new Date(user.createdAt).toLocaleDateString()}
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                          <button
-                            onClick={() => handleEdit(user)}
-                            className="text-blue-400 hover:text-blue-300 transition-colors"
-                            title="Edit user"
-                          >
-                            <Edit className="h-4 w-4" />
-                          </button>
-                          {user.email.toLowerCase() !== AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
-                            user.bookingsCount === 0 && user.pointsCount === 0 ? (
-                              <button
-                                onClick={() => handleDeleteUser(user.id, user.name)}
-                                disabled={deletingUserId === user.id}
-                                className="text-red-400 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                title="Delete user"
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <div className="flex items-center space-x-2">
+                            <Link
+                              href={`/admin/users/${user.id}`}
+                              className="text-fury-orange hover:text-primary-600 transition-colors"
+                              title="View details"
+                            >
+                              <Trophy className="h-4 w-4" />
+                            </Link>
+                            {!user.membership && (
+                              <Link
+                                href={`/admin/users/${user.id}#create-membership`}
+                                className="text-green-400 hover:text-green-300 transition-colors"
+                                title="Activate Membership"
                               >
-                                <Trash2 className="h-4 w-4" />
-                              </button>
-                            ) : (
-                              <span 
-                                className="text-gray-500 text-xs cursor-help" 
-                                title={`Cannot delete: User has ${user.bookingsCount} booking(s) and ${user.pointsCount} point(s)`}
-                              >
-                                <Trash2 className="h-4 w-4 opacity-50" />
-                              </span>
-                            )
-                          )}
+                                <Gift className="h-4 w-4" />
+                              </Link>
+                            )}
+                            <button
+                              onClick={() => handleEdit(user)}
+                              className="text-blue-400 hover:text-blue-300 transition-colors"
+                              title="Edit user"
+                            >
+                              <Edit className="h-4 w-4" />
+                            </button>
+                            {user.email.toLowerCase() !== AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
+                              user.bookingsCount === 0 && user.pointsCount === 0 ? (
+                                <button
+                                  onClick={() => handleDeleteUser(user.id, user.name)}
+                                  disabled={deletingUserId === user.id}
+                                  className="text-red-400 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                  title="Delete user"
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </button>
+                              ) : (
+                                <span 
+                                  className="text-gray-500 text-xs cursor-help" 
+                                  title={`Cannot delete: User has ${user.bookingsCount} booking(s) and ${user.pointsCount} point(s)`}
+                                >
+                                  <Trash2 className="h-4 w-4 opacity-50" />
+                                </span>
+                              )
+                            )}
+                          </div>
                         </td>
                       </tr>
                     ))
@@ -545,6 +620,7 @@ export default function AdminUsersPage() {
           </div>
         </div>
       </div>
+
     </div>
   )
 }

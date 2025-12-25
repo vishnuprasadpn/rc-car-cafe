@@ -119,6 +119,48 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Check if user has active membership (optional - members can use membership sessions)
+    const userId = (session.user as { id: string }).id
+    const activeMembership = await prisma.membership.findFirst({
+      where: {
+        userId: userId,
+        status: "ACTIVE",
+      },
+    })
+
+    // If user has active membership, validate it
+    if (activeMembership) {
+      const now = new Date()
+      
+      // Check if membership is expired
+      if (activeMembership.expiryDate < now) {
+        // Auto-update to expired
+        await prisma.membership.update({
+          where: { id: activeMembership.id },
+          data: { status: "EXPIRED" },
+        })
+        return NextResponse.json(
+          { message: "Your membership has expired. Please renew to continue booking." },
+          { status: 400 }
+        )
+      }
+
+      // Check if sessions are exhausted
+      if (activeMembership.sessionsRemaining <= 0) {
+        // Auto-update to completed
+        await prisma.membership.update({
+          where: { id: activeMembership.id },
+          data: { status: "COMPLETED" },
+        })
+        return NextResponse.json(
+          { message: "You have used all your membership sessions. Please renew to continue booking." },
+          { status: 400 }
+        )
+      }
+
+      // Note: If membership is valid, booking will proceed but session will be marked as used later by admin
+    }
+
     // Calculate total price
     const totalPrice = Number(game.price) * players
 

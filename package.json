@@ -1,6 +1,6 @@
 {
   "name": "rc-car-cafe",
-  "version": "1.0.4",
+  "version": "1.0.13",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",

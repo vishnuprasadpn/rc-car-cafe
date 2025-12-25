@@ -211,6 +211,7 @@ export default async function HomePage() {
                 name: "Fast Track",
                 difficulty: "All Levels",
                 color: "red",
+                priceStartsAt: 149,
                 description: "High-speed racing track with Toy Grade and Hobby Grade RC cars. Choose from 15 mins, 30 mins, or 1 hour sessions.",
                 gradient: "from-red-500 to-red-700",
                 surface: "Asphalt",
@@ -221,6 +222,7 @@ export default async function HomePage() {
                 name: "Mud Track",
                 difficulty: "Intermediate",
                 color: "brown",
+                priceStartsAt: 249,
                 description: "Off-road mud track with Land Cruiser RC vehicles. Experience challenging terrain with water hazards.",
                 gradient: "from-amber-600 to-amber-800",
                 surface: "Mud & Water",
@@ -229,8 +231,9 @@ export default async function HomePage() {
               },
               {
                 name: "Crawler Track",
-                difficulty: "Beginner",
+                difficulty: "Advanced",
                 color: "green",
+                priceStartsAt: 249,
                 description: "Technical rock crawling course with Defender and Land Rover RC vehicles. Perfect for precision control.",
                 gradient: "from-green-500 to-green-700",
                 surface: "Rocks & Obstacles",
@@ -239,8 +242,9 @@ export default async function HomePage() {
               },
               {
                 name: "Sand Track",
-                difficulty: "Advanced",
+                difficulty: "Intermediate",
                 color: "yellow",
+                priceStartsAt: 149,
                 description: "Sand track with RC Trucks, JCB, and Bulldozer vehicles. Heavy machinery racing on sand terrain.",
                 gradient: "from-yellow-500 to-yellow-700",
                 surface: "Sand & Dunes",
@@ -291,6 +295,10 @@ export default async function HomePage() {
                       <div className="flex justify-between items-center text-xs">
                         <span className="text-gray-400">Vehicles</span>
                         <span className="text-white font-semibold text-[10px]">{track.vehicles}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-gray-400">Price starts at</span>
+                        <span className="text-fury-orange font-semibold">₹{track.priceStartsAt}</span>
                       </div>
                     </div>
                     

@@ -38,6 +38,18 @@ enum PointStatus {
   REJECTED
 }
 
+enum MembershipStatus {
+  ACTIVE
+  EXPIRED
+  COMPLETED
+  CANCELLED
+}
+
+enum MembershipPlanType {
+  RC_TRACK
+  PS5_GAMER_DUO
+}
+
 model User {
   id            String    @id @default(cuid())
   email         String    @unique
@@ -58,6 +70,7 @@ model User {
   staffActions StaffAction[]
   sessions     Session[]
   accounts     Account[] // OAuth account links (Google, etc.)
+  memberships  Membership[]
 
   @@index([email]) // Index for faster email lookups
   @@map("users")
@@ -142,12 +155,14 @@ model Booking {
   paymentStatus PaymentStatus @default(PENDING)
   paymentId     String?
   notes         String?
+  membershipSessionId String? @unique // Link to membership session if used (one-to-one)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
   // Relations
   user User @relation(fields: [userId], references: [id])
   game Game @relation(fields: [gameId], references: [id])
+  membershipSession MembershipSession? @relation(fields: [membershipSessionId], references: [id])
 
   @@map("bookings")
 }
@@ -215,4 +230,67 @@ model SystemSettings {
   type  String @default("string") // string, number, boolean, json
 
   @@map("system_settings")
+}
+
+model Membership {
+  id              String            @id @default(cuid())
+  userId          String
+  planType        MembershipPlanType
+  startDate       DateTime
+  expiryDate      DateTime
+  status          MembershipStatus  @default(ACTIVE)
+  sessionsTotal   Int               @default(16)
+  sessionsUsed    Int               @default(0)
+  sessionsRemaining Int             @default(16)
+  lastBookedDate  DateTime?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  // Relations
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessions        MembershipSession[]
+  transactions    MembershipTransaction[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([expiryDate])
+  @@map("memberships")
+}
+
+model MembershipSession {
+  id              String            @id @default(cuid())
+  membershipId    String
+  bookingId       String?           @unique
+  usedAt          DateTime
+  usedBy          String?           // Admin/Staff ID who marked it used
+  usedByName      String?           // Admin/Staff name for display
+  notes           String?
+  createdAt       DateTime          @default(now())
+
+  // Relations
+  membership      Membership        @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  booking         Booking?
+
+  @@index([membershipId])
+  @@index([usedAt])
+  @@map("membership_sessions")
+}
+
+model MembershipTransaction {
+  id              String            @id @default(cuid())
+  membershipId    String
+  amount          Decimal           @db.Decimal(10, 2)
+  paymentMethod   String?           // "razorpay", "stripe", "cash", etc.
+  paymentId       String?           // External payment ID
+  status          PaymentStatus     @default(PENDING)
+  transactionDate DateTime          @default(now())
+  notes           String?
+  createdAt       DateTime          @default(now())
+
+  // Relations
+  membership      Membership        @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+
+  @@index([membershipId])
+  @@index([transactionDate])
+  @@map("membership_transactions")
 }

@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const role = searchParams.get('role')
     const search = searchParams.get('search')
+    const membershipStatus = searchParams.get('membershipStatus')
 
     const whereClause: {
       role?: 'ADMIN' | 'STAFF' | 'CUSTOMER'
@@ -45,6 +46,23 @@ export async function GET(request: NextRequest) {
         phone: true,
         role: true,
         createdAt: true,
+        memberships: {
+          where: {
+            status: "ACTIVE"
+          },
+          orderBy: {
+            createdAt: 'desc'
+          },
+          take: 1,
+          select: {
+            id: true,
+            status: true,
+            planType: true,
+            startDate: true,
+            expiryDate: true,
+            sessionsRemaining: true,
+          }
+        },
         _count: {
           select: {
             bookings: true,
@@ -57,8 +75,16 @@ export async function GET(request: NextRequest) {
       }
     })
 
-    // Format the response to include counts
-    const formattedUsers = users.map(user => ({
+    // Filter by membership status if provided
+    let filteredUsers = users
+    if (membershipStatus === "ACTIVE") {
+      filteredUsers = users.filter(user => user.memberships.length > 0)
+    } else if (membershipStatus === "NONE") {
+      filteredUsers = users.filter(user => user.memberships.length === 0)
+    }
+
+    // Format the response to include counts and membership
+    const formattedUsers = filteredUsers.map(user => ({
       id: user.id,
       name: user.name,
       email: user.email,
@@ -66,7 +92,8 @@ export async function GET(request: NextRequest) {
       role: user.role,
       createdAt: user.createdAt,
       bookingsCount: user._count.bookings,
-      pointsCount: user._count.points
+      pointsCount: user._count.points,
+      membership: user.memberships[0] || null
     }))
 
     return NextResponse.json({ users: formattedUsers })

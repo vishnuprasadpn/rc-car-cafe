@@ -10,6 +10,7 @@ export default function TracksPage() {
       name: "Fast Track",
       difficulty: "All Levels",
       duration: "15/30/60 minutes",
+      priceStartsAt: 149,
       description: "Book high-speed racing on our asphalt track. Available with Toy Grade (₹149/₹249/₹449) or Hobby Grade (₹249/₹399/₹699) RC cars for 15 mins, 30 mins, or 1 hour sessions. Perfect for speed enthusiasts!",
       features: ["Toy Grade & Hobby Grade options", "Multiple duration options", "High-speed sections", "Professional timing"],
       surface: "Asphalt",
@@ -22,6 +23,7 @@ export default function TracksPage() {
       name: "Mud Track",
       difficulty: "Intermediate",
       duration: "15/30/60 minutes",
+      priceStartsAt: 249,
       description: "Book an off-road adventure on our mud track. Drive Land Cruiser RC vehicles through challenging terrain with water hazards. Sessions: 15 mins (₹249), 30 mins (₹399), or 1 hr (₹699).",
       features: ["Land Cruiser vehicles", "Water hazards", "Mud sections", "Off-road terrain"],
       surface: "Mud & Water",
@@ -32,8 +34,9 @@ export default function TracksPage() {
     {
       id: 3,
       name: "Crawler Track",
-      difficulty: "Beginner",
+      difficulty: "Advanced",
       duration: "15/30/60 minutes",
+      priceStartsAt: 249,
       description: "Book a technical rock crawling session. Master precision control with Defender and Land Rover RC vehicles on challenging rock obstacles. Sessions: 15 mins (₹249), 30 mins (₹399), or 1 hr (₹699).",
       features: ["Defender & Land Rover", "Rock obstacles", "Steep inclines", "Precision control"],
       surface: "Rocks & Obstacles",
@@ -44,8 +47,9 @@ export default function TracksPage() {
     {
       id: 4,
       name: "Sand Track",
-      difficulty: "Advanced",
+      difficulty: "Intermediate",
       duration: "15/30/60 minutes",
+      priceStartsAt: 149,
       description: "Book heavy machinery racing on our sand track. Choose from RC Trucks (₹149/₹249/₹449) or JCB/Bulldozer (₹249/₹399/₹699) for 15 mins, 30 mins, or 1 hr sessions. Experience power on sand terrain!",
       features: ["Trucks, JCB & Bulldozer", "Sand dunes", "Heavy machinery", "Advanced terrain"],
       surface: "Sand & Dunes",
@@ -100,11 +104,11 @@ export default function TracksPage() {
       {/* Tracks Grid */}
       <div className="py-24 transition-all duration-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 max-w-7xl mx-auto">
             {tracks.map((track) => (
-              <div key={track.id} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl overflow-hidden hover:bg-white/20 transition-all duration-300">
+              <div key={track.id} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl overflow-hidden hover:bg-white/20 transition-all duration-300 flex flex-col h-full">
                 {/* Track Image */}
-                <div className="relative h-64 overflow-hidden">
+                <div className="relative h-48 overflow-hidden flex-shrink-0">
                   <Image
                     src={track.image}
                     alt={track.name}
@@ -122,45 +126,53 @@ export default function TracksPage() {
                       {track.difficulty}
                     </span>
                   </div>
-                  <div className="absolute bottom-4 left-4">
-                    <h3 className="font-heading text-lg sm:text-2xl text-white mb-2 uppercase">{track.name}</h3>
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <h3 className="font-heading text-base sm:text-lg text-white uppercase line-clamp-1">{track.name}</h3>
                   </div>
                 </div>
 
                 {/* Track Details */}
-                <div className="p-8">
-                  <p className="text-gray-300 mb-6 leading-relaxed">{track.description}</p>
+                <div className="p-4 flex flex-col flex-grow">
+                  <p className="text-gray-300 mb-4 leading-relaxed text-sm line-clamp-3">{track.description}</p>
                   
                   {/* Track Stats */}
-                  <div className="mb-6">
+                  <div className="mb-4 space-y-2">
                     <div className="flex items-center">
-                      <Clock className="h-5 w-5 text-gray-400 mr-2" />
+                      <Clock className="h-4 w-4 text-gray-400 mr-2" />
                       <div>
-                        <div className="text-sm text-gray-400">Duration</div>
-                        <div className="font-semibold text-white">{track.duration}</div>
+                        <div className="text-xs text-gray-400">Duration</div>
+                        <div className="font-semibold text-white text-sm">{track.duration}</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <div>
+                        <div className="text-xs text-gray-400">Price starts at</div>
+                        <div className="font-semibold text-fury-orange text-sm">₹{track.priceStartsAt}</div>
                       </div>
                     </div>
                   </div>
 
                   {/* Features */}
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-white mb-3">Track Features</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {track.features.map((feature, index) => (
-                        <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 border border-white/20 text-gray-300">
+                  <div className="mb-4">
+                    <h4 className="text-xs font-semibold text-white mb-2">Features</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {track.features.slice(0, 2).map((feature, index) => (
+                        <span key={index} className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-white/10 border border-white/20 text-gray-300">
                           {feature}
                         </span>
                       ))}
                     </div>
                   </div>
 
-                  {/* Action Button */}
-                  <Link 
-                    href={`/book?track=${encodeURIComponent(track.name)}`}
-                    className="w-full py-3 px-6 rounded-lg font-semibold text-white transition-all inline-block text-center bg-gradient-to-r from-fury-orange to-primary-600 hover:from-primary-600 hover:to-primary-700 shadow-lg hover:shadow-fury-orange/25"
-                  >
-                    Book Now & Start Racing
-                  </Link>
+                  {/* Action Button - Sticky to bottom */}
+                  <div className="mt-auto pt-4">
+                    <Link 
+                      href={`/book?track=${encodeURIComponent(track.name)}`}
+                      className="w-full py-2.5 px-4 rounded-lg text-sm font-semibold text-white transition-all inline-block text-center bg-gradient-to-r from-fury-orange to-primary-600 hover:from-primary-600 hover:to-primary-700 shadow-lg hover:shadow-fury-orange/25"
+                    >
+                      Book Now
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}

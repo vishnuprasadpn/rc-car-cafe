@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { usePathname } from "next/navigation"
-import { Zap, Home, Car, Info, Mail, LogIn, UserPlus } from "lucide-react"
+import { Zap, Home, Car, Info, Mail, LogIn, UserPlus, Gift } from "lucide-react"
 import { trackNavigation, trackButtonClick } from "@/lib/analytics"
 
 export default function Navigation() {
@@ -18,6 +18,7 @@ export default function Navigation() {
     '/contact',
     '/tracks',
     '/book',
+    '/membership',
     '/auth/signin',
     '/auth/signup',
     '/auth/forgot-password',
@@ -90,6 +91,18 @@ export default function Navigation() {
                   title="About"
                 >
                   <Info className="h-5 w-5" />
+                </Link>
+                <Link 
+                  href="/membership" 
+                  onClick={() => trackNavigation("/membership", pathname || "")}
+                  className={`p-2 rounded-lg transition-colors ${
+                    pathname?.startsWith('/membership') 
+                      ? 'bg-fury-orange/20 text-fury-orange' 
+                      : 'text-white/70 hover:text-white hover:bg-white/10'
+                  }`}
+                  title="Membership"
+                >
+                  <Gift className="h-5 w-5" />
                 </Link>
                 <Link 
                   href="/contact" 
@@ -188,6 +201,13 @@ export default function Navigation() {
                   About
                 </Link>
                 <Link 
+                  href="/membership" 
+                  onClick={() => trackNavigation("/membership", pathname || "")}
+                  className="text-white/90 hover:text-white text-sm font-medium transition-colors"
+                >
+                  Membership
+                </Link>
+                <Link 
                   href="/contact" 
                   onClick={() => trackNavigation("/contact", pathname || "")}
                   className="text-white/90 hover:text-white text-sm font-medium transition-colors"
@@ -234,4 +254,3 @@ export default function Navigation() {
   // For authenticated users on non-public routes, return null (sidebar will handle navigation)
   return null
 }
-

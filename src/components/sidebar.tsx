@@ -13,7 +13,8 @@ import {
   LogOut,
   Menu,
   X,
-  UserPlus
+  UserPlus,
+  Gift
 } from "lucide-react"
 import { useState } from "react"
 
@@ -50,6 +51,7 @@ export default function Sidebar() {
     '/bookings',
     '/points',
     '/profile',
+    '/membership-dashboard',
   ]
 
   // Check if current path is a public route
@@ -94,6 +96,7 @@ export default function Sidebar() {
       return [
         { name: "Home", href: "/", icon: Home },
         { name: "Dashboard", href: "/dashboard", icon: Home },
+        { name: "My Membership", href: "/membership-dashboard", icon: Gift },
         { name: "My Bookings", href: "/bookings", icon: Calendar },
         { name: "Points", href: "/points", icon: Trophy },
         { name: "Profile", href: "/profile", icon: Users },
