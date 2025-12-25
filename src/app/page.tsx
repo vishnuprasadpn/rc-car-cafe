@@ -76,7 +76,7 @@ export default async function HomePage() {
             </p>
             
             {/* CTA Buttons - Mobile Optimized */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 justify-center mb-8 md:mb-16 px-2">
+            <div className="flex justify-center mb-8 md:mb-16 px-2">
               <Link
                 href="/auth/signup"
                 className="group relative bg-gradient-to-r from-fury-orange to-primary-600 text-fury-white px-6 py-3 sm:px-8 sm:py-3.5 rounded-lg text-sm sm:text-base font-semibold hover:from-primary-600 hover:to-primary-700 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25 w-full sm:w-auto"
@@ -85,12 +85,6 @@ export default async function HomePage() {
                   <Zap className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                   <span className="whitespace-nowrap">START RACING NOW</span>
                 </span>
-              </Link>
-              <Link
-                href="/auth/signin"
-                className="group border-2 border-fury-white/40 text-fury-white px-6 py-3 sm:px-8 sm:py-3.5 rounded-lg text-sm sm:text-base font-semibold hover:bg-fury-white/10 hover:border-fury-white/60 transition-all duration-300 backdrop-blur-sm w-full sm:w-auto"
-              >
-                <span className="whitespace-nowrap">SIGN IN</span>
               </Link>
             </div>
           </div>
