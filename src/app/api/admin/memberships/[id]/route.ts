@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next"
 import type { Session } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { MembershipStatus } from "@prisma/client"
 
 export async function GET(
   request: NextRequest,
@@ -94,8 +95,8 @@ export async function PATCH(
       }
     }
 
-    const updateData: { status?: string; startDate?: Date; expiryDate?: Date } = {}
-    if (body.status) updateData.status = body.status
+    const updateData: { status?: MembershipStatus; startDate?: Date; expiryDate?: Date } = {}
+    if (body.status) updateData.status = body.status as MembershipStatus
     if (body.startDate) {
       updateData.startDate = new Date(body.startDate)
       // Recalculate expiry date
@@ -106,7 +107,7 @@ export async function PATCH(
 
     // Use calculated status if not explicitly provided
     if (!body.status && status !== existing.status) {
-      updateData.status = status
+      updateData.status = status as MembershipStatus
     }
 
     const membership = await prisma.membership.update({
