@@ -9,7 +9,6 @@ import {
   Gamepad2, 
   Calendar, 
   Trophy, 
-  BarChart3,
   AlertCircle,
   X
 } from "lucide-react"
@@ -256,51 +255,27 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* Quick Actions Card */}
+            {/* Pending Bookings Approval Card */}
             <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden">
-              <div className="bg-gradient-to-r from-white/10 to-white/5 px-6 py-4 border-b border-white/20">
+              <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 px-6 py-4 border-b border-white/20">
                 <h3 className="text-base sm:text-lg font-semibold text-white flex items-center">
-                  <BarChart3 className="h-5 w-5 text-fury-orange mr-2" />
-                  Quick Actions
+                  <Calendar className="h-5 w-5 text-yellow-400 mr-2" />
+                  Pending Bookings Approval
                 </h3>
               </div>
-              <div className="px-6 py-6">
-                <div className="grid grid-cols-2 gap-3">
-                  <Link
-                    href="/admin/games"
-                    className="group flex flex-col items-center p-4 bg-white/5 rounded-xl hover:bg-fury-orange/20 transition-all duration-300 border border-white/10 hover:border-fury-orange/40"
-                  >
-                    <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                      <Gamepad2 className="h-5 w-5 text-white" />
-                    </div>
-                    <span className="text-sm font-medium text-white text-center">Games</span>
-                  </Link>
-                  <Link
-                    href="/admin/users"
-                    className="group flex flex-col items-center p-4 bg-white/5 rounded-xl hover:bg-fury-orange/20 transition-all duration-300 border border-white/10 hover:border-fury-orange/40"
-                  >
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                      <Users className="h-5 w-5 text-white" />
-                    </div>
-                    <span className="text-sm font-medium text-white text-center">Users</span>
-                  </Link>
+              <div className="px-6 py-8">
+                <div className="text-center">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-500/20 rounded-full mb-4 border border-yellow-500/30">
+                    <Calendar className="h-8 w-8 text-yellow-400" />
+                  </div>
+                  <p className="text-xl sm:text-2xl font-bold text-white mb-1">{pendingBookingsCount}</p>
+                  <p className="text-sm text-gray-400 mb-6">bookings pending approval</p>
                   <Link
                     href="/admin/bookings"
-                    className="group flex flex-col items-center p-4 bg-white/5 rounded-xl hover:bg-fury-orange/20 transition-all duration-300 border border-white/10 hover:border-fury-orange/40"
+                    className="inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg text-xs sm:text-sm font-semibold hover:from-yellow-600 hover:to-yellow-700 transition-all shadow-lg hover:shadow-yellow-500/25"
                   >
-                    <div className="w-10 h-10 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                      <Calendar className="h-5 w-5 text-white" />
-                    </div>
-                    <span className="text-sm font-medium text-white text-center">Bookings</span>
-                  </Link>
-                  <Link
-                    href="/admin/reports"
-                    className="group flex flex-col items-center p-4 bg-white/5 rounded-xl hover:bg-fury-orange/20 transition-all duration-300 border border-white/10 hover:border-fury-orange/40"
-                  >
-                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                      <BarChart3 className="h-5 w-5 text-white" />
-                    </div>
-                    <span className="text-sm font-medium text-white text-center">Reports</span>
+                    <Calendar className="h-4 w-4 mr-2" />
+                    Review Bookings
                   </Link>
                 </div>
               </div>
