@@ -96,6 +96,57 @@ export default function AdminBookingsPage() {
     }
   }
 
+  const handleMarkPaymentReceived = (booking: Booking) => {
+    setSelectedBooking(booking)
+    setPaymentAmount(booking.totalPrice.toString())
+    setPaymentMethod("")
+    setShowPaymentModal(true)
+  }
+
+  const handleSubmitPayment = async () => {
+    if (!selectedBooking) return
+
+    const amount = parseFloat(paymentAmount)
+    if (isNaN(amount) || amount <= 0) {
+      alert("Please enter a valid payment amount")
+      return
+    }
+
+    if (!confirm(`Confirm payment received: ₹${amount}${paymentMethod ? ` via ${paymentMethod}` : ""}?`)) {
+      return
+    }
+
+    setProcessing(selectedBooking.id)
+    try {
+      const response = await fetch(`/api/admin/bookings/${selectedBooking.id}/payment`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount,
+          paymentMethod: paymentMethod || undefined,
+        }),
+      })
+
+      if (response.ok) {
+        setShowPaymentModal(false)
+        setSelectedBooking(null)
+        setPaymentAmount("")
+        setPaymentMethod("")
+        fetchBookings()
+      } else {
+        const errorData = await response.json()
+        alert(errorData.message || "Failed to update payment status")
+      }
+    } catch (error) {
+      console.error("Error updating payment:", error)
+      alert("Failed to update payment status. Please try again.")
+    } finally {
+      setProcessing(null)
+    }
+  }
+
   const handleCancelBooking = async (bookingId: string) => {
     if (!confirm("Are you sure you want to cancel this booking?")) {
       return
