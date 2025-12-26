@@ -165,65 +165,65 @@ export default function AdminDashboard() {
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {/* Total Users Card */}
-            <Link href="/admin/users" className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 overflow-hidden cursor-pointer">
-              <div className="absolute top-0 right-0 w-20 h-20 bg-blue-500/10 rounded-bl-full"></div>
-              <div className="relative p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
-                    <Users className="h-6 w-6 text-white" />
+            <Link href="/admin/users" className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg hover:bg-white/20 transition-all duration-300 overflow-hidden cursor-pointer">
+              <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/10 rounded-bl-full"></div>
+              <div className="relative p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg">
+                    <Users className="h-5 w-5 text-white" />
                   </div>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-400 mb-1">Total Users</p>
-                  <p className="text-xl sm:text-3xl font-bold text-white">{stats.totalUsers}</p>
+                  <p className="text-xs font-medium text-gray-400 mb-1">Total Users</p>
+                  <p className="text-lg sm:text-2xl font-bold text-white">{stats.totalUsers}</p>
                 </div>
               </div>
             </Link>
 
             {/* Active Games Card */}
-            <Link href="/admin/games" className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 overflow-hidden cursor-pointer">
-              <div className="absolute top-0 right-0 w-20 h-20 bg-green-500/10 rounded-bl-full"></div>
-              <div className="relative p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
-                    <Gamepad2 className="h-6 w-6 text-white" />
+            <Link href="/admin/games" className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg hover:bg-white/20 transition-all duration-300 overflow-hidden cursor-pointer">
+              <div className="absolute top-0 right-0 w-16 h-16 bg-green-500/10 rounded-bl-full"></div>
+              <div className="relative p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center shadow-lg">
+                    <Gamepad2 className="h-5 w-5 text-white" />
                   </div>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-400 mb-1">Active Games</p>
-                  <p className="text-3xl font-bold text-white">{stats.totalGames}</p>
+                  <p className="text-xs font-medium text-gray-400 mb-1">Active Games</p>
+                  <p className="text-lg sm:text-2xl font-bold text-white">{stats.totalGames}</p>
                 </div>
               </div>
             </Link>
 
             {/* Total Bookings Card */}
-            <Link href="/admin/bookings" className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 overflow-hidden cursor-pointer">
-              <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-500/10 rounded-bl-full"></div>
-              <div className="relative p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center shadow-lg">
-                    <Calendar className="h-6 w-6 text-white" />
+            <Link href="/admin/bookings" className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg hover:bg-white/20 transition-all duration-300 overflow-hidden cursor-pointer">
+              <div className="absolute top-0 right-0 w-16 h-16 bg-yellow-500/10 rounded-bl-full"></div>
+              <div className="relative p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center shadow-lg">
+                    <Calendar className="h-5 w-5 text-white" />
                   </div>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-400 mb-1">Total Bookings</p>
-                  <p className="text-3xl font-bold text-white">{stats.totalBookings}</p>
+                  <p className="text-xs font-medium text-gray-400 mb-1">Total Bookings</p>
+                  <p className="text-lg sm:text-2xl font-bold text-white">{stats.totalBookings}</p>
                 </div>
               </div>
             </Link>
 
             {/* Total Revenue Card */}
-            <Link href="/admin/reports" className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 overflow-hidden cursor-pointer">
-              <div className="absolute top-0 right-0 w-20 h-20 bg-fury-orange/10 rounded-bl-full"></div>
-              <div className="relative p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-fury-orange to-primary-600 rounded-xl flex items-center justify-center shadow-lg">
-                    <Trophy className="h-6 w-6 text-white" />
+            <Link href="/admin/reports" className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg hover:bg-white/20 transition-all duration-300 overflow-hidden cursor-pointer">
+              <div className="absolute top-0 right-0 w-16 h-16 bg-fury-orange/10 rounded-bl-full"></div>
+              <div className="relative p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-fury-orange to-primary-600 rounded-lg flex items-center justify-center shadow-lg">
+                    <Trophy className="h-5 w-5 text-white" />
                   </div>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-400 mb-1">Total Revenue</p>
-                  <p className="text-3xl font-bold text-white">₹{stats.totalRevenue.toLocaleString()}</p>
+                  <p className="text-xs font-medium text-gray-400 mb-1">Total Revenue</p>
+                  <p className="text-lg sm:text-2xl font-bold text-white">₹{stats.totalRevenue.toLocaleString()}</p>
                 </div>
               </div>
             </Link>
