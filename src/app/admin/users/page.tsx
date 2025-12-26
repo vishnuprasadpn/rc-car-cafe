@@ -143,13 +143,17 @@ export default function AdminUsersPage() {
   }
 
   const handleEdit = (user: User) => {
+    // Only allow editing CUSTOMER users (ADMIN and STAFF are managed in settings)
+    if (user.role === "ADMIN" || user.role === "STAFF") {
+      return
+    }
     setEditingUserId(user.id)
     setEditingUser(user)
     resetEdit({
       name: user.name,
       email: user.email,
       phone: user.phone || "",
-      role: user.role as "CUSTOMER" | "STAFF" | "ADMIN",
+      role: user.role as "CUSTOMER" | "STAFF",
     })
   }
 
