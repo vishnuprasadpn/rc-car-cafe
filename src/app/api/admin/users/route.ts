@@ -56,6 +56,8 @@ export async function GET(request: NextRequest) {
         phone: true,
         role: true,
         createdAt: true,
+        lastLoginAt: true,
+        authMethod: true,
         memberships: {
           where: {
             status: "ACTIVE"
