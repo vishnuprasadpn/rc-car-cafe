@@ -17,8 +17,7 @@ export async function GET(_request: NextRequest) {
       totalUsers,
       totalGames,
       totalBookings,
-      totalRevenue,
-      pendingPoints
+      totalRevenue
     ] = await Promise.all([
       prisma.user.count({ where: { role: "CUSTOMER" } }), // Only count customers, exclude ADMIN and STAFF
       prisma.game.count({ where: { isActive: true } }),
@@ -26,16 +25,14 @@ export async function GET(_request: NextRequest) {
       prisma.booking.aggregate({
         where: { paymentStatus: "COMPLETED" },
         _sum: { totalPrice: true }
-      }),
-      prisma.point.count({ where: { status: "PENDING" } })
+      })
     ])
 
     return NextResponse.json({
       totalUsers,
       totalGames,
       totalBookings,
-      totalRevenue: totalRevenue._sum.totalPrice || 0,
-      pendingPoints
+      totalRevenue: totalRevenue._sum.totalPrice || 0
     })
   } catch (error) {
     console.error("Error fetching admin stats:", error)
