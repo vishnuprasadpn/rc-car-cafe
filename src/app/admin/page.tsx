@@ -165,7 +165,7 @@ export default function AdminDashboard() {
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {/* Total Users Card */}
-            <div className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 overflow-hidden">
+            <Link href="/admin/users" className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 overflow-hidden cursor-pointer">
               <div className="absolute top-0 right-0 w-20 h-20 bg-blue-500/10 rounded-bl-full"></div>
               <div className="relative p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -178,10 +178,10 @@ export default function AdminDashboard() {
                   <p className="text-xl sm:text-3xl font-bold text-white">{stats.totalUsers}</p>
                 </div>
               </div>
-            </div>
+            </Link>
 
             {/* Active Games Card */}
-            <div className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 overflow-hidden">
+            <Link href="/admin/games" className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 overflow-hidden cursor-pointer">
               <div className="absolute top-0 right-0 w-20 h-20 bg-green-500/10 rounded-bl-full"></div>
               <div className="relative p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -194,10 +194,10 @@ export default function AdminDashboard() {
                   <p className="text-3xl font-bold text-white">{stats.totalGames}</p>
                 </div>
               </div>
-            </div>
+            </Link>
 
             {/* Total Bookings Card */}
-            <div className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 overflow-hidden">
+            <Link href="/admin/bookings" className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 overflow-hidden cursor-pointer">
               <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-500/10 rounded-bl-full"></div>
               <div className="relative p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -210,10 +210,10 @@ export default function AdminDashboard() {
                   <p className="text-3xl font-bold text-white">{stats.totalBookings}</p>
                 </div>
               </div>
-            </div>
+            </Link>
 
             {/* Total Revenue Card */}
-            <div className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 overflow-hidden">
+            <Link href="/admin/reports" className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 overflow-hidden cursor-pointer">
               <div className="absolute top-0 right-0 w-20 h-20 bg-fury-orange/10 rounded-bl-full"></div>
               <div className="relative p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -226,7 +226,7 @@ export default function AdminDashboard() {
                   <p className="text-3xl font-bold text-white">₹{stats.totalRevenue.toLocaleString()}</p>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">

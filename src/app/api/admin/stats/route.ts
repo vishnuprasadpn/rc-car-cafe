@@ -20,7 +20,7 @@ export async function GET(_request: NextRequest) {
       totalRevenue,
       pendingPoints
     ] = await Promise.all([
-      prisma.user.count(),
+      prisma.user.count({ where: { role: "CUSTOMER" } }), // Only count customers, exclude ADMIN and STAFF
       prisma.game.count({ where: { isActive: true } }),
       prisma.booking.count(),
       prisma.booking.aggregate({
