@@ -228,13 +228,8 @@ export default function AdminUsersPage() {
           <div className="flex items-center gap-4 mb-6">
             <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg">
               <Users className="h-4 w-4 text-blue-400" />
-              <span className="text-sm text-gray-400">Total:</span>
+              <span className="text-sm text-gray-400">Total Users:</span>
               <span className="text-sm font-semibold text-white">{stats.total}</span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg">
-              <Users className="h-4 w-4 text-green-400" />
-              <span className="text-sm text-gray-400">Customers:</span>
-              <span className="text-sm font-semibold text-white">{stats.customer}</span>
             </div>
           </div>
 
