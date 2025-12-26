@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { gameId, startTime, players } = body
+    const { gameId, startTime, players, duration, totalPrice } = body
 
     // Validate input
     if (!gameId || !startTime || !players) {
@@ -88,9 +88,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Start time must be in the future" }, { status: 400 })
     }
 
-    // Calculate end time
+    // Calculate end time - use custom duration if provided (for special offers), otherwise use game duration
+    const bookingDuration = duration || game.duration
     const end = new Date(start)
-    end.setMinutes(end.getMinutes() + game.duration)
+    end.setMinutes(end.getMinutes() + bookingDuration)
 
     // Check for booking conflicts (overlapping time slots for the same game)
     const conflictingBookings = await prisma.booking.findMany({
@@ -161,8 +162,8 @@ export async function POST(request: NextRequest) {
       // Note: If membership is valid, booking will proceed but session will be marked as used later by admin
     }
 
-    // Calculate total price
-    const totalPrice = Number(game.price) * players
+    // Calculate total price - use custom price if provided (for special offers), otherwise calculate from game price
+    const bookingTotalPrice = totalPrice !== undefined ? Number(totalPrice) : Number(game.price) * players
 
     // Get user details for email
     const user = await prisma.user.findUnique({
@@ -180,9 +181,9 @@ export async function POST(request: NextRequest) {
         gameId: gameId,
         startTime: start,
         endTime: end,
-        duration: game.duration,
+        duration: bookingDuration,
         players: players,
-        totalPrice: totalPrice,
+        totalPrice: bookingTotalPrice,
         status: "PENDING",
         paymentStatus: "PENDING",
       },
@@ -208,7 +209,7 @@ export async function POST(request: NextRequest) {
         },
         game: {
           name: game.name,
-          duration: game.duration,
+          duration: bookingDuration,
         },
       })
     } catch (error) {
@@ -234,7 +235,7 @@ export async function POST(request: NextRequest) {
         },
         game: {
           name: game.name,
-          duration: game.duration,
+          duration: bookingDuration,
         },
       })
       console.log("✅ Admin notification email sent successfully for booking:", booking.id)
