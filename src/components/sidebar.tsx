@@ -14,7 +14,8 @@ import {
   Menu,
   X,
   UserPlus,
-  Gift
+  Gift,
+  Shield
 } from "lucide-react"
 import { useState } from "react"
 
