@@ -48,7 +48,16 @@ export default function AdminBookingsPage() {
       const response = await fetch("/api/admin/bookings")
       if (response.ok) {
         const data = await response.json()
-        setBookings(data.bookings || [])
+        const bookingsList = data.bookings || []
+        setBookings(bookingsList)
+        
+        // Set default filter: show pending if any exist, otherwise show all
+        const hasPending = bookingsList.some((booking: Booking) => booking.status === "PENDING")
+        if (hasPending) {
+          setFilter("pending")
+        } else {
+          setFilter("all")
+        }
       }
     } catch (error) {
       console.error("Error fetching bookings:", error)
