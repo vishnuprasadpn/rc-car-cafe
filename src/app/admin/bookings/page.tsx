@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { Calendar, Clock, Users, CheckCircle, X, AlertCircle, Trophy, Trash2, XCircle } from "lucide-react"
+import { Calendar, Clock, Users, CheckCircle, X, AlertCircle, Trophy, Trash2, XCircle, DollarSign } from "lucide-react"
 
 interface Booking {
   id: string
@@ -32,6 +32,10 @@ export default function AdminBookingsPage() {
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<"all" | "pending" | "confirmed" | "cancelled">("all")
   const [processing, setProcessing] = useState<string | null>(null)
+  const [showPaymentModal, setShowPaymentModal] = useState(false)
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null)
+  const [paymentAmount, setPaymentAmount] = useState("")
+  const [paymentMethod, setPaymentMethod] = useState("")
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -331,6 +335,16 @@ export default function AdminBookingsPage() {
                           )}
                         </button>
                       )}
+                      {booking.paymentStatus === "PENDING" && (
+                        <button
+                          onClick={() => handleMarkPaymentReceived(booking)}
+                          disabled={processing === booking.id}
+                          className="px-4 py-2 bg-blue-500/20 border border-blue-500/30 text-blue-400 rounded-lg text-sm font-medium hover:bg-blue-500/30 transition-all flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <DollarSign className="h-4 w-4 mr-2" />
+                          Mark Payment Received
+                        </button>
+                      )}
                       {(booking.status === "PENDING" || booking.status === "CONFIRMED") && (
                         <button
                           onClick={() => handleCancelBooking(booking.id)}
@@ -357,6 +371,99 @@ export default function AdminBookingsPage() {
           )}
         </div>
       </div>
+
+      {/* Payment Modal */}
+      {showPaymentModal && selectedBooking && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 max-w-md mx-4 w-full shadow-2xl">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <h3 className="text-xl font-bold text-white">Mark Payment Received</h3>
+                <p className="text-sm text-gray-400 mt-1">Booking: {selectedBooking.game.name}</p>
+              </div>
+              <button
+                onClick={() => {
+                  setShowPaymentModal(false)
+                  setSelectedBooking(null)
+                  setPaymentAmount("")
+                  setPaymentMethod("")
+                }}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Payment Amount (₹)
+                </label>
+                <input
+                  type="number"
+                  value={paymentAmount}
+                  onChange={(e) => setPaymentAmount(e.target.value)}
+                  placeholder="Enter amount"
+                  step="0.01"
+                  min="0"
+                  className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Payment Method (Optional)
+                </label>
+                <select
+                  value={paymentMethod}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="">Select payment method</option>
+                  <option value="Cash">Cash</option>
+                  <option value="UPI">UPI</option>
+                  <option value="Card">Card</option>
+                  <option value="Online">Online</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div className="bg-white/5 rounded-lg p-3">
+                <p className="text-xs text-gray-400 mb-1">Original Amount</p>
+                <p className="text-lg font-semibold text-white">₹{selectedBooking.totalPrice}</p>
+              </div>
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => {
+                  setShowPaymentModal(false)
+                  setSelectedBooking(null)
+                  setPaymentAmount("")
+                  setPaymentMethod("")
+                }}
+                className="flex-1 px-4 py-2.5 bg-white/10 hover:bg-white/20 text-gray-300 rounded-lg font-medium transition-colors border border-white/20"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSubmitPayment}
+                disabled={processing === selectedBooking.id || !paymentAmount || parseFloat(paymentAmount) <= 0}
+                className="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg font-semibold transition-all shadow-lg hover:shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {processing === selectedBooking.id ? (
+                  <>
+                    <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Processing...
+                  </>
+                ) : (
+                  "Confirm Payment"
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
