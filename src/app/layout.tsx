@@ -6,6 +6,7 @@ import "./globals.css"
 import { Providers } from "@/components/providers"
 import LayoutWrapper from "@/components/layout-wrapper"
 import { VersionLogger } from "@/components/version-logger"
+import ChristmasOfferPopup from "@/components/christmas-offer-popup"
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -59,6 +60,7 @@ export default function RootLayout({
                 <LayoutWrapper>
                   {children}
                 </LayoutWrapper>
+                <ChristmasOfferPopup />
               </Providers>
               <VersionLogger />
               <Analytics />
