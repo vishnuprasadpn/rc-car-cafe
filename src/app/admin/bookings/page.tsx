@@ -310,6 +310,15 @@ export default function AdminBookingsPage() {
                         <div>
                           <p className="text-gray-400">Total Price</p>
                           <p className="text-white font-medium">₹{booking.totalPrice}</p>
+                          <p className={`text-xs mt-1 ${
+                            booking.paymentStatus === "COMPLETED" 
+                              ? "text-green-400" 
+                              : booking.paymentStatus === "PENDING"
+                              ? "text-yellow-400"
+                              : "text-red-400"
+                          }`}>
+                            Payment: {booking.paymentStatus}
+                          </p>
                         </div>
                       </div>
                     </div>
