@@ -28,7 +28,7 @@ interface Game {
 export default function BookChristmasOfferPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const [games, setGames] = useState<Game[]>([])
+  const [christmasComboGame, setChristmasComboGame] = useState<Game | null>(null)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [estimatedPrice, setEstimatedPrice] = useState(599) // Fixed price for Christmas offer
@@ -36,6 +36,7 @@ export default function BookChristmasOfferPage() {
   const {
     register,
     handleSubmit,
+    setValue,
     watch,
     formState: { errors },
   } = useForm<BookingForm>({
@@ -45,7 +46,6 @@ export default function BookChristmasOfferPage() {
     },
   })
 
-  const selectedGameId = watch("gameId")
   const selectedStartTime = watch("startTime")
 
   useEffect(() => {
@@ -53,19 +53,33 @@ export default function BookChristmasOfferPage() {
       // Redirect to sign in with return URL
       router.push(`/auth/signin?callbackUrl=${encodeURIComponent("/book-christmas-offer")}`)
     } else if (status === "authenticated") {
-      fetchGames()
+      fetchChristmasComboGame()
     }
   }, [status, router])
 
-  const fetchGames = async () => {
+  const fetchChristmasComboGame = async () => {
     try {
       const response = await fetch("/api/games")
       if (response.ok) {
         const data = await response.json()
-        setGames(data.games || [])
+        const games = data.games || []
+        // Find Christmas Combo game
+        const comboGame = games.find((g: Game) => g.name === "Christmas Combo (Entire Experience)")
+        
+        if (!comboGame) {
+          // Game doesn't exist - show error message
+          console.error("Christmas Combo game not found in database")
+          alert("Christmas Combo (Entire Experience) game is not configured. Please contact admin to set it up.")
+          router.push("/")
+          return
+        }
+        
+        setChristmasComboGame(comboGame)
+        // Set the gameId automatically
+        setValue("gameId", comboGame.id)
       }
     } catch (error) {
-      console.error("Error fetching games:", error)
+      console.error("Error fetching Christmas Combo game:", error)
     } finally {
       setLoading(false)
     }
@@ -161,23 +175,25 @@ export default function BookChristmasOfferPage() {
           {/* Booking Form */}
           <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              {/* Track Selection */}
+              {/* Track Selection - Fixed for Christmas Offer */}
               <div>
                 <label htmlFor="gameId" className="block text-sm font-medium text-gray-300 mb-2">
-                  Select Track <span className="text-red-400">*</span>
+                  Selected Package <span className="text-red-400">*</span>
                 </label>
-                <select
-                  id="gameId"
-                  {...register("gameId")}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
-                >
-                  <option value="">Choose a track...</option>
-                  {games.map((game) => (
-                    <option key={game.id} value={game.id} className="bg-gray-900">
-                      {game.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white text-sm flex items-center">
+                  <Gift className="h-5 w-5 text-yellow-400 mr-3" />
+                  <span className="font-semibold">
+                    {christmasComboGame?.name || "Christmas Combo (Entire Experience)"}
+                  </span>
+                  <input
+                    type="hidden"
+                    id="gameId"
+                    {...register("gameId")}
+                  />
+                </div>
+                <p className="mt-2 text-xs text-gray-400">
+                  This package is fixed for the Christmas & New Year offer and cannot be changed.
+                </p>
                 {errors.gameId && (
                   <p className="mt-1 text-sm text-red-400">{errors.gameId.message}</p>
                 )}

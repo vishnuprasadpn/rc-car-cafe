@@ -332,16 +332,9 @@ export default function AdminGamesPage() {
                     <tbody className="bg-white/5 divide-y divide-white/10">
                       {games.map((game) => (
                         <tr key={game.id} className="hover:bg-white/10 transition-colors">
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div>
-                              <div className="text-sm font-medium text-white">
-                                {game.name}
-                              </div>
-                              {game.description && (
-                                <div className="text-sm text-gray-400">
-                                  {game.description}
-                                </div>
-                              )}
+                          <td className="px-6 py-4">
+                            <div className="text-sm font-medium text-white max-w-xs truncate" title={game.name}>
+                              {game.name}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
