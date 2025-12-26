@@ -35,7 +35,7 @@ const editUserSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),
   phone: z.string().min(10, "Phone number must be at least 10 digits").regex(/^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/, "Invalid phone number format"),
-  role: z.enum(["CUSTOMER", "STAFF", "ADMIN"]),
+  role: z.enum(["CUSTOMER", "STAFF"]),
 })
 
 type EditUserForm = z.infer<typeof editUserSchema>
@@ -97,8 +97,6 @@ export default function AdminUsersPage() {
 
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
-      case "ADMIN":
-        return "bg-red-500/20 text-red-400 border-red-500/40"
       case "STAFF":
         return "bg-blue-500/20 text-blue-400 border-blue-500/40"
       case "CUSTOMER":
@@ -111,7 +109,6 @@ export default function AdminUsersPage() {
   const getRoleStats = () => {
     const stats = {
       total: users.length,
-      admin: users.filter(u => u.role === "ADMIN").length,
       staff: users.filter(u => u.role === "STAFF").length,
       customer: users.filter(u => u.role === "CUSTOMER").length
     }
@@ -243,36 +240,6 @@ export default function AdminUsersPage() {
             </div>
 
             <div className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 overflow-hidden">
-              <div className="absolute top-0 right-0 w-20 h-20 bg-red-500/10 rounded-bl-full"></div>
-              <div className="relative p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg">
-                    <Users className="h-6 w-6 text-white" />
-                  </div>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-400 mb-1">Admins</p>
-                  <p className="text-xl sm:text-3xl font-bold text-white">{stats.admin}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 overflow-hidden">
-              <div className="absolute top-0 right-0 w-20 h-20 bg-blue-500/10 rounded-bl-full"></div>
-              <div className="relative p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
-                    <Users className="h-6 w-6 text-white" />
-                  </div>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-400 mb-1">Staff</p>
-                  <p className="text-xl sm:text-3xl font-bold text-white">{stats.staff}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="group relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 overflow-hidden">
               <div className="absolute top-0 right-0 w-20 h-20 bg-green-500/10 rounded-bl-full"></div>
               <div className="relative p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -312,8 +279,6 @@ export default function AdminUsersPage() {
                   className="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent appearance-none"
                 >
                   <option value="">All Roles</option>
-                  <option value="ADMIN">Admin</option>
-                  <option value="STAFF">Staff</option>
                   <option value="CUSTOMER">Customer</option>
                 </select>
               </div>
@@ -425,8 +390,6 @@ export default function AdminUsersPage() {
                       className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
                     >
                       <option value="CUSTOMER">CUSTOMER</option>
-                      <option value="STAFF">STAFF</option>
-                      <option value="ADMIN">ADMIN</option>
                     </select>
                     {editErrors.role && (
                       <p className="text-red-400 text-xs mt-1">{editErrors.role.message}</p>

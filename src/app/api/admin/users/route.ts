@@ -19,15 +19,25 @@ export async function GET(request: NextRequest) {
     const membershipStatus = searchParams.get('membershipStatus')
 
     const whereClause: {
-      role?: 'ADMIN' | 'STAFF' | 'CUSTOMER'
+      role?: 'ADMIN' | 'STAFF' | 'CUSTOMER' | { notIn: ['ADMIN', 'STAFF'] }
       OR?: Array<{
         name?: { contains: string; mode: 'insensitive' }
         email?: { contains: string; mode: 'insensitive' }
       }>
     } = {}
 
-    if (role && ['ADMIN', 'STAFF', 'CUSTOMER'].includes(role)) {
-      whereClause.role = role as 'ADMIN' | 'STAFF' | 'CUSTOMER'
+    if (role === 'ADMIN') {
+      // If explicitly requesting ADMIN users, show them
+      whereClause.role = 'ADMIN'
+    } else if (role === 'STAFF') {
+      // If explicitly requesting STAFF users, show them
+      whereClause.role = 'STAFF'
+    } else {
+      // Exclude ADMIN and STAFF users by default (only show CUSTOMER)
+      whereClause.role = { notIn: ['ADMIN', 'STAFF'] }
+      if (role === 'CUSTOMER') {
+        whereClause.role = 'CUSTOMER'
+      }
     }
 
     if (search) {
@@ -91,6 +101,8 @@ export async function GET(request: NextRequest) {
       phone: user.phone,
       role: user.role,
       createdAt: user.createdAt,
+      lastLoginAt: user.lastLoginAt,
+      authMethod: user.authMethod,
       bookingsCount: user._count.bookings,
       pointsCount: user._count.points,
       membership: user.memberships[0] || null

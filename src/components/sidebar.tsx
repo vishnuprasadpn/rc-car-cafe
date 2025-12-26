@@ -83,6 +83,7 @@ export default function Sidebar() {
         { name: "Games", href: "/admin/games", icon: Trophy },
         { name: "Points", href: "/admin/points", icon: Trophy },
         { name: "Reports", href: "/admin/reports", icon: Settings },
+        { name: "Settings", href: "/admin/settings", icon: Shield },
       ]
     } else if (userRole === "STAFF") {
       return [
