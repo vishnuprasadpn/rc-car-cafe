@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react"
 import { useRouter, useParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import { ArrowLeft, Calendar, Clock, CheckCircle, DollarSign, User, Mail, Phone, Trophy, CalendarCheck, Plus, Receipt, Gift } from "lucide-react"
+import { ArrowLeft, Calendar, Clock, CheckCircle, DollarSign, User, Mail, Phone, Trophy, CalendarCheck, Plus, Receipt, Gift, Edit, Trash2 } from "lucide-react"
 import Link from "next/link"
 
 interface MembershipSession {
@@ -87,6 +87,12 @@ export default function UserDetailPage() {
   const [markingSession, setMarkingSession] = useState(false)
   const [showCreateMembership, setShowCreateMembership] = useState(false)
   const [creatingMembership, setCreatingMembership] = useState(false)
+  const [editingSession, setEditingSession] = useState<string | null>(null)
+  const [deletingSession, setDeletingSession] = useState<string | null>(null)
+  const [editSessionForm, setEditSessionForm] = useState({
+    usedAt: "",
+    notes: ""
+  })
   const [membershipForm, setMembershipForm] = useState({
     planType: "RC_TRACK" as "RC_TRACK" | "PS5_GAMER_DUO",
     startDate: new Date().toISOString().split('T')[0],
@@ -160,7 +166,16 @@ export default function UserDetailPage() {
   const handleMarkSessionUsed = async () => {
     if (!user?.membership) return
     
-    if (!confirm("Mark a session as used for this membership?")) {
+    const confirmMessage = `Mark a session as used for this membership?\n\n` +
+      `Current Status:\n` +
+      `- Sessions Used: ${user.membership.sessionsUsed} / ${user.membership.sessionsTotal}\n` +
+      `- Sessions Remaining: ${user.membership.sessionsRemaining}\n\n` +
+      `This will:\n` +
+      `- Increment sessions used by 1\n` +
+      `- Decrement sessions remaining by 1\n` +
+      `- Update last booked date`
+    
+    if (!confirm(confirmMessage)) {
       return
     }
 
@@ -188,6 +203,79 @@ export default function UserDetailPage() {
       alert("An error occurred")
     } finally {
       setMarkingSession(false)
+    }
+  }
+
+  const handleEditSession = (session: MembershipSession) => {
+    setEditingSession(session.id)
+    setEditSessionForm({
+      usedAt: new Date(session.usedAt).toISOString().slice(0, 16), // Format for datetime-local input
+      notes: session.notes || ""
+    })
+  }
+
+  const handleSaveSessionEdit = async (sessionId: string) => {
+    if (!user?.membership) return
+
+    try {
+      const response = await fetch(`/api/admin/memberships/${user.membership.id}/sessions/${sessionId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          usedAt: editSessionForm.usedAt,
+          notes: editSessionForm.notes,
+        }),
+      })
+
+      if (response.ok) {
+        await fetchUserDetails()
+        setEditingSession(null)
+        setEditSessionForm({ usedAt: "", notes: "" })
+        alert("Session updated successfully")
+      } else {
+        const errorData = await response.json()
+        alert(errorData.message || "Failed to update session")
+      }
+    } catch (error) {
+      console.error("Error updating session:", error)
+      alert("An error occurred")
+    }
+  }
+
+  const handleDeleteSession = async (sessionId: string) => {
+    if (!user?.membership) return
+
+    const confirmMessage = `Are you sure you want to delete this session?\n\n` +
+      `This will:\n` +
+      `- Decrement sessions used by 1\n` +
+      `- Increment sessions remaining by 1\n` +
+      `- Remove this session from history\n\n` +
+      `This action cannot be undone.`
+
+    if (!confirm(confirmMessage)) {
+      return
+    }
+
+    try {
+      setDeletingSession(sessionId)
+      const response = await fetch(`/api/admin/memberships/${user.membership.id}/sessions/${sessionId}`, {
+        method: "DELETE",
+      })
+
+      if (response.ok) {
+        await fetchUserDetails()
+        alert("Session deleted successfully")
+      } else {
+        const errorData = await response.json()
+        alert(errorData.message || "Failed to delete session")
+      }
+    } catch (error) {
+      console.error("Error deleting session:", error)
+      alert("An error occurred")
+    } finally {
+      setDeletingSession(null)
     }
   }
 
@@ -419,23 +507,96 @@ export default function UserDetailPage() {
                         <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300">Game</th>
                         <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300">Marked By</th>
                         <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300">Notes</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/10">
                       {user.membership.sessions.map((session) => (
                         <tr key={session.id} className="hover:bg-white/5">
-                          <td className="px-6 py-4 text-sm text-white">
-                            {formatDateTime(session.usedAt)}
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            {session.booking?.game.name || "N/A"}
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-300">
-                            {session.usedByName || "System"}
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-400">
-                            {session.notes || "-"}
-                          </td>
+                          {editingSession === session.id ? (
+                            <>
+                              <td className="px-6 py-4">
+                                <input
+                                  type="datetime-local"
+                                  value={editSessionForm.usedAt}
+                                  onChange={(e) => setEditSessionForm({ ...editSessionForm, usedAt: e.target.value })}
+                                  className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange"
+                                />
+                              </td>
+                              <td className="px-6 py-4 text-sm text-gray-300">
+                                {session.booking?.game.name || "N/A"}
+                              </td>
+                              <td className="px-6 py-4 text-sm text-gray-300">
+                                {session.usedByName || "System"}
+                              </td>
+                              <td className="px-6 py-4">
+                                <input
+                                  type="text"
+                                  value={editSessionForm.notes}
+                                  onChange={(e) => setEditSessionForm({ ...editSessionForm, notes: e.target.value })}
+                                  placeholder="Notes"
+                                  className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange"
+                                />
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="flex items-center gap-2">
+                                  <button
+                                    onClick={() => handleSaveSessionEdit(session.id)}
+                                    className="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded text-xs font-medium transition-colors"
+                                  >
+                                    Save
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setEditingSession(null)
+                                      setEditSessionForm({ usedAt: "", notes: "" })
+                                    }}
+                                    className="px-3 py-1.5 bg-gray-600 hover:bg-gray-700 text-white rounded text-xs font-medium transition-colors"
+                                  >
+                                    Cancel
+                                  </button>
+                                </div>
+                              </td>
+                            </>
+                          ) : (
+                            <>
+                              <td className="px-6 py-4 text-sm text-white">
+                                {formatDateTime(session.usedAt)}
+                              </td>
+                              <td className="px-6 py-4 text-sm text-gray-300">
+                                {session.booking?.game.name || "N/A"}
+                              </td>
+                              <td className="px-6 py-4 text-sm text-gray-300">
+                                {session.usedByName || "System"}
+                              </td>
+                              <td className="px-6 py-4 text-sm text-gray-400">
+                                {session.notes || "-"}
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="flex items-center gap-2">
+                                  <button
+                                    onClick={() => handleEditSession(session)}
+                                    className="p-1.5 text-blue-400 hover:text-blue-300 hover:bg-blue-500/20 rounded transition-colors"
+                                    title="Edit session"
+                                  >
+                                    <Edit className="h-4 w-4" />
+                                  </button>
+                                  <button
+                                    onClick={() => handleDeleteSession(session.id)}
+                                    disabled={deletingSession === session.id}
+                                    className="p-1.5 text-red-400 hover:text-red-300 hover:bg-red-500/20 rounded transition-colors disabled:opacity-50"
+                                    title="Delete session"
+                                  >
+                                    {deletingSession === session.id ? (
+                                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-red-400 border-t-transparent"></div>
+                                    ) : (
+                                      <Trash2 className="h-4 w-4" />
+                                    )}
+                                  </button>
+                                </div>
+                              </td>
+                            </>
+                          )}
                         </tr>
                       ))}
                     </tbody>
