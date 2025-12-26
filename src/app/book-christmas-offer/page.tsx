@@ -13,7 +13,7 @@ import { trackBooking, trackFormSubmit } from "@/lib/analytics"
 const bookingSchema = z.object({
   gameId: z.string().min(1, "Please select a track"),
   startTime: z.string().min(1, "Please select a date and time"),
-  players: z.number().min(1).max(2),
+  players: z.number().min(1).max(10),
 })
 
 type BookingForm = z.infer<typeof bookingSchema>
@@ -212,8 +212,11 @@ export default function BookChristmasOfferPage() {
                   {...register("players", { valueAsNumber: true })}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
                 >
-                  <option value={1} className="bg-gray-900">1 Player</option>
-                  <option value={2} className="bg-gray-900">2 Players</option>
+                  {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
+                    <option key={num} value={num} className="bg-gray-900">
+                      {num} {num === 1 ? "Player" : "Players"}
+                    </option>
+                  ))}
                 </select>
                 {errors.players && (
                   <p className="mt-1 text-sm text-red-400">{errors.players.message}</p>
