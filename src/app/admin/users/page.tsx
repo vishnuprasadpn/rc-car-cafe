@@ -46,7 +46,6 @@ export default function AdminUsersPage() {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
-  const [roleFilter, setRoleFilter] = useState<string>("")
   const [membershipFilter, setMembershipFilter] = useState<string>("")
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
   const [deletingUserId, setDeletingUserId] = useState<string | null>(null)
@@ -67,7 +66,6 @@ export default function AdminUsersPage() {
     try {
       setLoading(true)
       const params = new URLSearchParams()
-      if (roleFilter) params.append('role', roleFilter)
       if (searchTerm) params.append('search', searchTerm)
       if (membershipFilter) params.append('membershipStatus', membershipFilter)
 
@@ -93,7 +91,7 @@ export default function AdminUsersPage() {
       fetchUsers()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, session, router, roleFilter, searchTerm, membershipFilter])
+  }, [status, session, router, searchTerm, membershipFilter])
 
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
@@ -261,7 +259,7 @@ export default function AdminUsersPage() {
 
           {/* Search and Filter Section */}
           <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Search */}
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -272,19 +270,6 @@ export default function AdminUsersPage() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
                 />
-              </div>
-
-              {/* Role Filter */}
-              <div className="relative">
-                <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <select
-                  value={roleFilter}
-                  onChange={(e) => setRoleFilter(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent appearance-none"
-                >
-                  <option value="">All Roles</option>
-                  <option value="CUSTOMER">Customer</option>
-                </select>
               </div>
 
               {/* Membership Status Filter */}
@@ -447,7 +432,7 @@ export default function AdminUsersPage() {
                         </div>
                         <p className="text-gray-400 font-medium">No users found</p>
                         <p className="text-sm text-gray-500 mt-1">
-                          {searchTerm || roleFilter ? "Try adjusting your search or filters" : "Users will appear here once they register"}
+                          {searchTerm || membershipFilter ? "Try adjusting your search or filters" : "Users will appear here once they register"}
                         </p>
                       </td>
                     </tr>
