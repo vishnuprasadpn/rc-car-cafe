@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     const membershipStatus = searchParams.get('membershipStatus')
 
     const whereClause: {
-      role?: 'ADMIN' | 'STAFF' | 'CUSTOMER' | { notIn: ['ADMIN', 'STAFF'] }
+      role?: 'ADMIN' | 'STAFF' | 'CUSTOMER'
       OR?: Array<{
         name?: { contains: string; mode: 'insensitive' }
         email?: { contains: string; mode: 'insensitive' }
@@ -34,10 +34,7 @@ export async function GET(request: NextRequest) {
       whereClause.role = 'STAFF'
     } else {
       // Exclude ADMIN and STAFF users by default (only show CUSTOMER)
-      whereClause.role = { notIn: ['ADMIN', 'STAFF'] }
-      if (role === 'CUSTOMER') {
-        whereClause.role = 'CUSTOMER'
-      }
+      whereClause.role = 'CUSTOMER'
     }
 
     if (search) {
