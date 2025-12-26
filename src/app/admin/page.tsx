@@ -9,7 +9,9 @@ import {
   Gamepad2, 
   Calendar, 
   Trophy, 
-  BarChart3
+  BarChart3,
+  AlertCircle,
+  X
 } from "lucide-react"
 
 interface DashboardStats {
@@ -31,6 +33,8 @@ export default function AdminDashboard() {
     pendingPoints: 0
   })
   const [loading, setLoading] = useState(true)
+  const [pendingBookingsCount, setPendingBookingsCount] = useState(0)
+  const [showPendingBookingsAlert, setShowPendingBookingsAlert] = useState(false)
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -39,6 +43,7 @@ export default function AdminDashboard() {
       router.push("/dashboard")
     } else if (status === "authenticated") {
       fetchStats()
+      fetchPendingBookings()
     }
   }, [status, session, router])
 
@@ -53,6 +58,25 @@ export default function AdminDashboard() {
       console.error("Error fetching stats:", error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchPendingBookings = async () => {
+    try {
+      const response = await fetch("/api/admin/bookings")
+      if (response.ok) {
+        const data = await response.json()
+        const pendingCount = (data.bookings || []).filter(
+          (booking: { status: string }) => booking.status === "PENDING"
+        ).length
+        setPendingBookingsCount(pendingCount)
+        // Show alert if there are pending bookings
+        if (pendingCount > 0) {
+          setShowPendingBookingsAlert(true)
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching pending bookings:", error)
     }
   }
 
@@ -73,6 +97,54 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
+      {/* Pending Bookings Alert Modal */}
+      {showPendingBookingsAlert && pendingBookingsCount > 0 && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white/10 backdrop-blur-lg border border-yellow-500/30 rounded-xl p-6 max-w-md mx-4 shadow-2xl">
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-yellow-500/20 rounded-full flex items-center justify-center mr-4 border border-yellow-500/30">
+                  <AlertCircle className="h-6 w-6 text-yellow-400" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white">Pending Bookings Alert</h3>
+                  <p className="text-sm text-gray-400 mt-1">Action required</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowPendingBookingsAlert(false)}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="mb-6">
+              <p className="text-white mb-2">
+                You have <span className="font-bold text-yellow-400">{pendingBookingsCount}</span> pending booking{pendingBookingsCount > 1 ? 's' : ''} that need your attention.
+              </p>
+              <p className="text-gray-300 text-sm">
+                Please review and confirm these bookings to ensure smooth operations.
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <Link
+                href="/admin/bookings"
+                onClick={() => setShowPendingBookingsAlert(false)}
+                className="flex-1 px-4 py-2.5 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white rounded-lg font-semibold transition-all shadow-lg hover:shadow-yellow-500/25 text-center"
+              >
+                View Pending Bookings
+              </Link>
+              <button
+                onClick={() => setShowPendingBookingsAlert(false)}
+                className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-gray-300 rounded-lg font-medium transition-colors border border-white/20"
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto py-8 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           {/* Header Section */}
