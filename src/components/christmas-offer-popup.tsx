@@ -33,10 +33,40 @@ export default function ChristmasOfferPopup() {
     setShowPopup(false)
   }
 
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Close if clicking on the backdrop (not on the popup content)
+    if (e.target === e.currentTarget) {
+      handleClose()
+    }
+  }
+
+  useEffect(() => {
+    // Close on ESC key press
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && showPopup) {
+        handleClose()
+      }
+    }
+
+    if (showPopup) {
+      document.addEventListener("keydown", handleEscape)
+      // Prevent body scroll when popup is open
+      document.body.style.overflow = "hidden"
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape)
+      document.body.style.overflow = "unset"
+    }
+  }, [showPopup])
+
   if (!showPopup) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in duration-300">
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm animate-in fade-in duration-300"
+      onClick={handleBackdropClick}
+    >
       <div className="relative w-full max-w-4xl mx-4 rounded-2xl overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300">
         {/* Background Image */}
         <div className="relative w-full h-[500px] md:h-[600px]">
@@ -54,8 +84,9 @@ export default function ChristmasOfferPopup() {
           {/* Close Button */}
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center text-white transition-colors backdrop-blur-sm"
+            className="absolute top-4 right-4 z-20 w-12 h-12 bg-black/70 hover:bg-black/90 rounded-full flex items-center justify-center text-white transition-all backdrop-blur-sm hover:scale-110 shadow-lg"
             aria-label="Close popup"
+            title="Close (ESC)"
           >
             <X className="h-6 w-6" />
           </button>
