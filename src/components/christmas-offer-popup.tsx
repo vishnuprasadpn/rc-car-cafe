@@ -66,7 +66,7 @@ export default function ChristmasOfferPopup() {
               {/* Offer Badge */}
               <div className="inline-flex items-center px-4 py-2 bg-red-600/90 backdrop-blur-sm rounded-full mb-6 border-2 border-white/30">
                 <Gift className="h-5 w-5 text-white mr-2" />
-                <span className="text-white font-bold text-sm md:text-base">CHRISTMAS SPECIAL OFFER</span>
+                <span className="text-white font-bold text-sm md:text-base">CHRISTMAS & NEW YEAR OFFER</span>
               </div>
 
               {/* Main Heading */}
@@ -84,7 +84,7 @@ export default function ChristmasOfferPopup() {
                     </span>
                   </div>
                   <div className="text-white/90 text-base md:text-lg">
-                    <p className="mb-2">15 minutes on each track</p>
+                    <p className="mb-2">1 hour of playtime on any track</p>
                     <p className="text-yellow-400 font-bold text-2xl md:text-3xl">
                       Just ₹599
                     </p>

@@ -140,7 +140,7 @@ export default function BookChristmasOfferPage() {
           <div className="text-center mb-8">
             <div className="inline-flex items-center px-4 py-2 bg-red-600/20 rounded-full mb-4 border border-red-500/30">
               <Gift className="h-5 w-5 text-red-400 mr-2" />
-              <span className="text-red-400 font-semibold">CHRISTMAS SPECIAL OFFER</span>
+              <span className="text-red-400 font-semibold">CHRISTMAS & NEW YEAR OFFER</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
               Book Your Christmas Special
@@ -151,7 +151,7 @@ export default function BookChristmasOfferPage() {
                   <Clock className="h-5 w-5 mr-2 text-yellow-400" />
                   <span className="text-lg font-semibold">1 Hour of Playtime</span>
                 </div>
-                <p className="text-gray-300">15 minutes on each track</p>
+                <p className="text-gray-300">1 hour of playtime on any track</p>
                 <p className="text-yellow-400 font-bold text-2xl">Just ₹599</p>
                 <p className="text-gray-400 text-sm">Valid till 1st January 2025</p>
               </div>
@@ -174,7 +174,7 @@ export default function BookChristmasOfferPage() {
                   <option value="">Choose a track...</option>
                   {games.map((game) => (
                     <option key={game.id} value={game.id} className="bg-gray-900">
-                      {game.name} (15 minutes)
+                      {game.name}
                     </option>
                   ))}
                 </select>
@@ -223,11 +223,11 @@ export default function BookChristmasOfferPage() {
               {/* Price Summary */}
               <div className="bg-white/5 rounded-lg p-4 border border-white/10">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-300">Christmas Special Offer</span>
+                  <span className="text-gray-300">Christmas & New Year Offer</span>
                   <span className="text-white font-semibold">₹599</span>
                 </div>
                 <div className="text-xs text-gray-400 mt-2">
-                  Includes 1 hour of playtime (15 minutes on each track)
+                  Includes 1 hour of playtime on any track
                 </div>
               </div>
 
