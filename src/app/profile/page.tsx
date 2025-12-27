@@ -13,6 +13,27 @@ const profileSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
   phone: z.string().optional(),
+  currentPassword: z.string().optional(),
+  newPassword: z.string().min(6, "Password must be at least 6 characters").optional(),
+  confirmPassword: z.string().optional(),
+}).refine((data) => {
+  // If newPassword is provided, currentPassword and confirmPassword must also be provided
+  if (data.newPassword) {
+    return data.currentPassword && data.confirmPassword
+  }
+  return true
+}, {
+  message: "Current password and confirmation are required when changing password",
+  path: ["currentPassword"],
+}).refine((data) => {
+  // If newPassword is provided, it must match confirmPassword
+  if (data.newPassword && data.confirmPassword) {
+    return data.newPassword === data.confirmPassword
+  }
+  return true
+}, {
+  message: "New password and confirmation must match",
+  path: ["confirmPassword"],
 })
 
 type ProfileForm = z.infer<typeof profileSchema>
@@ -24,6 +45,7 @@ export default function ProfilePage() {
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState(false)
+  const [showPasswordSection, setShowPasswordSection] = useState(false)
 
   const {
     register,
@@ -43,6 +65,9 @@ export default function ProfilePage() {
         name: session.user.name || "",
         email: session.user.email || "",
         phone: "", // Phone not in session, will be fetched from API
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
       })
       fetchUserProfile()
     }
@@ -57,6 +82,9 @@ export default function ProfilePage() {
           name: data.user.name || "",
           email: data.user.email || "",
           phone: data.user.phone || "",
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
         })
       }
     } catch (error) {
@@ -72,12 +100,32 @@ export default function ProfilePage() {
     setSuccess(false)
 
     try {
+      // Prepare update data
+      const updateData: {
+        name: string
+        phone?: string
+        currentPassword?: string
+        newPassword?: string
+      } = {
+        name: data.name,
+      }
+
+      if (data.phone) {
+        updateData.phone = data.phone
+      }
+
+      // If password is being changed
+      if (data.newPassword && data.currentPassword) {
+        updateData.currentPassword = data.currentPassword
+        updateData.newPassword = data.newPassword
+      }
+
       const response = await fetch("/api/user/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(updateData),
       })
 
       const result = await response.json()
@@ -85,8 +133,16 @@ export default function ProfilePage() {
       if (response.ok) {
         setSuccess(true)
         setTimeout(() => setSuccess(false), 3000)
+        setShowPasswordSection(false)
+        // Reset password fields
+        reset({
+          ...data,
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        })
         // Optionally refresh session to get updated data
-        window.location.reload()
+        setTimeout(() => window.location.reload(), 1000)
       } else {
         setError(result.message || "Failed to update profile")
       }
@@ -205,6 +261,85 @@ export default function ProfilePage() {
                     </p>
                   )}
                 </div>
+
+                {/* Password Update Section - Only for admins/staff */}
+                {((session?.user as { role?: string })?.role === "ADMIN" || (session?.user as { role?: string })?.role === "STAFF") && (
+                  <div className="space-y-4 pt-4 border-t border-white/10">
+                    <div className="flex items-center justify-between">
+                      <label className="text-sm font-semibold text-gray-300">
+                        Change Password
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setShowPasswordSection(!showPasswordSection)}
+                        className="text-xs text-fury-orange hover:text-primary-600 transition-colors"
+                      >
+                        {showPasswordSection ? "Hide" : "Change Password"}
+                      </button>
+                    </div>
+
+                    {showPasswordSection && (
+                      <>
+                        <div className="space-y-2">
+                          <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-300">
+                            Current Password
+                          </label>
+                          <input
+                            {...register("currentPassword")}
+                            id="currentPassword"
+                            type="password"
+                            className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
+                            placeholder="Enter current password"
+                          />
+                          {errors.currentPassword && (
+                            <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                              <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                              {errors.currentPassword.message}
+                            </p>
+                          )}
+                        </div>
+
+                        <div className="space-y-2">
+                          <label htmlFor="newPassword" className="block text-sm font-medium text-gray-300">
+                            New Password
+                          </label>
+                          <input
+                            {...register("newPassword")}
+                            id="newPassword"
+                            type="password"
+                            className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
+                            placeholder="Enter new password (min 6 characters)"
+                          />
+                          {errors.newPassword && (
+                            <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                              <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                              {errors.newPassword.message}
+                            </p>
+                          )}
+                        </div>
+
+                        <div className="space-y-2">
+                          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300">
+                            Confirm New Password
+                          </label>
+                          <input
+                            {...register("confirmPassword")}
+                            id="confirmPassword"
+                            type="password"
+                            className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
+                            placeholder="Confirm new password"
+                          />
+                          {errors.confirmPassword && (
+                            <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                              <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                              {errors.confirmPassword.message}
+                            </p>
+                          )}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
 
                 <div className="flex justify-end space-x-3 pt-4">
                   <Link

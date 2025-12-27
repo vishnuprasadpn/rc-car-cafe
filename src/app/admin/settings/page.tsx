@@ -156,6 +156,26 @@ export default function AdminSettingsPage() {
     return null
   }
 
+  // Only master admin can access this page
+  const userEmail = (session.user as { email?: string }).email
+  const isMasterAdmin = userEmail?.toLowerCase() === "vishnuprasad1990@gmail.com"
+
+  if (!isMasterAdmin) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
+        <div className="max-w-7xl mx-auto py-8 sm:px-6 lg:px-8">
+          <div className="px-4 py-6 sm:px-0">
+            <div className="bg-red-500/20 backdrop-blur-lg border border-red-500/40 rounded-xl p-6 text-center">
+              <Shield className="h-12 w-12 text-red-400 mx-auto mb-4" />
+              <h2 className="text-xl font-bold text-white mb-2">Access Denied</h2>
+              <p className="text-gray-400">Only the master admin can access this page.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
       <div className="max-w-7xl mx-auto py-8 sm:px-6 lg:px-8">
