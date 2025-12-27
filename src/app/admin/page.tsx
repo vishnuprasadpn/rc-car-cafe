@@ -218,7 +218,8 @@ export default function AdminDashboard() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-8">
+          {/* Pending Bookings and Recent Activity - Side by Side for Master Admin */}
+          <div className={`grid gap-6 mb-8 ${isMasterAdmin ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
             {/* Pending Bookings Approval Card */}
             <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden">
               <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 px-6 py-4 border-b border-white/20">
@@ -244,36 +245,36 @@ export default function AdminDashboard() {
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Recent Activity Card - Only for Master Admin */}
-          {isMasterAdmin && (
-            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden">
-              <div className="bg-gradient-to-r from-white/10 to-white/5 px-6 py-4 border-b border-white/20">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-base sm:text-lg font-semibold text-white flex items-center">
-                    <Calendar className="h-5 w-5 text-fury-orange mr-2" />
-                    Recent Activity
-                  </h3>
-                  <Link
-                    href="/admin/activity"
-                    className="text-sm font-medium text-fury-orange hover:text-primary-600 transition-colors"
-                  >
-                    View all →
-                  </Link>
-                </div>
-              </div>
-              <div className="px-6 py-8">
-                <div className="text-center py-12">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-white/5 rounded-full mb-4 border border-white/10">
-                    <Calendar className="h-8 w-8 text-gray-400" />
+            {/* Recent Activity Card - Only for Master Admin */}
+            {isMasterAdmin && (
+              <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl overflow-hidden">
+                <div className="bg-gradient-to-r from-white/10 to-white/5 px-6 py-4 border-b border-white/20">
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-base sm:text-lg font-semibold text-white flex items-center">
+                      <Calendar className="h-5 w-5 text-fury-orange mr-2" />
+                      Recent Activity
+                    </h3>
+                    <Link
+                      href="/admin/activity"
+                      className="text-sm font-medium text-fury-orange hover:text-primary-600 transition-colors"
+                    >
+                      View all →
+                    </Link>
                   </div>
-                  <p className="text-gray-400 font-medium">No recent activity</p>
-                  <p className="text-sm text-gray-500 mt-1">Activity will appear here as it happens</p>
+                </div>
+                <div className="px-6 py-8">
+                  <div className="text-center py-12">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-white/5 rounded-full mb-4 border border-white/10">
+                      <Calendar className="h-8 w-8 text-gray-400" />
+                    </div>
+                    <p className="text-gray-400 font-medium">No recent activity</p>
+                    <p className="text-sm text-gray-500 mt-1">Activity will appear here as it happens</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
