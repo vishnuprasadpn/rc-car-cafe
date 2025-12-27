@@ -247,7 +247,7 @@ export default function AdminBookingsPage() {
 
   const filteredBookings = bookings.filter((booking) => {
     if (filter === "all") return true
-    return booking.status.toLowerCase() === filter.toUpperCase()
+    return booking.status.toUpperCase() === filter.toUpperCase()
   })
 
   return (
