@@ -27,7 +27,16 @@ const editAdminSchema = z.object({
   phone: z.string().min(10, "Phone number must be at least 10 digits").regex(/^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/, "Invalid phone number format"),
 })
 
+const createAdminSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email address"),
+  phone: z.string().min(10, "Phone number must be at least 10 digits").regex(/^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/, "Invalid phone number format"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  role: z.enum(["ADMIN", "STAFF"]),
+})
+
 type EditAdminForm = z.infer<typeof editAdminSchema>
+type CreateAdminForm = z.infer<typeof createAdminSchema>
 
 export default function AdminSettingsPage() {
   const { data: session, status } = useSession()
@@ -39,6 +48,8 @@ export default function AdminSettingsPage() {
   const [editingAdmin, setEditingAdmin] = useState<AdminUser | null>(null)
   const [error, setError] = useState("")
   const [submitting, setSubmitting] = useState(false)
+  const [showAddAdminForm, setShowAddAdminForm] = useState(false)
+  const [creatingAdmin, setCreatingAdmin] = useState(false)
   
   const {
     register: registerEdit,
@@ -47,6 +58,18 @@ export default function AdminSettingsPage() {
     formState: { errors: editErrors },
   } = useForm<EditAdminForm>({
     resolver: zodResolver(editAdminSchema),
+  })
+
+  const {
+    register: registerCreate,
+    handleSubmit: handleSubmitCreate,
+    reset: resetCreate,
+    formState: { errors: createErrors },
+  } = useForm<CreateAdminForm>({
+    resolver: zodResolver(createAdminSchema),
+    defaultValues: {
+      role: "ADMIN",
+    },
   })
 
   const fetchAdminsAndStaff = async () => {
@@ -152,6 +175,35 @@ export default function AdminSettingsPage() {
     }
   }
 
+  const onSubmitCreate = async (data: CreateAdminForm) => {
+    setCreatingAdmin(true)
+    setError("")
+
+    try {
+      const response = await fetch("/api/admin/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (response.ok) {
+        await fetchAdminsAndStaff()
+        setShowAddAdminForm(false)
+        resetCreate()
+      } else {
+        const errorData = await response.json()
+        setError(errorData.message || "Failed to create admin")
+      }
+    } catch (error) {
+      console.error("Error creating admin:", error)
+      setError("Failed to create admin. Please try again.")
+    } finally {
+      setCreatingAdmin(false)
+    }
+  }
+
   if (!session || !session.user || (session.user as { role?: string }).role !== "ADMIN") {
     return null
   }
@@ -198,13 +250,147 @@ export default function AdminSettingsPage() {
 
           {/* Admin Users Section */}
           <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl mb-6">
-            <div className="px-6 py-4 border-b border-white/20">
+            <div className="px-6 py-4 border-b border-white/20 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-white flex items-center">
                 <Shield className="h-5 w-5 mr-2 text-fury-orange" />
                 Admin Users
               </h2>
+              <button
+                onClick={() => {
+                  setShowAddAdminForm(!showAddAdminForm)
+                  setError("")
+                  if (!showAddAdminForm) {
+                    resetCreate()
+                  }
+                }}
+                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 text-sm font-semibold"
+              >
+                <UserPlus className="h-4 w-4 mr-2" />
+                {showAddAdminForm ? "Cancel" : "Add New Admin"}
+              </button>
             </div>
             <div className="p-6">
+              {/* Add Admin Form */}
+              {showAddAdminForm && (
+                <div className="mb-6 bg-white/5 border border-white/20 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-white mb-4">Create New Admin/Staff</h3>
+                  <form onSubmit={handleSubmitCreate(onSubmitCreate)} className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="create-name" className="block text-sm font-medium text-gray-300 mb-2">
+                          Name <span className="text-red-400">*</span>
+                        </label>
+                        <input
+                          id="create-name"
+                          type="text"
+                          {...registerCreate("name")}
+                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
+                          placeholder="Enter name"
+                        />
+                        {createErrors.name && (
+                          <p className="text-red-400 text-xs mt-1">{createErrors.name.message}</p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label htmlFor="create-email" className="block text-sm font-medium text-gray-300 mb-2">
+                          Email <span className="text-red-400">*</span>
+                        </label>
+                        <input
+                          id="create-email"
+                          type="email"
+                          {...registerCreate("email")}
+                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
+                          placeholder="Enter email"
+                        />
+                        {createErrors.email && (
+                          <p className="text-red-400 text-xs mt-1">{createErrors.email.message}</p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label htmlFor="create-phone" className="block text-sm font-medium text-gray-300 mb-2">
+                          Phone <span className="text-red-400">*</span>
+                        </label>
+                        <input
+                          id="create-phone"
+                          type="tel"
+                          {...registerCreate("phone")}
+                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
+                          placeholder="Enter phone number"
+                        />
+                        {createErrors.phone && (
+                          <p className="text-red-400 text-xs mt-1">{createErrors.phone.message}</p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label htmlFor="create-password" className="block text-sm font-medium text-gray-300 mb-2">
+                          Password <span className="text-red-400">*</span>
+                        </label>
+                        <input
+                          id="create-password"
+                          type="password"
+                          {...registerCreate("password")}
+                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
+                          placeholder="Enter password (min 6 characters)"
+                        />
+                        {createErrors.password && (
+                          <p className="text-red-400 text-xs mt-1">{createErrors.password.message}</p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label htmlFor="create-role" className="block text-sm font-medium text-gray-300 mb-2">
+                          Role <span className="text-red-400">*</span>
+                        </label>
+                        <select
+                          id="create-role"
+                          {...registerCreate("role")}
+                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
+                        >
+                          <option value="ADMIN">ADMIN</option>
+                          <option value="STAFF">STAFF</option>
+                        </select>
+                        {createErrors.role && (
+                          <p className="text-red-400 text-xs mt-1">{createErrors.role.message}</p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowAddAdminForm(false)
+                          resetCreate()
+                        }}
+                        className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={creatingAdmin}
+                        className="px-6 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {creatingAdmin ? (
+                          <>
+                            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></span>
+                            Creating...
+                          </>
+                        ) : (
+                          <>
+                            <UserPlus className="h-4 w-4 mr-2" />
+                            Create Admin
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
               {loading ? (
                 <div className="text-center py-8">
                   <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-fury-orange"></div>

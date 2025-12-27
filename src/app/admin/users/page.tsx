@@ -391,7 +391,6 @@ export default function AdminUsersPage() {
                   <tr>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">User</th>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Contact</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Role</th>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Membership</th>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Bookings</th>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Points</th>
@@ -402,7 +401,7 @@ export default function AdminUsersPage() {
                 <tbody className="divide-y divide-white/10">
                   {filteredUsers.length === 0 ? (
                     <tr>
-                      <td colSpan={8} className="px-6 py-12 text-center">
+                      <td colSpan={7} className="px-6 py-12 text-center">
                         <div className="inline-flex items-center justify-center w-16 h-16 bg-white/5 rounded-full mb-4 border border-white/10">
                           <Users className="h-8 w-8 text-gray-400" />
                         </div>
@@ -449,11 +448,6 @@ export default function AdminUsersPage() {
                               <span className="text-gray-500">No phone</span>
                             )}
                           </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${getRoleBadgeColor(user.role)}`}>
-                            {user.role}
-                          </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {user.membership ? (
