@@ -224,42 +224,43 @@ export default function AdminUsersPage() {
             </div>
           </div>
 
-          {/* Stats Cards */}
-          <div className="flex items-center gap-4 mb-6">
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg">
-              <Users className="h-4 w-4 text-blue-400" />
-              <span className="text-sm text-gray-400">Total Users:</span>
-              <span className="text-sm font-semibold text-white">{stats.total}</span>
-            </div>
-          </div>
-
-          {/* Search and Filter Section */}
-          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Search */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search by name or email..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
-                />
+          {/* Stats and Filters Section - Horizontal Layout */}
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-4 mb-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+              {/* Total Users Card */}
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg">
+                <Users className="h-4 w-4 text-blue-400" />
+                <span className="text-sm text-gray-400">Total Users:</span>
+                <span className="text-sm font-semibold text-white">{stats.total}</span>
               </div>
 
-              {/* Membership Status Filter */}
-              <div className="relative">
-                <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <select
-                  value={membershipFilter}
-                  onChange={(e) => setMembershipFilter(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent appearance-none"
-                >
-                  <option value="">All Membership Status</option>
-                  <option value="ACTIVE">Active Members</option>
-                  <option value="NONE">No Membership</option>
-                </select>
+              {/* Search and Filter - Horizontal */}
+              <div className="flex-1 flex flex-col sm:flex-row gap-3">
+                {/* Search */}
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search by name or email..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-9 pr-4 py-2 bg-white/5 border border-white/20 rounded-lg text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
+                  />
+                </div>
+
+                {/* Membership Status Filter */}
+                <div className="relative sm:w-48">
+                  <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <select
+                    value={membershipFilter}
+                    onChange={(e) => setMembershipFilter(e.target.value)}
+                    className="w-full pl-9 pr-4 py-2 bg-white/5 border border-white/20 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent appearance-none"
+                  >
+                    <option value="">All Membership Status</option>
+                    <option value="ACTIVE">Active Members</option>
+                    <option value="NONE">No Membership</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
