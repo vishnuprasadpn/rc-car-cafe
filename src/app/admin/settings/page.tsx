@@ -50,6 +50,7 @@ export default function AdminSettingsPage() {
   const [submitting, setSubmitting] = useState(false)
   const [showAddAdminForm, setShowAddAdminForm] = useState(false)
   const [creatingAdmin, setCreatingAdmin] = useState(false)
+  const [currentUser, setCurrentUser] = useState<AdminUser | null>(null)
   
   const {
     register: registerEdit,
