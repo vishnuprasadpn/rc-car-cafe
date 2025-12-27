@@ -129,8 +129,22 @@ export default function AdminUsersPage() {
       if (response.ok) {
         await fetchUsers()
       } else {
-        const errorData = await response.json()
-        alert(errorData.message || "Failed to delete user")
+        // Try to parse error message, but handle cases where response might not be JSON
+        let errorMessage = "Failed to delete user"
+        try {
+          const contentType = response.headers.get("content-type")
+          if (contentType && contentType.includes("application/json")) {
+            const errorData = await response.json()
+            errorMessage = errorData.message || errorMessage
+          } else {
+            const text = await response.text()
+            errorMessage = text || errorMessage
+          }
+        } catch (parseError) {
+          // If parsing fails, use default message
+          console.error("Error parsing error response:", parseError)
+        }
+        alert(errorMessage)
       }
     } catch (error) {
       console.error("Error deleting user:", error)

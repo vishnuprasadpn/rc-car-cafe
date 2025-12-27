@@ -31,19 +31,21 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
     '/bookings',
     '/points',
     '/profile',
+    '/membership-dashboard',
   ]
 
-  // Check if current path is a public route
-  const isPublicRoute = publicRoutes.some(route => {
-    if (route === '/') {
-      return pathname === '/'
-    }
+  // Check if current path is a dashboard route (check this first)
+  const isDashboardRoute = dashboardRoutes.some(route => {
     return pathname?.startsWith(route)
   })
 
-  // Check if current path is a dashboard route
-  const isDashboardRoute = dashboardRoutes.some(route => {
-    return pathname?.startsWith(route)
+  // Check if current path is a public route (but not if it's a dashboard route)
+  const isPublicRoute = !isDashboardRoute && publicRoutes.some(route => {
+    if (route === '/') {
+      return pathname === '/'
+    }
+    // Use exact match or pathname starts with route + '/' to avoid /book matching /bookings
+    return pathname === route || pathname?.startsWith(route + '/')
   })
 
   // Only apply margin when user is authenticated AND on a dashboard route

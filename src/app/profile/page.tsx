@@ -262,21 +262,20 @@ export default function ProfilePage() {
                   )}
                 </div>
 
-                {/* Password Update Section - Only for admins/staff */}
-                {((session?.user as { role?: string })?.role === "ADMIN" || (session?.user as { role?: string })?.role === "STAFF") && (
-                  <div className="space-y-4 pt-4 border-t border-white/10">
-                    <div className="flex items-center justify-between">
-                      <label className="text-sm font-semibold text-gray-300">
-                        Change Password
-                      </label>
-                      <button
-                        type="button"
-                        onClick={() => setShowPasswordSection(!showPasswordSection)}
-                        className="text-xs text-fury-orange hover:text-primary-600 transition-colors"
-                      >
-                        {showPasswordSection ? "Hide" : "Change Password"}
-                      </button>
-                    </div>
+                {/* Password Update Section - Available for all users */}
+                <div className="space-y-4 pt-4 border-t border-white/10">
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-semibold text-gray-300">
+                      Change Password
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setShowPasswordSection(!showPasswordSection)}
+                      className="text-xs text-fury-orange hover:text-primary-600 transition-colors"
+                    >
+                      {showPasswordSection ? "Hide" : "Change Password"}
+                    </button>
+                  </div>
 
                     {showPasswordSection && (
                       <>
@@ -338,8 +337,7 @@ export default function ProfilePage() {
                         </div>
                       </>
                     )}
-                  </div>
-                )}
+                </div>
 
                 <div className="flex justify-end space-x-3 pt-4">
                   <Link

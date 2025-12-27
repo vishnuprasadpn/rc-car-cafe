@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { z } from "zod"
 import bcrypt from "bcryptjs"
+import { AUTHORIZED_DELETE_ADMIN_EMAIL } from "@/lib/admin-auth"
 
 export async function GET(
   request: NextRequest,
@@ -195,6 +196,79 @@ export async function PATCH(
     }
 
     console.error("Error updating user:", error)
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    )
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    // @ts-expect-error - getServerSession accepts authOptions but types don't match NextAuth v4
+    const session = await getServerSession(authOptions) as Session | null
+    
+    if (!session || !session.user) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+    }
+
+    const userRole = (session.user as { role?: string }).role
+    const userEmail = (session.user as { email?: string }).email
+
+    if (userRole !== "ADMIN") {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 })
+    }
+
+    const { id } = await params
+
+    // Check if user exists
+    const user = await prisma.user.findUnique({
+      where: { id },
+      include: {
+        bookings: {
+          select: { id: true },
+        },
+        points: {
+          select: { id: true },
+        },
+      },
+    })
+
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 })
+    }
+
+    // Prevent deleting the authorized admin
+    if (user.email.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase()) {
+      return NextResponse.json(
+        { message: "Cannot delete the authorized admin account" },
+        { status: 403 }
+      )
+    }
+
+    // Prevent deleting users with bookings or points
+    if (user.bookings.length > 0 || user.points.length > 0) {
+      return NextResponse.json(
+        { 
+          message: `Cannot delete user: User has ${user.bookings.length} booking(s) and ${user.points.length} point(s)` 
+        },
+        { status: 400 }
+      )
+    }
+
+    // Delete the user
+    await prisma.user.delete({
+      where: { id },
+    })
+
+    return NextResponse.json({ 
+      message: "User deleted successfully" 
+    })
+  } catch (error) {
+    console.error("Error deleting user:", error)
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

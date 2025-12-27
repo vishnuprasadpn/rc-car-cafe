@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { Calendar, Clock, Trophy } from "lucide-react"
+import { Trophy, Clock } from "lucide-react"
 
 interface Booking {
   id: string
@@ -86,25 +86,7 @@ export default function DashboardPage() {
             <p className="text-xs sm:text-sm text-gray-400">Welcome back, {session.user?.name || "User"}!</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-5 hover:bg-white/20 transition-all">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <Calendar className="h-6 w-6 text-fury-orange" />
-                </div>
-                <div className="ml-5 w-0 flex-1">
-                  <dl>
-                    <dt className="text-sm font-medium text-gray-400 truncate">
-                      Total Bookings
-                    </dt>
-                    <dd className="text-base sm:text-lg font-medium text-white">
-                      {bookings.length}
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-5 hover:bg-white/20 transition-all">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
@@ -133,7 +115,7 @@ export default function DashboardPage() {
                     <dt className="text-sm font-medium text-gray-400 truncate">
                       Pending Points
                     </dt>
-                    <dd className="text-lg font-medium text-white">
+                    <dd className="text-base sm:text-lg font-medium text-white">
                       {points.pending}
                     </dd>
                   </dl>
