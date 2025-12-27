@@ -96,16 +96,44 @@ export default function AdminSettingsPage() {
     }
   }
 
+  const fetchCurrentUser = async () => {
+    try {
+      if (!userId) return
+      const response = await fetch(`/api/admin/users/${userId}`)
+      if (response.ok) {
+        const data = await response.json()
+        setCurrentUser({
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+          phone: data.user.phone,
+          role: data.user.role,
+          createdAt: data.user.createdAt,
+          lastLoginAt: data.user.lastLoginAt,
+          authMethod: data.user.authMethod,
+        })
+      }
+    } catch (error) {
+      console.error("Error fetching current user:", error)
+    }
+  }
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin")
     } else if (status === "authenticated" && (session?.user as { role?: string })?.role !== "ADMIN") {
       router.push("/dashboard")
     } else if (status === "authenticated" && (session?.user as { role?: string })?.role === "ADMIN") {
-      fetchAdminsAndStaff()
+      const userEmail = (session?.user as { email?: string }).email
+      const isMasterAdmin = userEmail?.toLowerCase() === "vishnuprasad1990@gmail.com"
+      if (isMasterAdmin) {
+        fetchAdminsAndStaff()
+      } else {
+        fetchCurrentUser()
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, session, router])
+  }, [status, session, router, userId])
 
   const handleEdit = (admin: AdminUser) => {
     setEditingAdminId(admin.id)
@@ -139,7 +167,11 @@ export default function AdminSettingsPage() {
       })
 
       if (response.ok) {
-        await fetchAdminsAndStaff()
+        if (isMasterAdmin) {
+          await fetchAdminsAndStaff()
+        } else {
+          await fetchCurrentUser()
+        }
         handleCancelEdit()
       } else {
         const errorData = await response.json()
@@ -208,25 +240,10 @@ export default function AdminSettingsPage() {
     return null
   }
 
-  // Only master admin can access this page
+  // Check if user is master admin
   const userEmail = (session.user as { email?: string }).email
+  const userId = (session.user as { id?: string }).id
   const isMasterAdmin = userEmail?.toLowerCase() === "vishnuprasad1990@gmail.com"
-
-  if (!isMasterAdmin) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
-        <div className="max-w-7xl mx-auto py-8 sm:px-6 lg:px-8">
-          <div className="px-4 py-6 sm:px-0">
-            <div className="bg-red-500/20 backdrop-blur-lg border border-red-500/40 rounded-xl p-6 text-center">
-              <Shield className="h-12 w-12 text-red-400 mx-auto mb-4" />
-              <h2 className="text-xl font-bold text-white mb-2">Access Denied</h2>
-              <p className="text-gray-400">Only the master admin can access this page.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
@@ -248,27 +265,28 @@ export default function AdminSettingsPage() {
             </div>
           )}
 
-          {/* Admin Users Section */}
-          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl mb-6">
-            <div className="px-6 py-4 border-b border-white/20 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-white flex items-center">
-                <Shield className="h-5 w-5 mr-2 text-fury-orange" />
-                Admin Users
-              </h2>
-              <button
-                onClick={() => {
-                  setShowAddAdminForm(!showAddAdminForm)
-                  setError("")
-                  if (!showAddAdminForm) {
-                    resetCreate()
-                  }
-                }}
-                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 text-sm font-semibold"
-              >
-                <UserPlus className="h-4 w-4 mr-2" />
-                {showAddAdminForm ? "Cancel" : "Add New Admin"}
-              </button>
-            </div>
+          {/* Admin Users Section - Only for Master Admin */}
+          {isMasterAdmin && (
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl mb-6">
+              <div className="px-6 py-4 border-b border-white/20 flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-white flex items-center">
+                  <Shield className="h-5 w-5 mr-2 text-fury-orange" />
+                  Admin Users
+                </h2>
+                <button
+                  onClick={() => {
+                    setShowAddAdminForm(!showAddAdminForm)
+                    setError("")
+                    if (!showAddAdminForm) {
+                      resetCreate()
+                    }
+                  }}
+                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 text-sm font-semibold"
+                >
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  {showAddAdminForm ? "Cancel" : "Add New Admin"}
+                </button>
+              </div>
             <div className="p-6">
               {/* Add Admin Form */}
               {showAddAdminForm && (
@@ -532,6 +550,139 @@ export default function AdminSettingsPage() {
               )}
             </div>
           </div>
+          )}
+
+          {/* My Profile Section - For Non-Master Admins */}
+          {!isMasterAdmin && currentUser && (
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl mb-6">
+              <div className="px-6 py-4 border-b border-white/20">
+                <h2 className="text-lg font-semibold text-white flex items-center">
+                  <Shield className="h-5 w-5 mr-2 text-fury-orange" />
+                  My Profile
+                </h2>
+              </div>
+              <div className="p-6">
+                {editingAdminId === currentUser.id ? (
+                  <form onSubmit={handleSubmitEdit(onSubmitEdit)} className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="edit-name" className="block text-sm font-medium text-gray-300 mb-2">
+                          Name <span className="text-red-400">*</span>
+                        </label>
+                        <input
+                          id="edit-name"
+                          type="text"
+                          {...registerEdit("name")}
+                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
+                        />
+                        {editErrors.name && (
+                          <p className="text-red-400 text-xs mt-1">{editErrors.name.message}</p>
+                        )}
+                      </div>
+                      <div>
+                        <label htmlFor="edit-email" className="block text-sm font-medium text-gray-300 mb-2">
+                          Email <span className="text-red-400">*</span>
+                        </label>
+                        <input
+                          id="edit-email"
+                          type="email"
+                          {...registerEdit("email")}
+                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
+                        />
+                        {editErrors.email && (
+                          <p className="text-red-400 text-xs mt-1">{editErrors.email.message}</p>
+                        )}
+                      </div>
+                      <div>
+                        <label htmlFor="edit-phone" className="block text-sm font-medium text-gray-300 mb-2">
+                          Phone <span className="text-red-400">*</span>
+                        </label>
+                        <input
+                          id="edit-phone"
+                          type="tel"
+                          {...registerEdit("phone")}
+                          className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent"
+                        />
+                        {editErrors.phone && (
+                          <p className="text-red-400 text-xs mt-1">{editErrors.phone.message}</p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+                      <button
+                        type="button"
+                        onClick={handleCancelEdit}
+                        className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={submitting}
+                        className="px-6 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {submitting ? (
+                          <>
+                            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></span>
+                            Saving...
+                          </>
+                        ) : (
+                          <>
+                            <Save className="h-4 w-4 mr-2" />
+                            Save Changes
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Name</label>
+                        <p className="text-white text-sm">{currentUser.name}</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Email</label>
+                        <p className="text-white text-sm">{currentUser.email}</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Phone</label>
+                        <p className="text-white text-sm">{currentUser.phone || "N/A"}</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Auth Method</label>
+                        <p className="text-white text-sm">{currentUser.authMethod || "Email/Password"}</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Last Login</label>
+                        <p className="text-white text-sm">
+                          {currentUser.lastLoginAt ? new Date(currentUser.lastLoginAt).toLocaleDateString() : "Never"}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-end pt-4 border-t border-white/10">
+                      <button
+                        onClick={() => {
+                          setEditingAdminId(currentUser.id)
+                          setEditingAdmin(currentUser)
+                          resetEdit({
+                            name: currentUser.name,
+                            email: currentUser.email,
+                            phone: currentUser.phone || "",
+                          })
+                        }}
+                        className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 text-sm font-semibold"
+                      >
+                        <Edit className="h-4 w-4 mr-2" />
+                        Edit Profile
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* System Settings Section - Placeholder for future settings */}
           <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
