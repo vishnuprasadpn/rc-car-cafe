@@ -119,14 +119,17 @@ export default function AdminSettingsPage() {
     }
   }
 
+  // Get user info early for use in useEffect
+  const userEmail = session?.user ? (session.user as { email?: string }).email : undefined
+  const userId = session?.user ? (session.user as { id?: string }).id : undefined
+  const isMasterAdmin = userEmail?.toLowerCase() === "vishnuprasad1990@gmail.com"
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin")
     } else if (status === "authenticated" && (session?.user as { role?: string })?.role !== "ADMIN") {
       router.push("/dashboard")
     } else if (status === "authenticated" && (session?.user as { role?: string })?.role === "ADMIN") {
-      const userEmail = (session?.user as { email?: string }).email
-      const isMasterAdmin = userEmail?.toLowerCase() === "vishnuprasad1990@gmail.com"
       if (isMasterAdmin) {
         fetchAdminsAndStaff()
       } else {
@@ -134,7 +137,7 @@ export default function AdminSettingsPage() {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, session, router, userId])
+  }, [status, session, router, userId, isMasterAdmin])
 
   const handleEdit = (admin: AdminUser) => {
     setEditingAdminId(admin.id)
@@ -240,11 +243,6 @@ export default function AdminSettingsPage() {
   if (!session || !session.user || (session.user as { role?: string }).role !== "ADMIN") {
     return null
   }
-
-  // Check if user is master admin
-  const userEmail = (session.user as { email?: string }).email
-  const userId = (session.user as { id?: string }).id
-  const isMasterAdmin = userEmail?.toLowerCase() === "vishnuprasad1990@gmail.com"
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
