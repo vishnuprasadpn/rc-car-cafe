@@ -168,16 +168,12 @@ export default function AdminDashboard() {
             {/* Total Users Card */}
             <Link href="/admin/users" className="group bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg hover:bg-white/20 hover:border-white/30 transition-all duration-200 cursor-pointer">
               <div className="p-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-md">
-                      <Users className="h-4 w-4 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-medium text-gray-400 leading-tight">Users</p>
-                      <p className="text-base font-bold text-white leading-tight">{stats.totalUsers}</p>
-                    </div>
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-md mb-2">
+                    <Users className="h-4 w-4 text-white" />
                   </div>
+                  <p className="text-[10px] font-medium text-gray-400 mb-1">Total Users</p>
+                  <p className="text-base font-bold text-white">{stats.totalUsers}</p>
                 </div>
               </div>
             </Link>
@@ -185,16 +181,12 @@ export default function AdminDashboard() {
             {/* Active Games Card */}
             <Link href="/admin/games" className="group bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg hover:bg-white/20 hover:border-white/30 transition-all duration-200 cursor-pointer">
               <div className="p-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center shadow-md">
-                      <Gamepad2 className="h-4 w-4 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-medium text-gray-400 leading-tight">Games</p>
-                      <p className="text-base font-bold text-white leading-tight">{stats.totalGames}</p>
-                    </div>
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center shadow-md mb-2">
+                    <Gamepad2 className="h-4 w-4 text-white" />
                   </div>
+                  <p className="text-[10px] font-medium text-gray-400 mb-1">Active Games</p>
+                  <p className="text-base font-bold text-white">{stats.totalGames}</p>
                 </div>
               </div>
             </Link>
@@ -202,16 +194,12 @@ export default function AdminDashboard() {
             {/* Total Bookings Card */}
             <Link href="/admin/bookings" className="group bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg hover:bg-white/20 hover:border-white/30 transition-all duration-200 cursor-pointer">
               <div className="p-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center shadow-md">
-                      <Calendar className="h-4 w-4 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-medium text-gray-400 leading-tight">Bookings</p>
-                      <p className="text-base font-bold text-white leading-tight">{stats.totalBookings}</p>
-                    </div>
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-8 h-8 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center shadow-md mb-2">
+                    <Calendar className="h-4 w-4 text-white" />
                   </div>
+                  <p className="text-[10px] font-medium text-gray-400 mb-1">Total Bookings</p>
+                  <p className="text-base font-bold text-white">{stats.totalBookings}</p>
                 </div>
               </div>
             </Link>
@@ -219,16 +207,12 @@ export default function AdminDashboard() {
             {/* Total Revenue Card */}
             <Link href="/admin/reports" className="group bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg hover:bg-white/20 hover:border-white/30 transition-all duration-200 cursor-pointer">
               <div className="p-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gradient-to-br from-fury-orange to-primary-600 rounded-lg flex items-center justify-center shadow-md">
-                      <Trophy className="h-4 w-4 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-medium text-gray-400 leading-tight">Revenue</p>
-                      <p className="text-base font-bold text-white leading-tight">₹{(stats.totalRevenue / 1000).toFixed(0)}K</p>
-                    </div>
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-8 h-8 bg-gradient-to-br from-fury-orange to-primary-600 rounded-lg flex items-center justify-center shadow-md mb-2">
+                    <Trophy className="h-4 w-4 text-white" />
                   </div>
+                  <p className="text-[10px] font-medium text-gray-400 mb-1">Total Revenue</p>
+                  <p className="text-base font-bold text-white">₹{(stats.totalRevenue / 1000).toFixed(0)}K</p>
                 </div>
               </div>
             </Link>
