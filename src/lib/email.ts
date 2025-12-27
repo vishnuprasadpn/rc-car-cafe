@@ -123,12 +123,29 @@ interface BookingCancellationData {
 }
 
 export const sendBookingRequestEmail = async (data: BookingRequestData) => {
+  console.log('📧 ==========================================')
+  console.log('📧 EMAIL: Booking Request (Customer)')
+  console.log('📧 ==========================================')
+  console.log('📧 Environment:', process.env.NODE_ENV || 'not set')
+  console.log('📧 Timestamp:', new Date().toISOString())
+  
   if (!transporter) {
-    console.warn('⚠️  SMTP not configured. Booking request email not sent.')
+    console.error('❌ ==========================================')
+    console.error('❌ EMAIL FAILED: SMTP NOT CONFIGURED')
+    console.error('❌ ==========================================')
+    console.error('❌ Function: sendBookingRequestEmail')
+    console.error('❌ Recipient:', data.user.email)
+    console.error('❌ Reason: SMTP transporter is null')
+    console.error('❌ Action Required: Set SMTP environment variables in production')
+    console.error('❌ Required: SMTP_HOST, SMTP_USER, SMTP_PASS')
+    console.error('❌ ==========================================')
     return
   }
 
   const { user, booking, game } = data
+  console.log('📧 Recipient:', user.email)
+  console.log('📧 Booking ID:', booking.id)
+  console.log('📧 Game:', game.name)
 
   const mailOptions = {
     from: process.env.SMTP_USER,
@@ -165,21 +182,82 @@ export const sendBookingRequestEmail = async (data: BookingRequestData) => {
   }
 
   try {
-    await transporter.sendMail(mailOptions)
-    console.log('Booking request email sent to customer:', user.email)
+    console.log('📤 Attempting to send email via SMTP...')
+    const startTime = Date.now()
+    const info = await transporter.sendMail(mailOptions)
+    const duration = Date.now() - startTime
+    
+    console.log('✅ ==========================================')
+    console.log('✅ EMAIL SENT SUCCESSFULLY')
+    console.log('✅ ==========================================')
+    console.log('✅ Function: sendBookingRequestEmail')
+    console.log('✅ Recipient:', user.email)
+    console.log('✅ Message ID:', info.messageId)
+    console.log('✅ Duration:', `${duration}ms`)
+    console.log('✅ ==========================================')
+    return info
   } catch (error) {
-    console.error('Error sending booking request email to customer:', error)
+    console.error('❌ ==========================================')
+    console.error('❌ EMAIL SEND FAILED')
+    console.error('❌ ==========================================')
+    console.error('❌ Function: sendBookingRequestEmail')
+    console.error('❌ Recipient:', user.email)
+    console.error('❌ Error Type:', error?.constructor?.name || typeof error)
+    
+    if (error instanceof Error) {
+      console.error('❌ Error Message:', error.message)
+      console.error('❌ Error Name:', error.name)
+      if (error.stack) {
+        console.error('❌ Error Stack:', error.stack)
+      }
+    }
+    
+    if (error && typeof error === 'object') {
+      if ('code' in error) {
+        const errorCode = String((error as { code: unknown }).code)
+        console.error('❌ Error Code:', errorCode)
+        if (errorCode === 'EAUTH') {
+          console.error('❌ Issue: Authentication failed')
+          console.error('❌ Solution: Check SMTP_USER and SMTP_PASS (use Gmail App Password)')
+        } else if (errorCode === 'ECONNECTION') {
+          console.error('❌ Issue: Connection failed')
+          console.error('❌ Solution: Check SMTP_HOST and SMTP_PORT')
+        } else if (errorCode === 'ETIMEDOUT') {
+          console.error('❌ Issue: Connection timeout')
+          console.error('❌ Solution: Check network/firewall settings')
+        }
+      }
+      if ('response' in error) {
+        console.error('❌ SMTP Response:', (error as { response: unknown }).response)
+      }
+    }
+    console.error('❌ ==========================================')
     throw error
   }
 }
 
 export const sendBookingConfirmationEmail = async (data: BookingConfirmationData) => {
+  console.log('📧 ==========================================')
+  console.log('📧 EMAIL: Booking Confirmation (Customer)')
+  console.log('📧 ==========================================')
+  console.log('📧 Environment:', process.env.NODE_ENV || 'not set')
+  console.log('📧 Timestamp:', new Date().toISOString())
+  
   if (!transporter) {
-    console.warn('⚠️  SMTP not configured. Booking confirmation email not sent.')
+    console.error('❌ ==========================================')
+    console.error('❌ EMAIL FAILED: SMTP NOT CONFIGURED')
+    console.error('❌ ==========================================')
+    console.error('❌ Function: sendBookingConfirmationEmail')
+    console.error('❌ Recipient:', data.user.email)
+    console.error('❌ Reason: SMTP transporter is null')
+    console.error('❌ Action Required: Set SMTP environment variables in production')
+    console.error('❌ ==========================================')
     return
   }
 
   const { user, booking, game } = data
+  console.log('📧 Recipient:', user.email)
+  console.log('📧 Booking ID:', booking.id)
 
   const mailOptions = {
     from: process.env.SMTP_USER,
@@ -209,10 +287,31 @@ export const sendBookingConfirmationEmail = async (data: BookingConfirmationData
   }
 
   try {
-    await transporter.sendMail(mailOptions)
-    console.log('Booking confirmation email sent to:', user.email)
+    console.log('📤 Attempting to send email via SMTP...')
+    const startTime = Date.now()
+    const info = await transporter.sendMail(mailOptions)
+    const duration = Date.now() - startTime
+    
+    console.log('✅ ==========================================')
+    console.log('✅ EMAIL SENT SUCCESSFULLY')
+    console.log('✅ ==========================================')
+    console.log('✅ Function: sendBookingConfirmationEmail')
+    console.log('✅ Recipient:', user.email)
+    console.log('✅ Message ID:', info.messageId)
+    console.log('✅ Duration:', `${duration}ms`)
+    console.log('✅ ==========================================')
+    return info
   } catch (error) {
-    console.error('Error sending booking confirmation email:', error)
+    console.error('❌ ==========================================')
+    console.error('❌ EMAIL SEND FAILED')
+    console.error('❌ ==========================================')
+    console.error('❌ Function: sendBookingConfirmationEmail')
+    console.error('❌ Recipient:', user.email)
+    console.error('❌ Error:', error instanceof Error ? error.message : String(error))
+    if (error instanceof Error && error.stack) {
+      console.error('❌ Stack:', error.stack)
+    }
+    console.error('❌ ==========================================')
     throw error
   }
 }
@@ -317,23 +416,40 @@ interface BookingNotificationData {
 }
 
 export const sendBookingNotificationToAdmin = async (data: BookingNotificationData) => {
-  console.log('📧 Attempting to send booking notification email to admin...')
-  console.log('   Environment check:')
-  console.log('     NODE_ENV:', process.env.NODE_ENV)
-  console.log('     SMTP_HOST:', process.env.SMTP_HOST ? `✅ ${process.env.SMTP_HOST}` : '❌ Missing')
-  console.log('     SMTP_USER:', process.env.SMTP_USER ? `✅ ${process.env.SMTP_USER}` : '❌ Missing')
-  console.log('     SMTP_PASS:', process.env.SMTP_PASS ? '✅ Set (hidden)' : '❌ Missing')
-  console.log('     SMTP_PORT:', process.env.SMTP_PORT || '587 (default)')
+  console.log('📧 ==========================================')
+  console.log('📧 EMAIL: Admin Booking Notification (CRITICAL)')
+  console.log('📧 ==========================================')
+  console.log('📧 Environment:', process.env.NODE_ENV || 'not set')
+  console.log('📧 Timestamp:', new Date().toISOString())
+  console.log('📧 ==========================================')
+  console.log('📧 SMTP Configuration Check:')
+  console.log('   NODE_ENV:', process.env.NODE_ENV || 'not set')
+  console.log('   SMTP_HOST:', process.env.SMTP_HOST ? `✅ ${process.env.SMTP_HOST}` : '❌ MISSING')
+  console.log('   SMTP_PORT:', process.env.SMTP_PORT || '587 (default)')
+  console.log('   SMTP_USER:', process.env.SMTP_USER ? `✅ ${process.env.SMTP_USER}` : '❌ MISSING')
+  console.log('   SMTP_PASS:', process.env.SMTP_PASS ? '✅ Set (hidden)' : '❌ MISSING')
+  console.log('📧 ==========================================')
   
   if (!transporter) {
-    console.error('❌ CRITICAL: Cannot send email - SMTP transporter is null')
-    console.error('   This means SMTP configuration is missing or invalid')
-    console.error('   Required environment variables:')
-    console.error('     - SMTP_HOST (e.g., smtp.gmail.com)')
-    console.error('     - SMTP_USER (your email address)')
-    console.error('     - SMTP_PASS (your app password for Gmail)')
-    console.error('   Optional:')
-    console.error('     - SMTP_PORT (default: 587)')
+    console.error('❌ ==========================================')
+    console.error('❌ CRITICAL EMAIL FAILURE')
+    console.error('❌ ==========================================')
+    console.error('❌ Function: sendBookingNotificationToAdmin')
+    console.error('❌ Status: SMTP TRANSPORTER IS NULL')
+    console.error('❌ Reason: SMTP configuration is missing or invalid')
+    console.error('❌ ==========================================')
+    console.error('❌ REQUIRED ENVIRONMENT VARIABLES:')
+    console.error('   - SMTP_HOST (e.g., smtp.gmail.com)')
+    console.error('   - SMTP_USER (your email address)')
+    console.error('   - SMTP_PASS (Gmail App Password - 16 characters)')
+    console.error('❌ Optional:')
+    console.error('   - SMTP_PORT (default: 587)')
+    console.error('❌ ==========================================')
+    console.error('❌ ACTION REQUIRED:')
+    console.error('   1. Go to Vercel Dashboard → Settings → Environment Variables')
+    console.error('   2. Add SMTP_HOST, SMTP_USER, SMTP_PASS for PRODUCTION')
+    console.error('   3. Redeploy the application')
+    console.error('❌ ==========================================')
     throw new Error('Email service is not configured. Please check SMTP environment variables.')
   }
 
@@ -348,17 +464,21 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
     adminEmails.push(process.env.ADMIN_EMAIL)
   }
   
-  console.log('✅ Transporter is configured, preparing admin notification email...')
+  console.log('✅ SMTP Transporter is configured')
+  console.log('📧 Email Details:')
   console.log('   From:', process.env.SMTP_USER)
   console.log('   To (Admins):', adminEmails.join(', '))
 
   const { customer, booking, game } = data
 
-  console.log('   Booking details:')
-  console.log('     - Customer:', customer.name, `(${customer.email})`)
-  console.log('     - Game:', game.name)
-  console.log('     - Booking ID:', booking.id)
-  console.log('     - Total Price: ₹', booking.totalPrice)
+  console.log('📧 Booking Details:')
+  console.log('   Customer:', customer.name, `(${customer.email})`)
+  console.log('   Phone:', customer.phone || 'N/A')
+  console.log('   Game:', game.name)
+  console.log('   Booking ID:', booking.id)
+  console.log('   Start Time:', new Date(booking.startTime).toISOString())
+  console.log('   Players:', booking.players)
+  console.log('   Total Price: ₹', booking.totalPrice)
 
   const mailOptions = {
     from: process.env.SMTP_USER,
@@ -394,17 +514,24 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
   }
 
   try {
-    console.log('📤 Sending admin notification email via SMTP...')
+    console.log('📤 Attempting to send email via SMTP...')
     console.log('   From:', process.env.SMTP_USER)
     console.log('   To:', adminEmails.join(', '))
     console.log('   Subject:', mailOptions.subject)
     
+    const startTime = Date.now()
     const info = await transporter.sendMail(mailOptions)
+    const duration = Date.now() - startTime
     
-    console.log('✅ SUCCESS: Booking notification email sent successfully!')
-    console.log('   To admins:', adminEmails.join(', '))
-    console.log('   Message ID:', info.messageId)
-    console.log('   Response:', info.response || 'No response')
+    console.log('✅ ==========================================')
+    console.log('✅ EMAIL SENT SUCCESSFULLY')
+    console.log('✅ ==========================================')
+    console.log('✅ Function: sendBookingNotificationToAdmin')
+    console.log('✅ Recipients:', adminEmails.join(', '))
+    console.log('✅ Message ID:', info.messageId)
+    console.log('✅ Response:', info.response || 'No response')
+    console.log('✅ Duration:', `${duration}ms`)
+    console.log('✅ ==========================================')
     
     if (nodemailer.getTestMessageUrl) {
       const previewUrl = nodemailer.getTestMessageUrl(info)
@@ -414,65 +541,89 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
     }
     return info
   } catch (error) {
-    console.error('❌ CRITICAL ERROR: Failed to send booking notification email to admins!')
-    console.error('   Target emails:', adminEmails.join(', '))
-    console.error('   Error type:', error?.constructor?.name || typeof error)
+    console.error('❌ ==========================================')
+    console.error('❌ CRITICAL EMAIL FAILURE')
+    console.error('❌ ==========================================')
+    console.error('❌ Function: sendBookingNotificationToAdmin')
+    console.error('❌ Recipients:', adminEmails.join(', '))
+    console.error('❌ Error Type:', error?.constructor?.name || typeof error)
+    console.error('❌ ==========================================')
     
     if (error instanceof Error) {
-      console.error('   Error message:', error.message)
-      console.error('   Error name:', error.name)
+      console.error('❌ Error Message:', error.message)
+      console.error('❌ Error Name:', error.name)
       if (error.stack) {
-        console.error('   Error stack:', error.stack)
+        console.error('❌ Error Stack:', error.stack)
       }
     }
     
     // Check for specific SMTP error codes
     if (error && typeof error === 'object') {
       if ('code' in error) {
-        console.error('   Error code:', (error as { code: unknown }).code)
         const errorCode = String((error as { code: unknown }).code)
+        console.error('❌ Error Code:', errorCode)
         if (errorCode === 'EAUTH') {
-          console.error('   ⚠️  Authentication failed! Check SMTP_USER and SMTP_PASS')
-          console.error('   For Gmail: Use App Password (not regular password)')
+          console.error('❌ Issue: Authentication failed')
+          console.error('❌ Solution: Check SMTP_USER and SMTP_PASS')
+          console.error('❌ For Gmail: Use App Password (not regular password)')
+          console.error('❌ App Password: https://myaccount.google.com/apppasswords')
         } else if (errorCode === 'ECONNECTION') {
-          console.error('   ⚠️  Connection failed! Check SMTP_HOST and SMTP_PORT')
+          console.error('❌ Issue: Connection failed')
+          console.error('❌ Solution: Check SMTP_HOST and SMTP_PORT')
         } else if (errorCode === 'ETIMEDOUT') {
-          console.error('   ⚠️  Connection timeout! Check network/firewall settings')
+          console.error('❌ Issue: Connection timeout')
+          console.error('❌ Solution: Check network/firewall settings')
         }
       }
       if ('response' in error) {
-        console.error('   SMTP Response:', (error as { response: unknown }).response)
+        console.error('❌ SMTP Response:', (error as { response: unknown }).response)
       }
       if ('responseCode' in error) {
-        console.error('   SMTP Response Code:', (error as { responseCode: unknown }).responseCode)
+        console.error('❌ SMTP Response Code:', (error as { responseCode: unknown }).responseCode)
       }
       if ('command' in error) {
-        console.error('   Failed SMTP Command:', (error as { command: unknown }).command)
+        console.error('❌ Failed SMTP Command:', (error as { command: unknown }).command)
       }
     }
     
-    // Log full error object for debugging
-    console.error('   Full error object:', JSON.stringify(error, Object.getOwnPropertyNames(error), 2))
+    console.error('❌ ==========================================')
+    console.error('❌ ACTION REQUIRED:')
+    console.error('   1. Check Vercel environment variables')
+    console.error('   2. Verify SMTP credentials are correct')
+    console.error('   3. Check Gmail App Password is valid')
+    console.error('   4. Review full error details above')
+    console.error('❌ ==========================================')
     
     throw error
   }
 }
 
 export const sendPasswordResetCodeEmail = async (userEmail: string, userName: string, code: string) => {
-  console.log('📧 Attempting to send password reset code email to:', userEmail)
+  console.log('📧 ==========================================')
+  console.log('📧 EMAIL: Password Reset Code')
+  console.log('📧 ==========================================')
+  console.log('📧 Environment:', process.env.NODE_ENV || 'not set')
+  console.log('📧 Timestamp:', new Date().toISOString())
+  console.log('📧 Recipient:', userEmail)
   
   if (!transporter) {
-    console.error('❌ Cannot send email: SMTP not configured')
-    console.error('   SMTP_HOST:', process.env.SMTP_HOST ? '✅ Set' : '❌ Missing')
-    console.error('   SMTP_USER:', process.env.SMTP_USER ? '✅ Set' : '❌ Missing')
-    console.error('   SMTP_PASS:', process.env.SMTP_PASS ? '✅ Set' : '❌ Missing')
+    console.error('❌ ==========================================')
+    console.error('❌ EMAIL FAILED: SMTP NOT CONFIGURED')
+    console.error('❌ ==========================================')
+    console.error('❌ Function: sendPasswordResetCodeEmail')
+    console.error('❌ Recipient:', userEmail)
+    console.error('❌ Reason: SMTP transporter is null')
+    console.error('❌ SMTP_HOST:', process.env.SMTP_HOST ? '✅ Set' : '❌ MISSING')
+    console.error('❌ SMTP_USER:', process.env.SMTP_USER ? '✅ Set' : '❌ MISSING')
+    console.error('❌ SMTP_PASS:', process.env.SMTP_PASS ? '✅ Set' : '❌ MISSING')
+    console.error('❌ Action Required: Set SMTP environment variables in production')
+    console.error('❌ ==========================================')
     throw new Error('Email service is not configured. Please contact the administrator.')
   }
 
-  console.log('✅ Transporter is configured, preparing email...')
-  console.log('   From:', process.env.SMTP_USER)
-  console.log('   To:', userEmail)
-  console.log('   Code:', code)
+  console.log('✅ Transporter is configured')
+  console.log('📧 From:', process.env.SMTP_USER)
+  console.log('📧 To:', userEmail)
 
   const mailOptions = {
     from: process.env.SMTP_USER,
@@ -501,33 +652,59 @@ export const sendPasswordResetCodeEmail = async (userEmail: string, userName: st
   }
 
   try {
-    console.log('📤 Sending email via SMTP...')
+    console.log('📤 Attempting to send email via SMTP...')
+    const startTime = Date.now()
     const info = await transporter.sendMail(mailOptions)
-    console.log('✅ Password reset code email sent successfully to:', userEmail)
-    console.log('   Message ID:', info.messageId)
+    const duration = Date.now() - startTime
+    
+    console.log('✅ ==========================================')
+    console.log('✅ EMAIL SENT SUCCESSFULLY')
+    console.log('✅ ==========================================')
+    console.log('✅ Function: sendPasswordResetCodeEmail')
+    console.log('✅ Recipient:', userEmail)
+    console.log('✅ Message ID:', info.messageId)
+    console.log('✅ Duration:', `${duration}ms`)
     if (nodemailer.getTestMessageUrl) {
       const previewUrl = nodemailer.getTestMessageUrl(info)
       if (previewUrl) {
-        console.log('   Preview URL:', previewUrl)
+        console.log('✅ Preview URL:', previewUrl)
       }
     }
+    console.log('✅ ==========================================')
     return info
   } catch (error) {
-    console.error('❌ Error sending password reset code email to', userEmail, ':')
-    // Log detailed error information
+    console.error('❌ ==========================================')
+    console.error('❌ EMAIL SEND FAILED')
+    console.error('❌ ==========================================')
+    console.error('❌ Function: sendPasswordResetCodeEmail')
+    console.error('❌ Recipient:', userEmail)
+    console.error('❌ Error Type:', error?.constructor?.name || typeof error)
+    
     if (error instanceof Error) {
-      console.error('Error message:', error.message)
-      console.error('Error stack:', error.stack)
-    }
-    if (error && typeof error === 'object' && 'response' in error) {
-      console.error('SMTP Response:', (error as { response: unknown }).response)
-    }
-    if (error && typeof error === 'object' && 'code' in error) {
-      console.error('Error code:', (error as { code: unknown }).code)
+      console.error('❌ Error Message:', error.message)
+      console.error('❌ Error Name:', error.name)
+      if (error.stack) {
+        console.error('❌ Error Stack:', error.stack)
       }
-      throw error
     }
+    
+    if (error && typeof error === 'object') {
+      if ('code' in error) {
+        const errorCode = String((error as { code: unknown }).code)
+        console.error('❌ Error Code:', errorCode)
+        if (errorCode === 'EAUTH') {
+          console.error('❌ Issue: Authentication failed')
+          console.error('❌ Solution: Check SMTP_USER and SMTP_PASS (use Gmail App Password)')
+        }
+      }
+      if ('response' in error) {
+        console.error('❌ SMTP Response:', (error as { response: unknown }).response)
+      }
+    }
+    console.error('❌ ==========================================')
+    throw error
   }
+}
 
 /**
  * Send a test email when an admin logs in
