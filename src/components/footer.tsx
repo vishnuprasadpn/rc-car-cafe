@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { MapPin, Phone, Mail, Facebook, Instagram, Twitter } from "lucide-react"
+import { MapPin, Phone, Mail, Facebook, Instagram, Twitter, Youtube } from "lucide-react"
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -116,6 +116,15 @@ export default function Footer() {
               aria-label="Twitter"
             >
               <Twitter className="h-5 w-5" />
+            </a>
+            <a
+              href="https://www.youtube.com/@furyroad_rc"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-fury-orange transition-colors"
+              aria-label="YouTube"
+            >
+              <Youtube className="h-5 w-5" />
             </a>
           </div>
         </div>
