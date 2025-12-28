@@ -4,7 +4,6 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
-import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
@@ -164,28 +163,29 @@ export default function SignUpPage() {
                   </div>
                 </div>
 
+                <div className="space-y-2">
+                  <label htmlFor="phone" className="flex items-center text-sm font-semibold text-gray-300">
+                    <Phone className="h-4 w-4 mr-2 text-fury-orange" />
+                    Phone Number <span className="text-red-400 text-xs ml-1 font-normal">*</span>
+                  </label>
+                  <input
+                    {...register("phone")}
+                    id="phone"
+                    type="tel"
+                    autoComplete="tel"
+                    required
+                    className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
+                    placeholder="Enter your phone number (e.g., +91 99455 76007)"
+                  />
+                  {errors.phone && (
+                    <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
+                      <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                      {errors.phone.message}
+                    </p>
+                  )}
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label htmlFor="phone" className="flex items-center text-sm font-semibold text-gray-300">
-                      <Phone className="h-4 w-4 mr-2 text-fury-orange" />
-                      Phone Number <span className="text-red-400 text-xs ml-1 font-normal">*</span>
-                    </label>
-                    <input
-                      {...register("phone")}
-                      id="phone"
-                      type="tel"
-                      autoComplete="tel"
-                      required
-                      className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fury-orange/50 focus:border-fury-orange/50 focus:bg-white/10 transition-all duration-300"
-                      placeholder="Enter your phone number (e.g., +91 99455 76007)"
-                    />
-                    {errors.phone && (
-                      <p className="text-xs text-red-400 flex items-center gap-1 mt-1">
-                        <span className="w-1 h-1 bg-red-400 rounded-full"></span>
-                        {errors.phone.message}
-                      </p>
-                    )}
-                  </div>
 
                   <div className="space-y-2">
                     <label htmlFor="password" className="flex items-center text-sm font-semibold text-gray-300">
