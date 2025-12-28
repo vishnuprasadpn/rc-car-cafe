@@ -7,7 +7,6 @@ import {
   Trophy, 
   Clock, 
   Users, 
-  Star, 
   MapPin, 
   Zap, 
   Target,
@@ -218,14 +217,7 @@ export default async function HomePage() {
                       </div>
                     </div>
                     
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center text-yellow-400">
-                        <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-current" />
-                        <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-current" />
-                        <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-current" />
-                        <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-current" />
-                        <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-current" />
-                      </div>
+                    <div className="flex items-center justify-end">
                       <div className={`px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r ${track.gradient} group-hover:shadow-lg transition-all`}>
                         Book Now
                       </div>
