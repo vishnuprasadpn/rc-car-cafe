@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react"
 import { usePathname } from "next/navigation"
 import Sidebar from "@/components/sidebar"
 import Footer from "@/components/footer"
+import FloatingSidebar from "@/components/floating-sidebar"
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession()
@@ -55,11 +56,12 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
     <div className="min-h-screen flex flex-col">
       <Sidebar />
       <div className={`flex-1 ${shouldShowSidebar ? 'md:ml-64' : ''}`}>
-        <main className="min-h-screen">
+        <main className="min-h-screen pb-20 lg:pb-0">
           {children}
         </main>
         <Footer />
       </div>
+      <FloatingSidebar />
     </div>
   )
 }
