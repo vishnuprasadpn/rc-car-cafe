@@ -23,7 +23,10 @@ export async function GET(_request: NextRequest) {
       prisma.game.count({ where: { isActive: true } }),
       prisma.booking.count(),
       prisma.booking.aggregate({
-        where: { paymentStatus: "COMPLETED" },
+        where: { 
+          status: "CONFIRMED",
+          paymentStatus: "COMPLETED" 
+        },
         _sum: { totalPrice: true }
       })
     ])

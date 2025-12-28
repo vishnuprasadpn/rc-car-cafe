@@ -57,10 +57,11 @@ export async function GET(request: NextRequest) {
       dailyRevenue,
       topGames
     ] = await Promise.all([
-      // Total revenue
+      // Total revenue - only confirmed bookings with completed payments
       prisma.booking.aggregate({
         where: {
           ...dateFilter,
+          status: "CONFIRMED",
           paymentStatus: "COMPLETED"
         },
         _sum: { totalPrice: true }
@@ -102,34 +103,37 @@ export async function GET(request: NextRequest) {
         }
       }),
       
-      // Game statistics
+      // Game statistics - only confirmed bookings with completed payments
       prisma.booking.groupBy({
         by: ['gameId'],
         where: {
           ...dateFilter,
+          status: "CONFIRMED",
           paymentStatus: "COMPLETED"
         },
         _count: { id: true },
         _sum: { totalPrice: true }
       }),
       
-      // Daily revenue for chart
+      // Daily revenue for chart - only confirmed bookings with completed payments
       prisma.$queryRaw`
         SELECT 
           DATE(created_at) as date,
           SUM(total_price) as revenue
-        FROM "Booking"
-        WHERE payment_status = 'COMPLETED'
+        FROM bookings
+        WHERE status = 'CONFIRMED'
+        AND payment_status = 'COMPLETED'
         AND created_at >= ${dateFilter.createdAt?.gte || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)}
         GROUP BY DATE(created_at)
         ORDER BY date
       `,
       
-      // Top games by revenue
+      // Top games by revenue - only confirmed bookings with completed payments
       prisma.booking.groupBy({
         by: ['gameId'],
         where: {
           ...dateFilter,
+          status: "CONFIRMED",
           paymentStatus: "COMPLETED"
         },
         _sum: { totalPrice: true },
