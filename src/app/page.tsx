@@ -92,90 +92,6 @@ export default async function HomePage() {
 
       </div>
 
-      {/* Features Section with Unique Design */}
-      <div id="features-section" className="py-24 relative overflow-hidden transition-all duration-700">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_closeup_of_an_RC_crawler_0.jpg"
-            alt="RC Crawler Background"
-            fill
-            className="object-cover"
-            quality={85}
-          />
-          {/* Overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-900/85 via-black/80 to-gray-900/85"></div>
-        </div>
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-fury-orange/10 border border-fury-orange/20 mb-8">
-              <Trophy className="h-4 w-4 text-fury-orange mr-2" />
-              <span className="text-fury-lightGray text-sm font-medium">Why Choose Us</span>
-            </div>
-            <h2 className="font-heading text-xl sm:text-3xl md:text-4xl text-white mb-6 uppercase">
-              Why <span className="bg-gradient-to-r from-fury-orange to-fury-orange bg-clip-text text-transparent">Fury Road</span>?
-            </h2>
-            <p className="text-sm sm:text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              We provide the most professional and thrilling RC car racing experience in Bangalore
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            <Link href="/why/professional-racing" className="group relative block">
-              <div className="absolute inset-0 bg-gradient-to-br from-fury-orange/10 to-primary-600/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500"></div>
-              <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 border border-white/20 group-hover:border-fury-orange/40">
-                <div className="w-14 h-14 bg-gradient-to-br from-fury-orange to-primary-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
-                  <Trophy className="h-7 w-7 text-white" />
-                </div>
-                <h3 className="font-heading text-lg text-white mb-2 uppercase">Professional Racing</h3>
-                <p className="text-gray-300 leading-relaxed text-xs sm:text-sm mb-4 line-clamp-2">
-                  High-performance RC cars with professional-grade controllers and precision tracks designed for competitive racing.
-                </p>
-                <div className="flex items-center text-fury-orange font-semibold text-sm">
-                  <span>Learn More</span>
-                  <div className="ml-2 w-0 group-hover:w-6 h-0.5 bg-fury-orange transition-all duration-300"></div>
-                </div>
-              </div>
-            </Link>
-            
-            <Link href="/why/flexible-timing" className="group relative block">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-blue-800/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500"></div>
-              <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 border border-white/20 group-hover:border-blue-400/40">
-                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
-                  <Clock className="h-7 w-7 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-white mb-2">Flexible Timing</h3>
-                <p className="text-gray-300 leading-relaxed text-xs sm:text-sm mb-4 line-clamp-2">
-                  Book your preferred time slots with 20-minute racing sessions. Perfect for quick races or extended competitions.
-                </p>
-                <div className="flex items-center text-blue-400 font-semibold text-sm">
-                  <span>Learn More</span>
-                  <div className="ml-2 w-0 group-hover:w-6 h-0.5 bg-blue-400 transition-all duration-300"></div>
-                </div>
-              </div>
-            </Link>
-            
-            <Link href="/why/group-fun" className="group relative block">
-              <div className="absolute inset-0 bg-gradient-to-br from-green-600/10 to-green-800/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500"></div>
-              <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 border border-white/20 group-hover:border-green-400/40">
-                <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-700 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
-                  <Users className="h-7 w-7 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-white mb-2">Group Fun</h3>
-                <p className="text-gray-300 leading-relaxed text-xs sm:text-sm mb-4 line-clamp-2">
-                  Race with up to 4 players simultaneously. Perfect for friends, families, and corporate team building events.
-                </p>
-                <div className="flex items-center text-green-400 font-semibold text-sm">
-                  <span>Learn More</span>
-                  <div className="ml-2 w-0 group-hover:w-6 h-0.5 bg-green-400 transition-all duration-300"></div>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </div>
-
       {/* Racing Tracks Section with Unique Design */}
       <div className="py-24 relative overflow-hidden transition-all duration-700">
         {/* Background Image */}
@@ -318,6 +234,90 @@ export default async function HomePage() {
                 </div>
               </Link>
             ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Features Section with Unique Design */}
+      <div id="features-section" className="py-24 relative overflow-hidden transition-all duration-700">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_closeup_of_an_RC_crawler_0.jpg"
+            alt="RC Crawler Background"
+            fill
+            className="object-cover"
+            quality={85}
+          />
+          {/* Overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900/85 via-black/80 to-gray-900/85"></div>
+        </div>
+        
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-fury-orange/10 border border-fury-orange/20 mb-8">
+              <Trophy className="h-4 w-4 text-fury-orange mr-2" />
+              <span className="text-fury-lightGray text-sm font-medium">Why Choose Us</span>
+            </div>
+            <h2 className="font-heading text-xl sm:text-3xl md:text-4xl text-white mb-6 uppercase">
+              Why <span className="bg-gradient-to-r from-fury-orange to-fury-orange bg-clip-text text-transparent">Fury Road</span>?
+            </h2>
+            <p className="text-sm sm:text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              We provide the most professional and thrilling RC car racing experience in Bangalore
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            <Link href="/why/professional-racing" className="group relative block">
+              <div className="absolute inset-0 bg-gradient-to-br from-fury-orange/10 to-primary-600/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500"></div>
+              <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 border border-white/20 group-hover:border-fury-orange/40">
+                <div className="w-14 h-14 bg-gradient-to-br from-fury-orange to-primary-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
+                  <Trophy className="h-7 w-7 text-white" />
+                </div>
+                <h3 className="font-heading text-lg text-white mb-2 uppercase">Professional Racing</h3>
+                <p className="text-gray-300 leading-relaxed text-xs sm:text-sm mb-4 line-clamp-2">
+                  High-performance RC cars with professional-grade controllers and precision tracks designed for competitive racing.
+                </p>
+                <div className="flex items-center text-fury-orange font-semibold text-sm">
+                  <span>Learn More</span>
+                  <div className="ml-2 w-0 group-hover:w-6 h-0.5 bg-fury-orange transition-all duration-300"></div>
+                </div>
+              </div>
+            </Link>
+            
+            <Link href="/why/flexible-timing" className="group relative block">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-blue-800/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500"></div>
+              <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 border border-white/20 group-hover:border-blue-400/40">
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
+                  <Clock className="h-7 w-7 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">Flexible Timing</h3>
+                <p className="text-gray-300 leading-relaxed text-xs sm:text-sm mb-4 line-clamp-2">
+                  Book your preferred time slots with 20-minute racing sessions. Perfect for quick races or extended competitions.
+                </p>
+                <div className="flex items-center text-blue-400 font-semibold text-sm">
+                  <span>Learn More</span>
+                  <div className="ml-2 w-0 group-hover:w-6 h-0.5 bg-blue-400 transition-all duration-300"></div>
+                </div>
+              </div>
+            </Link>
+            
+            <Link href="/why/group-fun" className="group relative block">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-600/10 to-green-800/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500"></div>
+              <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 border border-white/20 group-hover:border-green-400/40">
+                <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-700 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
+                  <Users className="h-7 w-7 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">Group Fun</h3>
+                <p className="text-gray-300 leading-relaxed text-xs sm:text-sm mb-4 line-clamp-2">
+                  Race with up to 4 players simultaneously. Perfect for friends, families, and corporate team building events.
+                </p>
+                <div className="flex items-center text-green-400 font-semibold text-sm">
+                  <span>Learn More</span>
+                  <div className="ml-2 w-0 group-hover:w-6 h-0.5 bg-green-400 transition-all duration-300"></div>
+                </div>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
