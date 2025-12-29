@@ -57,9 +57,9 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">Contact</h3>
             <ul className="space-y-2">
-              <li className="flex items-center text-gray-400 text-sm">
-                <MapPin className="h-4 w-4 mr-2 text-fury-orange" />
-                Bangalore, Karnataka
+              <li className="flex items-start text-gray-400 text-sm">
+                <MapPin className="h-4 w-4 mr-2 text-fury-orange mt-0.5 flex-shrink-0" />
+                <span>FuryRoad RC Club, Yelenahalli Main Rd, Akshayanagara East, Akshayanagar, Bengaluru, Karnataka 560114</span>
               </li>
               <li className="flex items-center text-gray-400 text-sm">
                 <Phone className="h-4 w-4 mr-2 text-fury-orange" />

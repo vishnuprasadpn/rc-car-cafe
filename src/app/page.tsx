@@ -560,7 +560,7 @@ export default async function HomePage() {
                   </div>
                   <div>
                     <div className="text-xs text-gray-400 mb-1">Address</div>
-                    <div className="text-sm font-semibold text-white">Bangalore, Karnataka</div>
+                    <div className="text-sm font-semibold text-white">FuryRoad RC Club, Yelenahalli Main Rd, Akshayanagara East, Akshayanagar, Bengaluru, Karnataka 560114</div>
                   </div>
                 </div>
               </div>

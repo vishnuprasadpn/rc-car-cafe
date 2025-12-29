@@ -189,7 +189,7 @@ export default function TermsPage() {
                 <div className="mt-4 text-gray-300 space-y-2">
                   <p><strong className="text-white">Email:</strong> furyroadrcclub@gmail.com</p>
                   <p><strong className="text-white">Phone:</strong> +91 99455 76007</p>
-                  <p><strong className="text-white">Address:</strong> Bangalore, Karnataka, India</p>
+                  <p><strong className="text-white">Address:</strong> FuryRoad RC Club, Yelenahalli Main Rd, Akshayanagara East, Akshayanagar, Bengaluru, Karnataka 560114</p>
                 </div>
               </section>
             </div>

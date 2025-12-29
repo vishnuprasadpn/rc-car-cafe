@@ -45,7 +45,7 @@ export default function ContactPage() {
     {
       icon: MapPin,
       title: "Location",
-      details: ["Fury Road RC Club", "Bangalore, Karnataka", "India"],
+      details: ["FuryRoad RC Club", "Yelenahalli Main Rd, Akshayanagara East", "Akshayanagar, Bengaluru, Karnataka 560114"],
       color: "text-red-600"
     },
     {

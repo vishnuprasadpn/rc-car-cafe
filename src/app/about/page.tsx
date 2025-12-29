@@ -3,24 +3,6 @@ import Image from "next/image"
 import { Trophy, Users, Heart, Shield, MapPin, Phone, Mail } from "lucide-react"
 
 export default function AboutPage() {
-  const team = [
-    {
-      role: "Founder & CEO",
-      image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_0.jpg",
-      bio: "Passionate about RC racing for over 15 years. Former professional racer turned entrepreneur."
-    },
-    {
-      role: "Track Manager",
-      image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_3.jpg",
-      bio: "Expert in track design and maintenance. Ensures every race is safe and exciting."
-    },
-    {
-      role: "Technical Director",
-      image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_truck_rac_2.jpg",
-      bio: "RC car technician with 10+ years experience. Keeps our fleet in perfect condition."
-    }
-  ]
-
   const values = [
     {
       icon: Trophy,
@@ -44,12 +26,13 @@ export default function AboutPage() {
     }
   ]
 
-  const stats = [
-    { number: "500+", label: "Races Completed" },
-    { number: "50+", label: "Happy Members" },
-    { number: "4", label: "Professional Tracks" },
-    { number: "5★", label: "Average Rating" }
-  ]
+  // Stats section is hidden
+  // const stats = [
+  //   { number: "500+", label: "Races Completed" },
+  //   { number: "50+", label: "Happy Members" },
+  //   { number: "4", label: "Professional Tracks" },
+  //   { number: "5★", label: "Average Rating" }
+  // ]
 
   return (
     <div className="min-h-screen">
@@ -128,8 +111,8 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Stats Section */}
-      <div className="py-24 transition-all duration-700">
+      {/* Stats Section - Hidden */}
+      {/* <div className="py-24 transition-all duration-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="font-heading text-2xl sm:text-4xl text-white mb-6 uppercase">Our Impact</h2>
@@ -147,7 +130,7 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Values Section */}
       <div className="py-24 transition-all duration-700">
@@ -173,34 +156,6 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Team Section */}
-      <div className="py-24 transition-all duration-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-heading text-2xl sm:text-4xl text-white mb-6 uppercase">Meet Our Team</h2>
-            <p className="text-sm sm:text-xl text-gray-300 max-w-3xl mx-auto">
-              The passionate people behind Fury Road RC Club
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {team.map((member, index) => (
-              <div key={index} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 text-center hover:bg-white/20 transition-all">
-                <div className="relative w-24 h-24 mx-auto mb-6">
-                  <Image
-                    src={member.image}
-                    alt={member.role}
-                    fill
-                    className="rounded-full object-cover"
-                  />
-                </div>
-                <p className="text-fury-orange font-semibold mb-4">{member.role}</p>
-                <p className="text-gray-300 leading-relaxed">{member.bio}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* Mission Section */}
       <div className="py-24">
@@ -236,9 +191,9 @@ export default function AboutPage() {
           <div className="text-center">
             <h3 className="font-heading text-lg sm:text-2xl text-white mb-8 uppercase">Ready to Start Racing?</h3>
             <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-              <div className="flex items-center text-white">
-                <MapPin className="h-5 w-5 text-fury-orange mr-2" />
-                <span>Bangalore, Karnataka</span>
+              <div className="flex items-start text-white">
+                <MapPin className="h-5 w-5 text-fury-orange mr-2 mt-0.5 flex-shrink-0" />
+                <span className="text-left">FuryRoad RC Club, Yelenahalli Main Rd, Akshayanagara East, Akshayanagar, Bengaluru, Karnataka 560114</span>
               </div>
               <div className="flex items-center text-white">
                 <Phone className="h-5 w-5 text-fury-orange mr-2" />

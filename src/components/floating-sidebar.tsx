@@ -10,12 +10,10 @@ export default function FloatingSidebar() {
     <>
       {/* Floating Sidebar */}
       <div className="fixed right-0 top-1/2 -translate-y-1/2 z-50 hidden lg:block">
-        {/* Toggle Button */}
+        {/* Toggle Button - Always visible */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`absolute right-0 top-0 bg-gradient-to-r from-fury-orange to-primary-600 text-white p-3 rounded-l-lg shadow-lg hover:shadow-xl transition-all duration-300 ${
-            isOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+          className="absolute right-0 top-0 bg-gradient-to-r from-fury-orange to-primary-600 text-white p-3 rounded-l-lg shadow-lg hover:shadow-xl transition-all duration-300 z-10"
           aria-label={isOpen ? "Close sidebar" : "Open sidebar"}
         >
           {isOpen ? (
@@ -39,8 +37,8 @@ export default function FloatingSidebar() {
                 Location
               </h3>
               <div className="space-y-2">
-                <p className="text-gray-300 text-sm">
-                  Bangalore, Karnataka
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  FuryRoad RC Club, Yelenahalli Main Rd, Akshayanagara East, Akshayanagar, Bengaluru, Karnataka 560114
                 </p>
                 <a
                   href="tel:+919945576007"
