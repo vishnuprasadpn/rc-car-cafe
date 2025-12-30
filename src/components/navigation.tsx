@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { usePathname } from "next/navigation"
-import { Zap, Home, Car, Info, Mail, LogIn, UserPlus, Gift } from "lucide-react"
+import { Zap, Home, Car, Info, Mail, UserPlus, Gift } from "lucide-react"
 import { trackNavigation, trackButtonClick } from "@/lib/analytics"
 
 export default function Navigation() {
@@ -129,30 +129,17 @@ export default function Navigation() {
                     <Zap className="h-5 w-5" />
                   </Link>
                 ) : (
-                  <>
-                    <Link
-                      href="/auth/signin"
-                      onClick={() => {
-                        trackNavigation("/auth/signin", pathname || "")
-                        trackButtonClick("Sign In", "navigation")
-                      }}
-                      className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors"
-                      title="Sign In"
-                    >
-                      <LogIn className="h-5 w-5" />
-                    </Link>
-                    <Link
-                      href="/auth/signup"
-                      onClick={() => {
-                        trackNavigation("/auth/signup", pathname || "")
-                        trackButtonClick("Join Club", "navigation")
-                      }}
-                      className="p-2 rounded-lg bg-fury-orange/20 text-fury-orange hover:bg-fury-orange/30 transition-colors"
-                      title="Join Club"
-                    >
-                      <UserPlus className="h-5 w-5" />
-                    </Link>
-                  </>
+                  <Link
+                    href="/auth/signin"
+                    onClick={() => {
+                      trackNavigation("/auth/signin", pathname || "")
+                      trackButtonClick("Sign In", "navigation")
+                    }}
+                    className="p-2 rounded-lg bg-fury-orange/20 text-fury-orange hover:bg-fury-orange/30 transition-colors"
+                    title="Sign In"
+                  >
+                    <UserPlus className="h-5 w-5" />
+                  </Link>
                 )}
               </div>
             </div>
@@ -227,21 +214,17 @@ export default function Navigation() {
                     Dashboard
                   </Link>
                 ) : (
-                  <>
-                    <Link
-                      href="/auth/signin"
-                      className="text-white/90 hover:text-white px-4 py-2 text-sm font-medium transition-colors"
-                    >
-                      Sign In
-                    </Link>
-                    <Link
-                      href="/auth/signup"
-                      className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-white/30 shadow-sm transition-all flex items-center"
-                    >
-                      <Zap className="h-4 w-4 mr-2 text-white" />
-                      Join Club
-                    </Link>
-                  </>
+                  <Link
+                    href="/auth/signin"
+                    className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-white/30 shadow-sm transition-all flex items-center"
+                    onClick={() => {
+                      trackNavigation("/auth/signin", pathname || "")
+                      trackButtonClick("Sign In", "navigation")
+                    }}
+                  >
+                    <Zap className="h-4 w-4 mr-2 text-white" />
+                    Sign In
+                  </Link>
                 )}
               </div>
             </div>
