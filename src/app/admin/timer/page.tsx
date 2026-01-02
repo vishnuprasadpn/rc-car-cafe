@@ -395,7 +395,7 @@ export default function AdminTimerPage() {
               {comboTimers.map(timer => (
                     <div key={timer.id} className={`bg-white/10 backdrop-blur-lg border rounded-xl p-4 ${
                       isTimeUp(timer.remainingSeconds) 
-                        ? "border-red-500/50 animate-pulse bg-red-500/10" 
+                        ? "border-orange-500/30 bg-orange-500/5" 
                         : "border-white/20"
                     }`}>
                       <div className="flex justify-between items-start mb-3">
@@ -414,10 +414,10 @@ export default function AdminTimerPage() {
                       <div className="flex items-center gap-2 mb-4">
                         {isTimeUp(timer.remainingSeconds) ? (
                           <div className="text-center w-full">
-                            <div className="animate-pulse text-2xl font-bold text-red-600 mb-1">
-                              TIME&apos;S UP!
+                            <div className="text-lg font-medium text-orange-400 mb-1">
+                              Time&apos;s Up
                             </div>
-                            <div className="text-sm text-red-400 font-semibold animate-bounce">
+                            <div className="text-xs text-gray-300">
                               {timer.customerName}
                             </div>
                           </div>
@@ -500,7 +500,7 @@ export default function AdminTimerPage() {
                     {trackTimerList.map(timer => (
                         <div key={timer.id} className={`bg-white/10 backdrop-blur-lg border rounded-xl p-4 ${
                       isTimeUp(timer.remainingSeconds) 
-                        ? "border-red-500/50 animate-pulse bg-red-500/10" 
+                        ? "border-orange-500/30 bg-orange-500/5" 
                         : "border-white/20"
                     }`}>
                           <div className="flex justify-between items-start mb-3">

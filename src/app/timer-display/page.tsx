@@ -144,7 +144,7 @@ export default function TimerDisplayPage() {
                     key={timer.id}
                     className={`bg-white/10 backdrop-blur-lg border-2 rounded-2xl p-4 md:p-6 shadow-2xl ${
                       isTimeUp(timer.remainingMinutes * 60 + timer.remainingSecondsOnly) 
-                        ? "border-red-500/50 animate-pulse bg-red-500/10" 
+                        ? "border-orange-500/30 bg-orange-500/5" 
                         : "border-white/20"
                     }`}
                   >
@@ -158,10 +158,10 @@ export default function TimerDisplayPage() {
                       <div className="flex items-center justify-center gap-2 md:gap-3 mb-2">
                         {isTimeUp(totalSeconds) ? (
                           <div className="text-center">
-                            <div className="animate-pulse text-4xl md:text-5xl lg:text-6xl font-bold text-red-600 mb-2">
-                              TIME&apos;S UP!
+                            <div className="text-xl md:text-2xl lg:text-3xl font-medium text-orange-400 mb-1">
+                              Time&apos;s Up
                             </div>
-                            <div className="text-xl md:text-2xl text-red-400 font-semibold animate-bounce">
+                            <div className="text-base md:text-lg text-gray-300">
                               {timer.customerName}
                             </div>
                           </div>
@@ -220,7 +220,7 @@ export default function TimerDisplayPage() {
                           key={timer.id}
                           className={`bg-black/30 rounded-xl p-3 md:p-4 border ${
                             isTimeUp(totalSeconds) 
-                              ? "border-red-500/50 animate-pulse bg-red-500/20" 
+                              ? "border-orange-500/30 bg-orange-500/10" 
                               : "border-white/10"
                           }`}
                         >
@@ -231,10 +231,10 @@ export default function TimerDisplayPage() {
                             <div className="flex items-center justify-center gap-2 mb-2">
                               {isTimeUp(totalSeconds) ? (
                                 <div className="text-center w-full">
-                                  <div className="animate-pulse text-3xl md:text-4xl lg:text-5xl font-bold text-red-600 mb-2">
-                                    TIME&apos;S UP!
+                                  <div className="text-lg md:text-xl lg:text-2xl font-medium text-orange-400 mb-1">
+                                    Time&apos;s Up
                                   </div>
-                                  <div className="text-lg md:text-xl text-red-400 font-semibold animate-bounce">
+                                  <div className="text-sm md:text-base text-gray-300">
                                     {timer.customerName}
                                   </div>
                                 </div>
