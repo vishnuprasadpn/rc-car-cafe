@@ -159,7 +159,7 @@ export default function TimerDisplayPage() {
                         {isTimeUp(totalSeconds) ? (
                           <div className="text-center">
                             <div className="animate-pulse text-4xl md:text-5xl lg:text-6xl font-bold text-red-600 mb-2">
-                              TIME'S UP!
+                              TIME&apos;S UP!
                             </div>
                             <div className="text-xl md:text-2xl text-red-400 font-semibold animate-bounce">
                               {timer.customerName}
@@ -232,7 +232,7 @@ export default function TimerDisplayPage() {
                               {isTimeUp(totalSeconds) ? (
                                 <div className="text-center w-full">
                                   <div className="animate-pulse text-3xl md:text-4xl lg:text-5xl font-bold text-red-600 mb-2">
-                                    TIME'S UP!
+                                    TIME&apos;S UP!
                                   </div>
                                   <div className="text-lg md:text-xl text-red-400 font-semibold animate-bounce">
                                     {timer.customerName}
