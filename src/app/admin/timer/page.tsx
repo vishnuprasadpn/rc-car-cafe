@@ -520,7 +520,7 @@ export default function AdminTimerPage() {
                             {isTimeUp(timer.remainingSeconds) ? (
                               <div className="text-center w-full">
                                 <div className="animate-pulse text-2xl font-bold text-red-600 mb-1">
-                                  TIME'S UP!
+                                  TIME&apos;S UP!
                                 </div>
                                 <div className="text-sm text-red-400 font-semibold animate-bounce">
                                   {timer.customerName}
