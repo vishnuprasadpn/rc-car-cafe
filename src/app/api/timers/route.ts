@@ -39,33 +39,45 @@ export async function GET(request: NextRequest) {
       ]
     })
 
-    // Calculate remaining time for each timer
+    // Calculate remaining time for each timer and auto-complete expired timers
     const now = new Date()
-    const timersWithRemaining = timers.map(timer => {
-      let remainingSeconds = timer.remainingSeconds
+    const timersWithRemaining = await Promise.all(
+      timers.map(async (timer) => {
+        let remainingSeconds = timer.remainingSeconds
+        let status = timer.status
 
-      if (timer.status === TimerStatus.RUNNING && timer.startTime) {
-        // Calculate elapsed time since last start (startTime is reset on each resume)
-        const elapsedSeconds = Math.floor((now.getTime() - timer.startTime.getTime()) / 1000)
-        remainingSeconds = Math.max(0, timer.remainingSeconds - elapsedSeconds)
-      }
-      // If PAUSED or STOPPED, remainingSeconds is already the correct value
+        if (timer.status === TimerStatus.RUNNING && timer.startTime) {
+          // Calculate elapsed time since last start (startTime is reset on each resume)
+          const elapsedSeconds = Math.floor((now.getTime() - timer.startTime.getTime()) / 1000)
+          remainingSeconds = Math.max(0, timer.remainingSeconds - elapsedSeconds)
+          
+          // If timer has reached 0, automatically mark as COMPLETED
+          if (remainingSeconds === 0) {
+            await prisma.timer.update({
+              where: { id: timer.id },
+              data: { status: TimerStatus.COMPLETED }
+            })
+            status = TimerStatus.COMPLETED
+          }
+        }
+        // If PAUSED or STOPPED, remainingSeconds is already the correct value
 
-      return {
-        id: timer.id,
-        customerName: timer.customerName,
-        trackId: timer.trackId,
-        track: timer.track,
-        allocatedMinutes: timer.allocatedMinutes,
-        remainingSeconds,
-        remainingMinutes: Math.floor(remainingSeconds / 60),
-        remainingSecondsOnly: remainingSeconds % 60,
-        status: timer.status,
-        isCombo: timer.isCombo,
-        startTime: timer.startTime,
-        createdAt: timer.createdAt
-      }
-    })
+        return {
+          id: timer.id,
+          customerName: timer.customerName,
+          trackId: timer.trackId,
+          track: timer.track,
+          allocatedMinutes: timer.allocatedMinutes,
+          remainingSeconds,
+          remainingMinutes: Math.floor(remainingSeconds / 60),
+          remainingSecondsOnly: remainingSeconds % 60,
+          status,
+          isCombo: timer.isCombo,
+          startTime: timer.startTime,
+          createdAt: timer.createdAt
+        }
+      })
+    )
 
     return NextResponse.json({ timers: timersWithRemaining })
   } catch (error) {

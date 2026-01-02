@@ -23,14 +23,24 @@ export async function GET(
       return NextResponse.json({ message: "Timer not found" }, { status: 404 })
     }
 
-    // Calculate remaining time
+    // Calculate remaining time and auto-complete if expired
     const now = new Date()
     let remainingSeconds = timer.remainingSeconds
+    let status = timer.status
 
     if (timer.status === "RUNNING" && timer.startTime) {
       // Calculate elapsed time since last start (startTime is reset on each resume)
       const elapsedSeconds = Math.floor((now.getTime() - timer.startTime.getTime()) / 1000)
       remainingSeconds = Math.max(0, timer.remainingSeconds - elapsedSeconds)
+      
+      // If timer has reached 0, automatically mark as COMPLETED
+      if (remainingSeconds === 0) {
+        const updatedTimer = await prisma.timer.update({
+          where: { id },
+          data: { status: TimerStatus.COMPLETED }
+        })
+        status = TimerStatus.COMPLETED
+      }
     }
     // If PAUSED, remainingSeconds is already the correct value
 
@@ -38,7 +48,8 @@ export async function GET(
       ...timer,
       remainingSeconds,
       remainingMinutes: Math.floor(remainingSeconds / 60),
-      remainingSecondsOnly: remainingSeconds % 60
+      remainingSecondsOnly: remainingSeconds % 60,
+      status
     })
   } catch (error) {
     console.error("Error fetching timer:", error)
