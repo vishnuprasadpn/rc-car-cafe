@@ -10,7 +10,8 @@ import {
   Calendar, 
   Trophy, 
   AlertCircle,
-  X
+  X,
+  Clock
 } from "lucide-react"
 
 interface DashboardStats {
@@ -216,6 +217,27 @@ export default function AdminDashboard() {
                 </div>
               </div>
             </Link>
+          </div>
+
+          {/* Quick Actions Section */}
+          <div className="mb-8">
+            <h2 className="text-lg sm:text-xl font-bold text-white mb-4">Quick Actions</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <Link
+                href="/admin/timer"
+                className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 hover:bg-white/20 hover:border-white/30 transition-all group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-fury-orange to-primary-600 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <Clock className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white mb-1">Timer Management</h3>
+                    <p className="text-sm text-gray-400">Manage track timers and customer playtime</p>
+                  </div>
+                </div>
+              </Link>
+            </div>
           </div>
 
           {/* Pending Bookings and Recent Activity - Side by Side for Master Admin */}

@@ -120,6 +120,24 @@ async function main() {
   // Preserve all real user data (bookings, games, etc.)
   console.log('📦 Preserving all real user data...')
 
+  // Create tracks
+  console.log('🏁 Creating tracks...')
+  const tracks = [
+    { name: 'Fast Track', type: 'FAST_TRACK' },
+    { name: 'Sand Track', type: 'SAND_TRACK' },
+    { name: 'Mud Track', type: 'MUD_TRACK' },
+    { name: 'Crawler Track', type: 'CRAWLER_TRACK' }
+  ]
+
+  for (const trackData of tracks) {
+    await prisma.track.upsert({
+      where: { name: trackData.name },
+      update: {},
+      create: trackData
+    })
+  }
+  console.log(`✅ Created/updated ${tracks.length} tracks`)
+
   // Create games based on actual pricing structure
   const games = [
     // Fast Track - Toy Grade

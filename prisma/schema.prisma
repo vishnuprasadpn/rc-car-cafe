@@ -50,6 +50,20 @@ enum MembershipPlanType {
   PS5_GAMER_DUO
 }
 
+enum TimerStatus {
+  RUNNING
+  PAUSED
+  COMPLETED
+  STOPPED
+}
+
+enum TrackType {
+  FAST_TRACK
+  SAND_TRACK
+  MUD_TRACK
+  CRAWLER_TRACK
+}
+
 model User {
   id            String    @id @default(cuid())
   email         String    @unique
@@ -293,4 +307,43 @@ model MembershipTransaction {
   @@index([membershipId])
   @@index([transactionDate])
   @@map("membership_transactions")
+}
+
+model Track {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  type        TrackType
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  timers      Timer[]
+
+  @@map("tracks")
+}
+
+model Timer {
+  id              String      @id @default(cuid())
+  customerName    String
+  trackId         String?     // null for combo/global timers
+  allocatedMinutes Int        // Total minutes allocated
+  remainingSeconds Int        // Remaining seconds (updated in real-time)
+  startTime       DateTime?   // When timer was started
+  pausedAt        DateTime?   // When timer was paused
+  totalPausedSeconds Int      @default(0) // Total seconds paused
+  status          TimerStatus @default(STOPPED)
+  isCombo         Boolean     @default(false) // true for global/combo timers
+  createdBy       String?     // Admin/Staff ID who created it
+  createdByName   String?     // Admin/Staff name
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  // Relations
+  track           Track?      @relation(fields: [trackId], references: [id], onDelete: SetNull)
+
+  @@index([trackId])
+  @@index([status])
+  @@index([isCombo])
+  @@map("timers")
 }
