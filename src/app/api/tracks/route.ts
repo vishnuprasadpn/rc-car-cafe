@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
 // GET - Get all tracks (public endpoint)
-export async function GET(_request: NextRequest) {
+export async function GET() {
   try {
     const tracks = await prisma.track.findMany({
       where: {

@@ -37,7 +37,6 @@ export default function BookChristmasOfferPage() {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
   } = useForm<BookingForm>({
     resolver: zodResolver(bookingSchema),

@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
 // GET - Get all active timers (public endpoint for display)
-export async function GET(_request: NextRequest) {
+export async function GET() {
   try {
     const timers = await prisma.timer.findMany({
       where: {

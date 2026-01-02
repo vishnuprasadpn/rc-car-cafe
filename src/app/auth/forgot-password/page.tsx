@@ -54,7 +54,7 @@ export default function ForgotPasswordPage() {
       } else {
         setError(result.message || "Failed to send reset code")
       }
-    } catch (error) {
+    } catch {
       setError("An error occurred. Please try again.")
     } finally {
       setIsLoading(false)
