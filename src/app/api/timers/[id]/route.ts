@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next"
 import type { Session } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { TimerStatus } from "@prisma/client"
 
 // GET - Get a specific timer
 export async function GET(
@@ -74,7 +75,13 @@ export async function PATCH(
     }
 
     const now = new Date()
-    let updateData: any = {}
+    let updateData: {
+      status?: TimerStatus
+      startTime?: Date | null
+      pausedAt?: Date | null
+      remainingSeconds?: number
+      allocatedMinutes?: number
+    } = {}
 
     switch (action) {
       case "start":
@@ -87,7 +94,7 @@ export async function PATCH(
 
         // Reset startTime to now (remainingSeconds is already correct from pause or initial)
         updateData = {
-          status: "RUNNING",
+          status: TimerStatus.RUNNING,
           startTime: now, // Fresh start time
           pausedAt: null
           // remainingSeconds stays the same (already calculated on pause or initial value)
@@ -114,7 +121,7 @@ export async function PATCH(
         const newRemaining = Math.max(0, timer.remainingSeconds - elapsedSeconds)
 
         updateData = {
-          status: "PAUSED",
+          status: TimerStatus.PAUSED,
           pausedAt: now,
           remainingSeconds: newRemaining
         }
@@ -122,7 +129,7 @@ export async function PATCH(
 
       case "reset":
         updateData = {
-          status: "STOPPED",
+          status: TimerStatus.STOPPED,
           startTime: null,
           pausedAt: null,
           remainingSeconds: timer.allocatedMinutes * 60
@@ -153,7 +160,7 @@ export async function PATCH(
 
       case "stop":
         updateData = {
-          status: "COMPLETED"
+          status: TimerStatus.COMPLETED
         }
         break
 
@@ -213,11 +220,11 @@ export async function DELETE(
 
     console.log(`Timer ${id} deleted from database by ${session.user.email}`)
     return NextResponse.json({ message: "Timer deleted successfully" })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error deleting timer:", error)
     
     // Handle Prisma not found error
-    if (error.code === 'P2025') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2025') {
       return NextResponse.json(
         { message: "Timer not found" },
         { status: 404 }

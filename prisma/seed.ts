@@ -123,17 +123,20 @@ async function main() {
   // Create tracks
   console.log('🏁 Creating tracks...')
   const tracks = [
-    { name: 'Fast Track', type: 'FAST_TRACK' },
-    { name: 'Sand Track', type: 'SAND_TRACK' },
-    { name: 'Mud Track', type: 'MUD_TRACK' },
-    { name: 'Crawler Track', type: 'CRAWLER_TRACK' }
+    { name: 'Fast Track', type: 'FAST_TRACK' as const },
+    { name: 'Sand Track', type: 'SAND_TRACK' as const },
+    { name: 'Mud Track', type: 'MUD_TRACK' as const },
+    { name: 'Crawler Track', type: 'CRAWLER_TRACK' as const }
   ]
 
   for (const trackData of tracks) {
     await prisma.track.upsert({
       where: { name: trackData.name },
       update: {},
-      create: trackData
+      create: {
+        name: trackData.name,
+        type: trackData.type
+      }
     })
   }
   console.log(`✅ Created/updated ${tracks.length} tracks`)

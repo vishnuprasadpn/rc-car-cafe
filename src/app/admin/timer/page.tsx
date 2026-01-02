@@ -128,7 +128,7 @@ export default function AdminTimerPage() {
         const errorData = await response.json()
         setError(errorData.message || "Failed to create timer")
       }
-    } catch (err) {
+    } catch {
       setError("An error occurred. Please try again.")
     }
   }
@@ -150,7 +150,7 @@ export default function AdminTimerPage() {
         const errorData = await response.json()
         setError(errorData.message || "Failed to update timer")
       }
-    } catch (err) {
+    } catch {
       setError("An error occurred. Please try again.")
     }
   }
@@ -175,7 +175,7 @@ export default function AdminTimerPage() {
         // Refresh to get current state
         await fetchTimers()
       }
-    } catch (err) {
+    } catch {
       setError("An error occurred. Please try again.")
       // Refresh to get current state
       await fetchTimers()
@@ -507,7 +507,7 @@ export default function AdminTimerPage() {
           {timers.length === 0 && !showForm && (
             <div className="text-center py-12">
               <p className="text-gray-400 text-lg">No timers created yet</p>
-              <p className="text-gray-500 text-sm mt-2">Click "Add Timer" to create your first timer</p>
+              <p className="text-gray-500 text-sm mt-2">Click &quot;Add Timer&quot; to create your first timer</p>
             </div>
           )}
         </div>

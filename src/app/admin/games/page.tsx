@@ -137,7 +137,7 @@ export default function AdminGamesPage() {
         // Auto-clear error after 5 seconds
         setTimeout(() => setError(""), 5000)
       }
-    } catch (error) {
+    } catch {
       const errorMessage = "An error occurred. Please try again."
       setError(errorMessage)
       // Auto-clear error after 5 seconds
@@ -168,7 +168,7 @@ export default function AdminGamesPage() {
         // Auto-clear error after 5 seconds
         setTimeout(() => setError(""), 5000)
       }
-    } catch (error) {
+    } catch {
       const errorMessage = "An error occurred. Please try again."
       setError(errorMessage)
       // Auto-clear error after 5 seconds

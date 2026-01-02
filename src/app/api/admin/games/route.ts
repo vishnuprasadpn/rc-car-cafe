@@ -12,7 +12,7 @@ const createGameSchema = z.object({
   price: z.number().min(0, "Price must be non-negative"),
 })
 
-export async function GET(_request: NextRequest) {
+export async function GET() {
   try {
     // @ts-expect-error - getServerSession accepts authOptions but types don't match NextAuth v4
     const session = await getServerSession(authOptions) as Session | null

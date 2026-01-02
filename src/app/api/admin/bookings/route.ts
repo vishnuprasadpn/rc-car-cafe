@@ -4,7 +4,7 @@ import type { Session } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
-export async function GET(_request: NextRequest) {
+export async function GET() {
   try {
     // @ts-expect-error - getServerSession accepts authOptions but types don't match NextAuth v4
     const session = await getServerSession(authOptions) as Session | null
