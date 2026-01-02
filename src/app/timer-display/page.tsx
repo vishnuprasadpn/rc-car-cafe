@@ -24,7 +24,7 @@ interface Timer {
   createdAt: string
 }
 
-const TRACK_ORDER = ["FAST_TRACK", "SAND_TRACK", "MUD_TRACK", "CRAWLER_TRACK"]
+const TRACK_ORDER: readonly string[] = ["FAST_TRACK", "SAND_TRACK", "MUD_TRACK", "CRAWLER_TRACK"] as const
 
 export default function TimerDisplayPage() {
   const [timers, setTimers] = useState<Timer[]>([])
@@ -95,8 +95,8 @@ export default function TimerDisplayPage() {
 
   // Sort tracks by predefined order
   const sortedTracks = tracks.sort((a, b) => {
-    const indexA = TRACK_ORDER.indexOf(a.type as any)
-    const indexB = TRACK_ORDER.indexOf(b.type as any)
+    const indexA = TRACK_ORDER.indexOf(a.type)
+    const indexB = TRACK_ORDER.indexOf(b.type)
     if (indexA === -1) return 1
     if (indexB === -1) return -1
     return indexA - indexB

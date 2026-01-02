@@ -182,7 +182,7 @@ export async function PATCH(
   }
 }
 
-// DELETE - Delete a timer
+// DELETE - Delete a timer (permanently removes from database)
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -196,13 +196,34 @@ export async function DELETE(
     }
 
     const { id } = await params
+    
+    // Check if timer exists before attempting to delete
+    const timer = await prisma.timer.findUnique({
+      where: { id }
+    })
+
+    if (!timer) {
+      return NextResponse.json({ message: "Timer not found" }, { status: 404 })
+    }
+
+    // Permanently delete the timer from database
     await prisma.timer.delete({
       where: { id }
     })
 
+    console.log(`Timer ${id} deleted from database by ${session.user.email}`)
     return NextResponse.json({ message: "Timer deleted successfully" })
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error deleting timer:", error)
+    
+    // Handle Prisma not found error
+    if (error.code === 'P2025') {
+      return NextResponse.json(
+        { message: "Timer not found" },
+        { status: 404 }
+      )
+    }
+    
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

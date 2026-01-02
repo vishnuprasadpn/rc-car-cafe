@@ -156,7 +156,7 @@ export default function AdminTimerPage() {
   }
 
   const handleDelete = async (timerId: string) => {
-    if (!confirm("Are you sure you want to delete this timer?")) return
+    if (!confirm("Are you sure you want to delete this timer? This action cannot be undone and will permanently remove it from the database.")) return
 
     setError("")
     try {
@@ -165,13 +165,20 @@ export default function AdminTimerPage() {
       })
 
       if (response.ok) {
+        // Immediately remove from local state for instant UI update
+        setTimers(prevTimers => prevTimers.filter(t => t.id !== timerId))
+        // Then refresh from server to ensure consistency
         await fetchTimers()
       } else {
         const errorData = await response.json()
         setError(errorData.message || "Failed to delete timer")
+        // Refresh to get current state
+        await fetchTimers()
       }
     } catch (err) {
       setError("An error occurred. Please try again.")
+      // Refresh to get current state
+      await fetchTimers()
     }
   }
 

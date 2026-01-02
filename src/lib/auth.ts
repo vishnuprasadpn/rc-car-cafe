@@ -142,7 +142,7 @@ export const authOptions = {
   },
   callbacks: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async signIn({ user, account, profile }: any) {
+    async signIn({ user, account }: any) {
       console.log(`🔐 signIn callback called: provider=${account?.provider}, user.email=${user?.email}`)
       
       // If signing in with Google OAuth
