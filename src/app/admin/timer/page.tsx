@@ -18,6 +18,8 @@ interface Timer {
   track: Track | null
   allocatedMinutes: number
   remainingSeconds: number
+  remainingMinutes?: number
+  remainingSecondsOnly?: number
   status: string
   isCombo: boolean
   createdAt: string
@@ -80,9 +82,12 @@ export default function AdminTimerPage() {
       const response = await fetch("/api/timers?all=true")
       if (response.ok) {
         const data = await response.json()
-        setTimers(data.timers)
+        console.log("Fetched timers:", data.timers?.length || 0, "timers")
+        console.log("Timer statuses:", data.timers?.map((t: Timer) => ({ id: t.id, status: t.status, customer: t.customerName })))
+        setTimers(data.timers || [])
       } else {
-        console.error("Failed to fetch timers:", response.status, response.statusText)
+        const errorData = await response.json().catch(() => ({}))
+        console.error("Failed to fetch timers:", response.status, response.statusText, errorData)
       }
     } catch (err) {
       console.error("Error fetching timers:", err)
@@ -406,6 +411,7 @@ export default function AdminTimerPage() {
                         <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
                           timer.status === "RUNNING" ? "bg-green-500/20 text-green-400" :
                           timer.status === "PAUSED" ? "bg-yellow-500/20 text-yellow-400" :
+                          timer.status === "COMPLETED" ? "bg-red-500/20 text-red-400" :
                           "bg-gray-500/20 text-gray-400"
                         }`}>
                           {timer.status}
@@ -434,7 +440,11 @@ export default function AdminTimerPage() {
                         )}
                       </div>
                       <div className="flex flex-wrap gap-2">
-                        {timer.status === "RUNNING" ? (
+                        {timer.status === "COMPLETED" ? (
+                          <div className="flex-1 px-3 py-2 bg-red-500/10 text-red-400 rounded-md text-sm font-medium text-center">
+                            Timer Completed
+                          </div>
+                        ) : timer.status === "RUNNING" ? (
                           <button
                             onClick={() => handleTimerAction(timer.id, "pause")}
                             className="flex-1 px-3 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 rounded-md text-sm font-medium transition-colors"
@@ -451,25 +461,29 @@ export default function AdminTimerPage() {
                             Start
                           </button>
                         )}
-                        <button
-                          onClick={() => handleTimerAction(timer.id, "reset")}
-                          className="px-3 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-md text-sm font-medium transition-colors"
-                        >
-                          <RotateCcw className="h-4 w-4 inline mr-1" />
-                          Reset
-                        </button>
-                        <button
-                          onClick={() => handleTimerAction(timer.id, "add_time", 5)}
-                          className="px-3 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-md text-sm font-medium transition-colors"
-                        >
-                          +5m
-                        </button>
-                        <button
-                          onClick={() => handleTimerAction(timer.id, "add_time", 10)}
-                          className="px-3 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-md text-sm font-medium transition-colors"
-                        >
-                          +10m
-                        </button>
+                        {timer.status !== "COMPLETED" && (
+                          <>
+                            <button
+                              onClick={() => handleTimerAction(timer.id, "reset")}
+                              className="px-3 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-md text-sm font-medium transition-colors"
+                            >
+                              <RotateCcw className="h-4 w-4 inline mr-1" />
+                              Reset
+                            </button>
+                            <button
+                              onClick={() => handleTimerAction(timer.id, "add_time", 5)}
+                              className="px-3 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-md text-sm font-medium transition-colors"
+                            >
+                              +5m
+                            </button>
+                            <button
+                              onClick={() => handleTimerAction(timer.id, "add_time", 10)}
+                              className="px-3 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-md text-sm font-medium transition-colors"
+                            >
+                              +10m
+                            </button>
+                          </>
+                        )}
                         <button
                           onClick={() => handleDelete(timer.id)}
                           className="px-3 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-md text-sm font-medium transition-colors"
@@ -511,6 +525,7 @@ export default function AdminTimerPage() {
                             <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
                               timer.status === "RUNNING" ? "bg-green-500/20 text-green-400" :
                               timer.status === "PAUSED" ? "bg-yellow-500/20 text-yellow-400" :
+                              timer.status === "COMPLETED" ? "bg-red-500/20 text-red-400" :
                               "bg-gray-500/20 text-gray-400"
                             }`}>
                               {timer.status}

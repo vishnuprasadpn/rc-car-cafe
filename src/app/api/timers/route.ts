@@ -17,19 +17,17 @@ export async function GET(request: NextRequest) {
     if (showAll) {
       // @ts-expect-error - getServerSession accepts authOptions but types don't match NextAuth v4
       const session = await getServerSession(authOptions) as Session | null
-      if (session && session.user && ((session.user as { role?: string }).role === "STAFF" || (session.user as { role?: string }).role === "ADMIN")) {
+      const userRole = session?.user ? (session.user as { role?: string }).role : null
+      console.log("Timer API - showAll:", showAll, "session exists:", !!session, "userRole:", userRole)
+      if (session && session.user && (userRole === "STAFF" || userRole === "ADMIN")) {
         includeStopped = true
+      } else {
+        console.log("Timer API - Unauthorized access attempt for all timers")
       }
     }
 
     const timers = await prisma.timer.findMany({
-      where: includeStopped 
-        ? {} // Get all timers for admin/staff
-        : {
-            status: {
-              in: [TimerStatus.RUNNING, TimerStatus.PAUSED]
-            }
-          },
+      where: {}, // Get all timers regardless of status
       include: {
         track: true
       },
@@ -79,6 +77,7 @@ export async function GET(request: NextRequest) {
       })
     )
 
+    console.log(`Fetched ${timersWithRemaining.length} timers (includeStopped: ${includeStopped})`)
     return NextResponse.json({ timers: timersWithRemaining })
   } catch (error) {
     console.error("Error fetching timers:", error)

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { Clock } from "lucide-react"
+import Image from "next/image"
 
 interface Track {
   id: string
@@ -96,14 +97,19 @@ export default function TimerDisplayPage() {
     }
   })
 
-  // Sort tracks by predefined order
-  const sortedTracks = tracks.sort((a, b) => {
-    const indexA = TRACK_ORDER.indexOf(a.type)
-    const indexB = TRACK_ORDER.indexOf(b.type)
-    if (indexA === -1) return 1
-    if (indexB === -1) return -1
-    return indexA - indexB
-  })
+  // Sort tracks by predefined order and filter to only show tracks with active timers
+  const sortedTracks = tracks
+    .filter(track => {
+      const trackTimerList = trackTimers[track.id] || []
+      return trackTimerList.length > 0
+    })
+    .sort((a, b) => {
+      const indexA = TRACK_ORDER.indexOf(a.type)
+      const indexB = TRACK_ORDER.indexOf(b.type)
+      if (indexA === -1) return 1
+      if (indexB === -1) return -1
+      return indexA - indexB
+    })
 
   if (loading) {
     return (
@@ -117,17 +123,34 @@ export default function TimerDisplayPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900 p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8 md:mb-12">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-2">
-            FuryRoad RC Club
-          </h1>
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-semibold text-fury-orange">
-            Timer System
-          </h2>
-        </div>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Background Image */}
+      <div className="fixed inset-0 z-0">
+        <Image
+          src="/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_2.jpg"
+          alt="RC Car Racing Background"
+          fill
+          className="object-cover"
+          priority
+          quality={90}
+        />
+        {/* Overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-950/85 via-black/80 to-gray-900/85"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+      </div>
+
+      <div className="relative z-10 p-4 md:p-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Compact Header Badge */}
+          <div className="flex items-center justify-center mb-6 md:mb-8">
+            <div className="inline-flex items-center gap-3 px-4 py-2 md:px-6 md:py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full shadow-2xl">
+              <Clock className="h-5 w-5 md:h-6 md:w-6 text-fury-orange" />
+              <div className="flex flex-col">
+                <span className="text-white font-bold text-sm md:text-base leading-tight">FuryRoad RC Club</span>
+                <span className="text-fury-orange font-semibold text-xs md:text-sm leading-tight">Timer System</span>
+              </div>
+            </div>
+          </div>
 
         {/* Combo Timers Section */}
         {comboTimers.length > 0 && (
@@ -178,6 +201,8 @@ export default function TimerDisplayPage() {
                         <span className={`px-3 py-1 text-xs md:text-sm font-semibold rounded-full ${
                           timer.status === "RUNNING" ? "bg-green-500/30 text-green-300 border border-green-500/50" :
                           timer.status === "PAUSED" ? "bg-yellow-500/30 text-yellow-300 border border-yellow-500/50" :
+                          timer.status === "COMPLETED" ? "bg-red-500/30 text-red-300 border border-red-500/50" :
+                          timer.status === "STOPPED" ? "bg-gray-500/30 text-gray-300 border border-gray-500/50" :
                           "bg-gray-500/30 text-gray-300 border border-gray-500/50"
                         }`}>
                           {timer.status}
@@ -195,24 +220,23 @@ export default function TimerDisplayPage() {
         )}
 
         {/* Track-Specific Timers */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {sortedTracks.map(track => {
-            const trackTimerList = trackTimers[track.id] || []
-            return (
-              <div
-                key={track.id}
-                className="bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-2xl p-4 md:p-6 shadow-2xl"
-              >
-                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-fury-orange mb-4 md:mb-6 text-center border-b border-white/20 pb-2 md:pb-3">
-                  {track.name}
-                </h3>
-                {trackTimerList.length === 0 ? (
-                  <div className="text-center py-8 md:py-12">
-                    <p className="text-gray-500 text-sm md:text-base">No active timers</p>
-                  </div>
-                ) : (
+        {sortedTracks.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {sortedTracks.map(track => {
+              const trackTimerList = trackTimers[track.id] || []
+              // Only render track card if it has timers
+              if (trackTimerList.length === 0) return null
+              
+              return (
+                <div
+                  key={track.id}
+                  className="bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-2xl p-4 md:p-6 shadow-2xl"
+                >
+                  <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-fury-orange mb-4 md:mb-6 text-center border-b border-white/20 pb-2 md:pb-3">
+                    {track.name}
+                  </h3>
                   <div className="space-y-3 md:space-y-4">
-                    {trackTimerList.map(timer => {
+                      {trackTimerList.map(timer => {
                       // Use API calculated values (already includes real-time calculation)
                       const totalSeconds = timer.remainingMinutes * 60 + timer.remainingSecondsOnly
                       return (
@@ -264,11 +288,11 @@ export default function TimerDisplayPage() {
                       )
                     })}
                   </div>
-                )}
-              </div>
-            )
-          })}
-        </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
 
         {/* Empty State */}
         {timers.length === 0 && (
@@ -278,6 +302,7 @@ export default function TimerDisplayPage() {
             <p className="text-gray-500 text-sm md:text-base mt-2">Timers will appear here when started</p>
           </div>
         )}
+        </div>
       </div>
     </div>
   )
