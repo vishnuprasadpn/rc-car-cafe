@@ -86,7 +86,7 @@ function VerifyCodePageContent() {
       } else {
         setError(result.message || "Invalid or expired code")
       }
-    } catch (error) {
+    } catch {
       setError("An error occurred. Please try again.")
     } finally {
       setIsLoading(false)
@@ -121,7 +121,7 @@ function VerifyCodePageContent() {
       } else {
         setError(result.message || "Failed to reset password")
       }
-    } catch (error) {
+    } catch {
       setError("An error occurred. Please try again.")
     } finally {
       setIsLoading(false)

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Clock, Users, DollarSign, Calendar, Gift } from "lucide-react"
+import { Clock, Users, Calendar, Gift } from "lucide-react"
 import Navigation from "@/components/navigation"
 import { trackBooking, trackFormSubmit } from "@/lib/analytics"
 
@@ -31,7 +31,7 @@ export default function BookChristmasOfferPage() {
   const [christmasComboGame, setChristmasComboGame] = useState<Game | null>(null)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
-  const [estimatedPrice, setEstimatedPrice] = useState(599) // Fixed price for Christmas offer
+  const [estimatedPrice] = useState(599) // Fixed price for Christmas offer
 
   const {
     register,
@@ -45,8 +45,6 @@ export default function BookChristmasOfferPage() {
       players: 1,
     },
   })
-
-  const selectedStartTime = watch("startTime")
 
   useEffect(() => {
     if (status === "unauthenticated") {

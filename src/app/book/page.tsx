@@ -8,7 +8,7 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Clock, Users, DollarSign } from "lucide-react"
+import { Clock, DollarSign } from "lucide-react"
 import Navigation from "@/components/navigation"
 import { trackBooking, trackButtonClick, trackFormSubmit } from "@/lib/analytics"
 
@@ -109,7 +109,7 @@ function BookPageContent() {
       })
 
       if (response.ok) {
-        const responseData = await response.json()
+        await response.json()
         trackBooking("create", data.gameId, estimatedPrice)
         trackFormSubmit("booking_form", true, {
           game_id: data.gameId,
