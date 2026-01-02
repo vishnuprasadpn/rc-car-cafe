@@ -217,6 +217,8 @@ export default function AdminTimerPage() {
     return `${mins}:${secs.toString().padStart(2, "0")}`
   }
 
+  const isTimeUp = (seconds: number) => seconds <= 0
+
   if (status === "loading" || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-black">
@@ -391,7 +393,11 @@ export default function AdminTimerPage() {
               <h3 className="text-xl font-bold text-white mb-4">Combo Timers (Global)</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {comboTimers.map(timer => (
-                    <div key={timer.id} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-4">
+                    <div key={timer.id} className={`bg-white/10 backdrop-blur-lg border rounded-xl p-4 ${
+                      isTimeUp(timer.remainingSeconds) 
+                        ? "border-red-500/50 animate-pulse bg-red-500/10" 
+                        : "border-white/20"
+                    }`}>
                       <div className="flex justify-between items-start mb-3">
                         <div>
                           <h4 className="text-white font-semibold">{timer.customerName}</h4>
@@ -406,9 +412,26 @@ export default function AdminTimerPage() {
                         </span>
                       </div>
                       <div className="flex items-center gap-2 mb-4">
-                        <Clock className="h-5 w-5 text-fury-orange" />
-                        <span className="text-2xl font-bold text-white">{formatTime(timer.remainingSeconds)}</span>
-                        <span className="text-gray-400 text-sm">/ {timer.allocatedMinutes}m</span>
+                        {isTimeUp(timer.remainingSeconds) ? (
+                          <div className="text-center w-full">
+                            <div className="animate-pulse text-2xl font-bold text-red-600 mb-1">
+                              TIME'S UP!
+                            </div>
+                            <div className="text-sm text-red-400 font-semibold animate-bounce">
+                              {timer.customerName}
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            <Clock className="h-5 w-5 text-fury-orange" />
+                            <span className={`text-2xl font-bold ${
+                              timer.remainingSeconds < 60 ? "text-red-400" : "text-white"
+                            }`}>
+                              {formatTime(timer.remainingSeconds)}
+                            </span>
+                            <span className="text-gray-400 text-sm">/ {timer.allocatedMinutes}m</span>
+                          </>
+                        )}
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {timer.status === "RUNNING" ? (
@@ -475,7 +498,11 @@ export default function AdminTimerPage() {
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {trackTimerList.map(timer => (
-                        <div key={timer.id} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-4">
+                        <div key={timer.id} className={`bg-white/10 backdrop-blur-lg border rounded-xl p-4 ${
+                      isTimeUp(timer.remainingSeconds) 
+                        ? "border-red-500/50 animate-pulse bg-red-500/10" 
+                        : "border-white/20"
+                    }`}>
                           <div className="flex justify-between items-start mb-3">
                             <div>
                               <h4 className="text-white font-semibold">{timer.customerName}</h4>
@@ -490,9 +517,26 @@ export default function AdminTimerPage() {
                             </span>
                           </div>
                           <div className="flex items-center gap-2 mb-4">
-                            <Clock className="h-5 w-5 text-fury-orange" />
-                            <span className="text-2xl font-bold text-white">{formatTime(timer.remainingSeconds)}</span>
-                            <span className="text-gray-400 text-sm">/ {timer.allocatedMinutes}m</span>
+                            {isTimeUp(timer.remainingSeconds) ? (
+                              <div className="text-center w-full">
+                                <div className="animate-pulse text-2xl font-bold text-red-600 mb-1">
+                                  TIME'S UP!
+                                </div>
+                                <div className="text-sm text-red-400 font-semibold animate-bounce">
+                                  {timer.customerName}
+                                </div>
+                              </div>
+                            ) : (
+                              <>
+                                <Clock className="h-5 w-5 text-fury-orange" />
+                                <span className={`text-2xl font-bold ${
+                                  timer.remainingSeconds < 60 ? "text-red-400" : "text-white"
+                                }`}>
+                                  {formatTime(timer.remainingSeconds)}
+                                </span>
+                                <span className="text-gray-400 text-sm">/ {timer.allocatedMinutes}m</span>
+                              </>
+                            )}
                           </div>
                           <div className="flex flex-wrap gap-2">
                             {timer.status === "RUNNING" ? (

@@ -72,11 +72,14 @@ export default function TimerDisplayPage() {
   }
 
   const getTimeColor = (seconds: number, allocated: number) => {
+    if (seconds <= 0) return "text-red-600"
     const percentage = (seconds / (allocated * 60)) * 100
     if (percentage > 50) return "text-green-400"
     if (percentage > 25) return "text-yellow-400"
     return "text-red-400"
   }
+
+  const isTimeUp = (seconds: number) => seconds <= 0
 
   // Group timers by track
   const trackTimers: Record<string, Timer[]> = {}
@@ -139,7 +142,11 @@ export default function TimerDisplayPage() {
                 return (
                   <div
                     key={timer.id}
-                    className="bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-2xl p-4 md:p-6 shadow-2xl"
+                    className={`bg-white/10 backdrop-blur-lg border-2 rounded-2xl p-4 md:p-6 shadow-2xl ${
+                      isTimeUp(timer.remainingMinutes * 60 + timer.remainingSecondsOnly) 
+                        ? "border-red-500/50 animate-pulse bg-red-500/10" 
+                        : "border-white/20"
+                    }`}
                   >
                     <div className="text-center">
                       <div className="mb-3 md:mb-4">
@@ -149,10 +156,23 @@ export default function TimerDisplayPage() {
                         <p className="text-gray-400 text-sm md:text-base">Combo Timer</p>
                       </div>
                       <div className="flex items-center justify-center gap-2 md:gap-3 mb-2">
-                        <Clock className="h-6 w-6 md:h-8 md:w-8 text-fury-orange" />
-                        <span className={`text-3xl md:text-4xl lg:text-5xl font-bold ${getTimeColor(totalSeconds, timer.allocatedMinutes)}`}>
-                          {formatTime(totalSeconds)}
-                        </span>
+                        {isTimeUp(totalSeconds) ? (
+                          <div className="text-center">
+                            <div className="animate-pulse text-4xl md:text-5xl lg:text-6xl font-bold text-red-600 mb-2">
+                              TIME'S UP!
+                            </div>
+                            <div className="text-xl md:text-2xl text-red-400 font-semibold animate-bounce">
+                              {timer.customerName}
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            <Clock className="h-6 w-6 md:h-8 md:w-8 text-fury-orange" />
+                            <span className={`text-3xl md:text-4xl lg:text-5xl font-bold ${getTimeColor(totalSeconds, timer.allocatedMinutes)}`}>
+                              {formatTime(totalSeconds)}
+                            </span>
+                          </>
+                        )}
                       </div>
                       <div className="flex items-center justify-center gap-2">
                         <span className={`px-3 py-1 text-xs md:text-sm font-semibold rounded-full ${
@@ -198,17 +218,34 @@ export default function TimerDisplayPage() {
                       return (
                         <div
                           key={timer.id}
-                          className="bg-black/30 rounded-xl p-3 md:p-4 border border-white/10"
+                          className={`bg-black/30 rounded-xl p-3 md:p-4 border ${
+                            isTimeUp(totalSeconds) 
+                              ? "border-red-500/50 animate-pulse bg-red-500/20" 
+                              : "border-white/10"
+                          }`}
                         >
                           <div className="text-center">
                             <h4 className="text-base md:text-lg lg:text-xl font-semibold text-white mb-2 md:mb-3">
                               {timer.customerName}
                             </h4>
                             <div className="flex items-center justify-center gap-2 mb-2">
-                              <Clock className="h-5 w-5 md:h-6 md:w-6 text-fury-orange" />
-                              <span className={`text-2xl md:text-3xl lg:text-4xl font-bold ${getTimeColor(totalSeconds, timer.allocatedMinutes)}`}>
-                                {formatTime(totalSeconds)}
-                              </span>
+                              {isTimeUp(totalSeconds) ? (
+                                <div className="text-center w-full">
+                                  <div className="animate-pulse text-3xl md:text-4xl lg:text-5xl font-bold text-red-600 mb-2">
+                                    TIME'S UP!
+                                  </div>
+                                  <div className="text-lg md:text-xl text-red-400 font-semibold animate-bounce">
+                                    {timer.customerName}
+                                  </div>
+                                </div>
+                              ) : (
+                                <>
+                                  <Clock className="h-5 w-5 md:h-6 md:w-6 text-fury-orange" />
+                                  <span className={`text-2xl md:text-3xl lg:text-4xl font-bold ${getTimeColor(totalSeconds, timer.allocatedMinutes)}`}>
+                                    {formatTime(totalSeconds)}
+                                  </span>
+                                </>
+                              )}
                             </div>
                             <div className="flex items-center justify-center gap-2">
                               <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
