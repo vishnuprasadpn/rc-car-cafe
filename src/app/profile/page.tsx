@@ -71,7 +71,7 @@ export default function ProfilePage() {
       })
       fetchUserProfile()
     }
-  }, [status, session, router, reset])
+  }, [status, session, router, reset]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchUserProfile = async () => {
     try {
@@ -146,7 +146,7 @@ export default function ProfilePage() {
       } else {
         setError(result.message || "Failed to update profile")
       }
-    } catch (error) {
+    } catch {
       setError("An error occurred. Please try again.")
     } finally {
       setIsSaving(false)

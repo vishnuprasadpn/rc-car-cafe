@@ -5,7 +5,6 @@ import {
   Check,
   Car,
   Gamepad2,
-  Calendar,
   Shield,
   Gift
 } from "lucide-react"

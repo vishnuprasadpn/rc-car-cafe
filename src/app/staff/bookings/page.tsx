@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
-import { Calendar, Clock, Users, Search, Filter, Eye, CheckCircle, XCircle, AlertCircle, Trash2 } from "lucide-react"
+import { Calendar, Clock, Users, Search, Filter, CheckCircle, XCircle, AlertCircle, Trash2 } from "lucide-react"
 
 interface Booking {
   id: string

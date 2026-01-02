@@ -1,5 +1,5 @@
 import Navigation from "@/components/navigation"
-import { Shield, Lock, Eye, FileText } from "lucide-react"
+import { Shield, Lock, Eye } from "lucide-react"
 
 export const metadata = {
   title: "Privacy Policy - Fury Road RC Club",

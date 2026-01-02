@@ -55,7 +55,7 @@ export default function BookChristmasOfferPage() {
     } else if (status === "authenticated") {
       fetchChristmasComboGame()
     }
-  }, [status, router])
+  }, [status, router]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchChristmasComboGame = async () => {
     try {
@@ -94,7 +94,6 @@ export default function BookChristmasOfferPage() {
     setSubmitting(true)
     try {
       const startTime = new Date(data.startTime)
-      const endTime = new Date(startTime.getTime() + 60 * 60 * 1000) // 1 hour
 
       const response = await fetch("/api/bookings", {
         method: "POST",
@@ -111,7 +110,7 @@ export default function BookChristmasOfferPage() {
       })
 
       if (response.ok) {
-        const responseData = await response.json()
+        await response.json()
         trackBooking("create", data.gameId, estimatedPrice)
         trackFormSubmit("booking_form", true, {
           gameId: data.gameId,
