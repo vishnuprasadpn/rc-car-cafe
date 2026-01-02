@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Plus, Edit, Trash2 } from "lucide-react"
+import { Plus, Edit, Trash2, X } from "lucide-react"
 import Link from "next/link"
 import { AUTHORIZED_DELETE_ADMIN_EMAIL } from "@/lib/admin-auth"
 
@@ -39,6 +39,7 @@ export default function AdminGamesPage() {
   const [editingGame, setEditingGame] = useState<Game | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState("")
+  const [processingId, setProcessingId] = useState<string | null>(null)
 
   const {
     register,
@@ -106,6 +107,7 @@ export default function AdminGamesPage() {
   }
 
   const handleEdit = (game: Game) => {
+    setError("") // Clear any previous errors
     setEditingGame(game)
     reset({
       name: game.name,
@@ -119,6 +121,8 @@ export default function AdminGamesPage() {
   const handleDelete = async (gameId: string) => {
     if (!confirm("Are you sure you want to delete this game?")) return
 
+    setError("")
+    setProcessingId(gameId)
     try {
       const response = await fetch(`/api/admin/games/${gameId}`, {
         method: "DELETE",
@@ -126,16 +130,26 @@ export default function AdminGamesPage() {
 
       if (response.ok) {
         await fetchGames()
+        setError("") // Clear any previous errors
       } else {
         const errorData = await response.json()
         setError(errorData.message || "Failed to delete game")
+        // Auto-clear error after 5 seconds
+        setTimeout(() => setError(""), 5000)
       }
     } catch (error) {
-      setError("An error occurred. Please try again.")
+      const errorMessage = "An error occurred. Please try again."
+      setError(errorMessage)
+      // Auto-clear error after 5 seconds
+      setTimeout(() => setError(""), 5000)
+    } finally {
+      setProcessingId(null)
     }
   }
 
   const handleToggleActive = async (gameId: string, isActive: boolean) => {
+    setError("")
+    setProcessingId(gameId)
     try {
       const response = await fetch(`/api/admin/games/${gameId}`, {
         method: "PATCH",
@@ -147,12 +161,20 @@ export default function AdminGamesPage() {
 
       if (response.ok) {
         await fetchGames()
+        setError("") // Clear any previous errors
       } else {
         const errorData = await response.json()
         setError(errorData.message || "Failed to update game")
+        // Auto-clear error after 5 seconds
+        setTimeout(() => setError(""), 5000)
       }
     } catch (error) {
-      setError("An error occurred. Please try again.")
+      const errorMessage = "An error occurred. Please try again."
+      setError(errorMessage)
+      // Auto-clear error after 5 seconds
+      setTimeout(() => setError(""), 5000)
+    } finally {
+      setProcessingId(null)
     }
   }
 
@@ -199,8 +221,15 @@ export default function AdminGamesPage() {
           </div>
 
           {error && (
-            <div className="bg-red-500/20 backdrop-blur-sm border border-red-500/40 text-red-400 px-4 py-3 rounded-lg mb-6">
-              {error}
+            <div className="bg-red-500/20 backdrop-blur-sm border border-red-500/40 text-red-400 px-4 py-3 rounded-lg mb-6 flex items-center justify-between">
+              <span>{error}</span>
+              <button
+                onClick={() => setError("")}
+                className="ml-4 text-red-400 hover:text-red-300 transition-colors"
+                aria-label="Dismiss error"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
           )}
 
@@ -352,28 +381,37 @@ export default function AdminGamesPage() {
                               {game.isActive ? 'Active' : 'Inactive'}
                             </span>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                            <button
-                              onClick={() => handleEdit(game)}
-                              className="text-blue-400 hover:text-blue-300 transition-colors"
-                            >
-                              <Edit className="h-4 w-4" />
-                            </button>
-                            <button
-                              onClick={() => handleToggleActive(game.id, game.isActive)}
-                              className="text-yellow-400 hover:text-yellow-300 transition-colors"
-                            >
-                              {game.isActive ? 'Deactivate' : 'Activate'}
-                            </button>
-                            {session?.user?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div className="flex items-center gap-3">
                               <button
-                                onClick={() => handleDelete(game.id)}
-                                className="text-red-400 hover:text-red-300 transition-colors"
-                                title="Only authorized admin can delete"
+                                onClick={() => handleEdit(game)}
+                                disabled={processingId === game.id}
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 hover:text-blue-300 rounded-md transition-all border border-blue-500/30 hover:border-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                title="Edit game"
                               >
-                                <Trash2 className="h-4 w-4" />
+                                <Edit className="h-4 w-4" />
+                                <span className="text-xs">Edit</span>
                               </button>
-                            )}
+                              <button
+                                onClick={() => handleToggleActive(game.id, game.isActive)}
+                                disabled={processingId === game.id}
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 hover:text-yellow-300 rounded-md transition-all border border-yellow-500/30 hover:border-yellow-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                title={game.isActive ? 'Deactivate game' : 'Activate game'}
+                              >
+                                {processingId === game.id ? 'Processing...' : (game.isActive ? 'Deactivate' : 'Activate')}
+                              </button>
+                              {session?.user?.email?.toLowerCase() === AUTHORIZED_DELETE_ADMIN_EMAIL.toLowerCase() && (
+                                <button
+                                  onClick={() => handleDelete(game.id)}
+                                  disabled={processingId === game.id}
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-500/20 hover:bg-red-500/30 text-red-400 hover:text-red-300 rounded-md transition-all border border-red-500/30 hover:border-red-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                  title="Delete game"
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                  <span className="text-xs">{processingId === game.id ? 'Deleting...' : 'Delete'}</span>
+                                </button>
+                              )}
+                            </div>
                           </td>
                         </tr>
                       ))}
