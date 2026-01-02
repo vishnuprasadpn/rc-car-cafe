@@ -9,11 +9,11 @@ export default function FloatingSidebar() {
   return (
     <>
       {/* Floating Sidebar */}
-      <div className="fixed right-0 top-1/2 -translate-y-1/2 z-50 hidden lg:block">
+      <div className={`fixed right-0 top-1/2 -translate-y-1/2 z-50 hidden lg:block ${!isOpen ? 'pointer-events-none' : ''}`}>
         {/* Toggle Button - Always visible */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="absolute right-0 top-0 bg-gradient-to-r from-fury-orange to-primary-600 text-white p-3 rounded-l-lg shadow-lg hover:shadow-xl transition-all duration-300 z-10"
+          className="absolute right-0 top-0 bg-gradient-to-r from-fury-orange to-primary-600 text-white p-3 rounded-l-lg shadow-lg hover:shadow-xl transition-all duration-300 z-10 pointer-events-auto"
           aria-label={isOpen ? "Close sidebar" : "Open sidebar"}
         >
           {isOpen ? (
@@ -26,7 +26,7 @@ export default function FloatingSidebar() {
         {/* Sidebar Content */}
         <div
           className={`bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-lg border-l border-t border-b border-white/20 rounded-l-2xl shadow-2xl transition-all duration-300 ${
-            isOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
+            isOpen ? "translate-x-0 opacity-100 pointer-events-auto" : "translate-x-full opacity-0 pointer-events-none"
           }`}
         >
           <div className="p-6 space-y-6 min-w-[280px]">
