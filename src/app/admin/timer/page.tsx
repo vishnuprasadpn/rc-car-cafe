@@ -123,13 +123,18 @@ export default function AdminTimerPage() {
           allocatedMinutes: 30,
           isCombo: false
         })
+        setError("") // Clear any previous errors
         await fetchTimers()
       } else {
         const errorData = await response.json()
-        setError(errorData.message || "Failed to create timer")
+        const errorMessage = errorData.message || "Failed to create timer"
+        setError(errorMessage)
+        console.error("Failed to create timer:", errorMessage, errorData)
       }
-    } catch {
-      setError("An error occurred. Please try again.")
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "An error occurred. Please try again."
+      setError(errorMessage)
+      console.error("Error creating timer:", err)
     }
   }
 
@@ -249,74 +254,85 @@ export default function AdminTimerPage() {
           )}
 
           {showForm && (
-            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl mb-6 p-6">
-              <h3 className="text-lg font-medium text-white mb-4">Create New Timer</h3>
-              <form onSubmit={handleCreateTimer} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">
-                    Customer Name
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.customerName}
-                    onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
-                    className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange"
-                    placeholder="Enter customer name"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-1">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl mb-6 p-4">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-base font-semibold text-white">Create New Timer</h3>
+                <button
+                  onClick={() => {
+                    setShowForm(false)
+                    setFormData({
+                      customerName: "",
+                      trackId: "",
+                      allocatedMinutes: 30,
+                      isCombo: false
+                    })
+                    setError("")
+                  }}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              <form onSubmit={handleCreateTimer} className="space-y-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="md:col-span-2">
                     <input
-                      type="checkbox"
-                      checked={formData.isCombo}
-                      onChange={(e) => setFormData({ ...formData, isCombo: e.target.checked, trackId: e.target.checked ? "" : formData.trackId })}
-                      className="rounded"
+                      type="text"
+                      value={formData.customerName}
+                      onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
+                      className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fury-orange text-sm"
+                      placeholder="Customer Name"
+                      required
                     />
-                    Combo Timer (Global - any track)
-                  </label>
-                </div>
+                  </div>
 
-                {!formData.isCombo && (
+                  {!formData.isCombo && (
+                    <div>
+                      <select
+                        value={formData.trackId}
+                        onChange={(e) => setFormData({ ...formData, trackId: e.target.value })}
+                        className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-fury-orange text-sm"
+                        required={!formData.isCombo}
+                      >
+                        <option value="">Select Track</option>
+                        {tracks.map(track => (
+                          <option key={track.id} value={track.id} className="bg-gray-800">
+                            {track.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">
-                      Track
-                    </label>
                     <select
-                      value={formData.trackId}
-                      onChange={(e) => setFormData({ ...formData, trackId: e.target.value })}
-                      className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-fury-orange"
-                      required={!formData.isCombo}
+                      value={formData.allocatedMinutes}
+                      onChange={(e) => setFormData({ ...formData, allocatedMinutes: parseInt(e.target.value) })}
+                      className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-fury-orange text-sm"
                     >
-                      <option value="">Select a track</option>
-                      {tracks.map(track => (
-                        <option key={track.id} value={track.id} className="bg-gray-800">
-                          {track.name}
+                      {TIME_PACKAGES.map(mins => (
+                        <option key={mins} value={mins} className="bg-gray-800">
+                          {mins} min
                         </option>
                       ))}
                     </select>
                   </div>
-                )}
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">
-                    Time Package (minutes)
-                  </label>
-                  <select
-                    value={formData.allocatedMinutes}
-                    onChange={(e) => setFormData({ ...formData, allocatedMinutes: parseInt(e.target.value) })}
-                    className="w-full px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-fury-orange"
-                  >
-                    {TIME_PACKAGES.map(mins => (
-                      <option key={mins} value={mins} className="bg-gray-800">
-                        {mins} minutes
-                      </option>
-                    ))}
-                  </select>
                 </div>
 
-                <div className="flex justify-end space-x-3">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="combo-timer"
+                    checked={formData.isCombo}
+                    onChange={(e) => setFormData({ ...formData, isCombo: e.target.checked, trackId: e.target.checked ? "" : formData.trackId })}
+                    className="rounded w-4 h-4"
+                  />
+                  <label htmlFor="combo-timer" className="text-sm text-gray-300 cursor-pointer">
+                    Combo Timer (Any Track)
+                  </label>
+                </div>
+
+                <div className="flex justify-end gap-2 pt-2">
                   <button
                     type="button"
                     onClick={() => {
@@ -327,16 +343,17 @@ export default function AdminTimerPage() {
                         allocatedMinutes: 30,
                         isCombo: false
                       })
+                      setError("")
                     }}
-                    className="px-4 py-2 border border-white/20 rounded-lg text-sm font-medium text-white hover:bg-white/10 transition-colors"
+                    className="px-4 py-1.5 border border-white/20 rounded-md text-sm font-medium text-white hover:bg-white/10 transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all"
+                    className="px-4 py-1.5 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-md text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all"
                   >
-                    Create Timer
+                    Create
                   </button>
                 </div>
               </form>

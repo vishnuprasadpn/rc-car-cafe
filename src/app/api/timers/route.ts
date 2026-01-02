@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next"
 import type { Session } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { TimerStatus } from "@prisma/client"
 
 // GET - Get all active timers (public endpoint for display)
 export async function GET() {
@@ -109,7 +110,7 @@ export async function POST(request: NextRequest) {
         trackId: isCombo ? null : trackId,
         allocatedMinutes,
         remainingSeconds: allocatedMinutes * 60,
-        status: "STOPPED",
+        status: TimerStatus.STOPPED,
         isCombo: isCombo || false,
         createdBy: session.user.id,
         createdByName: session.user.name || "Admin"
@@ -122,8 +123,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ timer })
   } catch (error) {
     console.error("Error creating timer:", error)
+    const errorMessage = error instanceof Error ? error.message : "Internal server error"
     return NextResponse.json(
-      { message: "Internal server error" },
+      { message: errorMessage },
       { status: 500 }
     )
   }
