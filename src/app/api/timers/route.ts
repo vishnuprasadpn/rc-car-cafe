@@ -6,14 +6,30 @@ import { prisma } from "@/lib/prisma"
 import { TimerStatus } from "@prisma/client"
 
 // GET - Get all active timers (public endpoint for display)
-export async function GET() {
+// Query param ?all=true returns all timers including STOPPED (admin/staff only)
+export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url)
+    const showAll = searchParams.get('all') === 'true'
+    
+    // If requesting all timers, check authentication
+    let includeStopped = false
+    if (showAll) {
+      // @ts-expect-error - getServerSession accepts authOptions but types don't match NextAuth v4
+      const session = await getServerSession(authOptions) as Session | null
+      if (session && session.user && ((session.user as { role?: string }).role === "STAFF" || (session.user as { role?: string }).role === "ADMIN")) {
+        includeStopped = true
+      }
+    }
+
     const timers = await prisma.timer.findMany({
-      where: {
-        status: {
-          in: ["RUNNING", "PAUSED"]
-        }
-      },
+      where: includeStopped 
+        ? {} // Get all timers for admin/staff
+        : {
+            status: {
+              in: [TimerStatus.RUNNING, TimerStatus.PAUSED]
+            }
+          },
       include: {
         track: true
       },
@@ -28,12 +44,12 @@ export async function GET() {
     const timersWithRemaining = timers.map(timer => {
       let remainingSeconds = timer.remainingSeconds
 
-      if (timer.status === "RUNNING" && timer.startTime) {
+      if (timer.status === TimerStatus.RUNNING && timer.startTime) {
         // Calculate elapsed time since last start (startTime is reset on each resume)
         const elapsedSeconds = Math.floor((now.getTime() - timer.startTime.getTime()) / 1000)
         remainingSeconds = Math.max(0, timer.remainingSeconds - elapsedSeconds)
       }
-      // If PAUSED, remainingSeconds is already the correct value
+      // If PAUSED or STOPPED, remainingSeconds is already the correct value
 
       return {
         id: timer.id,

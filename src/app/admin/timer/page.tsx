@@ -40,6 +40,7 @@ export default function AdminTimerPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const [showForm, setShowForm] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     customerName: "",
     trackId: "",
@@ -75,10 +76,13 @@ export default function AdminTimerPage() {
 
   const fetchTimers = async () => {
     try {
-      const response = await fetch("/api/timers")
+      // Fetch all timers including STOPPED ones for admin/staff
+      const response = await fetch("/api/timers?all=true")
       if (response.ok) {
         const data = await response.json()
         setTimers(data.timers)
+      } else {
+        console.error("Failed to fetch timers:", response.status, response.statusText)
       }
     } catch (err) {
       console.error("Error fetching timers:", err)
@@ -90,18 +94,28 @@ export default function AdminTimerPage() {
   const handleCreateTimer = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
+    setSubmitting(true)
 
     if (!formData.customerName.trim()) {
       setError("Customer name is required")
+      setSubmitting(false)
       return
     }
 
     if (!formData.isCombo && !formData.trackId) {
       setError("Please select a track or enable combo timer")
+      setSubmitting(false)
       return
     }
 
     try {
+      console.log("Creating timer with data:", {
+        customerName: formData.customerName.trim(),
+        trackId: formData.isCombo ? null : formData.trackId,
+        allocatedMinutes: formData.allocatedMinutes,
+        isCombo: formData.isCombo
+      })
+
       const response = await fetch("/api/timers", {
         method: "POST",
         headers: {
@@ -115,7 +129,13 @@ export default function AdminTimerPage() {
         }),
       })
 
+      console.log("Response status:", response.status, response.ok)
+
       if (response.ok) {
+        const result = await response.json()
+        console.log("Timer created successfully:", result)
+        
+        // Clear form and close
         setShowForm(false)
         setFormData({
           customerName: "",
@@ -124,17 +144,21 @@ export default function AdminTimerPage() {
           isCombo: false
         })
         setError("") // Clear any previous errors
+        
+        // Refresh the timer list
         await fetchTimers()
       } else {
-        const errorData = await response.json()
-        const errorMessage = errorData.message || "Failed to create timer"
+        const errorData = await response.json().catch(() => ({ message: "Unknown error" }))
+        const errorMessage = errorData.message || `Failed to create timer (Status: ${response.status})`
         setError(errorMessage)
-        console.error("Failed to create timer:", errorMessage, errorData)
+        console.error("Failed to create timer:", response.status, errorMessage, errorData)
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An error occurred. Please try again."
       setError(errorMessage)
       console.error("Error creating timer:", err)
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -351,9 +375,10 @@ export default function AdminTimerPage() {
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-1.5 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-md text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all"
+                    disabled={submitting}
+                    className="px-4 py-1.5 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-md text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Create
+                    {submitting ? "Creating..." : "Create"}
                   </button>
                 </div>
               </form>
