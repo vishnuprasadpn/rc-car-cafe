@@ -207,11 +207,11 @@ export default function TimerDisplayPage() {
 
         {/* Track-Specific Timers and Combo Timers */}
         {(sortedTracks.length > 0 || comboTimers.length > 0) && (
-          <div className="flex flex-col gap-4 md:gap-6 2xl:gap-8">
+          <div className="flex flex-wrap gap-4 md:gap-6 2xl:gap-8 justify-center">
             {/* Combo Timers Card */}
             {comboTimers.length > 0 && (
               <div
-                className="bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-2xl p-4 md:p-6 2xl:p-8 shadow-2xl"
+                className="bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-2xl p-4 md:p-6 2xl:p-8 shadow-2xl w-fit mx-auto"
               >
                 <h3 className="text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-bold text-fury-orange mb-4 md:mb-6 2xl:mb-8 text-center border-b border-white/20 pb-2 md:pb-3 2xl:pb-4">
                   Combo Players
@@ -277,7 +277,7 @@ export default function TimerDisplayPage() {
               return (
                 <div
                   key={track.id}
-                  className="bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-2xl p-4 md:p-6 2xl:p-8 shadow-2xl"
+                  className="bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-2xl p-4 md:p-6 2xl:p-8 shadow-2xl w-fit mx-auto"
                 >
                   <h3 className="text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-bold text-fury-orange mb-4 md:mb-6 2xl:mb-8 text-center border-b border-white/20 pb-2 md:pb-3 2xl:pb-4">
                     {track.name}
