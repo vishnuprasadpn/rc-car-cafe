@@ -145,7 +145,7 @@ export default function Sidebar() {
           ${isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
         `}
       >
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full pb-20 md:pb-0">
           {/* Logo Section */}
           <div className="p-6 border-b border-white/10">
             <Link href="/" className="flex items-center space-x-3" onClick={() => setIsMobileOpen(false)}>
