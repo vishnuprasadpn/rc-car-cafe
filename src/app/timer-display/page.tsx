@@ -146,9 +146,9 @@ export default function TimerDisplayPage() {
           <Image
             src="/header_logo.png"
             alt="Fury Road RC Club Logo"
-            width={60}
-            height={60}
-            className="object-contain drop-shadow-lg"
+            width={100}
+            height={100}
+            className="object-contain drop-shadow-lg md:w-32 md:h-32"
             priority
           />
         </Link>
