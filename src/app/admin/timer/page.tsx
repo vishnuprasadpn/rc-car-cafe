@@ -45,6 +45,7 @@ export default function AdminTimerPage() {
   const [error, setError] = useState("")
   const [showForm, setShowForm] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
   const [playedBeeps, setPlayedBeeps] = useState<Set<string>>(new Set())
 
   // Function to play beep sound (beep beep beep pattern for 20 seconds)
@@ -244,26 +245,42 @@ export default function AdminTimerPage() {
     if (!confirm("Are you sure you want to delete this timer? This action cannot be undone and will permanently remove it from the database.")) return
 
     setError("")
+    setDeletingId(timerId)
     try {
+      console.log("Deleting timer:", timerId)
       const response = await fetch(`/api/timers/${timerId}`, {
         method: "DELETE",
       })
 
+      console.log("Delete response status:", response.status, response.ok)
+
       if (response.ok) {
+        const result = await response.json()
+        console.log("Timer deleted successfully:", result)
         // Immediately remove from local state for instant UI update
         setTimers(prevTimers => prevTimers.filter(t => t.id !== timerId))
         // Then refresh from server to ensure consistency
         await fetchTimers()
       } else {
-        const errorData = await response.json()
-        setError(errorData.message || "Failed to delete timer")
+        const errorData = await response.json().catch(() => ({ message: "Unknown error" }))
+        const errorMessage = errorData.message || `Failed to delete timer (Status: ${response.status})`
+        console.error("Failed to delete timer:", response.status, errorMessage, errorData)
+        setError(errorMessage)
+        // Auto-clear error after 5 seconds
+        setTimeout(() => setError(""), 5000)
         // Refresh to get current state
         await fetchTimers()
       }
-    } catch {
-      setError("An error occurred. Please try again.")
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "An error occurred. Please try again."
+      console.error("Error deleting timer:", err)
+      setError(errorMessage)
+      // Auto-clear error after 5 seconds
+      setTimeout(() => setError(""), 5000)
       // Refresh to get current state
       await fetchTimers()
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -539,10 +556,21 @@ export default function AdminTimerPage() {
                           </>
                         )}
                         <button
-                          onClick={() => handleDelete(timer.id)}
-                          className="px-3 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-md text-sm font-medium transition-colors"
+                          onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            console.log("Delete button clicked for timer:", timer.id, timer.customerName, "Track:", timer.trackId)
+                            handleDelete(timer.id)
+                          }}
+                          disabled={deletingId === timer.id}
+                          className="px-3 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-md text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          title="Delete timer"
                         >
-                          <Trash2 className="h-4 w-4" />
+                          {deletingId === timer.id ? (
+                            <div className="h-4 w-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin" />
+                          ) : (
+                            <Trash2 className="h-4 w-4" />
+                          )}
                         </button>
                       </div>
                     </div>
@@ -556,16 +584,14 @@ export default function AdminTimerPage() {
             const track = tracks.find(t => t.type === trackType.type)
             if (!track) return null
             const trackTimerList = trackTimers[track.id] || []
-            if (trackTimerList.length === 0 && comboTimers.length === 0 && Object.keys(trackTimers).length === 0) return null
+            // Only show track section if it has timers
+            if (trackTimerList.length === 0) return null
 
             return (
               <div key={track.id} className="mb-6">
                 <h3 className="text-xl font-bold text-white mb-4">{track.name}</h3>
-                {trackTimerList.length === 0 ? (
-                  <p className="text-gray-400 text-center py-8">No active timers</p>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {trackTimerList.map(timer => (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {trackTimerList.map(timer => (
                         <div key={timer.id} className={`bg-white/10 backdrop-blur-lg border rounded-xl p-4 ${
                       isTimeUp(timer.remainingSeconds) 
                         ? "border-orange-500/30 bg-orange-500/5" 
@@ -645,9 +671,8 @@ export default function AdminTimerPage() {
                             </button>
                           </div>
                         </div>
-                    ))}
-                  </div>
-                )}
+                  ))}
+                </div>
               </div>
             )
           })}
