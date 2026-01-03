@@ -54,7 +54,6 @@ export default function Sidebar() {
     '/points',
     '/profile',
     '/membership-dashboard',
-    '/timer-display',
   ]
 
   // Check if current path is a dashboard route (check this first)

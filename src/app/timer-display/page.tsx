@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { Clock } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 
 interface Track {
   id: string
@@ -140,17 +141,19 @@ export default function TimerDisplayPage() {
       </div>
 
       <div className="relative z-10 p-4 md:p-8">
+        {/* Logo in top left corner */}
+        <Link href="/" className="absolute top-4 left-4 md:top-8 md:left-8 z-20 hover:opacity-80 transition-opacity">
+          <Image
+            src="/header_logo.png"
+            alt="Fury Road RC Club Logo"
+            width={60}
+            height={60}
+            className="object-contain drop-shadow-lg"
+            priority
+          />
+        </Link>
+        
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-6 md:mb-8">
-            <div className="inline-flex items-center gap-2 md:gap-3 px-4 py-2 md:px-6 md:py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg shadow-lg">
-              <Clock className="h-5 w-5 md:h-6 md:w-6 text-fury-orange flex-shrink-0" />
-              <div className="text-left">
-                <h1 className="text-white font-bold text-base md:text-lg leading-tight">FuryRoad RC Club</h1>
-                <p className="text-fury-orange font-medium text-xs md:text-sm leading-tight">Timer System</p>
-              </div>
-            </div>
-          </div>
 
         {/* Combo Timers Section */}
         {comboTimers.length > 0 && (
