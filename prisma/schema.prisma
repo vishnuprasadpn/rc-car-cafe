@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_DATABASE_URL")
 }
 
@@ -87,6 +87,8 @@ model User {
   memberships  Membership[]
 
   @@index([email]) // Index for faster email lookups
+  @@index([role]) // Index for role-based queries (CUSTOMER, STAFF, ADMIN)
+  @@index([createdAt]) // Index for date-based queries and sorting
   @@map("users")
 }
 
@@ -107,6 +109,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId]) // Index for foreign key lookups
   @@map("accounts")
 }
 
@@ -117,6 +120,8 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId]) // Index for foreign key lookups
+  @@index([expires]) // Index for session expiration queries
   @@map("sessions")
 }
 
@@ -137,6 +142,9 @@ model PasswordResetToken {
   used      Boolean  @default(false)
   createdAt DateTime @default(now())
 
+  @@index([email]) // Index for email lookups
+  @@index([expires]) // Index for expiration queries
+  @@index([used]) // Index for filtering used tokens
   @@map("password_reset_tokens")
 }
 
@@ -153,31 +161,40 @@ model Game {
   // Relations
   bookings Booking[]
 
+  @@index([isActive]) // Index for filtering active games
+  @@index([createdAt]) // Index for date-based queries and sorting
   @@map("games")
 }
 
 model Booking {
-  id            String        @id @default(cuid())
-  userId        String
-  gameId        String
-  startTime     DateTime
-  endTime       DateTime
-  duration      Int // Duration in minutes
-  players       Int           @default(1)
-  totalPrice    Decimal       @db.Decimal(10, 2)
-  status        BookingStatus @default(PENDING)
-  paymentStatus PaymentStatus @default(PENDING)
-  paymentId     String?
-  notes         String?
-  membershipSessionId String? @unique // Link to membership session if used (one-to-one)
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id                  String        @id @default(cuid())
+  userId              String
+  gameId              String
+  startTime           DateTime
+  endTime             DateTime
+  duration            Int // Duration in minutes
+  players             Int           @default(1)
+  totalPrice          Decimal       @db.Decimal(10, 2)
+  status              BookingStatus @default(PENDING)
+  paymentStatus       PaymentStatus @default(PENDING)
+  paymentId           String?
+  notes               String?
+  membershipSessionId String?       @unique // Link to membership session if used (one-to-one)
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
 
   // Relations
-  user User @relation(fields: [userId], references: [id])
-  game Game @relation(fields: [gameId], references: [id])
+  user              User               @relation(fields: [userId], references: [id])
+  game              Game               @relation(fields: [gameId], references: [id])
   membershipSession MembershipSession? @relation(fields: [membershipSessionId], references: [id])
 
+  @@index([userId]) // Index for user booking queries
+  @@index([gameId]) // Index for game-based queries and groupBy
+  @@index([status]) // Index for status filtering (PENDING, CONFIRMED, etc.)
+  @@index([paymentStatus]) // Index for payment status filtering
+  @@index([startTime]) // Index for startTime sorting and filtering
+  @@index([createdAt]) // Index for date-based queries and sorting
+  @@index([status, paymentStatus, createdAt]) // Composite index for report queries
   @@map("bookings")
 }
 
@@ -195,6 +212,9 @@ model Point {
   // Relations
   user User @relation(fields: [userId], references: [id])
 
+  @@index([userId]) // Index for user point queries
+  @@index([status]) // Index for status filtering (PENDING, APPROVED, REJECTED)
+  @@index([createdAt]) // Index for date-based queries and sorting
   @@map("points")
 }
 
@@ -209,6 +229,8 @@ model StaffAction {
   // Relations
   staff User @relation(fields: [staffId], references: [id])
 
+  @@index([staffId]) // Index for staff action queries
+  @@index([createdAt]) // Index for date-based queries and sorting
   @@map("staff_actions")
 }
 
@@ -234,6 +256,8 @@ model EmailLog {
   error     String?
   createdAt DateTime  @default(now())
 
+  @@index([status]) // Index for status filtering
+  @@index([createdAt]) // Index for date-based queries and sorting
   @@map("email_logs")
 }
 
@@ -247,23 +271,23 @@ model SystemSettings {
 }
 
 model Membership {
-  id              String            @id @default(cuid())
-  userId          String
-  planType        MembershipPlanType
-  startDate       DateTime
-  expiryDate      DateTime
-  status          MembershipStatus  @default(ACTIVE)
-  sessionsTotal   Int               @default(16)
-  sessionsUsed    Int               @default(0)
-  sessionsRemaining Int             @default(16)
-  lastBookedDate  DateTime?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
+  id                String             @id @default(cuid())
+  userId            String
+  planType          MembershipPlanType
+  startDate         DateTime
+  expiryDate        DateTime
+  status            MembershipStatus   @default(ACTIVE)
+  sessionsTotal     Int                @default(16)
+  sessionsUsed      Int                @default(0)
+  sessionsRemaining Int                @default(16)
+  lastBookedDate    DateTime?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
 
   // Relations
-  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  sessions        MembershipSession[]
-  transactions    MembershipTransaction[]
+  user         User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessions     MembershipSession[]
+  transactions MembershipTransaction[]
 
   @@index([userId])
   @@index([status])
@@ -272,18 +296,18 @@ model Membership {
 }
 
 model MembershipSession {
-  id              String            @id @default(cuid())
-  membershipId    String
-  bookingId       String?           @unique
-  usedAt          DateTime
-  usedBy          String?           // Admin/Staff ID who marked it used
-  usedByName      String?           // Admin/Staff name for display
-  notes           String?
-  createdAt       DateTime          @default(now())
+  id           String   @id @default(cuid())
+  membershipId String
+  bookingId    String?  @unique
+  usedAt       DateTime
+  usedBy       String? // Admin/Staff ID who marked it used
+  usedByName   String? // Admin/Staff name for display
+  notes        String?
+  createdAt    DateTime @default(now())
 
   // Relations
-  membership      Membership        @relation(fields: [membershipId], references: [id], onDelete: Cascade)
-  booking         Booking?
+  membership Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  booking    Booking?
 
   @@index([membershipId])
   @@index([usedAt])
@@ -291,18 +315,18 @@ model MembershipSession {
 }
 
 model MembershipTransaction {
-  id              String            @id @default(cuid())
+  id              String        @id @default(cuid())
   membershipId    String
-  amount          Decimal           @db.Decimal(10, 2)
-  paymentMethod   String?           // "razorpay", "stripe", "cash", etc.
-  paymentId       String?           // External payment ID
-  status          PaymentStatus     @default(PENDING)
-  transactionDate DateTime          @default(now())
+  amount          Decimal       @db.Decimal(10, 2)
+  paymentMethod   String? // "razorpay", "stripe", "cash", etc.
+  paymentId       String? // External payment ID
+  status          PaymentStatus @default(PENDING)
+  transactionDate DateTime      @default(now())
   notes           String?
-  createdAt       DateTime          @default(now())
+  createdAt       DateTime      @default(now())
 
   // Relations
-  membership      Membership        @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  membership Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
 
   @@index([membershipId])
   @@index([transactionDate])
@@ -310,40 +334,46 @@ model MembershipTransaction {
 }
 
 model Track {
-  id          String   @id @default(cuid())
-  name        String   @unique
-  type        TrackType
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String    @id @default(cuid())
+  name      String    @unique
+  type      TrackType
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   // Relations
-  timers      Timer[]
+  timers Timer[]
 
+  @@index([isActive]) // Index for filtering active tracks
+  @@index([type]) // Index for track type filtering
   @@map("tracks")
 }
 
 model Timer {
-  id              String      @id @default(cuid())
-  customerName    String
-  trackId         String?     // null for combo/global timers
-  allocatedMinutes Int        // Total minutes allocated
-  remainingSeconds Int        // Remaining seconds (updated in real-time)
-  startTime       DateTime?   // When timer was started
-  pausedAt        DateTime?   // When timer was paused
-  totalPausedSeconds Int      @default(0) // Total seconds paused
-  status          TimerStatus @default(STOPPED)
-  isCombo         Boolean     @default(false) // true for global/combo timers
-  createdBy       String?     // Admin/Staff ID who created it
-  createdByName   String?     // Admin/Staff name
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  id                 String      @id @default(cuid())
+  customerName       String
+  trackId            String? // null for combo/global timers
+  allocatedMinutes   Int // Total minutes allocated
+  remainingSeconds   Int // Remaining seconds (updated in real-time)
+  startTime          DateTime? // When timer was started
+  pausedAt           DateTime? // When timer was paused
+  totalPausedSeconds Int         @default(0) // Total seconds paused
+  status             TimerStatus @default(STOPPED)
+  isCombo            Boolean     @default(false) // true for global/combo timers
+  createdBy          String? // Admin/Staff ID who created it
+  createdByName      String? // Admin/Staff name
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
 
   // Relations
-  track           Track?      @relation(fields: [trackId], references: [id], onDelete: SetNull)
+  track Track? @relation(fields: [trackId], references: [id], onDelete: SetNull)
 
-  @@index([trackId])
-  @@index([status])
-  @@index([isCombo])
+  @@index([trackId]) // Index for track-based queries
+  @@index([status]) // Index for status filtering (RUNNING, PAUSED, etc.)
+  @@index([isCombo]) // Index for combo timer filtering
+  @@index([createdAt]) // Index for date-based queries and sorting
+  @@index([isCombo, createdAt]) // Composite index for common orderBy pattern
+  @@index([status, trackId]) // Composite index for status + trackId filtering
+  @@index([startTime]) // Index for startTime queries (used in calculations)
   @@map("timers")
 }
