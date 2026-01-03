@@ -21,6 +21,7 @@ interface Timer {
   remainingSeconds: number
   remainingMinutes?: number
   remainingSecondsOnly?: number
+  baseRemainingSeconds?: number // Base remaining seconds when timer started
   status: string
   isCombo: boolean
   startTime: string | null
@@ -102,13 +103,15 @@ export default function AdminTimerPage() {
             return prevTimers.map(timer => {
               // Only update RUNNING timers with client-side countdown
               if (timer.status === "RUNNING" && timer.startTime) {
-                // Calculate from startTime (state transition)
-                const startTimeMs = new Date(timer.startTime).getTime()
-                const elapsedSeconds = Math.floor((now - startTimeMs) / 1000)
-                // Get base remainingSeconds from last state transition
+                // Get base remainingSeconds from sync data (stored when timer started)
                 const syncData = timerSyncDataRef.current.get(timer.id)
-                const baseRemaining = syncData?.remainingSeconds ?? timer.remainingSeconds
-                const totalRemaining = Math.max(0, baseRemaining - elapsedSeconds)
+                if (!syncData) return timer
+                
+                // Calculate elapsed time from startTime
+                const startTimeMs = syncData.syncTime
+                const elapsedSeconds = Math.floor((now - startTimeMs) / 1000)
+                // Calculate remaining from base (stored when timer started)
+                const totalRemaining = Math.max(0, syncData.remainingSeconds - elapsedSeconds)
                 
                 return {
                   ...timer,
@@ -161,11 +164,11 @@ export default function AdminTimerPage() {
         // This is used as the base for client-side countdown
         newTimers.forEach((timer: Timer) => {
           if (timer.status === "RUNNING" && timer.startTime) {
-            // Store the remainingSeconds from server (calculated from state)
-            // This represents the time remaining when timer was last started/resumed
-            const totalSeconds = (timer.remainingMinutes ?? 0) * 60 + (timer.remainingSecondsOnly ?? 0)
+            // Use baseRemainingSeconds (from DB when timer started) as the base
+            // This is the value stored in DB when timer started/resumed, not the calculated value
+            const baseRemaining = timer.baseRemainingSeconds ?? timer.remainingSeconds
             timerSyncDataRef.current.set(timer.id, {
-              remainingSeconds: totalSeconds,
+              remainingSeconds: baseRemaining,
               syncTime: new Date(timer.startTime).getTime() // Use startTime as sync reference
             })
           } else {

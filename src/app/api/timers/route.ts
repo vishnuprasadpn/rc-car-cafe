@@ -80,6 +80,8 @@ export async function GET(request: NextRequest) {
           remainingSeconds,
           remainingMinutes: Math.floor(remainingSeconds / 60),
           remainingSecondsOnly: remainingSeconds % 60,
+          // Include base remainingSeconds (from DB) for client-side calculations
+          baseRemainingSeconds: timer.remainingSeconds,
           status,
           isCombo: timer.isCombo,
           startTime: timer.startTime,
@@ -98,6 +100,7 @@ export async function GET(request: NextRequest) {
           remainingSeconds: 0,
           remainingMinutes: 0,
           remainingSecondsOnly: 0,
+          baseRemainingSeconds: timer.remainingSeconds,
           status: timer.status || TimerStatus.STOPPED,
           isCombo: timer.isCombo || false,
           startTime: timer.startTime,

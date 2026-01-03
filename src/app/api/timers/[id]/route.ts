@@ -53,6 +53,7 @@ export async function GET(
       remainingSeconds,
       remainingMinutes: Math.floor(remainingSeconds / 60),
       remainingSecondsOnly: remainingSeconds % 60,
+      baseRemainingSeconds: timer.remainingSeconds, // Base value from DB
       status
     })
   } catch (error) {
