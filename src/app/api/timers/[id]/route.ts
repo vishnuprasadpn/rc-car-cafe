@@ -103,12 +103,21 @@ export async function PATCH(
           )
         }
 
-        // Reset startTime to now (remainingSeconds is already correct from pause or initial)
+        // When starting, ensure remainingSeconds is up to date
+        // If resuming from pause, remainingSeconds should already be correct
+        // If starting from stopped, remainingSeconds should be the allocated time
+        let startRemaining = timer.remainingSeconds
+        if (timer.status === TimerStatus.STOPPED) {
+          // If starting from stopped, reset to allocated time
+          startRemaining = timer.allocatedMinutes * 60
+        }
+
+        // Reset startTime to now with accurate remainingSeconds
         updateData = {
           status: TimerStatus.RUNNING,
           startTime: now, // Fresh start time
-          pausedAt: null
-          // remainingSeconds stays the same (already calculated on pause or initial value)
+          pausedAt: null,
+          remainingSeconds: startRemaining // Ensure accurate remaining time
         }
         break
 
@@ -128,13 +137,16 @@ export async function PATCH(
         }
 
         // Calculate elapsed time since last start and update remaining
+        // Use the current calculated remaining time to ensure accuracy
         const elapsedSeconds = Math.floor((now.getTime() - timer.startTime.getTime()) / 1000)
-        const newRemaining = Math.max(0, timer.remainingSeconds - elapsedSeconds)
-
+        const currentRemaining = Math.max(0, timer.remainingSeconds - elapsedSeconds)
+        
+        // Ensure we save the accurate remaining time
         updateData = {
           status: TimerStatus.PAUSED,
           pausedAt: now,
-          remainingSeconds: newRemaining
+          remainingSeconds: currentRemaining,
+          startTime: null // Clear startTime when paused
         }
         break
 

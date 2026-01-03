@@ -57,16 +57,18 @@ export async function GET(request: NextRequest) {
           } else if (timer.status === TimerStatus.RUNNING && timer.startTime) {
             // Calculate elapsed time since last start (startTime is reset on each resume)
             const elapsedSeconds = Math.floor((now.getTime() - timer.startTime.getTime()) / 1000)
+            // Ensure we're using the stored remainingSeconds as the base (from when timer was started/paused)
             remainingSeconds = Math.max(0, timer.remainingSeconds - elapsedSeconds)
             
             // If timer has reached 0, automatically mark as COMPLETED and ensure remainingSeconds is 0
-            if (remainingSeconds === 0) {
+            if (remainingSeconds <= 0) {
               try {
                 await prisma.timer.update({
                   where: { id: timer.id },
                   data: { 
                     status: TimerStatus.COMPLETED,
-                    remainingSeconds: 0
+                    remainingSeconds: 0,
+                    startTime: null
                   }
                 })
                 status = TimerStatus.COMPLETED
@@ -78,8 +80,13 @@ export async function GET(request: NextRequest) {
                 remainingSeconds = 0
               }
             }
+          } else if (timer.status === TimerStatus.PAUSED) {
+            // For PAUSED timers, use the stored remainingSeconds (already calculated on pause)
+            remainingSeconds = timer.remainingSeconds
+          } else {
+            // For STOPPED timers, use allocated time
+            remainingSeconds = timer.allocatedMinutes * 60
           }
-          // If PAUSED or STOPPED, remainingSeconds is already the correct value
 
           return {
             id: timer.id,
