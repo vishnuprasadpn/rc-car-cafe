@@ -207,7 +207,7 @@ export default function TimerDisplayPage() {
 
         {/* Track-Specific Timers and Combo Timers */}
         {(sortedTracks.length > 0 || comboTimers.length > 0) && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 2xl:gap-8">
+          <div className="flex flex-col gap-4 md:gap-6 2xl:gap-8">
             {/* Combo Timers Card */}
             {comboTimers.length > 0 && (
               <div
@@ -282,14 +282,14 @@ export default function TimerDisplayPage() {
                   <h3 className="text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-bold text-fury-orange mb-4 md:mb-6 2xl:mb-8 text-center border-b border-white/20 pb-2 md:pb-3 2xl:pb-4">
                     {track.name}
                   </h3>
-                  <div className="space-y-3 md:space-y-4 2xl:space-y-5">
+                  <div className="flex flex-wrap gap-3 md:gap-4 2xl:gap-5 justify-center">
                       {trackTimerList.map(timer => {
                       // Use API calculated values (already includes real-time calculation)
                       const totalSeconds = timer.remainingMinutes * 60 + timer.remainingSecondsOnly
                       return (
                         <div
                           key={timer.id}
-                          className={`bg-black/30 rounded-xl p-3 md:p-4 2xl:p-5 border ${
+                          className={`bg-black/30 rounded-xl p-3 md:p-4 2xl:p-5 border flex-shrink-0 ${
                             isTimeUp(totalSeconds) 
                               ? "border-orange-500/30 bg-orange-500/10" 
                               : "border-white/10"
