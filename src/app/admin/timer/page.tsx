@@ -3,7 +3,8 @@
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { Play, Pause, RotateCcw, Plus, Trash2, Clock, X } from "lucide-react"
+import Link from "next/link"
+import { Play, Pause, RotateCcw, Plus, Trash2, Clock, X, ExternalLink } from "lucide-react"
 
 interface Track {
   id: string
@@ -263,13 +264,23 @@ export default function AdminTimerPage() {
               <h2 className="text-2xl font-bold text-white">Timer Management</h2>
               <p className="text-gray-400 text-sm mt-1">Manage customer timers for all tracks</p>
             </div>
-            <button
-              onClick={() => setShowForm(true)}
-              className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg font-semibold hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Add Timer
-            </button>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/timer-display"
+                target="_blank"
+                className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-lg font-medium hover:bg-white/20 transition-all"
+              >
+                <ExternalLink className="h-4 w-4 mr-2" />
+                View Display
+              </Link>
+              <button
+                onClick={() => setShowForm(true)}
+                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg font-semibold hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Timer
+              </button>
+            </div>
           </div>
 
           {error && (

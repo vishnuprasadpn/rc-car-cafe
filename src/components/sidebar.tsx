@@ -15,7 +15,8 @@ import {
   X,
   UserPlus,
   Gift,
-  Shield
+  Shield,
+  Clock
 } from "lucide-react"
 import { useState } from "react"
 
@@ -53,6 +54,7 @@ export default function Sidebar() {
     '/points',
     '/profile',
     '/membership-dashboard',
+    '/timer-display',
   ]
 
   // Check if current path is a dashboard route (check this first)
@@ -83,6 +85,7 @@ export default function Sidebar() {
         { name: "Users", href: "/admin/users", icon: Users },
         { name: "Bookings", href: "/admin/bookings", icon: Calendar },
         { name: "Games", href: "/admin/games", icon: Trophy },
+        { name: "Timer Management", href: "/admin/timer", icon: Clock },
         { name: "Points", href: "/admin/points", icon: Trophy },
         { name: "Reports", href: "/admin/reports", icon: Settings },
         { name: "Settings", href: "/admin/settings", icon: Shield },
@@ -93,6 +96,7 @@ export default function Sidebar() {
         { name: "Dashboard", href: "/staff", icon: Home },
         { name: "Bookings", href: "/staff/bookings", icon: Calendar },
         { name: "Customers", href: "/staff/customers", icon: Users },
+        { name: "Timer Management", href: "/admin/timer", icon: Clock },
         { name: "Register Customer", href: "/staff/register-customer", icon: UserPlus },
       ]
     } else {
