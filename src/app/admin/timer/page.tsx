@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import Link from "next/link"
 import { Play, Pause, RotateCcw, Plus, Trash2, Clock, X, ExternalLink } from "lucide-react"
 
@@ -46,6 +46,7 @@ export default function AdminTimerPage() {
   const [showForm, setShowForm] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const lastSyncTimeRef = useRef<number>(Date.now())
   const [formData, setFormData] = useState({
     customerName: "",
     trackId: "",
@@ -61,9 +62,37 @@ export default function AdminTimerPage() {
     } else if (status === "authenticated") {
       fetchTracks()
       fetchTimers()
-      // Poll for updates every 2 seconds
-      const interval = setInterval(fetchTimers, 2000)
-      return () => clearInterval(interval)
+      // Poll for updates every 2 seconds for server sync
+      const syncInterval = setInterval(fetchTimers, 2000)
+      
+      // Client-side countdown every second for smooth updates
+      const countdownInterval = setInterval(() => {
+        setTimers(prevTimers => {
+          const now = Date.now()
+          const elapsedSinceSync = Math.floor((now - lastSyncTimeRef.current) / 1000)
+          lastSyncTimeRef.current = now
+          
+          return prevTimers.map(timer => {
+            // Only update RUNNING timers with client-side countdown
+            if (timer.status === "RUNNING") {
+              const totalRemaining = Math.max(0, timer.remainingSeconds - elapsedSinceSync)
+              
+              return {
+                ...timer,
+                remainingSeconds: totalRemaining,
+                remainingMinutes: Math.floor(totalRemaining / 60),
+                remainingSecondsOnly: totalRemaining % 60
+              }
+            }
+            return timer
+          })
+        })
+      }, 1000)
+      
+      return () => {
+        clearInterval(syncInterval)
+        clearInterval(countdownInterval)
+      }
     }
   }, [status, session, router])
 
@@ -86,6 +115,8 @@ export default function AdminTimerPage() {
       if (response.ok) {
         const data = await response.json()
         const newTimers = data.timers || []
+        // Update last sync time when we get fresh data from server
+        lastSyncTimeRef.current = Date.now()
         setTimers(newTimers)
       } else {
         const errorData = await response.json().catch(() => ({}))

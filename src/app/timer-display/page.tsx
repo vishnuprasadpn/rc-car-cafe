@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { Clock } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -33,6 +33,7 @@ export default function TimerDisplayPage() {
   const [tracks, setTracks] = useState<Track[]>([])
   const [loading, setLoading] = useState(true)
   const [playedBeeps, setPlayedBeeps] = useState<Set<string>>(new Set())
+  const lastSyncTimeRef = useRef<number>(Date.now())
 
   // Function to play beep sound (beep beep beep pattern for 20 seconds)
   const playBeep = () => {
@@ -68,9 +69,37 @@ export default function TimerDisplayPage() {
   useEffect(() => {
     fetchTracks()
     fetchTimers()
-    // Poll every 1 second for real-time updates
-    const interval = setInterval(fetchTimers, 1000)
-    return () => clearInterval(interval)
+    // Poll every 2 seconds for server sync (less frequent to avoid overlapping)
+    const syncInterval = setInterval(fetchTimers, 2000)
+    
+    // Client-side countdown every second for smooth updates
+    const countdownInterval = setInterval(() => {
+      setTimers(prevTimers => {
+        const now = Date.now()
+        const elapsedSinceSync = Math.floor((now - lastSyncTimeRef.current) / 1000)
+        lastSyncTimeRef.current = now
+        
+        return prevTimers.map(timer => {
+          // Only update RUNNING timers with client-side countdown
+          if (timer.status === "RUNNING") {
+            const totalRemaining = Math.max(0, timer.remainingSeconds - elapsedSinceSync)
+            
+            return {
+              ...timer,
+              remainingSeconds: totalRemaining,
+              remainingMinutes: Math.floor(totalRemaining / 60),
+              remainingSecondsOnly: totalRemaining % 60
+            }
+          }
+          return timer
+        })
+      })
+    }, 1000)
+    
+    return () => {
+      clearInterval(syncInterval)
+      clearInterval(countdownInterval)
+    }
   }, [])
 
   const fetchTracks = async () => {
@@ -91,6 +120,9 @@ export default function TimerDisplayPage() {
       if (response.ok) {
         const data = await response.json()
         const newTimers = data.timers || []
+        
+        // Update last sync time when we get fresh data from server
+        lastSyncTimeRef.current = Date.now()
         
         // Check for timers that just reached 0 and play beep
         newTimers.forEach((timer: Timer) => {
