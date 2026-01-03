@@ -127,7 +127,7 @@ export default function AdminTimerPage() {
         // Store sync data for each timer to enable accurate client-side countdown
         newTimers.forEach((timer: Timer) => {
           if (timer.status === "RUNNING") {
-            const totalSeconds = timer.remainingMinutes * 60 + timer.remainingSecondsOnly
+            const totalSeconds = (timer.remainingMinutes ?? 0) * 60 + (timer.remainingSecondsOnly ?? 0)
             timerSyncDataRef.current.set(timer.id, {
               remainingSeconds: totalSeconds,
               syncTime: syncTime

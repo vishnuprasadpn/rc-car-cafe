@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useCallback } from "react"
 import { Clock } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -66,76 +66,7 @@ export default function TimerDisplayPage() {
     }
   }
 
-  useEffect(() => {
-    fetchTracks()
-    fetchTimers()
-    // Poll every 2 seconds for server sync (less frequent to avoid overlapping)
-    const syncInterval = setInterval(fetchTimers, 2000)
-    
-    // Client-side countdown every second for smooth updates
-    // Calculate from server's startTime for perfect accuracy
-    const countdownInterval = setInterval(() => {
-      setTimers(prevTimers => {
-        const now = Date.now()
-        
-        return prevTimers.map(timer => {
-          // Only update RUNNING timers with client-side countdown
-          if (timer.status === "RUNNING" && timer.startTime) {
-            // Get sync data for this timer
-            const syncData = timerSyncDataRef.current.get(timer.id)
-            
-            if (syncData) {
-              // Calculate elapsed time since last server sync
-              const elapsedSinceSync = Math.floor((now - syncData.syncTime) / 1000)
-              // Calculate remaining time from the server's value at sync time
-              const totalRemaining = Math.max(0, syncData.remainingSeconds - elapsedSinceSync)
-              
-              return {
-                ...timer,
-                remainingSeconds: totalRemaining,
-                remainingMinutes: Math.floor(totalRemaining / 60),
-                remainingSecondsOnly: totalRemaining % 60
-              }
-            } else {
-              // Fallback: calculate from startTime if sync data not available
-              const startTime = new Date(timer.startTime).getTime()
-              const elapsedSeconds = Math.floor((now - startTime) / 1000)
-              // We need the base remainingSeconds from when timer started
-              // Since we don't have it, use the current remainingSeconds as approximation
-              const totalRemaining = Math.max(0, timer.remainingSeconds)
-              
-              return {
-                ...timer,
-                remainingSeconds: totalRemaining,
-                remainingMinutes: Math.floor(totalRemaining / 60),
-                remainingSecondsOnly: totalRemaining % 60
-              }
-            }
-          }
-          return timer
-        })
-      })
-    }, 1000)
-    
-    return () => {
-      clearInterval(syncInterval)
-      clearInterval(countdownInterval)
-    }
-  }, [])
-
-  const fetchTracks = async () => {
-    try {
-      const response = await fetch("/api/tracks")
-      if (response.ok) {
-        const data = await response.json()
-        setTracks(data.tracks)
-      }
-    } catch (err) {
-      console.error("Error fetching tracks:", err)
-    }
-  }
-
-  const fetchTimers = async () => {
+  const fetchTimers = useCallback(async () => {
     try {
       const response = await fetch("/api/timers")
       if (response.ok) {
@@ -180,7 +111,73 @@ export default function TimerDisplayPage() {
     } finally {
       setLoading(false)
     }
+  }, [playedBeeps])
+
+  useEffect(() => {
+    fetchTracks()
+    fetchTimers()
+    // Poll every 2 seconds for server sync (less frequent to avoid overlapping)
+    const syncInterval = setInterval(fetchTimers, 2000)
+    
+    // Client-side countdown every second for smooth updates
+    // Calculate from server's startTime for perfect accuracy
+    const countdownInterval = setInterval(() => {
+      setTimers(prevTimers => {
+        const now = Date.now()
+        
+        return prevTimers.map(timer => {
+          // Only update RUNNING timers with client-side countdown
+          if (timer.status === "RUNNING" && timer.startTime) {
+            // Get sync data for this timer
+            const syncData = timerSyncDataRef.current.get(timer.id)
+            
+            if (syncData) {
+              // Calculate elapsed time since last server sync
+              const elapsedSinceSync = Math.floor((now - syncData.syncTime) / 1000)
+              // Calculate remaining time from the server's value at sync time
+              const totalRemaining = Math.max(0, syncData.remainingSeconds - elapsedSinceSync)
+              
+              return {
+                ...timer,
+                remainingSeconds: totalRemaining,
+                remainingMinutes: Math.floor(totalRemaining / 60),
+                remainingSecondsOnly: totalRemaining % 60
+              }
+            } else {
+              // Fallback: use the current remainingSeconds if sync data not available
+              const totalRemaining = Math.max(0, timer.remainingSeconds)
+              
+              return {
+                ...timer,
+                remainingSeconds: totalRemaining,
+                remainingMinutes: Math.floor(totalRemaining / 60),
+                remainingSecondsOnly: totalRemaining % 60
+              }
+            }
+          }
+          return timer
+        })
+      })
+    }, 1000)
+    
+    return () => {
+      clearInterval(syncInterval)
+      clearInterval(countdownInterval)
+    }
+  }, [fetchTimers])
+
+  const fetchTracks = async () => {
+    try {
+      const response = await fetch("/api/tracks")
+      if (response.ok) {
+        const data = await response.json()
+        setTracks(data.tracks)
+      }
+    } catch (err) {
+      console.error("Error fetching tracks:", err)
+    }
   }
+
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
