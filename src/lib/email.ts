@@ -13,13 +13,6 @@ const isSMTPConfigured = () => {
     console.warn('   - SMTP_PASS:', process.env.SMTP_PASS ? '✅ Set' : '❌ MISSING')
     console.warn('⚠️  Environment:', process.env.NODE_ENV || 'not set')
     console.warn('⚠️  ==========================================')
-  } else {
-    console.log('✅ SMTP configuration detected')
-    console.log('   SMTP_HOST:', process.env.SMTP_HOST)
-    console.log('   SMTP_PORT:', process.env.SMTP_PORT || '587 (default)')
-    console.log('   SMTP_USER:', process.env.SMTP_USER)
-    console.log('   SMTP_PASS:', '✅ Set (hidden)')
-    console.log('   Environment:', process.env.NODE_ENV || 'not set')
   }
   return configured
 }
@@ -27,47 +20,23 @@ const isSMTPConfigured = () => {
 const transporter = isSMTPConfigured() ? nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: parseInt(process.env.SMTP_PORT || '587'),
-  secure: false, // Use 'true' for port 465, 'false' for other ports like 587 or 25
+  secure: false,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
-  // Add connection timeout and retry settings
-  connectionTimeout: 10000, // 10 seconds
+  connectionTimeout: 10000,
   greetingTimeout: 10000,
   socketTimeout: 10000,
-  // Enable debug logging in development
   debug: process.env.NODE_ENV === "development",
   logger: process.env.NODE_ENV === "development",
 }) : null
 
-// Verify transporter connection on startup (optional, can be removed if causing issues)
 if (transporter) {
   transporter.verify().then(() => {
-    console.log('✅ ==========================================')
-    console.log('✅ SMTP SERVER CONNECTION VERIFIED')
-    console.log('✅ ==========================================')
-    console.log('✅ Environment:', process.env.NODE_ENV || 'not set')
-    console.log('✅ SMTP_HOST:', process.env.SMTP_HOST)
-    console.log('✅ SMTP_PORT:', process.env.SMTP_PORT || '587 (default)')
-    console.log('✅ SMTP_USER:', process.env.SMTP_USER)
-    console.log('✅ ==========================================')
+    // SMTP connection verified
   }).catch((error) => {
-    console.error('❌ ==========================================')
-    console.error('❌ SMTP SERVER CONNECTION FAILED')
-    console.error('❌ ==========================================')
-    console.error('❌ Environment:', process.env.NODE_ENV || 'not set')
-    console.error('❌ Error:', error instanceof Error ? error.message : String(error))
-    console.error('❌ Check SMTP configuration:')
-    console.error('   - SMTP_HOST:', process.env.SMTP_HOST || 'NOT SET')
-    console.error('   - SMTP_PORT:', process.env.SMTP_PORT || 'NOT SET (using default 587)')
-    console.error('   - SMTP_USER:', process.env.SMTP_USER || 'NOT SET')
-    console.error('   - SMTP_PASS:', process.env.SMTP_PASS ? 'SET' : 'NOT SET')
-    console.error('❌ If using Gmail:')
-    console.error('   - Ensure 2-Step Verification is enabled')
-    console.error('   - Use an App Password (not your regular password)')
-    console.error('   - App Password: https://myaccount.google.com/apppasswords')
-    console.error('❌ ==========================================')
+    console.error('SMTP connection verification failed:', error instanceof Error ? error.message : String(error))
   })
 }
 
@@ -123,12 +92,6 @@ interface BookingCancellationData {
 }
 
 export const sendBookingRequestEmail = async (data: BookingRequestData) => {
-  console.log('📧 ==========================================')
-  console.log('📧 EMAIL: Booking Request (Customer)')
-  console.log('📧 ==========================================')
-  console.log('📧 Environment:', process.env.NODE_ENV || 'not set')
-  console.log('📧 Timestamp:', new Date().toISOString())
-  
   if (!transporter) {
     console.error('❌ ==========================================')
     console.error('❌ EMAIL FAILED: SMTP NOT CONFIGURED')
@@ -143,9 +106,6 @@ export const sendBookingRequestEmail = async (data: BookingRequestData) => {
   }
 
   const { user, booking, game } = data
-  console.log('📧 Recipient:', user.email)
-  console.log('📧 Booking ID:', booking.id)
-  console.log('📧 Game:', game.name)
 
   const mailOptions = {
     from: process.env.SMTP_USER,
@@ -182,19 +142,7 @@ export const sendBookingRequestEmail = async (data: BookingRequestData) => {
   }
 
   try {
-    console.log('📤 Attempting to send email via SMTP...')
-    const startTime = Date.now()
     const info = await transporter.sendMail(mailOptions)
-    const duration = Date.now() - startTime
-    
-    console.log('✅ ==========================================')
-    console.log('✅ EMAIL SENT SUCCESSFULLY')
-    console.log('✅ ==========================================')
-    console.log('✅ Function: sendBookingRequestEmail')
-    console.log('✅ Recipient:', user.email)
-    console.log('✅ Message ID:', info.messageId)
-    console.log('✅ Duration:', `${duration}ms`)
-    console.log('✅ ==========================================')
     return info
   } catch (error) {
     console.error('❌ ==========================================')
@@ -237,12 +185,6 @@ export const sendBookingRequestEmail = async (data: BookingRequestData) => {
 }
 
 export const sendBookingConfirmationEmail = async (data: BookingConfirmationData) => {
-  console.log('📧 ==========================================')
-  console.log('📧 EMAIL: Booking Confirmation (Customer)')
-  console.log('📧 ==========================================')
-  console.log('📧 Environment:', process.env.NODE_ENV || 'not set')
-  console.log('📧 Timestamp:', new Date().toISOString())
-  
   if (!transporter) {
     console.error('❌ ==========================================')
     console.error('❌ EMAIL FAILED: SMTP NOT CONFIGURED')
@@ -256,8 +198,6 @@ export const sendBookingConfirmationEmail = async (data: BookingConfirmationData
   }
 
   const { user, booking, game } = data
-  console.log('📧 Recipient:', user.email)
-  console.log('📧 Booking ID:', booking.id)
 
   const mailOptions = {
     from: process.env.SMTP_USER,
@@ -287,19 +227,7 @@ export const sendBookingConfirmationEmail = async (data: BookingConfirmationData
   }
 
   try {
-    console.log('📤 Attempting to send email via SMTP...')
-    const startTime = Date.now()
     const info = await transporter.sendMail(mailOptions)
-    const duration = Date.now() - startTime
-    
-    console.log('✅ ==========================================')
-    console.log('✅ EMAIL SENT SUCCESSFULLY')
-    console.log('✅ ==========================================')
-    console.log('✅ Function: sendBookingConfirmationEmail')
-    console.log('✅ Recipient:', user.email)
-    console.log('✅ Message ID:', info.messageId)
-    console.log('✅ Duration:', `${duration}ms`)
-    console.log('✅ ==========================================')
     return info
   } catch (error) {
     console.error('❌ ==========================================')
@@ -351,7 +279,6 @@ export const sendBookingCancellationEmail = async (data: BookingCancellationData
 
   try {
     await transporter.sendMail(mailOptions)
-    console.log('Booking cancellation email sent to:', user.email)
   } catch (error) {
     console.error('Error sending booking cancellation email:', error)
     throw error
@@ -389,7 +316,6 @@ export const sendPointsApprovalEmail = async (userEmail: string, userName: strin
 
   try {
     await transporter.sendMail(mailOptions)
-    console.log('Points approval email sent to:', userEmail)
   } catch (error) {
     console.error('Error sending points approval email:', error)
     throw error
@@ -416,20 +342,6 @@ interface BookingNotificationData {
 }
 
 export const sendBookingNotificationToAdmin = async (data: BookingNotificationData) => {
-  console.log('📧 ==========================================')
-  console.log('📧 EMAIL: Admin Booking Notification (CRITICAL)')
-  console.log('📧 ==========================================')
-  console.log('📧 Environment:', process.env.NODE_ENV || 'not set')
-  console.log('📧 Timestamp:', new Date().toISOString())
-  console.log('📧 ==========================================')
-  console.log('📧 SMTP Configuration Check:')
-  console.log('   NODE_ENV:', process.env.NODE_ENV || 'not set')
-  console.log('   SMTP_HOST:', process.env.SMTP_HOST ? `✅ ${process.env.SMTP_HOST}` : '❌ MISSING')
-  console.log('   SMTP_PORT:', process.env.SMTP_PORT || '587 (default)')
-  console.log('   SMTP_USER:', process.env.SMTP_USER ? `✅ ${process.env.SMTP_USER}` : '❌ MISSING')
-  console.log('   SMTP_PASS:', process.env.SMTP_PASS ? '✅ Set (hidden)' : '❌ MISSING')
-  console.log('📧 ==========================================')
-  
   if (!transporter) {
     console.error('❌ ==========================================')
     console.error('❌ CRITICAL EMAIL FAILURE')
@@ -459,26 +371,11 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
     'vishnuprasad1990@gmail.com'
   ]
   
-  // Also include ADMIN_EMAIL from env if set and different
   if (process.env.ADMIN_EMAIL && !adminEmails.includes(process.env.ADMIN_EMAIL)) {
     adminEmails.push(process.env.ADMIN_EMAIL)
   }
-  
-  console.log('✅ SMTP Transporter is configured')
-  console.log('📧 Email Details:')
-  console.log('   From:', process.env.SMTP_USER)
-  console.log('   To (Admins):', adminEmails.join(', '))
 
   const { customer, booking, game } = data
-
-  console.log('📧 Booking Details:')
-  console.log('   Customer:', customer.name, `(${customer.email})`)
-  console.log('   Phone:', customer.phone || 'N/A')
-  console.log('   Game:', game.name)
-  console.log('   Booking ID:', booking.id)
-  console.log('   Start Time:', new Date(booking.startTime).toISOString())
-  console.log('   Players:', booking.players)
-  console.log('   Total Price: ₹', booking.totalPrice)
 
   const mailOptions = {
     from: process.env.SMTP_USER,
@@ -514,31 +411,7 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
   }
 
   try {
-    console.log('📤 Attempting to send email via SMTP...')
-    console.log('   From:', process.env.SMTP_USER)
-    console.log('   To:', adminEmails.join(', '))
-    console.log('   Subject:', mailOptions.subject)
-    
-    const startTime = Date.now()
     const info = await transporter.sendMail(mailOptions)
-    const duration = Date.now() - startTime
-    
-    console.log('✅ ==========================================')
-    console.log('✅ EMAIL SENT SUCCESSFULLY')
-    console.log('✅ ==========================================')
-    console.log('✅ Function: sendBookingNotificationToAdmin')
-    console.log('✅ Recipients:', adminEmails.join(', '))
-    console.log('✅ Message ID:', info.messageId)
-    console.log('✅ Response:', info.response || 'No response')
-    console.log('✅ Duration:', `${duration}ms`)
-    console.log('✅ ==========================================')
-    
-    if (nodemailer.getTestMessageUrl) {
-      const previewUrl = nodemailer.getTestMessageUrl(info)
-      if (previewUrl) {
-        console.log('   Preview URL:', previewUrl)
-      }
-    }
     return info
   } catch (error) {
     console.error('❌ ==========================================')
@@ -599,13 +472,6 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
 }
 
 export const sendPasswordResetCodeEmail = async (userEmail: string, userName: string, code: string) => {
-  console.log('📧 ==========================================')
-  console.log('📧 EMAIL: Password Reset Code')
-  console.log('📧 ==========================================')
-  console.log('📧 Environment:', process.env.NODE_ENV || 'not set')
-  console.log('📧 Timestamp:', new Date().toISOString())
-  console.log('📧 Recipient:', userEmail)
-  
   if (!transporter) {
     console.error('❌ ==========================================')
     console.error('❌ EMAIL FAILED: SMTP NOT CONFIGURED')
@@ -620,10 +486,6 @@ export const sendPasswordResetCodeEmail = async (userEmail: string, userName: st
     console.error('❌ ==========================================')
     throw new Error('Email service is not configured. Please contact the administrator.')
   }
-
-  console.log('✅ Transporter is configured')
-  console.log('📧 From:', process.env.SMTP_USER)
-  console.log('📧 To:', userEmail)
 
   const mailOptions = {
     from: process.env.SMTP_USER,
@@ -652,25 +514,7 @@ export const sendPasswordResetCodeEmail = async (userEmail: string, userName: st
   }
 
   try {
-    console.log('📤 Attempting to send email via SMTP...')
-    const startTime = Date.now()
     const info = await transporter.sendMail(mailOptions)
-    const duration = Date.now() - startTime
-    
-    console.log('✅ ==========================================')
-    console.log('✅ EMAIL SENT SUCCESSFULLY')
-    console.log('✅ ==========================================')
-    console.log('✅ Function: sendPasswordResetCodeEmail')
-    console.log('✅ Recipient:', userEmail)
-    console.log('✅ Message ID:', info.messageId)
-    console.log('✅ Duration:', `${duration}ms`)
-    if (nodemailer.getTestMessageUrl) {
-      const previewUrl = nodemailer.getTestMessageUrl(info)
-      if (previewUrl) {
-        console.log('✅ Preview URL:', previewUrl)
-      }
-    }
-    console.log('✅ ==========================================')
     return info
   } catch (error) {
     console.error('❌ ==========================================')
@@ -706,27 +550,7 @@ export const sendPasswordResetCodeEmail = async (userEmail: string, userName: st
   }
 }
 
-/**
- * Send a test email when an admin logs in
- * This is useful for testing email functionality
- */
 export const sendAdminLoginTestEmail = async (adminEmail: string, adminName: string, loginMethod: string) => {
-  console.log('📧 ==========================================')
-  console.log('📧 ADMIN LOGIN TEST EMAIL - START')
-  console.log('📧 ==========================================')
-  console.log('📧 Environment:', process.env.NODE_ENV || 'not set')
-  console.log('📧 Admin Email:', adminEmail)
-  console.log('📧 Admin Name:', adminName)
-  console.log('📧 Login Method:', loginMethod)
-  console.log('📧 Timestamp:', new Date().toISOString())
-  
-  // Check SMTP configuration
-  console.log('📧 SMTP Configuration Check:')
-  console.log('   SMTP_HOST:', process.env.SMTP_HOST ? `✅ ${process.env.SMTP_HOST}` : '❌ MISSING')
-  console.log('   SMTP_PORT:', process.env.SMTP_PORT || '587 (default)')
-  console.log('   SMTP_USER:', process.env.SMTP_USER ? `✅ ${process.env.SMTP_USER}` : '❌ MISSING')
-  console.log('   SMTP_PASS:', process.env.SMTP_PASS ? '✅ Set (hidden)' : '❌ MISSING')
-  
   if (!transporter) {
     console.error('❌ ==========================================')
     console.error('❌ CRITICAL: Cannot send admin login test email - SMTP transporter is null')
@@ -735,23 +559,14 @@ export const sendAdminLoginTestEmail = async (adminEmail: string, adminName: str
     console.error('   - SMTP_HOST')
     console.error('   - SMTP_USER')
     console.error('   - SMTP_PASS')
-    console.error('❌ ==========================================')
     return
   }
 
-  console.log('✅ SMTP transporter is configured')
-
   try {
-    // Send admin login email only to vishnuprasad1990@gmail.com
-    const adminEmails = [
-      'vishnuprasad1990@gmail.com'
-    ]
-
-    console.log('📧 Recipient emails:', adminEmails.join(', '))
-    console.log('📧 From email:', process.env.SMTP_USER || 'NOT SET')
+    const adminEmails = ['vishnuprasad1990@gmail.com']
 
     if (!process.env.SMTP_USER) {
-      console.error('❌ CRITICAL: SMTP_USER is not set! Cannot send email.')
+      console.error('SMTP_USER is not set')
       return
     }
 
@@ -832,78 +647,16 @@ Fury Road RC Club - Admin System
       `
     }
 
-    console.log('📤 Preparing to send admin login test email via SMTP...')
-    console.log('   From:', mailOptions.from)
-    console.log('   To:', adminEmails.join(', '))
-    console.log('   Subject:', mailOptions.subject)
-    
-    // Verify transporter connection before sending
-    console.log('📤 Verifying SMTP connection...')
     try {
       await transporter.verify()
-      console.log('✅ SMTP connection verified successfully')
-    } catch (verifyError) {
-      console.error('❌ SMTP connection verification failed:')
-      if (verifyError instanceof Error) {
-        console.error('   Error:', verifyError.message)
-      }
-      console.error('   This might indicate SMTP configuration issues')
+    } catch {
       // Continue anyway - sometimes verify fails but sendMail works
     }
     
-    console.log('📤 Sending email now...')
-    const startTime = Date.now()
     const info = await transporter.sendMail(mailOptions)
-    const duration = Date.now() - startTime
-    
-    console.log('✅ ==========================================')
-    console.log('✅ Admin login test email sent successfully!')
-    console.log('✅ ==========================================')
-    console.log('✅ Message ID:', info.messageId)
-    console.log('✅ Response:', info.response || 'No response')
-    console.log('✅ To:', adminEmails.join(', '))
-    console.log('✅ Duration:', `${duration}ms`)
-    console.log('✅ ==========================================')
-    
     return info
   } catch (error) {
-    console.error('❌ ==========================================')
-    console.error('❌ ERROR SENDING ADMIN LOGIN TEST EMAIL')
-    console.error('❌ ==========================================')
-    console.error('❌ Error type:', error?.constructor?.name || typeof error)
-    
-    if (error instanceof Error) {
-      console.error('❌ Error message:', error.message)
-      console.error('❌ Error name:', error.name)
-      if (error.stack) {
-        console.error('❌ Error stack:', error.stack)
-      }
-    }
-    
-    if (error && typeof error === 'object') {
-      if ('response' in error) {
-        console.error('❌ SMTP Response:', (error as { response: unknown }).response)
-      }
-      if ('responseCode' in error) {
-        console.error('❌ SMTP Response Code:', (error as { responseCode: unknown }).responseCode)
-      }
-      if ('command' in error) {
-        console.error('❌ SMTP Command:', (error as { command: unknown }).command)
-      }
-      if ('code' in error) {
-        console.error('❌ Error Code:', (error as { code: unknown }).code)
-      }
-    }
-    
-    console.error('❌ Environment:', process.env.NODE_ENV || 'not set')
-    console.error('❌ SMTP_HOST:', process.env.SMTP_HOST || 'NOT SET')
-    console.error('❌ SMTP_USER:', process.env.SMTP_USER || 'NOT SET')
-    console.error('❌ SMTP_PASS:', process.env.SMTP_PASS ? 'SET' : 'NOT SET')
-    console.error('❌ ==========================================')
-    console.error('❌ Continuing with login despite email error...')
-    console.error('❌ ==========================================')
-    
+    console.error('Error sending admin login test email:', error)
     // Don't throw - we don't want login to fail if email fails
-    // But log everything for debugging
   }
 }

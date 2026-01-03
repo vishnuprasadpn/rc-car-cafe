@@ -1,23 +1,8 @@
-/**
- * Version information for the application
- * This helps identify which version is deployed
- */
-
-// Build timestamp - set during build time
 export const BUILD_TIMESTAMP = process.env.NEXT_PUBLIC_BUILD_TIMESTAMP || new Date().toISOString()
-
-// Git commit hash - set during build time (if available)
 export const GIT_COMMIT_HASH = process.env.NEXT_PUBLIC_GIT_COMMIT_HASH || 'unknown'
-
-// Version from package.json
 export const APP_VERSION = process.env.NEXT_PUBLIC_APP_VERSION || '1.0.0'
-
-// Environment
 export const ENVIRONMENT = process.env.NODE_ENV || 'development'
 
-/**
- * Get formatted version info for console
- */
 export const getVersionInfo = () => {
   const buildDate = new Date(BUILD_TIMESTAMP)
   const formattedDate = buildDate.toLocaleString('en-US', {
@@ -33,17 +18,14 @@ export const getVersionInfo = () => {
   return {
     version: APP_VERSION,
     buildTime: formattedDate,
-    commitHash: GIT_COMMIT_HASH.substring(0, 7), // Short hash
+    commitHash: GIT_COMMIT_HASH.substring(0, 7),
     environment: ENVIRONMENT,
     fullInfo: `v${APP_VERSION} | Built: ${formattedDate} | Commit: ${GIT_COMMIT_HASH.substring(0, 7)} | Env: ${ENVIRONMENT}`
   }
 }
 
-/**
- * Log version info to console
- */
 export const logVersionInfo = () => {
-  if (typeof window === 'undefined') return // Server-side, skip
+  if (typeof window === 'undefined') return
 
   const info = getVersionInfo()
   

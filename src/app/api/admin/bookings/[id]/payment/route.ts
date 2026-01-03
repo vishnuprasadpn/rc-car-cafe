@@ -64,7 +64,6 @@ export async function PATCH(
       }
     })
 
-    console.log(`✅ ${userRole} ${(session.user as { email?: string }).email} marked payment received for booking ${bookingId} (User: ${booking.user.email}, Amount: ₹${amount})`)
 
     return NextResponse.json({ 
       message: "Payment marked as received successfully",

@@ -159,7 +159,6 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      // Note: If membership is valid, booking will proceed but session will be marked as used later by admin
     }
 
     // Calculate total price - use custom price if provided (for special offers), otherwise calculate from game price

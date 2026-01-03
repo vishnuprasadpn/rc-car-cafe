@@ -21,14 +21,6 @@ if (process.env.NODE_ENV === "production") {
       console.error("❌ PRODUCTION ERROR: NEXTAUTH_URL should NOT have a trailing slash!")
       console.error(`   Current: ${nextAuthUrl}`)
       console.error(`   Should be: ${nextAuthUrl.slice(0, -1)}`)
-    } else {
-      // Log configuration (without exposing secrets)
-      console.log("✅ Production OAuth configuration validated")
-      console.log(`   NEXTAUTH_URL: ${process.env.NEXTAUTH_URL}`)
-      console.log(`   Callback URL: ${process.env.NEXTAUTH_URL}/api/auth/callback/google`)
-      if (process.env.GOOGLE_CLIENT_ID) {
-        console.log(`   GOOGLE_CLIENT_ID: ${process.env.GOOGLE_CLIENT_ID.substring(0, 20)}...`)
-      }
     }
   }
 }
@@ -214,7 +206,6 @@ export const authOptions = {
                 where: { id: existingUser.id },
                 data: updateData
               })
-              console.log(`✅ OAuth: Updated user info for ${email}`)
             } else {
               // Still update lastLoginAt even if nothing else changed
               await prisma.user.update({
@@ -225,13 +216,6 @@ export const authOptions = {
             
             // Send test email if admin logged in via OAuth
             if (existingUser.role === "ADMIN") {
-              console.log(`📧 ==========================================`)
-              console.log(`📧 ADMIN OAUTH LOGIN DETECTED - TRIGGERING TEST EMAIL`)
-              console.log(`📧 ==========================================`)
-              console.log(`📧 User: ${existingUser.name} (${existingUser.email})`)
-              console.log(`📧 Role: ${existingUser.role}`)
-              console.log(`📧 Login Method: Google OAuth`)
-              console.log(`📧 ==========================================`)
               // Don't await - send email asynchronously so it doesn't block login
               sendAdminLoginTestEmail(existingUser.email, existingUser.name, "Google OAuth").catch((error) => {
                 console.error("❌ ==========================================")
@@ -274,9 +258,7 @@ export const authOptions = {
       return true
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async jwt({ token, user, account, isNewUser }: any) {
-      console.log(`🔑 JWT callback: isNewUser=${isNewUser}, account.provider=${account?.provider}`)
-      
+    async jwt({ token, user, account }: any) {
       if (user) {
         token.role = user.role || "CUSTOMER" // Default role if not set
         token.email = user.email

@@ -18,7 +18,6 @@ const handler = async (
     
     // Log callback requests for debugging
     if (params.nextauth?.[0] === "callback") {
-      console.log(`🔄 OAuth callback received: ${params.nextauth.join("/")}`)
       const url = new URL(req.url)
       const code = url.searchParams.get("code")
       const error = url.searchParams.get("error")
@@ -26,7 +25,6 @@ const handler = async (
         console.error(`❌ OAuth callback error: ${error}`)
       }
       if (code) {
-        console.log(`✅ OAuth callback code received`)
       }
     }
     

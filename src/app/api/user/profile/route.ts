@@ -59,7 +59,6 @@ export async function PUT(request: NextRequest) {
     const body = await request.json()
     const { name, phone, currentPassword, newPassword } = profileSchema.parse(body)
 
-    // Note: Email is not updated as it's used for authentication
     const userId = (session.user as { id: string }).id
 
     // Check if email is being changed (should not be allowed)
