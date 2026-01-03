@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState, useRef } from "react"
 import Link from "next/link"
-import { Play, Pause, RotateCcw, Plus, Trash2, Clock, X, ExternalLink } from "lucide-react"
+import { Play, Pause, RotateCcw, Plus, Trash2, Clock, X, ExternalLink, Square } from "lucide-react"
 
 interface Track {
   id: string
@@ -511,6 +511,23 @@ export default function AdminTimerPage() {
                             <Pause className="h-4 w-4 inline mr-1" />
                             Pause
                           </button>
+                        ) : timer.status === "PAUSED" ? (
+                          <>
+                            <button
+                              onClick={() => handleTimerAction(timer.id, "start")}
+                              className="flex-1 px-3 py-2 bg-green-500/20 hover:bg-green-500/30 text-green-400 rounded-md text-sm font-medium transition-colors"
+                            >
+                              <Play className="h-4 w-4 inline mr-1" />
+                              Start
+                            </button>
+                            <button
+                              onClick={() => handleTimerAction(timer.id, "stop")}
+                              className="px-3 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-md text-sm font-medium transition-colors"
+                            >
+                              <Square className="h-4 w-4 inline mr-1" />
+                              Stop
+                            </button>
+                          </>
                         ) : (
                           <button
                             onClick={() => handleTimerAction(timer.id, "start")}
@@ -543,22 +560,24 @@ export default function AdminTimerPage() {
                             </button>
                           </>
                         )}
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault()
-                            e.stopPropagation()
-                            handleDelete(timer.id)
-                          }}
-                          disabled={deletingId === timer.id}
-                          className="px-3 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-md text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                          title="Delete timer"
-                        >
-                          {deletingId === timer.id ? (
-                            <div className="h-4 w-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin" />
-                          ) : (
-                            <Trash2 className="h-4 w-4" />
-                          )}
-                        </button>
+                        {(timer.status === "STOPPED" || timer.status === "COMPLETED") && (
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              handleDelete(timer.id)
+                            }}
+                            disabled={deletingId === timer.id}
+                            className="px-3 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-md text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            title="Delete timer"
+                          >
+                            {deletingId === timer.id ? (
+                              <div className="h-4 w-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin" />
+                            ) : (
+                              <Trash2 className="h-4 w-4" />
+                            )}
+                          </button>
+                        )}
                       </div>
                     </div>
               ))}
@@ -622,6 +641,23 @@ export default function AdminTimerPage() {
                                 <Pause className="h-4 w-4 inline mr-1" />
                                 Pause
                               </button>
+                            ) : timer.status === "PAUSED" ? (
+                              <>
+                                <button
+                                  onClick={() => handleTimerAction(timer.id, "start")}
+                                  className="flex-1 px-3 py-2 bg-green-500/20 hover:bg-green-500/30 text-green-400 rounded-md text-sm font-medium transition-colors"
+                                >
+                                  <Play className="h-4 w-4 inline mr-1" />
+                                  Start
+                                </button>
+                                <button
+                                  onClick={() => handleTimerAction(timer.id, "stop")}
+                                  className="px-3 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-md text-sm font-medium transition-colors"
+                                >
+                                  <Square className="h-4 w-4 inline mr-1" />
+                                  Stop
+                                </button>
+                              </>
                             ) : (
                               <button
                                 onClick={() => handleTimerAction(timer.id, "start")}
@@ -631,31 +667,43 @@ export default function AdminTimerPage() {
                                 Start
                               </button>
                             )}
-                            <button
-                              onClick={() => handleTimerAction(timer.id, "reset")}
-                              className="px-3 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-md text-sm font-medium transition-colors"
-                            >
-                              <RotateCcw className="h-4 w-4 inline mr-1" />
-                              Reset
-                            </button>
-                            <button
-                              onClick={() => handleTimerAction(timer.id, "add_time", 5)}
-                              className="px-3 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-md text-sm font-medium transition-colors"
-                            >
-                              +5m
-                            </button>
-                            <button
-                              onClick={() => handleTimerAction(timer.id, "add_time", 10)}
-                              className="px-3 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-md text-sm font-medium transition-colors"
-                            >
-                              +10m
-                            </button>
-                            <button
-                              onClick={() => handleDelete(timer.id)}
-                              className="px-3 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-md text-sm font-medium transition-colors"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </button>
+                            {timer.status !== "COMPLETED" && (
+                              <>
+                                <button
+                                  onClick={() => handleTimerAction(timer.id, "reset")}
+                                  className="px-3 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-md text-sm font-medium transition-colors"
+                                >
+                                  <RotateCcw className="h-4 w-4 inline mr-1" />
+                                  Reset
+                                </button>
+                                <button
+                                  onClick={() => handleTimerAction(timer.id, "add_time", 5)}
+                                  className="px-3 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-md text-sm font-medium transition-colors"
+                                >
+                                  +5m
+                                </button>
+                                <button
+                                  onClick={() => handleTimerAction(timer.id, "add_time", 10)}
+                                  className="px-3 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-md text-sm font-medium transition-colors"
+                                >
+                                  +10m
+                                </button>
+                              </>
+                            )}
+                            {(timer.status === "STOPPED" || timer.status === "COMPLETED") && (
+                              <button
+                                onClick={() => handleDelete(timer.id)}
+                                disabled={deletingId === timer.id}
+                                className="px-3 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-md text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                title="Delete timer"
+                              >
+                                {deletingId === timer.id ? (
+                                  <div className="h-4 w-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin" />
+                                ) : (
+                                  <Trash2 className="h-4 w-4" />
+                                )}
+                              </button>
+                            )}
                           </div>
                         </div>
                   ))}
