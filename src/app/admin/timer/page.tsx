@@ -46,7 +46,7 @@ export default function AdminTimerPage() {
   const [showForm, setShowForm] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [deletingId, setDeletingId] = useState<string | null>(null)
-  const lastSyncTimeRef = useRef<number>(Date.now())
+  const timerSyncDataRef = useRef<Map<string, { remainingSeconds: number; syncTime: number }>>(new Map())
   const [formData, setFormData] = useState({
     customerName: "",
     trackId: "",
@@ -66,22 +66,29 @@ export default function AdminTimerPage() {
       const syncInterval = setInterval(fetchTimers, 2000)
       
       // Client-side countdown every second for smooth updates
+      // Calculate from server sync data for perfect accuracy
       const countdownInterval = setInterval(() => {
         setTimers(prevTimers => {
           const now = Date.now()
-          const elapsedSinceSync = Math.floor((now - lastSyncTimeRef.current) / 1000)
-          lastSyncTimeRef.current = now
           
           return prevTimers.map(timer => {
             // Only update RUNNING timers with client-side countdown
             if (timer.status === "RUNNING") {
-              const totalRemaining = Math.max(0, timer.remainingSeconds - elapsedSinceSync)
+              // Get sync data for this timer
+              const syncData = timerSyncDataRef.current.get(timer.id)
               
-              return {
-                ...timer,
-                remainingSeconds: totalRemaining,
-                remainingMinutes: Math.floor(totalRemaining / 60),
-                remainingSecondsOnly: totalRemaining % 60
+              if (syncData) {
+                // Calculate elapsed time since last server sync
+                const elapsedSinceSync = Math.floor((now - syncData.syncTime) / 1000)
+                // Calculate remaining time from the server's value at sync time
+                const totalRemaining = Math.max(0, syncData.remainingSeconds - elapsedSinceSync)
+                
+                return {
+                  ...timer,
+                  remainingSeconds: totalRemaining,
+                  remainingMinutes: Math.floor(totalRemaining / 60),
+                  remainingSecondsOnly: totalRemaining % 60
+                }
               }
             }
             return timer
@@ -115,8 +122,22 @@ export default function AdminTimerPage() {
       if (response.ok) {
         const data = await response.json()
         const newTimers = data.timers || []
-        // Update last sync time when we get fresh data from server
-        lastSyncTimeRef.current = Date.now()
+        const syncTime = Date.now()
+        
+        // Store sync data for each timer to enable accurate client-side countdown
+        newTimers.forEach((timer: Timer) => {
+          if (timer.status === "RUNNING") {
+            const totalSeconds = timer.remainingMinutes * 60 + timer.remainingSecondsOnly
+            timerSyncDataRef.current.set(timer.id, {
+              remainingSeconds: totalSeconds,
+              syncTime: syncTime
+            })
+          } else {
+            // Clear sync data for non-running timers
+            timerSyncDataRef.current.delete(timer.id)
+          }
+        })
+        
         setTimers(newTimers)
       } else {
         const errorData = await response.json().catch(() => ({}))

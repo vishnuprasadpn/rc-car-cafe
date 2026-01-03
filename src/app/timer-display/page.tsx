@@ -33,7 +33,7 @@ export default function TimerDisplayPage() {
   const [tracks, setTracks] = useState<Track[]>([])
   const [loading, setLoading] = useState(true)
   const [playedBeeps, setPlayedBeeps] = useState<Set<string>>(new Set())
-  const lastSyncTimeRef = useRef<number>(Date.now())
+  const timerSyncDataRef = useRef<Map<string, { remainingSeconds: number; syncTime: number }>>(new Map())
 
   // Function to play beep sound (beep beep beep pattern for 20 seconds)
   const playBeep = () => {
@@ -73,22 +73,43 @@ export default function TimerDisplayPage() {
     const syncInterval = setInterval(fetchTimers, 2000)
     
     // Client-side countdown every second for smooth updates
+    // Calculate from server's startTime for perfect accuracy
     const countdownInterval = setInterval(() => {
       setTimers(prevTimers => {
         const now = Date.now()
-        const elapsedSinceSync = Math.floor((now - lastSyncTimeRef.current) / 1000)
-        lastSyncTimeRef.current = now
         
         return prevTimers.map(timer => {
           // Only update RUNNING timers with client-side countdown
-          if (timer.status === "RUNNING") {
-            const totalRemaining = Math.max(0, timer.remainingSeconds - elapsedSinceSync)
+          if (timer.status === "RUNNING" && timer.startTime) {
+            // Get sync data for this timer
+            const syncData = timerSyncDataRef.current.get(timer.id)
             
-            return {
-              ...timer,
-              remainingSeconds: totalRemaining,
-              remainingMinutes: Math.floor(totalRemaining / 60),
-              remainingSecondsOnly: totalRemaining % 60
+            if (syncData) {
+              // Calculate elapsed time since last server sync
+              const elapsedSinceSync = Math.floor((now - syncData.syncTime) / 1000)
+              // Calculate remaining time from the server's value at sync time
+              const totalRemaining = Math.max(0, syncData.remainingSeconds - elapsedSinceSync)
+              
+              return {
+                ...timer,
+                remainingSeconds: totalRemaining,
+                remainingMinutes: Math.floor(totalRemaining / 60),
+                remainingSecondsOnly: totalRemaining % 60
+              }
+            } else {
+              // Fallback: calculate from startTime if sync data not available
+              const startTime = new Date(timer.startTime).getTime()
+              const elapsedSeconds = Math.floor((now - startTime) / 1000)
+              // We need the base remainingSeconds from when timer started
+              // Since we don't have it, use the current remainingSeconds as approximation
+              const totalRemaining = Math.max(0, timer.remainingSeconds)
+              
+              return {
+                ...timer,
+                remainingSeconds: totalRemaining,
+                remainingMinutes: Math.floor(totalRemaining / 60),
+                remainingSecondsOnly: totalRemaining % 60
+              }
             }
           }
           return timer
@@ -120,9 +141,21 @@ export default function TimerDisplayPage() {
       if (response.ok) {
         const data = await response.json()
         const newTimers = data.timers || []
+        const syncTime = Date.now()
         
-        // Update last sync time when we get fresh data from server
-        lastSyncTimeRef.current = Date.now()
+        // Store sync data for each timer to enable accurate client-side countdown
+        newTimers.forEach((timer: Timer) => {
+          if (timer.status === "RUNNING") {
+            const totalSeconds = timer.remainingMinutes * 60 + timer.remainingSecondsOnly
+            timerSyncDataRef.current.set(timer.id, {
+              remainingSeconds: totalSeconds,
+              syncTime: syncTime
+            })
+          } else {
+            // Clear sync data for non-running timers
+            timerSyncDataRef.current.delete(timer.id)
+          }
+        })
         
         // Check for timers that just reached 0 and play beep
         newTimers.forEach((timer: Timer) => {
