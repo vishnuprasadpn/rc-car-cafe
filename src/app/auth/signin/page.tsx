@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, Suspense } from "react"
-import { signIn, getSession } from "next-auth/react"
+import { signIn, getSession, useSession } from "next-auth/react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
@@ -25,6 +25,19 @@ function SignInPageContent() {
   const [resetSuccess, setResetSuccess] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { data: session, status } = useSession()
+
+  // Redirect already-authenticated users
+  useEffect(() => {
+    if (status === "authenticated" && session?.user) {
+      const userRole = (session.user as { role?: string }).role
+      if (userRole === "ADMIN" || userRole === "STAFF") {
+        router.push("/admin")
+      } else {
+        router.push("/dashboard")
+      }
+    }
+  }, [status, session, router])
 
   useEffect(() => {
     if (searchParams.get("reset") === "success") {
@@ -60,10 +73,8 @@ function SignInPageContent() {
       } else {
         trackAuth("sign_in", "email")
         const session = await getSession()
-        if (session?.user && (session.user as { role?: string }).role === "ADMIN") {
+        if (session?.user && ((session.user as { role?: string }).role === "ADMIN" || (session.user as { role?: string }).role === "STAFF")) {
           router.push("/admin")
-        } else if (session?.user && (session.user as { role?: string }).role === "STAFF") {
-          router.push("/staff")
         } else {
           router.push("/dashboard")
         }

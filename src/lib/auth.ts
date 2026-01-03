@@ -328,8 +328,8 @@ export const authOptions = {
         return url
       }
       
-      // Default: redirect to dashboard
-      return `${baseUrl}/dashboard`
+      // Default: redirect to admin (will be handled by signin page for role-based redirect)
+      return `${baseUrl}/admin`
     }
   },
   pages: {
