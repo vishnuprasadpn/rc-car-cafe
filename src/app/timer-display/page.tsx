@@ -34,26 +34,32 @@ export default function TimerDisplayPage() {
   const [loading, setLoading] = useState(true)
   const [playedBeeps, setPlayedBeeps] = useState<Set<string>>(new Set())
 
-  // Function to play beep sound for 20 seconds
+  // Function to play beep sound (beep beep beep pattern for 20 seconds)
   const playBeep = () => {
     try {
       const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
-      const oscillator = audioContext.createOscillator()
-      const gainNode = audioContext.createGain()
+      const beepDuration = 0.2 // 200ms beep
+      const pauseDuration = 0.3 // 300ms pause
+      const totalDuration = 20 // 20 seconds total
+      const beepCount = Math.floor(totalDuration / (beepDuration + pauseDuration))
 
-      oscillator.connect(gainNode)
-      gainNode.connect(audioContext.destination)
+      for (let i = 0; i < beepCount; i++) {
+        const startTime = audioContext.currentTime + i * (beepDuration + pauseDuration)
+        const oscillator = audioContext.createOscillator()
+        const gainNode = audioContext.createGain()
 
-      oscillator.frequency.value = 800 // Beep frequency
-      oscillator.type = 'sine'
+        oscillator.connect(gainNode)
+        gainNode.connect(audioContext.destination)
 
-      // Play continuously for 20 seconds
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime)
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime + 19.5)
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 20)
+        oscillator.frequency.value = 800 // Beep frequency
+        oscillator.type = 'sine'
 
-      oscillator.start(audioContext.currentTime)
-      oscillator.stop(audioContext.currentTime + 20)
+        gainNode.gain.setValueAtTime(0.3, startTime)
+        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + beepDuration)
+
+        oscillator.start(startTime)
+        oscillator.stop(startTime + beepDuration)
+      }
     } catch (error) {
       console.error('Error playing beep:', error)
     }
