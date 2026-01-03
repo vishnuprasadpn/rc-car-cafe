@@ -45,6 +45,32 @@ export default function AdminTimerPage() {
   const [error, setError] = useState("")
   const [showForm, setShowForm] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [playedBeeps, setPlayedBeeps] = useState<Set<string>>(new Set())
+
+  // Function to play beep sound for 20 seconds
+  const playBeep = () => {
+    try {
+      const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
+      const oscillator = audioContext.createOscillator()
+      const gainNode = audioContext.createGain()
+
+      oscillator.connect(gainNode)
+      gainNode.connect(audioContext.destination)
+
+      oscillator.frequency.value = 800 // Beep frequency
+      oscillator.type = 'sine'
+
+      // Play continuously for 20 seconds
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime)
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime + 19.5)
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 20)
+
+      oscillator.start(audioContext.currentTime)
+      oscillator.stop(audioContext.currentTime + 20)
+    } catch (error) {
+      console.error('Error playing beep:', error)
+    }
+  }
   const [formData, setFormData] = useState({
     customerName: "",
     trackId: "",
@@ -84,9 +110,26 @@ export default function AdminTimerPage() {
       const response = await fetch("/api/timers?all=true")
       if (response.ok) {
         const data = await response.json()
-        console.log("Fetched timers:", data.timers?.length || 0, "timers")
-        console.log("Timer statuses:", data.timers?.map((t: Timer) => ({ id: t.id, status: t.status, customer: t.customerName })))
-        setTimers(data.timers || [])
+        const newTimers = data.timers || []
+        
+        // Check for timers that just reached 0 and play beep
+        newTimers.forEach((timer: Timer) => {
+          if (timer.remainingSeconds <= 0 && !playedBeeps.has(timer.id)) {
+            playBeep()
+            setPlayedBeeps(prev => new Set(prev).add(timer.id))
+          } else if (timer.remainingSeconds > 0 && playedBeeps.has(timer.id)) {
+            // Reset beep flag if timer is reset/restarted
+            setPlayedBeeps(prev => {
+              const newSet = new Set(prev)
+              newSet.delete(timer.id)
+              return newSet
+            })
+          }
+        })
+        
+        console.log("Fetched timers:", newTimers.length, "timers")
+        console.log("Timer statuses:", newTimers.map((t: Timer) => ({ id: t.id, status: t.status, customer: t.customerName })))
+        setTimers(newTimers)
       } else {
         const errorData = await response.json().catch(() => ({}))
         console.error("Failed to fetch timers:", response.status, response.statusText, errorData)

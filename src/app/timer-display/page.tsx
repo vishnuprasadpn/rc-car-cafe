@@ -32,6 +32,32 @@ export default function TimerDisplayPage() {
   const [timers, setTimers] = useState<Timer[]>([])
   const [tracks, setTracks] = useState<Track[]>([])
   const [loading, setLoading] = useState(true)
+  const [playedBeeps, setPlayedBeeps] = useState<Set<string>>(new Set())
+
+  // Function to play beep sound for 20 seconds
+  const playBeep = () => {
+    try {
+      const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
+      const oscillator = audioContext.createOscillator()
+      const gainNode = audioContext.createGain()
+
+      oscillator.connect(gainNode)
+      gainNode.connect(audioContext.destination)
+
+      oscillator.frequency.value = 800 // Beep frequency
+      oscillator.type = 'sine'
+
+      // Play continuously for 20 seconds
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime)
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime + 19.5)
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 20)
+
+      oscillator.start(audioContext.currentTime)
+      oscillator.stop(audioContext.currentTime + 20)
+    } catch (error) {
+      console.error('Error playing beep:', error)
+    }
+  }
 
   useEffect(() => {
     fetchTracks()
@@ -58,7 +84,25 @@ export default function TimerDisplayPage() {
       const response = await fetch("/api/timers")
       if (response.ok) {
         const data = await response.json()
-        setTimers(data.timers)
+        const newTimers = data.timers || []
+        
+        // Check for timers that just reached 0 and play beep
+        newTimers.forEach((timer: Timer) => {
+          const totalSeconds = timer.remainingMinutes * 60 + timer.remainingSecondsOnly
+          if (totalSeconds <= 0 && !playedBeeps.has(timer.id)) {
+            playBeep()
+            setPlayedBeeps(prev => new Set(prev).add(timer.id))
+          } else if (totalSeconds > 0 && playedBeeps.has(timer.id)) {
+            // Reset beep flag if timer is reset/restarted
+            setPlayedBeeps(prev => {
+              const newSet = new Set(prev)
+              newSet.delete(timer.id)
+              return newSet
+            })
+          }
+        })
+        
+        setTimers(newTimers)
       }
     } catch (err) {
       console.error("Error fetching timers:", err)
