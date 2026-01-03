@@ -86,9 +86,6 @@ export default function AdminTimerPage() {
       if (response.ok) {
         const data = await response.json()
         const newTimers = data.timers || []
-        
-        console.log("Fetched timers:", newTimers.length, "timers")
-        console.log("Timer statuses:", newTimers.map((t: Timer) => ({ id: t.id, status: t.status, customer: t.customerName })))
         setTimers(newTimers)
       } else {
         const errorData = await response.json().catch(() => ({}))
@@ -119,13 +116,6 @@ export default function AdminTimerPage() {
     }
 
     try {
-      console.log("Creating timer with data:", {
-        customerName: formData.customerName.trim(),
-        trackId: formData.isCombo ? null : formData.trackId,
-        allocatedMinutes: formData.allocatedMinutes,
-        isCombo: formData.isCombo
-      })
-
       const response = await fetch("/api/timers", {
         method: "POST",
         headers: {
@@ -139,11 +129,8 @@ export default function AdminTimerPage() {
         }),
       })
 
-      console.log("Response status:", response.status, response.ok)
-
       if (response.ok) {
-        const result = await response.json()
-        console.log("Timer created successfully:", result)
+        await response.json()
         
         // Clear form and close
         setShowForm(false)
@@ -200,16 +187,12 @@ export default function AdminTimerPage() {
     setError("")
     setDeletingId(timerId)
     try {
-      console.log("Deleting timer:", timerId)
       const response = await fetch(`/api/timers/${timerId}`, {
         method: "DELETE",
       })
 
-      console.log("Delete response status:", response.status, response.ok)
-
       if (response.ok) {
-        const result = await response.json()
-        console.log("Timer deleted successfully:", result)
+        await response.json()
         // Immediately remove from local state for instant UI update
         setTimers(prevTimers => prevTimers.filter(t => t.id !== timerId))
         // Then refresh from server to ensure consistency
@@ -512,7 +495,6 @@ export default function AdminTimerPage() {
                           onClick={(e) => {
                             e.preventDefault()
                             e.stopPropagation()
-                            console.log("Delete button clicked for timer:", timer.id, timer.customerName, "Track:", timer.trackId)
                             handleDelete(timer.id)
                           }}
                           disabled={deletingId === timer.id}

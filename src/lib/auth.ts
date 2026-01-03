@@ -64,7 +64,6 @@ export const authOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          console.log('❌ Auth: Missing email or password')
           return null
         }
 
@@ -75,13 +74,7 @@ export const authOptions = {
           }
         })
 
-        if (!user) {
-          console.log(`❌ Auth: User not found for email: ${email}`)
-          return null
-        }
-
-        if (!user.password) {
-          console.log(`❌ Auth: No password set for user: ${email}`)
+        if (!user || !user.password) {
           return null
         }
 
@@ -89,11 +82,8 @@ export const authOptions = {
         const isPasswordValid = await bcrypt.compare(credentials.password, user.password)
 
         if (!isPasswordValid) {
-          console.log(`❌ Auth: Invalid password for user: ${email}`)
           return null
         }
-
-        console.log(`✅ Auth: Successful login for ${email} (${user.role})`)
         
         // Update last login time
         await prisma.user.update({
@@ -106,24 +96,9 @@ export const authOptions = {
         
         // Send test email if admin logged in
         if (user.role === "ADMIN") {
-          console.log(`📧 ==========================================`)
-          console.log(`📧 ADMIN LOGIN DETECTED - TRIGGERING TEST EMAIL`)
-          console.log(`📧 ==========================================`)
-          console.log(`📧 User: ${user.name} (${user.email})`)
-          console.log(`📧 Role: ${user.role}`)
-          console.log(`📧 Login Method: email/password`)
-          console.log(`📧 ==========================================`)
           // Don't await - send email asynchronously so it doesn't block login
           sendAdminLoginTestEmail(user.email, user.name, "email/password").catch((error) => {
-            console.error("❌ ==========================================")
-            console.error("❌ FAILED TO SEND ADMIN LOGIN TEST EMAIL")
-            console.error("❌ ==========================================")
-            console.error("❌ Error:", error)
-            if (error instanceof Error) {
-              console.error("❌ Error message:", error.message)
-              console.error("❌ Error stack:", error.stack)
-            }
-            console.error("❌ ==========================================")
+            console.error("Failed to send admin login test email:", error)
             // Don't throw - login should succeed even if email fails
           })
         }
@@ -143,18 +118,15 @@ export const authOptions = {
   callbacks: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async signIn({ user, account }: any) {
-      console.log(`🔐 signIn callback called: provider=${account?.provider}, user.email=${user?.email}`)
-      
       // If signing in with Google OAuth
       if (account?.provider === "google") {
         try {
           if (!user?.email) {
-            console.error("❌ OAuth: No email provided by Google")
+            console.error("OAuth: No email provided by Google")
             return false
           }
 
           const email = user.email.toLowerCase()
-          console.log(`🔍 OAuth: Processing sign-in for ${email}`)
           
           // Check if user already exists
           let existingUser = await prisma.user.findUnique({
@@ -177,29 +149,13 @@ export const authOptions = {
                   // No password for OAuth users
                 }
               })
-              console.log(`✅ OAuth: Created new user ${email} with ID ${newUser.id}`)
               existingUser = newUser
               
               // Send test email if new admin user logged in via OAuth
               if (newUser.role === "ADMIN") {
-                console.log(`📧 ==========================================`)
-                console.log(`📧 NEW ADMIN OAUTH LOGIN DETECTED - TRIGGERING TEST EMAIL`)
-                console.log(`📧 ==========================================`)
-                console.log(`📧 User: ${newUser.name} (${newUser.email})`)
-                console.log(`📧 Role: ${newUser.role}`)
-                console.log(`📧 Login Method: Google OAuth (new user)`)
-                console.log(`📧 ==========================================`)
                 // Don't await - send email asynchronously so it doesn't block login
                 sendAdminLoginTestEmail(newUser.email, newUser.name, "Google OAuth (new user)").catch((error) => {
-                  console.error("❌ ==========================================")
-                  console.error("❌ FAILED TO SEND ADMIN LOGIN TEST EMAIL")
-                  console.error("❌ ==========================================")
-                  console.error("❌ Error:", error)
-                  if (error instanceof Error) {
-                    console.error("❌ Error message:", error.message)
-                    console.error("❌ Error stack:", error.stack)
-                  }
-                  console.error("❌ ==========================================")
+                  console.error("Failed to send admin login test email:", error)
                   // Don't throw - login should succeed even if email fails
                 })
               }
@@ -209,23 +165,19 @@ export const authOptions = {
                 createError.message.includes("Unique constraint") ||
                 createError.message.includes("duplicate key")
               )) {
-                console.log(`⚠️ OAuth: User creation conflict, fetching existing user...`)
                 existingUser = await prisma.user.findUnique({
                   where: { email }
                 })
-                if (existingUser) {
-                  console.log(`✅ OAuth: User ${email} was created by another process (ID: ${existingUser.id})`)
-                } else {
-                  console.error("❌ OAuth: User creation failed and user not found")
+                if (!existingUser) {
+                  console.error("OAuth: User creation failed and user not found")
                   throw createError
                 }
               } else {
-                console.error("❌ OAuth: User creation error:", createError)
+                console.error("OAuth: User creation error:", createError)
                 throw createError
               }
             }
           } else {
-            console.log(`✅ OAuth: Existing user ${email} (ID: ${existingUser.id}) signed in`)
             
             // Update user info from OAuth (name, image might have changed)
             // Also update authMethod if user previously used email/password
@@ -302,7 +254,6 @@ export const authOptions = {
               where: { id: existingUser.id },
               data: { role: "CUSTOMER" }
             })
-            console.log(`✅ OAuth: Set role for user ${email}`)
           }
           
           // IMPORTANT: Update the user object with the database user ID
@@ -312,16 +263,9 @@ export const authOptions = {
           user.name = existingUser.name
           
           // Return true to allow sign-in - PrismaAdapter will handle Account creation
-          console.log(`✅ OAuth: Sign-in approved for ${email} (User ID: ${existingUser.id})`)
           return true
         } catch (error) {
-          console.error("❌ OAuth signIn callback error:", error)
-          if (error instanceof Error) {
-            console.error("Error message:", error.message)
-            console.error("Error stack:", error.stack)
-          } else {
-            console.error("Error details:", JSON.stringify(error, null, 2))
-          }
+          console.error("OAuth signIn callback error:", error)
           // Return false to prevent sign-in if there's an error
           return false
         }
@@ -351,13 +295,11 @@ export const authOptions = {
           if (dbUser) {
             token.role = dbUser.role || "CUSTOMER"
             token.sub = dbUser.id // Ensure user ID is set
-            console.log(`✅ JWT: Set role=${token.role}, id=${token.sub} for ${user.email}`)
           } else {
-            console.warn(`⚠️ OAuth: User ${user.email} not found in database during JWT creation`)
             token.role = "CUSTOMER" // Default role
           }
         } catch (error) {
-          console.error("❌ Error fetching user role in jwt callback:", error)
+          console.error("Error fetching user role in jwt callback:", error)
           // Don't fail the JWT creation, use default role
           token.role = token.role || "CUSTOMER"
         }
@@ -376,8 +318,6 @@ export const authOptions = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async redirect({ url, baseUrl }: any) {
       // Handle OAuth redirects properly
-      console.log(`🔀 OAuth redirect: url=${url}, baseUrl=${baseUrl}`)
-      
       // If url is relative, make it absolute
       if (url.startsWith("/")) {
         return `${baseUrl}${url}`

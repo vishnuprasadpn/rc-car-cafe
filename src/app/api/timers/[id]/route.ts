@@ -229,7 +229,6 @@ export async function DELETE(
       where: { id }
     })
 
-    console.log(`Timer ${id} deleted from database by ${session.user.email}`)
     return NextResponse.json({ message: "Timer deleted successfully" })
   } catch (error: unknown) {
     console.error("Error deleting timer:", error)

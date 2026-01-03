@@ -219,7 +219,6 @@ export async function POST(request: NextRequest) {
 
     try {
       // Send notification email to admin
-      console.log("📧 Attempting to send admin notification email for booking:", booking.id)
       await sendBookingNotificationToAdmin({
         customer: {
           name: user.name,
