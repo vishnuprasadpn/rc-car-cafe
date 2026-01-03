@@ -205,71 +205,70 @@ export default function TimerDisplayPage() {
         
         <div className="max-w-7xl 2xl:max-w-[90rem] mx-auto">
 
-        {/* Combo Timers Section */}
-        {comboTimers.length > 0 && (
-          <div className="mb-8 md:mb-12 flex justify-center">
-            <div
-              className="bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-2xl p-5 md:p-7 lg:p-8 2xl:p-10 shadow-2xl w-fit"
-            >
-              <h3 className="text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-bold text-fury-orange mb-4 md:mb-6 2xl:mb-8 text-center border-b border-white/20 pb-2 md:pb-3 2xl:pb-4">
-                Combo Players
-              </h3>
-              <div className="flex flex-wrap gap-4 md:gap-5 lg:gap-6 2xl:gap-8 justify-center">
-                {comboTimers.map(timer => {
-                  // Use API calculated values (already includes real-time calculation)
-                  const totalSeconds = timer.remainingMinutes * 60 + timer.remainingSecondsOnly
-                  return (
-                    <div
-                      key={timer.id}
-                      className={`bg-black/30 rounded-xl p-4 md:p-5 lg:p-6 2xl:p-8 border flex-shrink-0 ${
-                        isTimeUp(totalSeconds) 
-                          ? "border-orange-500/30 bg-orange-500/10" 
-                          : "border-white/10"
-                      }`}
-                    >
-                      <div className="text-center">
-                        <h4 className="text-lg md:text-xl lg:text-2xl 2xl:text-3xl font-semibold text-white mb-3 md:mb-4 2xl:mb-5">
-                          {timer.customerName}
-                        </h4>
-                        <div className="flex items-center justify-center gap-2 md:gap-3 2xl:gap-4 mb-2 md:mb-3 2xl:mb-4">
-                          <Clock className="h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-10 2xl:w-10 text-fury-orange" />
-                          <span className={`text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-bold ${isTimeUp(totalSeconds) ? "text-orange-400" : getTimeColor(totalSeconds, timer.allocatedMinutes)}`}>
-                            {formatTime(Math.max(0, totalSeconds))}
-                          </span>
-                          {isTimeUp(totalSeconds) && (
-                            <div className="text-center ml-2 2xl:ml-3">
-                              <div className="text-sm md:text-base lg:text-lg 2xl:text-xl font-medium text-orange-400">
-                                Time&apos;s Up
+        {/* Track-Specific Timers and Combo Timers */}
+        {(sortedTracks.length > 0 || comboTimers.length > 0) && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 2xl:gap-8">
+            {/* Combo Timers Card */}
+            {comboTimers.length > 0 && (
+              <div
+                className="bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-2xl p-4 md:p-6 2xl:p-8 shadow-2xl"
+              >
+                <h3 className="text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-bold text-fury-orange mb-4 md:mb-6 2xl:mb-8 text-center border-b border-white/20 pb-2 md:pb-3 2xl:pb-4">
+                  Combo Players
+                </h3>
+                <div className="flex flex-wrap gap-3 md:gap-4 2xl:gap-5 justify-center">
+                  {comboTimers.map(timer => {
+                    // Use API calculated values (already includes real-time calculation)
+                    const totalSeconds = timer.remainingMinutes * 60 + timer.remainingSecondsOnly
+                    return (
+                      <div
+                        key={timer.id}
+                        className={`bg-black/30 rounded-xl p-3 md:p-4 2xl:p-5 border flex-shrink-0 ${
+                          isTimeUp(totalSeconds) 
+                            ? "border-orange-500/30 bg-orange-500/10" 
+                            : "border-white/10"
+                        }`}
+                      >
+                        <div className="text-center">
+                          <h4 className="text-base md:text-lg lg:text-xl 2xl:text-2xl font-semibold text-white mb-2 md:mb-3 2xl:mb-4">
+                            {timer.customerName}
+                          </h4>
+                          <div className="flex items-center justify-center gap-2 2xl:gap-3 mb-2 2xl:mb-3">
+                            <Clock className="h-5 w-5 md:h-6 md:w-6 2xl:h-7 2xl:w-7 text-fury-orange" />
+                            <span className={`text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-bold ${isTimeUp(totalSeconds) ? "text-orange-400" : getTimeColor(totalSeconds, timer.allocatedMinutes)}`}>
+                              {formatTime(Math.max(0, totalSeconds))}
+                            </span>
+                            {isTimeUp(totalSeconds) && (
+                              <div className="text-center ml-2 2xl:ml-3">
+                                <div className="text-xs md:text-sm lg:text-base 2xl:text-lg font-medium text-orange-400">
+                                  Time&apos;s Up
+                                </div>
                               </div>
-                            </div>
-                          )}
-                        </div>
-                        <div className="flex items-center justify-center gap-2 2xl:gap-3">
-                          <span className={`px-3 py-1 md:px-4 md:py-1.5 lg:px-5 lg:py-2 2xl:px-6 2xl:py-2.5 text-xs md:text-sm lg:text-base 2xl:text-lg font-semibold rounded-full ${
-                            timer.status === "RUNNING" ? "bg-green-500/30 text-green-300 border border-green-500/50" :
-                            timer.status === "PAUSED" ? "bg-yellow-500/30 text-yellow-300 border border-yellow-500/50" :
-                            timer.status === "COMPLETED" ? "bg-red-500/30 text-red-300 border border-red-500/50" :
-                            timer.status === "STOPPED" ? "bg-gray-500/30 text-gray-300 border border-gray-500/50" :
-                            "bg-gray-500/30 text-gray-300 border border-gray-500/50"
-                          }`}>
-                            {timer.status}
-                          </span>
-                          <span className="text-gray-500 text-xs md:text-sm lg:text-base 2xl:text-lg">
-                            / {timer.allocatedMinutes}m
-                          </span>
+                            )}
+                          </div>
+                          <div className="flex items-center justify-center gap-2 2xl:gap-3">
+                            <span className={`px-2 py-1 md:px-3 md:py-1.5 lg:px-4 lg:py-2 2xl:px-5 2xl:py-2.5 text-xs md:text-sm lg:text-base 2xl:text-lg font-semibold rounded-full ${
+                              timer.status === "RUNNING" ? "bg-green-500/30 text-green-300 border border-green-500/50" :
+                              timer.status === "PAUSED" ? "bg-yellow-500/30 text-yellow-300 border border-yellow-500/50" :
+                              timer.status === "COMPLETED" ? "bg-red-500/30 text-red-300 border border-red-500/50" :
+                              timer.status === "STOPPED" ? "bg-gray-500/30 text-gray-300 border border-gray-500/50" :
+                              "bg-gray-500/30 text-gray-300 border border-gray-500/50"
+                            }`}>
+                              {timer.status}
+                            </span>
+                            <span className="text-gray-500 text-xs md:text-sm lg:text-base 2xl:text-lg">
+                              / {timer.allocatedMinutes}m
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )
-                })}
+                    )
+                  })}
+                </div>
               </div>
-            </div>
-          </div>
-        )}
+            )}
 
-        {/* Track-Specific Timers */}
-        {sortedTracks.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 2xl:gap-8">
+            {/* Track-Specific Timers */}
             {sortedTracks.map(track => {
               const trackTimerList = trackTimers[track.id] || []
               // Only render track card if it has timers
