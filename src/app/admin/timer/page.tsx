@@ -23,6 +23,8 @@ interface Timer {
   remainingSecondsOnly?: number
   status: string
   isCombo: boolean
+  startTime: string | null
+  pausedAt: string | null
   createdAt: string
 }
 
@@ -62,26 +64,51 @@ export default function AdminTimerPage() {
     } else if (status === "authenticated") {
       fetchTracks()
       fetchTimers()
-      // Poll for updates every 2 seconds for server sync
-      const syncInterval = setInterval(fetchTimers, 2000)
       
-      // Client-side countdown every second for smooth updates
-      // Calculate from server sync data for perfect accuracy
-      const countdownInterval = setInterval(() => {
-        setTimers(prevTimers => {
-          const now = Date.now()
-          
-          return prevTimers.map(timer => {
-            // Only update RUNNING timers with client-side countdown
-            if (timer.status === "RUNNING") {
-              // Get sync data for this timer
-              const syncData = timerSyncDataRef.current.get(timer.id)
-              
-              if (syncData) {
-                // Calculate elapsed time since last server sync
-                const elapsedSinceSync = Math.floor((now - syncData.syncTime) / 1000)
-                // Calculate remaining time from the server's value at sync time
-                const totalRemaining = Math.max(0, syncData.remainingSeconds - elapsedSinceSync)
+      let syncInterval: NodeJS.Timeout | null = null
+      let countdownInterval: NodeJS.Timeout | null = null
+      
+      // Page Visibility API: pause polling when tab is hidden
+      const handleVisibilityChange = () => {
+        if (document.hidden) {
+          // Tab is hidden - clear intervals
+          if (syncInterval) clearInterval(syncInterval)
+          if (countdownInterval) clearInterval(countdownInterval)
+          syncInterval = null
+          countdownInterval = null
+        } else {
+          // Tab is visible - restart polling if needed
+          startPolling()
+        }
+      }
+      
+      const startPolling = () => {
+        // Poll for updates every 3 seconds (reduced frequency)
+        syncInterval = setInterval(() => {
+          // Always fetch to check for new timers, but countdown only runs if active
+          fetchTimers()
+        }, 3000)
+        
+        // Client-side countdown every second for smooth updates
+        // Calculate from state transitions (startTime) for accuracy
+        countdownInterval = setInterval(() => {
+          setTimers(prevTimers => {
+            const now = Date.now()
+            const hasActive = prevTimers.some(t => t.status === "RUNNING")
+            
+            // If no active timers, don't update
+            if (!hasActive) return prevTimers
+            
+            return prevTimers.map(timer => {
+              // Only update RUNNING timers with client-side countdown
+              if (timer.status === "RUNNING" && timer.startTime) {
+                // Calculate from startTime (state transition)
+                const startTimeMs = new Date(timer.startTime).getTime()
+                const elapsedSeconds = Math.floor((now - startTimeMs) / 1000)
+                // Get base remainingSeconds from last state transition
+                const syncData = timerSyncDataRef.current.get(timer.id)
+                const baseRemaining = syncData?.remainingSeconds ?? timer.remainingSeconds
+                const totalRemaining = Math.max(0, baseRemaining - elapsedSeconds)
                 
                 return {
                   ...timer,
@@ -90,15 +117,22 @@ export default function AdminTimerPage() {
                   remainingSecondsOnly: totalRemaining % 60
                 }
               }
-            }
-            return timer
+              return timer
+            })
           })
-        })
-      }, 1000)
+        }, 1000)
+      }
+      
+      // Start polling initially
+      startPolling()
+      
+      // Listen for visibility changes
+      document.addEventListener("visibilitychange", handleVisibilityChange)
       
       return () => {
-        clearInterval(syncInterval)
-        clearInterval(countdownInterval)
+        if (syncInterval) clearInterval(syncInterval)
+        if (countdownInterval) clearInterval(countdownInterval)
+        document.removeEventListener("visibilitychange", handleVisibilityChange)
       }
     }
   }, [status, session, router])
@@ -122,15 +156,17 @@ export default function AdminTimerPage() {
       if (response.ok) {
         const data = await response.json()
         const newTimers = data.timers || []
-        const syncTime = Date.now()
         
-        // Store sync data for each timer to enable accurate client-side countdown
+        // Store base remainingSeconds for RUNNING timers (from state transitions)
+        // This is used as the base for client-side countdown
         newTimers.forEach((timer: Timer) => {
-          if (timer.status === "RUNNING") {
+          if (timer.status === "RUNNING" && timer.startTime) {
+            // Store the remainingSeconds from server (calculated from state)
+            // This represents the time remaining when timer was last started/resumed
             const totalSeconds = (timer.remainingMinutes ?? 0) * 60 + (timer.remainingSecondsOnly ?? 0)
             timerSyncDataRef.current.set(timer.id, {
               remainingSeconds: totalSeconds,
-              syncTime: syncTime
+              syncTime: new Date(timer.startTime).getTime() // Use startTime as sync reference
             })
           } else {
             // Clear sync data for non-running timers

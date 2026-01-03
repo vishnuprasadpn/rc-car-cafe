@@ -23,26 +23,30 @@ export async function GET(
       return NextResponse.json({ message: "Timer not found" }, { status: 404 })
     }
 
-    // Calculate remaining time and auto-complete if expired
+    // Calculate remaining time from state transitions (no DB writes)
     const now = new Date()
-    let remainingSeconds = timer.remainingSeconds
+    let remainingSeconds = 0
     let status = timer.status
 
-    if (timer.status === "RUNNING" && timer.startTime) {
-      // Calculate elapsed time since last start (startTime is reset on each resume)
+    if (timer.status === TimerStatus.COMPLETED) {
+      remainingSeconds = 0
+    } else if (timer.status === TimerStatus.RUNNING && timer.startTime) {
+      // Calculate elapsed time since start
       const elapsedSeconds = Math.floor((now.getTime() - timer.startTime.getTime()) / 1000)
       remainingSeconds = Math.max(0, timer.remainingSeconds - elapsedSeconds)
       
-      // If timer has reached 0, automatically mark as COMPLETED
-      if (remainingSeconds === 0) {
-        const updatedTimer = await prisma.timer.update({
-          where: { id },
-          data: { status: TimerStatus.COMPLETED }
-        })
+      // If expired, mark as completed (but don't write to DB)
+      if (remainingSeconds <= 0) {
         status = TimerStatus.COMPLETED
+        remainingSeconds = 0
       }
+    } else if (timer.status === TimerStatus.PAUSED) {
+      // For PAUSED timers, remainingSeconds was set when paused
+      remainingSeconds = timer.remainingSeconds
+    } else {
+      // For STOPPED timers, use allocated time
+      remainingSeconds = timer.allocatedMinutes * 60
     }
-    // If PAUSED, remainingSeconds is already the correct value
 
     return NextResponse.json({
       ...timer,
@@ -136,12 +140,11 @@ export async function PATCH(
           )
         }
 
-        // Calculate elapsed time since last start and update remaining
-        // Use the current calculated remaining time to ensure accuracy
+        // Calculate elapsed time since start and store remaining time
+        // This is the ONLY time we write remainingSeconds (state transition)
         const elapsedSeconds = Math.floor((now.getTime() - timer.startTime.getTime()) / 1000)
         const currentRemaining = Math.max(0, timer.remainingSeconds - elapsedSeconds)
         
-        // Ensure we save the accurate remaining time
         updateData = {
           status: TimerStatus.PAUSED,
           pausedAt: now,
@@ -167,17 +170,24 @@ export async function PATCH(
           )
         }
 
-        // Calculate current remaining time
+        // Calculate current remaining time from state
         let remaining = timer.remainingSeconds
-        if (timer.status === "RUNNING" && timer.startTime) {
+        if (timer.status === TimerStatus.RUNNING && timer.startTime) {
+          // Calculate elapsed since start
           const elapsed = Math.floor((now.getTime() - timer.startTime.getTime()) / 1000)
           remaining = Math.max(0, timer.remainingSeconds - elapsed)
-        }
-        // If PAUSED, remainingSeconds is already correct
-
-        updateData = {
-          remainingSeconds: remaining + (minutes * 60),
-          allocatedMinutes: timer.allocatedMinutes + minutes
+          // Update startTime to now to account for added time
+          updateData = {
+            remainingSeconds: remaining + (minutes * 60),
+            allocatedMinutes: timer.allocatedMinutes + minutes,
+            startTime: now // Reset start time to account for added time
+          }
+        } else {
+          // If PAUSED or STOPPED, just add to remaining
+          updateData = {
+            remainingSeconds: remaining + (minutes * 60),
+            allocatedMinutes: timer.allocatedMinutes + minutes
+          }
         }
         break
 

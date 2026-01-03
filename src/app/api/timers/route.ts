@@ -13,13 +13,12 @@ export async function GET(request: NextRequest) {
     const showAll = searchParams.get('all') === 'true'
     
     // If requesting all timers, check authentication
-    let includeStopped = false
     if (showAll) {
       // @ts-expect-error - getServerSession accepts authOptions but types don't match NextAuth v4
       const session = await getServerSession(authOptions) as Session | null
       const userRole = session?.user ? (session.user as { role?: string }).role : null
-      if (session && session.user && (userRole === "STAFF" || userRole === "ADMIN")) {
-        includeStopped = true
+      if (!session || !session.user || (userRole !== "STAFF" && userRole !== "ADMIN")) {
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
       }
     }
 
@@ -43,85 +42,70 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Calculate remaining time for each timer and auto-complete expired timers
+    // Calculate remaining time from state transitions only (no DB writes)
     const now = new Date()
-    const timersWithRemaining = await Promise.all(
-      timers.map(async (timer) => {
-        try {
-          let remainingSeconds = timer.remainingSeconds
-          let status = timer.status
+    const timersWithRemaining = timers.map((timer) => {
+      try {
+        let remainingSeconds = 0
+        let status = timer.status
 
-          // For COMPLETED timers, always keep at 0 and don't recalculate
-          if (timer.status === TimerStatus.COMPLETED) {
+        // Calculate remaining time based on state transitions
+        if (timer.status === TimerStatus.COMPLETED) {
+          remainingSeconds = 0
+        } else if (timer.status === TimerStatus.RUNNING && timer.startTime) {
+          // Calculate elapsed time since start
+          const elapsedSeconds = Math.floor((now.getTime() - timer.startTime.getTime()) / 1000)
+          // remainingSeconds was set when timer started/resumed - use it as base
+          remainingSeconds = Math.max(0, timer.remainingSeconds - elapsedSeconds)
+          
+          // If expired, mark as completed (but don't write to DB - let client handle it)
+          if (remainingSeconds <= 0) {
+            status = TimerStatus.COMPLETED
             remainingSeconds = 0
-          } else if (timer.status === TimerStatus.RUNNING && timer.startTime) {
-            // Calculate elapsed time since last start (startTime is reset on each resume)
-            const elapsedSeconds = Math.floor((now.getTime() - timer.startTime.getTime()) / 1000)
-            // Ensure we're using the stored remainingSeconds as the base (from when timer was started/paused)
-            remainingSeconds = Math.max(0, timer.remainingSeconds - elapsedSeconds)
-            
-            // If timer has reached 0, automatically mark as COMPLETED and ensure remainingSeconds is 0
-            if (remainingSeconds <= 0) {
-              try {
-                await prisma.timer.update({
-                  where: { id: timer.id },
-                  data: { 
-                    status: TimerStatus.COMPLETED,
-                    remainingSeconds: 0,
-                    startTime: null
-                  }
-                })
-                status = TimerStatus.COMPLETED
-                remainingSeconds = 0
-              } catch (updateError) {
-                // If update fails, just set the status locally but don't fail the entire request
-                console.error(`Failed to update timer ${timer.id} to COMPLETED:`, updateError)
-                status = TimerStatus.COMPLETED
-                remainingSeconds = 0
-              }
-            }
-          } else if (timer.status === TimerStatus.PAUSED) {
-            // For PAUSED timers, use the stored remainingSeconds (already calculated on pause)
-            remainingSeconds = timer.remainingSeconds
-          } else {
-            // For STOPPED timers, use allocated time
-            remainingSeconds = timer.allocatedMinutes * 60
           }
-
-          return {
-            id: timer.id,
-            customerName: timer.customerName,
-            trackId: timer.trackId,
-            track: timer.track,
-            allocatedMinutes: timer.allocatedMinutes,
-            remainingSeconds,
-            remainingMinutes: Math.floor(remainingSeconds / 60),
-            remainingSecondsOnly: remainingSeconds % 60,
-            status,
-            isCombo: timer.isCombo,
-            startTime: timer.startTime,
-            createdAt: timer.createdAt
-          }
-        } catch (timerError) {
-          // If processing a single timer fails, log it and return a safe default
-          console.error(`Error processing timer ${timer.id}:`, timerError)
-          return {
-            id: timer.id,
-            customerName: timer.customerName || "Unknown",
-            trackId: timer.trackId,
-            track: timer.track,
-            allocatedMinutes: timer.allocatedMinutes || 0,
-            remainingSeconds: 0,
-            remainingMinutes: 0,
-            remainingSecondsOnly: 0,
-            status: timer.status || TimerStatus.STOPPED,
-            isCombo: timer.isCombo || false,
-            startTime: timer.startTime,
-            createdAt: timer.createdAt
-          }
+        } else if (timer.status === TimerStatus.PAUSED) {
+          // For PAUSED timers, remainingSeconds was set when paused
+          remainingSeconds = timer.remainingSeconds
+        } else {
+          // For STOPPED timers, use allocated time
+          remainingSeconds = timer.allocatedMinutes * 60
         }
-      })
-    )
+
+        return {
+          id: timer.id,
+          customerName: timer.customerName,
+          trackId: timer.trackId,
+          track: timer.track,
+          allocatedMinutes: timer.allocatedMinutes,
+          remainingSeconds,
+          remainingMinutes: Math.floor(remainingSeconds / 60),
+          remainingSecondsOnly: remainingSeconds % 60,
+          status,
+          isCombo: timer.isCombo,
+          startTime: timer.startTime,
+          pausedAt: timer.pausedAt,
+          createdAt: timer.createdAt
+        }
+      } catch (timerError) {
+        // If processing fails, return safe default
+        console.error(`Error processing timer ${timer.id}:`, timerError)
+        return {
+          id: timer.id,
+          customerName: timer.customerName || "Unknown",
+          trackId: timer.trackId,
+          track: timer.track,
+          allocatedMinutes: timer.allocatedMinutes || 0,
+          remainingSeconds: 0,
+          remainingMinutes: 0,
+          remainingSecondsOnly: 0,
+          status: timer.status || TimerStatus.STOPPED,
+          isCombo: timer.isCombo || false,
+          startTime: timer.startTime,
+          pausedAt: timer.pausedAt,
+          createdAt: timer.createdAt
+        }
+      }
+    })
 
     return NextResponse.json({ timers: timersWithRemaining })
   } catch (error) {
