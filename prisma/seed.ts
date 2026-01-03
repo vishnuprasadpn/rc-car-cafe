@@ -126,7 +126,8 @@ async function main() {
     { name: 'Fast Track', type: 'FAST_TRACK' as const },
     { name: 'Sand Track', type: 'SAND_TRACK' as const },
     { name: 'Mud Track', type: 'MUD_TRACK' as const },
-    { name: 'Crawler Track', type: 'CRAWLER_TRACK' as const }
+    { name: 'Crawler Track', type: 'CRAWLER_TRACK' as const },
+    { name: 'PS5 Gaming', type: 'PS5_GAMING' as const }
   ]
 
   for (const trackData of tracks) {

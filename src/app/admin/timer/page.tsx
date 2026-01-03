@@ -30,7 +30,8 @@ const TRACKS = [
   { name: "Fast Track", type: "FAST_TRACK" },
   { name: "Sand Track", type: "SAND_TRACK" },
   { name: "Mud Track", type: "MUD_TRACK" },
-  { name: "Crawler Track", type: "CRAWLER_TRACK" }
+  { name: "Crawler Track", type: "CRAWLER_TRACK" },
+  { name: "PS5 Gaming", type: "PS5_GAMING" }
 ]
 
 const TIME_PACKAGES = [15, 30, 45, 60, 120]

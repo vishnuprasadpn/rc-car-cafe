@@ -26,7 +26,7 @@ interface Timer {
   createdAt: string
 }
 
-const TRACK_ORDER: readonly string[] = ["FAST_TRACK", "SAND_TRACK", "MUD_TRACK", "CRAWLER_TRACK"] as const
+const TRACK_ORDER: readonly string[] = ["FAST_TRACK", "SAND_TRACK", "MUD_TRACK", "CRAWLER_TRACK", "PS5_GAMING"] as const
 
 export default function TimerDisplayPage() {
   const [timers, setTimers] = useState<Timer[]>([])
