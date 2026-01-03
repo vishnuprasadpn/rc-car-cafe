@@ -226,22 +226,16 @@ export default function TimerDisplayPage() {
                         <p className="text-gray-400 text-sm md:text-base">Combo Timer</p>
                       </div>
                       <div className="flex items-center justify-center gap-2 md:gap-3 mb-2">
-                        {isTimeUp(totalSeconds) ? (
-                          <div className="text-center">
-                            <div className="text-xl md:text-2xl lg:text-3xl font-medium text-orange-400 mb-1">
+                        <Clock className="h-6 w-6 md:h-8 md:w-8 text-fury-orange" />
+                        <span className={`text-3xl md:text-4xl lg:text-5xl font-bold ${isTimeUp(totalSeconds) ? "text-orange-400" : getTimeColor(totalSeconds, timer.allocatedMinutes)}`}>
+                          {formatTime(Math.max(0, totalSeconds))}
+                        </span>
+                        {isTimeUp(totalSeconds) && (
+                          <div className="text-center ml-2">
+                            <div className="text-sm md:text-base font-medium text-orange-400">
                               Time&apos;s Up
                             </div>
-                            <div className="text-base md:text-lg text-gray-300">
-                              {timer.customerName}
-                            </div>
                           </div>
-                        ) : (
-                          <>
-                            <Clock className="h-6 w-6 md:h-8 md:w-8 text-fury-orange" />
-                            <span className={`text-3xl md:text-4xl lg:text-5xl font-bold ${getTimeColor(totalSeconds, timer.allocatedMinutes)}`}>
-                              {formatTime(totalSeconds)}
-                            </span>
-                          </>
                         )}
                       </div>
                       <div className="flex items-center justify-center gap-2">
@@ -300,22 +294,16 @@ export default function TimerDisplayPage() {
                               {timer.customerName}
                             </h4>
                             <div className="flex items-center justify-center gap-2 mb-2">
-                              {isTimeUp(totalSeconds) ? (
-                                <div className="text-center w-full">
-                                  <div className="text-lg md:text-xl lg:text-2xl font-medium text-orange-400 mb-1">
+                              <Clock className="h-5 w-5 md:h-6 md:w-6 text-fury-orange" />
+                              <span className={`text-2xl md:text-3xl lg:text-4xl font-bold ${isTimeUp(totalSeconds) ? "text-orange-400" : getTimeColor(totalSeconds, timer.allocatedMinutes)}`}>
+                                {formatTime(Math.max(0, totalSeconds))}
+                              </span>
+                              {isTimeUp(totalSeconds) && (
+                                <div className="text-center ml-2">
+                                  <div className="text-xs md:text-sm font-medium text-orange-400">
                                     Time&apos;s Up
                                   </div>
-                                  <div className="text-sm md:text-base text-gray-300">
-                                    {timer.customerName}
-                                  </div>
                                 </div>
-                              ) : (
-                                <>
-                                  <Clock className="h-5 w-5 md:h-6 md:w-6 text-fury-orange" />
-                                  <span className={`text-2xl md:text-3xl lg:text-4xl font-bold ${getTimeColor(totalSeconds, timer.allocatedMinutes)}`}>
-                                    {formatTime(totalSeconds)}
-                                  </span>
-                                </>
                               )}
                             </div>
                             <div className="flex items-center justify-center gap-2">

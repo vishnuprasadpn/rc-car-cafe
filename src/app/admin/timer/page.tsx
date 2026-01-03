@@ -473,25 +473,18 @@ export default function AdminTimerPage() {
                         </span>
                       </div>
                       <div className="flex items-center gap-2 mb-4">
-                        {isTimeUp(timer.remainingSeconds) ? (
-                          <div className="text-center w-full">
-                            <div className="text-lg font-medium text-orange-400 mb-1">
-                              Time&apos;s Up
-                            </div>
-                            <div className="text-xs text-gray-300">
-                              {timer.customerName}
-                            </div>
-                          </div>
-                        ) : (
-                          <>
-                            <Clock className="h-5 w-5 text-fury-orange" />
-                            <span className={`text-2xl font-bold ${
-                              timer.remainingSeconds < 60 ? "text-red-400" : "text-white"
-                            }`}>
-                              {formatTime(timer.remainingSeconds)}
-                            </span>
-                            <span className="text-gray-400 text-sm">/ {timer.allocatedMinutes}m</span>
-                          </>
+                        <Clock className="h-5 w-5 text-fury-orange" />
+                        <span className={`text-2xl font-bold ${
+                          isTimeUp(timer.remainingSeconds) ? "text-orange-400" :
+                          timer.remainingSeconds < 60 ? "text-red-400" : "text-white"
+                        }`}>
+                          {formatTime(Math.max(0, timer.remainingSeconds))}
+                        </span>
+                        <span className="text-gray-400 text-sm">/ {timer.allocatedMinutes}m</span>
+                        {isTimeUp(timer.remainingSeconds) && (
+                          <span className="text-sm font-medium text-orange-400 ml-2">
+                            Time&apos;s Up
+                          </span>
                         )}
                       </div>
                       <div className="flex flex-wrap gap-2">
@@ -587,25 +580,18 @@ export default function AdminTimerPage() {
                             </span>
                           </div>
                           <div className="flex items-center gap-2 mb-4">
-                            {isTimeUp(timer.remainingSeconds) ? (
-                              <div className="text-center w-full">
-                                <div className="animate-pulse text-2xl font-bold text-red-600 mb-1">
-                                  TIME&apos;S UP!
-                                </div>
-                                <div className="text-sm text-red-400 font-semibold animate-bounce">
-                                  {timer.customerName}
-                                </div>
-                              </div>
-                            ) : (
-                              <>
-                                <Clock className="h-5 w-5 text-fury-orange" />
-                                <span className={`text-2xl font-bold ${
-                                  timer.remainingSeconds < 60 ? "text-red-400" : "text-white"
-                                }`}>
-                                  {formatTime(timer.remainingSeconds)}
-                                </span>
-                                <span className="text-gray-400 text-sm">/ {timer.allocatedMinutes}m</span>
-                              </>
+                            <Clock className="h-5 w-5 text-fury-orange" />
+                            <span className={`text-2xl font-bold ${
+                              isTimeUp(timer.remainingSeconds) ? "text-orange-400" :
+                              timer.remainingSeconds < 60 ? "text-red-400" : "text-white"
+                            }`}>
+                              {formatTime(Math.max(0, timer.remainingSeconds))}
+                            </span>
+                            <span className="text-gray-400 text-sm">/ {timer.allocatedMinutes}m</span>
+                            {isTimeUp(timer.remainingSeconds) && (
+                              <span className="text-sm font-medium text-orange-400 ml-2">
+                                Time&apos;s Up
+                              </span>
                             )}
                           </div>
                           <div className="flex flex-wrap gap-2">
