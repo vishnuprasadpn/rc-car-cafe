@@ -190,62 +190,62 @@ export default function TimerDisplayPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
       </div>
 
-      <div className="relative z-10 p-4 md:p-8 lg:p-10 xl:p-12 2xl:p-16">
+      <div className="relative z-10 p-4 md:p-8 2xl:p-12">
         {/* Logo in top left corner */}
-        <Link href="/" className="absolute top-4 left-4 md:top-8 md:left-8 lg:top-10 lg:left-10 xl:top-12 xl:left-12 2xl:top-16 2xl:left-16 z-20 hover:opacity-80 transition-opacity">
+        <Link href="/" className="absolute top-4 left-4 md:top-8 md:left-8 2xl:top-12 2xl:left-12 z-20 hover:opacity-80 transition-opacity">
           <Image
             src="/header_logo.png"
             alt="Fury Road RC Club Logo"
             width={100}
             height={100}
-            className="object-contain drop-shadow-lg md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-48 xl:h-48 2xl:w-56 2xl:h-56"
+            className="object-contain drop-shadow-lg md:w-32 md:h-32 2xl:w-40 2xl:h-40"
             priority
           />
         </Link>
         
-        <div className="max-w-7xl xl:max-w-[90rem] 2xl:max-w-[100rem] mx-auto">
+        <div className="max-w-7xl 2xl:max-w-[90rem] mx-auto">
 
         {/* Combo Timers Section */}
         {comboTimers.length > 0 && (
-          <div className="mb-8 md:mb-12 lg:mb-16 xl:mb-20 flex justify-center">
+          <div className="mb-8 md:mb-12 flex justify-center">
             <div
-              className="bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-2xl p-5 md:p-7 lg:p-10 xl:p-12 2xl:p-16 shadow-2xl w-fit"
+              className="bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-2xl p-5 md:p-7 lg:p-8 2xl:p-10 shadow-2xl w-fit"
             >
-              <h3 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-fury-orange mb-4 md:mb-6 lg:mb-8 xl:mb-10 2xl:mb-12 text-center border-b border-white/20 pb-2 md:pb-3 lg:pb-4 xl:pb-5 2xl:pb-6">
+              <h3 className="text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-bold text-fury-orange mb-4 md:mb-6 2xl:mb-8 text-center border-b border-white/20 pb-2 md:pb-3 2xl:pb-4">
                 Combo Players
               </h3>
-              <div className="flex flex-wrap gap-4 md:gap-5 lg:gap-6 xl:gap-8 2xl:gap-10 justify-center">
+              <div className="flex flex-wrap gap-4 md:gap-5 lg:gap-6 2xl:gap-8 justify-center">
                 {comboTimers.map(timer => {
                   // Use API calculated values (already includes real-time calculation)
                   const totalSeconds = timer.remainingMinutes * 60 + timer.remainingSecondsOnly
                   return (
                     <div
                       key={timer.id}
-                      className={`bg-black/30 rounded-xl p-4 md:p-5 lg:p-6 xl:p-8 2xl:p-10 border flex-shrink-0 ${
+                      className={`bg-black/30 rounded-xl p-4 md:p-5 lg:p-6 2xl:p-8 border flex-shrink-0 ${
                         isTimeUp(totalSeconds) 
                           ? "border-orange-500/30 bg-orange-500/10" 
                           : "border-white/10"
                       }`}
                     >
                       <div className="text-center">
-                        <h4 className="text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-semibold text-white mb-3 md:mb-4 lg:mb-5 xl:mb-6 2xl:mb-8">
+                        <h4 className="text-lg md:text-xl lg:text-2xl 2xl:text-3xl font-semibold text-white mb-3 md:mb-4 2xl:mb-5">
                           {timer.customerName}
                         </h4>
-                        <div className="flex items-center justify-center gap-2 md:gap-3 lg:gap-4 xl:gap-5 2xl:gap-6 mb-2 md:mb-3 lg:mb-4 xl:mb-5 2xl:mb-6">
-                          <Clock className="h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 xl:h-10 xl:w-10 2xl:h-12 2xl:w-12 text-fury-orange" />
-                          <span className={`text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold ${isTimeUp(totalSeconds) ? "text-orange-400" : getTimeColor(totalSeconds, timer.allocatedMinutes)}`}>
+                        <div className="flex items-center justify-center gap-2 md:gap-3 2xl:gap-4 mb-2 md:mb-3 2xl:mb-4">
+                          <Clock className="h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-10 2xl:w-10 text-fury-orange" />
+                          <span className={`text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-bold ${isTimeUp(totalSeconds) ? "text-orange-400" : getTimeColor(totalSeconds, timer.allocatedMinutes)}`}>
                             {formatTime(Math.max(0, totalSeconds))}
                           </span>
                           {isTimeUp(totalSeconds) && (
-                            <div className="text-center ml-2 lg:ml-3 xl:ml-4 2xl:ml-5">
-                              <div className="text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium text-orange-400">
+                            <div className="text-center ml-2 2xl:ml-3">
+                              <div className="text-sm md:text-base lg:text-lg 2xl:text-xl font-medium text-orange-400">
                                 Time&apos;s Up
                               </div>
                             </div>
                           )}
                         </div>
-                        <div className="flex items-center justify-center gap-2 lg:gap-3 xl:gap-4 2xl:gap-5">
-                          <span className={`px-3 py-1 md:px-4 md:py-1.5 lg:px-5 lg:py-2 xl:px-6 xl:py-2.5 2xl:px-8 2xl:py-3 text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl font-semibold rounded-full ${
+                        <div className="flex items-center justify-center gap-2 2xl:gap-3">
+                          <span className={`px-3 py-1 md:px-4 md:py-1.5 lg:px-5 lg:py-2 2xl:px-6 2xl:py-2.5 text-xs md:text-sm lg:text-base 2xl:text-lg font-semibold rounded-full ${
                             timer.status === "RUNNING" ? "bg-green-500/30 text-green-300 border border-green-500/50" :
                             timer.status === "PAUSED" ? "bg-yellow-500/30 text-yellow-300 border border-yellow-500/50" :
                             timer.status === "COMPLETED" ? "bg-red-500/30 text-red-300 border border-red-500/50" :
@@ -254,7 +254,7 @@ export default function TimerDisplayPage() {
                           }`}>
                             {timer.status}
                           </span>
-                          <span className="text-gray-500 text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl">
+                          <span className="text-gray-500 text-xs md:text-sm lg:text-base 2xl:text-lg">
                             / {timer.allocatedMinutes}m
                           </span>
                         </div>
@@ -269,7 +269,7 @@ export default function TimerDisplayPage() {
 
         {/* Track-Specific Timers */}
         {sortedTracks.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 2xl:gap-8">
             {sortedTracks.map(track => {
               const trackTimerList = trackTimers[track.id] || []
               // Only render track card if it has timers
@@ -278,50 +278,50 @@ export default function TimerDisplayPage() {
               return (
                 <div
                   key={track.id}
-                  className="bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-2xl p-4 md:p-6 lg:p-8 xl:p-10 2xl:p-12 shadow-2xl"
+                  className="bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-2xl p-4 md:p-6 2xl:p-8 shadow-2xl"
                 >
-                  <h3 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-fury-orange mb-4 md:mb-6 lg:mb-8 xl:mb-10 2xl:mb-12 text-center border-b border-white/20 pb-2 md:pb-3 lg:pb-4 xl:pb-5 2xl:pb-6">
+                  <h3 className="text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-bold text-fury-orange mb-4 md:mb-6 2xl:mb-8 text-center border-b border-white/20 pb-2 md:pb-3 2xl:pb-4">
                     {track.name}
                   </h3>
-                  <div className="space-y-3 md:space-y-4 lg:space-y-5 xl:space-y-6 2xl:space-y-8">
+                  <div className="space-y-3 md:space-y-4 2xl:space-y-5">
                       {trackTimerList.map(timer => {
                       // Use API calculated values (already includes real-time calculation)
                       const totalSeconds = timer.remainingMinutes * 60 + timer.remainingSecondsOnly
                       return (
                         <div
                           key={timer.id}
-                          className={`bg-black/30 rounded-xl p-3 md:p-4 lg:p-5 xl:p-6 2xl:p-8 border ${
+                          className={`bg-black/30 rounded-xl p-3 md:p-4 2xl:p-5 border ${
                             isTimeUp(totalSeconds) 
                               ? "border-orange-500/30 bg-orange-500/10" 
                               : "border-white/10"
                           }`}
                         >
                           <div className="text-center">
-                            <h4 className="text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold text-white mb-2 md:mb-3 lg:mb-4 xl:mb-5 2xl:mb-6">
+                            <h4 className="text-base md:text-lg lg:text-xl 2xl:text-2xl font-semibold text-white mb-2 md:mb-3 2xl:mb-4">
                               {timer.customerName}
                             </h4>
-                            <div className="flex items-center justify-center gap-2 lg:gap-3 xl:gap-4 2xl:gap-5 mb-2 lg:mb-3 xl:mb-4 2xl:mb-5">
-                              <Clock className="h-5 w-5 md:h-6 md:w-6 lg:h-7 lg:w-7 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10 text-fury-orange" />
-                              <span className={`text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold ${isTimeUp(totalSeconds) ? "text-orange-400" : getTimeColor(totalSeconds, timer.allocatedMinutes)}`}>
+                            <div className="flex items-center justify-center gap-2 2xl:gap-3 mb-2 2xl:mb-3">
+                              <Clock className="h-5 w-5 md:h-6 md:w-6 2xl:h-7 2xl:w-7 text-fury-orange" />
+                              <span className={`text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-bold ${isTimeUp(totalSeconds) ? "text-orange-400" : getTimeColor(totalSeconds, timer.allocatedMinutes)}`}>
                                 {formatTime(Math.max(0, totalSeconds))}
                               </span>
                               {isTimeUp(totalSeconds) && (
-                                <div className="text-center ml-2 lg:ml-3 xl:ml-4 2xl:ml-5">
-                                  <div className="text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl font-medium text-orange-400">
+                                <div className="text-center ml-2 2xl:ml-3">
+                                  <div className="text-xs md:text-sm lg:text-base 2xl:text-lg font-medium text-orange-400">
                                     Time&apos;s Up
                                   </div>
                                 </div>
                               )}
                             </div>
-                            <div className="flex items-center justify-center gap-2 lg:gap-3 xl:gap-4 2xl:gap-5">
-                              <span className={`px-2 py-1 md:px-3 md:py-1.5 lg:px-4 lg:py-2 xl:px-5 xl:py-2.5 2xl:px-6 2xl:py-3 text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl font-semibold rounded-full ${
+                            <div className="flex items-center justify-center gap-2 2xl:gap-3">
+                              <span className={`px-2 py-1 md:px-3 md:py-1.5 lg:px-4 lg:py-2 2xl:px-5 2xl:py-2.5 text-xs md:text-sm lg:text-base 2xl:text-lg font-semibold rounded-full ${
                                 timer.status === "RUNNING" ? "bg-green-500/30 text-green-300 border border-green-500/50" :
                                 timer.status === "PAUSED" ? "bg-yellow-500/30 text-yellow-300 border border-yellow-500/50" :
                                 "bg-gray-500/30 text-gray-300 border border-gray-500/50"
                               }`}>
                                 {timer.status}
                               </span>
-                              <span className="text-gray-500 text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl">
+                              <span className="text-gray-500 text-xs md:text-sm lg:text-base 2xl:text-lg">
                                 / {timer.allocatedMinutes}m
                               </span>
                             </div>
