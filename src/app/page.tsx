@@ -123,6 +123,8 @@ export default async function HomePage() {
                 name: "RC Tracks",
                 description: "Experience adrenaline-pumping RC racing on professional tracks. Choose from Fast Track, Mud Track, Sand Track, and Crawler Track with various vehicle options.",
                 gradient: "from-red-500 to-red-700",
+                textColor: "text-red-400",
+                underlineColor: "bg-red-400",
                 icon: Car,
                 link: "/tracks",
                 image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_0.jpg"
@@ -131,6 +133,8 @@ export default async function HomePage() {
                 name: "PS5 Gaming",
                 description: "Enjoy cutting-edge PlayStation 5 gaming experience. Play the latest games with friends and family in our dedicated gaming zone.",
                 gradient: "from-blue-500 to-blue-700",
+                textColor: "text-blue-400",
+                underlineColor: "bg-blue-400",
                 icon: Zap,
                 link: "/book",
                 image: "/ps5-gaming.png"
@@ -139,6 +143,8 @@ export default async function HomePage() {
                 name: "Birthday & Corporate Events",
                 description: "Host unforgettable birthday parties and corporate team-building events. Perfect for groups looking for fun, competitive, and memorable experiences.",
                 gradient: "from-purple-500 to-purple-700",
+                textColor: "text-purple-400",
+                underlineColor: "bg-purple-400",
                 icon: Users,
                 link: "/contact",
                 image: "/birthday-events.png"
@@ -147,6 +153,8 @@ export default async function HomePage() {
                 name: "Cafe",
                 description: "Relax and refuel at our cafe. Enjoy delicious food and beverages while watching the racing action or taking a break between sessions.",
                 gradient: "from-amber-500 to-amber-700",
+                textColor: "text-amber-400",
+                underlineColor: "bg-amber-400",
                 icon: Heart,
                 link: "/contact",
                 image: "/cafe.png"
@@ -179,9 +187,9 @@ export default async function HomePage() {
                     <div className="p-5 flex-1 flex flex-col">
                       <p className="text-gray-300 text-xs sm:text-sm mb-4 leading-relaxed line-clamp-3 flex-1">{offer.description}</p>
                       
-                      <div className="flex items-center text-white font-semibold text-sm">
+                      <div className={`flex items-center ${offer.textColor} font-semibold text-sm`}>
                         <span>Learn More</span>
-                        <div className={`ml-2 w-0 group-hover:w-6 h-0.5 bg-gradient-to-r ${offer.gradient} transition-all duration-300`}></div>
+                        <div className={`ml-2 w-0 group-hover:w-6 h-0.5 ${offer.underlineColor} transition-all duration-300`}></div>
                       </div>
                     </div>
                   </div>
