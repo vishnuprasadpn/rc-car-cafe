@@ -47,8 +47,8 @@ export default function Navigation() {
                 <Image
                   src="/Furyroad.png"
                   alt="Fury Road RC Club Logo"
-                  width={60}
-                  height={60}
+                  width={150}
+                  height={150}
                   className="object-contain"
                   priority
                 />
@@ -156,8 +156,8 @@ export default function Navigation() {
                   <Image
                     src="/Furyroad.png"
                     alt="Fury Road RC Club Logo"
-                    width={110}
-                    height={110}
+                    width={150}
+                    height={150}
                     className="object-contain drop-shadow-lg"
                     priority
                   />
