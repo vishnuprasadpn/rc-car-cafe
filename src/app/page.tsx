@@ -509,8 +509,8 @@ export default async function HomePage() {
           {/* Location Section */}
           <div className="mb-12 sm:mb-16">
             <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full mb-4 shadow-2xl">
-                <MapPin className="h-8 w-8 text-white" />
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-secondary-yellow to-secondary-yellow rounded-full mb-4 shadow-2xl">
+                <MapPin className="h-8 w-8 text-dark-100" />
               </div>
               <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl text-white mb-2 uppercase">
                 Located in <span className="bg-gradient-to-r from-secondary-yellow to-secondary-yellow bg-clip-text text-transparent">Bangalore</span>
