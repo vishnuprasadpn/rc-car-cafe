@@ -16,7 +16,8 @@
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts",
-    "db:seed:admin": "tsx prisma/seed-admin-only.ts"
+    "db:seed:admin": "tsx prisma/seed-admin-only.ts",
+    "points:backfill": "tsx scripts/backfill-booking-points.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
