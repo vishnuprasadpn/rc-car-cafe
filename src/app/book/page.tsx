@@ -202,9 +202,6 @@ function BookPageContent() {
       if (result?.error) {
         setLoginError("Invalid email or password")
       } else {
-        // Get the updated session
-        const updatedSession = await getSession()
-        
         // Close login modal
         setShowLogin(false)
         resetLogin()
