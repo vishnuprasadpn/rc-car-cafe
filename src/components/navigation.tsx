@@ -70,66 +70,58 @@ export default function Navigation() {
             </div>
           </div>
           
-          {/* Mobile Menu Dropdown */}
+              {/* Mobile Menu Dropdown */}
           {isMobileMenuOpen && (
             <div className="bg-black/95 backdrop-blur-xl border-t border-white/20 px-4 py-4">
               <div className="flex flex-col space-y-2">
-                <Link 
-                  href="/" 
-                  onClick={() => {
-                    trackNavigation("/", pathname || "")
-                    setIsMobileMenuOpen(false)
-                  }}
-                  className={`px-4 py-3 rounded-lg transition-colors ${
-                    pathname === '/' 
-                      ? 'bg-fury-orange/20 text-fury-orange font-semibold' 
-                      : 'text-white hover:bg-white/10'
-                  }`}
-                >
-                  Home
-                </Link>
-                <Link 
-                  href="/tracks" 
-                  onClick={() => {
-                    trackNavigation("/tracks", pathname || "")
-                    setIsMobileMenuOpen(false)
-                  }}
-                  className={`px-4 py-3 rounded-lg transition-colors ${
-                    pathname?.startsWith('/tracks') 
-                      ? 'bg-fury-orange/20 text-fury-orange font-semibold' 
-                      : 'text-white hover:bg-white/10'
-                  }`}
-                >
-                  Tracks
-                </Link>
-                <Link 
-                  href="/membership" 
-                  onClick={() => {
-                    trackNavigation("/membership", pathname || "")
-                    setIsMobileMenuOpen(false)
-                  }}
-                  className={`px-4 py-3 rounded-lg transition-colors ${
-                    pathname?.startsWith('/membership') 
-                      ? 'bg-fury-orange/20 text-fury-orange font-semibold' 
-                      : 'text-white hover:bg-white/10'
-                  }`}
-                >
-                  Membership
-                </Link>
-                <Link 
-                  href="/contact" 
-                  onClick={() => {
-                    trackNavigation("/contact", pathname || "")
-                    setIsMobileMenuOpen(false)
-                  }}
-                  className={`px-4 py-3 rounded-lg transition-colors ${
-                    pathname?.startsWith('/contact') 
-                      ? 'bg-fury-orange/20 text-fury-orange font-semibold' 
-                      : 'text-white hover:bg-white/10'
-                  }`}
-                >
-                  Contact
-                </Link>
+                {pathname !== '/' && (
+                  <Link 
+                    href="/" 
+                    onClick={() => {
+                      trackNavigation("/", pathname || "")
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className="px-4 py-3 rounded-lg transition-colors text-white hover:bg-white/10"
+                  >
+                    Home
+                  </Link>
+                )}
+                {!pathname?.startsWith('/tracks') && (
+                  <Link 
+                    href="/tracks" 
+                    onClick={() => {
+                      trackNavigation("/tracks", pathname || "")
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className="px-4 py-3 rounded-lg transition-colors text-white hover:bg-white/10"
+                  >
+                    Tracks
+                  </Link>
+                )}
+                {!pathname?.startsWith('/membership') && (
+                  <Link 
+                    href="/membership" 
+                    onClick={() => {
+                      trackNavigation("/membership", pathname || "")
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className="px-4 py-3 rounded-lg transition-colors text-white hover:bg-white/10"
+                  >
+                    Membership
+                  </Link>
+                )}
+                {!pathname?.startsWith('/contact') && (
+                  <Link 
+                    href="/contact" 
+                    onClick={() => {
+                      trackNavigation("/contact", pathname || "")
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className="px-4 py-3 rounded-lg transition-colors text-white hover:bg-white/10"
+                  >
+                    Contact
+                  </Link>
+                )}
                 {session ? (
                   <Link
                     href="/dashboard"
