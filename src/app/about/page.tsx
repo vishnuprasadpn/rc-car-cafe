@@ -145,8 +145,8 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
               <div key={index} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 text-center hover:bg-white/20 transition-all">
-                <div className="w-16 h-16 bg-fury-orange/20 border border-fury-orange/30 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <value.icon className="h-8 w-8 text-fury-orange" />
+                <div className="w-16 h-16 bg-secondary-yellow/20 border border-secondary-yellow/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <value.icon className="h-8 w-8 text-secondary-yellow" />
                 </div>
                 <h3 className="font-heading text-base sm:text-xl text-white mb-4 uppercase">{value.title}</h3>
                 <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">{value.description}</p>

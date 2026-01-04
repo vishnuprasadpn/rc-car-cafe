@@ -302,9 +302,9 @@ export default async function HomePage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             <div>
-              <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-gradient-to-r from-red-600/20 to-yellow-600/20 border border-red-500/20 mb-6 backdrop-blur-sm">
-                <Zap className="h-3.5 w-3.5 text-red-400 mr-2" />
-                <span className="text-red-200 text-xs sm:text-sm font-medium">The Ultimate Experience</span>
+              <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-gradient-to-r from-secondary-yellow/20 to-yellow-600/20 border border-secondary-yellow/30 mb-6 backdrop-blur-sm">
+                <Zap className="h-3.5 w-3.5 text-secondary-yellow mr-2" />
+                <span className="text-secondary-yellow/90 text-xs sm:text-sm font-medium">The Ultimate Experience</span>
               </div>
               <h2 className="font-heading text-lg sm:text-2xl md:text-3xl font-extrabold text-white mb-4 tracking-tight">
                 The Ultimate <span className="bg-gradient-to-r from-red-300 via-yellow-300 to-blue-300 bg-clip-text text-transparent">Racing Experience</span>
