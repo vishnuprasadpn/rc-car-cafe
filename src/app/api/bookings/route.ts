@@ -173,7 +173,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "User not found" }, { status: 404 })
     }
 
-    // Create booking
+    // Create booking with instant confirmation
     const booking = await prisma.booking.create({
       data: {
         userId: (session.user as { id: string }).id,
@@ -183,8 +183,8 @@ export async function POST(request: NextRequest) {
         duration: bookingDuration,
         players: players,
         totalPrice: bookingTotalPrice,
-        status: "PENDING",
-        paymentStatus: "PENDING",
+        status: "CONFIRMED",
+        paymentStatus: "COMPLETED",
       },
       include: {
         game: true,

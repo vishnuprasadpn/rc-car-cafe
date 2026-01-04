@@ -109,14 +109,14 @@ function BookPageContent() {
       })
 
       if (response.ok) {
-        await response.json()
+        const responseData = await response.json()
         trackBooking("create", data.gameId, estimatedPrice)
         trackFormSubmit("booking_form", true, {
           game_id: data.gameId,
           players: data.players,
           amount: estimatedPrice,
         })
-        router.push("/dashboard?success=booking_created")
+        router.push(`/booking-success?id=${responseData.booking.id}`)
       } else {
         const errorData = await response.json()
         trackFormSubmit("booking_form", false, { error: errorData.message })
