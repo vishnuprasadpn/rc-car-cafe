@@ -184,7 +184,7 @@ export async function POST(request: NextRequest) {
         players: players,
         totalPrice: bookingTotalPrice,
         status: "CONFIRMED",
-        paymentStatus: "COMPLETED",
+        paymentStatus: "PENDING",
       },
       include: {
         game: true,
