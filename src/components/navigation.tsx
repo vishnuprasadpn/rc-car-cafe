@@ -147,7 +147,7 @@ export default function Navigation() {
                   >
                     Dashboard
                   </Link>
-                ) : (
+                ) : !pathname?.startsWith('/auth/signin') && !pathname?.startsWith('/auth/signup') ? (
                   <Link
                     href="/auth/signin"
                     onClick={() => {
@@ -155,11 +155,11 @@ export default function Navigation() {
                       trackButtonClick("Sign In", "navigation")
                       setIsMobileMenuOpen(false)
                     }}
-                    className="px-4 py-3 rounded-lg bg-fury-orange/20 text-fury-orange hover:bg-fury-orange/30 transition-colors font-semibold"
+                    className="px-4 py-3 rounded-lg bg-fury-orange/20 text-fury-orange hover:bg-fury-orange/30 transition-colors font-semibold whitespace-nowrap"
                   >
                     Sign In
                   </Link>
-                )}
+                ) : null}
               </div>
             </div>
           )}
@@ -245,10 +245,10 @@ export default function Navigation() {
                     <Zap className="h-4 w-4 mr-2 text-white" />
                     Dashboard
                   </Link>
-                ) : (
+                ) : !pathname?.startsWith('/auth/signin') && !pathname?.startsWith('/auth/signup') ? (
                   <Link
                     href="/auth/signin"
-                    className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-white/30 shadow-sm transition-all flex items-center"
+                    className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-white/30 shadow-sm transition-all flex items-center whitespace-nowrap"
                     onClick={() => {
                       trackNavigation("/auth/signin", pathname || "")
                       trackButtonClick("Sign In", "navigation")
@@ -256,7 +256,7 @@ export default function Navigation() {
                   >
                     Sign In
                   </Link>
-                )}
+                ) : null}
               </div>
             </div>
           </div>
