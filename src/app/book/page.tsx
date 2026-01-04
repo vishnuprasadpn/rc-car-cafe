@@ -107,6 +107,20 @@ function BookPageContent() {
   }
 
   const onSubmit = async (data: BookingForm) => {
+    // Check if user is authenticated before submitting
+    if (status !== "authenticated" || !session) {
+      // Store booking data in sessionStorage and redirect to login
+      const bookingData = {
+        gameId: data.gameId,
+        date: data.date,
+        time: data.time,
+        players: data.players,
+      }
+      sessionStorage.setItem("pendingBooking", JSON.stringify(bookingData))
+      router.push(`/auth/signin?callbackUrl=${encodeURIComponent("/book")}`)
+      return
+    }
+
     setSubmitting(true)
     setError("")
     trackButtonClick("Create Booking", "book_page")
