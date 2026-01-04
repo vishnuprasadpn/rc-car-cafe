@@ -179,10 +179,9 @@ export default async function HomePage() {
                     <div className="p-5 flex-1 flex flex-col">
                       <p className="text-gray-300 text-xs sm:text-sm mb-4 leading-relaxed line-clamp-3 flex-1">{offer.description}</p>
                       
-                      <div className="flex items-center justify-end">
-                        <div className={`px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r ${offer.gradient} group-hover:shadow-lg transition-all`}>
-                          Learn More
-                        </div>
+                      <div className="flex items-center text-white font-semibold text-sm">
+                        <span>Learn More</span>
+                        <div className={`ml-2 w-0 group-hover:w-6 h-0.5 bg-gradient-to-r ${offer.gradient} transition-all duration-300`}></div>
                       </div>
                     </div>
                   </div>
