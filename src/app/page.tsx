@@ -105,9 +105,9 @@ export default async function HomePage() {
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-red-600/20 to-blue-600/20 border border-red-500/20 mb-8 backdrop-blur-sm">
-              <Trophy className="h-4 w-4 text-red-400 mr-2" />
-              <span className="text-red-200 text-sm font-medium">What We Offer</span>
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-secondary-yellow/20 to-blue-600/20 border border-secondary-yellow/30 mb-8 backdrop-blur-sm">
+              <Trophy className="h-4 w-4 text-secondary-yellow mr-2" />
+              <span className="text-secondary-yellow/90 text-sm font-medium">What We Offer</span>
             </div>
             <h2 className="font-heading text-xl sm:text-3xl md:text-4xl text-white mb-6 uppercase">
               What We Offer
@@ -217,12 +217,12 @@ export default async function HomePage() {
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-fury-orange/10 border border-fury-orange/20 mb-8">
-              <Trophy className="h-4 w-4 text-fury-orange mr-2" />
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-secondary-yellow/10 border border-secondary-yellow/30 mb-8">
+              <Trophy className="h-4 w-4 text-secondary-yellow mr-2" />
               <span className="text-fury-lightGray text-sm font-medium">Why Choose Us</span>
             </div>
             <h2 className="font-heading text-xl sm:text-3xl md:text-4xl text-white mb-6 uppercase">
-              Why <span className="bg-gradient-to-r from-fury-orange to-fury-orange bg-clip-text text-transparent">Fury Road</span>?
+              Why <span className="bg-gradient-to-r from-secondary-yellow to-secondary-yellow bg-clip-text text-transparent">Fury Road</span>?
             </h2>
             <p className="text-sm sm:text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
               We provide the most professional and thrilling RC car racing experience in Bangalore
