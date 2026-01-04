@@ -542,8 +542,8 @@ export default async function HomePage() {
                   {/* Address */}
                   <div>
                     <div className="flex items-center mb-3">
-                      <div className="w-12 h-12 bg-fury-orange/20 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                        <MapPin className="h-6 w-6 text-fury-orange" />
+                      <div className="w-12 h-12 bg-secondary-yellow/20 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                        <MapPin className="h-6 w-6 text-secondary-yellow" />
                       </div>
                       <div className="text-base font-semibold text-white uppercase">Address</div>
                     </div>
