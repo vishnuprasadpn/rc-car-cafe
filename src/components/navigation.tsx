@@ -172,34 +172,42 @@ export default function Navigation() {
               
               {/* Navigation Links */}
               <div className="flex items-center space-x-8">
-                <Link 
-                  href="/" 
-                  onClick={() => trackNavigation("/", pathname || "")}
-                  className="text-white/90 hover:text-white text-sm font-medium transition-colors"
-                >
-                  Home
-                </Link>
-                <Link 
-                  href="/tracks" 
-                  onClick={() => trackNavigation("/tracks", pathname || "")}
-                  className="text-white/90 hover:text-white text-sm font-medium transition-colors"
-                >
-                  Tracks
-                </Link>
-                <Link 
-                  href="/membership" 
-                  onClick={() => trackNavigation("/membership", pathname || "")}
-                  className="text-white/90 hover:text-white text-sm font-medium transition-colors"
-                >
-                  Membership
-                </Link>
-                <Link 
-                  href="/contact" 
-                  onClick={() => trackNavigation("/contact", pathname || "")}
-                  className="text-white/90 hover:text-white text-sm font-medium transition-colors"
-                >
-                  Contact
-                </Link>
+                {pathname !== '/' && (
+                  <Link 
+                    href="/" 
+                    onClick={() => trackNavigation("/", pathname || "")}
+                    className="text-white/90 hover:text-white text-sm font-medium transition-colors"
+                  >
+                    Home
+                  </Link>
+                )}
+                {!pathname?.startsWith('/tracks') && (
+                  <Link 
+                    href="/tracks" 
+                    onClick={() => trackNavigation("/tracks", pathname || "")}
+                    className="text-white/90 hover:text-white text-sm font-medium transition-colors"
+                  >
+                    Tracks
+                  </Link>
+                )}
+                {!pathname?.startsWith('/membership') && (
+                  <Link 
+                    href="/membership" 
+                    onClick={() => trackNavigation("/membership", pathname || "")}
+                    className="text-white/90 hover:text-white text-sm font-medium transition-colors"
+                  >
+                    Membership
+                  </Link>
+                )}
+                {!pathname?.startsWith('/contact') && (
+                  <Link 
+                    href="/contact" 
+                    onClick={() => trackNavigation("/contact", pathname || "")}
+                    className="text-white/90 hover:text-white text-sm font-medium transition-colors"
+                  >
+                    Contact
+                  </Link>
+                )}
               </div>
               
               {/* Sign In / Sign Up or User Menu */}
