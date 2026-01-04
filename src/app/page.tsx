@@ -136,7 +136,7 @@ export default async function HomePage() {
                 textColor: "text-blue-400",
                 underlineColor: "bg-blue-400",
                 icon: Zap,
-                link: "/book",
+                link: "/ps5-gaming",
                 image: "/ps5-gaming.png"
               },
               {
