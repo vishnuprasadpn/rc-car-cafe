@@ -13,7 +13,6 @@ import {
   Award,
   Heart,
   Car,
-  Facebook,
   Instagram,
   Youtube
 } from "lucide-react"
@@ -599,16 +598,7 @@ export default async function HomePage() {
                   <div className="text-sm text-gray-400 mb-3">Follow Us</div>
                   <div className="flex items-center gap-4">
                     <a
-                      href="https://www.facebook.com/furyroadrcclub"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-10 h-10 bg-blue-600/20 rounded-lg flex items-center justify-center hover:bg-blue-600/30 transition-colors group"
-                      aria-label="Facebook"
-                    >
-                      <Facebook className="h-5 w-5 text-blue-400 group-hover:text-blue-300" />
-                    </a>
-                    <a
-                      href="https://www.instagram.com/furyroadrcclub"
+                      href="https://www.instagram.com/furyroad.club/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-10 h-10 bg-pink-600/20 rounded-lg flex items-center justify-center hover:bg-pink-600/30 transition-colors group"
@@ -617,7 +607,7 @@ export default async function HomePage() {
                       <Instagram className="h-5 w-5 text-pink-400 group-hover:text-pink-300" />
                     </a>
                     <a
-                      href="https://www.youtube.com/@furyroadrcclub"
+                      href="https://www.youtube.com/@furyroad_rc"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-10 h-10 bg-red-600/20 rounded-lg flex items-center justify-center hover:bg-red-600/30 transition-colors group"
