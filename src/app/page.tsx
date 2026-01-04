@@ -58,13 +58,9 @@ export default async function HomePage() {
             </div>
             
             {/* Main Title with Gradient - Better Mobile Scaling */}
-            <h1 className="font-heading text-4xl sm:text-5xl md:text-7xl mb-3 md:mb-6 bg-gradient-to-r from-secondary-yellow via-secondary-yellow to-secondary-yellow bg-clip-text text-transparent uppercase leading-tight">
-              FURY ROAD
+            <h1 className="font-heading text-3xl sm:text-4xl md:text-6xl mb-4 md:mb-8 bg-gradient-to-r from-secondary-yellow via-secondary-yellow to-secondary-yellow bg-clip-text text-transparent leading-tight">
+              India&apos;s Biggest RC Track Gaming Experience
             </h1>
-            
-            <div className="font-heading text-lg sm:text-3xl md:text-4xl text-fury-white mb-4 md:mb-8 uppercase leading-tight">
-              RC CLUB
-            </div>
             
             {/* Subtitle - Mobile Optimized */}
             <p className="text-xs sm:text-base md:text-xl text-fury-lightGray mb-6 md:mb-12 max-w-4xl mx-auto leading-relaxed px-2">
