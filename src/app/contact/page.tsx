@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import Navigation from "@/components/navigation"
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle, AlertCircle, Navigation as NavigationIcon, MessageCircle } from "lucide-react"
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle, AlertCircle, Navigation as NavigationIcon, MessageCircle, Instagram, Youtube, Zap, Users, Shield } from "lucide-react"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -376,6 +376,110 @@ export default function ContactPage() {
                 >
                   <MessageCircle className="h-5 w-5 mr-2" />
                   Chat on WhatsApp
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Additional Information Section */}
+      <div className="py-24 bg-gradient-to-br from-gray-900/50 via-gray-800/50 to-gray-900/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Response Time */}
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all">
+              <div className="w-14 h-14 bg-secondary-yellow/20 border border-secondary-yellow/30 rounded-xl flex items-center justify-center mb-6">
+                <Clock className="h-7 w-7 text-secondary-yellow" />
+              </div>
+              <h3 className="font-heading text-xl text-white mb-4 uppercase">Quick Response</h3>
+              <p className="text-sm text-gray-300 leading-relaxed">
+                We typically respond to all inquiries within 24 hours. For urgent matters, call us directly or use WhatsApp for instant assistance.
+              </p>
+            </div>
+
+            {/* Social Media */}
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all">
+              <div className="w-14 h-14 bg-secondary-yellow/20 border border-secondary-yellow/30 rounded-xl flex items-center justify-center mb-6">
+                <Users className="h-7 w-7 text-secondary-yellow" />
+              </div>
+              <h3 className="font-heading text-xl text-white mb-4 uppercase">Follow Us</h3>
+              <p className="text-sm text-gray-300 mb-4 leading-relaxed">
+                Stay connected with us on social media for updates, racing tips, and exclusive offers.
+              </p>
+              <div className="flex items-center gap-4">
+                <a
+                  href="https://www.instagram.com/furyroad.club/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 bg-pink-600/20 rounded-lg flex items-center justify-center hover:bg-pink-600/30 transition-colors group"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="h-6 w-6 text-pink-400 group-hover:text-pink-300" />
+                </a>
+                <a
+                  href="https://www.youtube.com/@furyroad_rc"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 bg-red-600/20 rounded-lg flex items-center justify-center hover:bg-red-600/30 transition-colors group"
+                  aria-label="YouTube"
+                >
+                  <Youtube className="h-6 w-6 text-red-400 group-hover:text-red-300" />
+                </a>
+              </div>
+            </div>
+
+            {/* Why Contact Us */}
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all">
+              <div className="w-14 h-14 bg-secondary-yellow/20 border border-secondary-yellow/30 rounded-xl flex items-center justify-center mb-6">
+                <Zap className="h-7 w-7 text-secondary-yellow" />
+              </div>
+              <h3 className="font-heading text-xl text-white mb-4 uppercase">Why Contact Us?</h3>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li className="flex items-start">
+                  <span className="text-secondary-yellow mr-2">•</span>
+                  <span>Book group events & corporate packages</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-secondary-yellow mr-2">•</span>
+                  <span>Get track recommendations</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-secondary-yellow mr-2">•</span>
+                  <span>Special birthday party arrangements</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-secondary-yellow mr-2">•</span>
+                  <span>Membership inquiries</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Visit Us CTA */}
+          <div className="mt-16 text-center">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 sm:p-12 max-w-4xl mx-auto">
+              <div className="w-16 h-16 bg-secondary-yellow/20 border border-secondary-yellow/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                <MapPin className="h-8 w-8 text-secondary-yellow" />
+              </div>
+              <h3 className="font-heading text-2xl sm:text-3xl text-white mb-4 uppercase">Visit Us Today</h3>
+              <p className="text-sm sm:text-base text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+                Experience the thrill of professional RC racing at our state-of-the-art facility. Walk-ins welcome, but booking in advance ensures your preferred time slot.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                  href="/book"
+                  className="inline-flex items-center justify-center bg-fury-orange text-white px-6 py-3 rounded-lg text-sm font-semibold hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25"
+                >
+                  <Zap className="h-4 w-4 mr-2" />
+                  Book Now
+                </a>
+                <a
+                  href="/tracks"
+                  className="inline-flex items-center justify-center border-2 border-secondary-yellow text-secondary-yellow px-6 py-3 rounded-lg text-sm font-semibold hover:bg-secondary-yellow/10 transition-all"
+                >
+                  <Shield className="h-4 w-4 mr-2" />
+                  View Tracks
                 </a>
               </div>
             </div>
