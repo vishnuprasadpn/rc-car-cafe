@@ -102,7 +102,7 @@ export default function SignUpPage() {
           <div className="w-full max-w-md space-y-6">
             <div className="text-center space-y-3">
               <h2 className="font-heading text-2xl sm:text-4xl text-white mb-2 uppercase">
-                Join <span className="bg-gradient-to-r from-fury-orange via-fury-orange to-primary-600 bg-clip-text text-transparent">Fury Road</span>
+                Join <span className="bg-gradient-to-r from-secondary-yellow via-secondary-yellow to-secondary-yellow bg-clip-text text-transparent">Fury Road</span>
               </h2>
               <p className="text-sm sm:text-base text-gray-400">
                 Create your account and start racing
@@ -122,7 +122,7 @@ export default function SignUpPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label htmlFor="name" className="flex items-center text-sm font-semibold text-gray-300">
-                      <UserPlus className="h-4 w-4 mr-2 text-fury-orange" />
+                      <UserPlus className="h-4 w-4 mr-2 text-secondary-yellow" />
                       Full Name
                     </label>
                     <input
@@ -143,7 +143,7 @@ export default function SignUpPage() {
 
                   <div className="space-y-2">
                     <label htmlFor="email" className="flex items-center text-sm font-semibold text-gray-300">
-                      <Mail className="h-4 w-4 mr-2 text-fury-orange" />
+                      <Mail className="h-4 w-4 mr-2 text-secondary-yellow" />
                       Email address
                     </label>
                     <input
@@ -165,7 +165,7 @@ export default function SignUpPage() {
 
                 <div className="space-y-2">
                   <label htmlFor="phone" className="flex items-center text-sm font-semibold text-gray-300">
-                    <Phone className="h-4 w-4 mr-2 text-fury-orange" />
+                    <Phone className="h-4 w-4 mr-2 text-secondary-yellow" />
                     Phone Number <span className="text-red-400 text-xs ml-1 font-normal">*</span>
                   </label>
                   <input
@@ -189,7 +189,7 @@ export default function SignUpPage() {
 
                   <div className="space-y-2">
                     <label htmlFor="password" className="flex items-center text-sm font-semibold text-gray-300">
-                      <Lock className="h-4 w-4 mr-2 text-fury-orange" />
+                      <Lock className="h-4 w-4 mr-2 text-secondary-yellow" />
                       Password
                     </label>
                     <input
@@ -212,7 +212,7 @@ export default function SignUpPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label htmlFor="confirmPassword" className="flex items-center text-sm font-semibold text-gray-300">
-                      <Lock className="h-4 w-4 mr-2 text-fury-orange" />
+                      <Lock className="h-4 w-4 mr-2 text-secondary-yellow" />
                       Confirm Password
                     </label>
                     <input
@@ -257,7 +257,7 @@ export default function SignUpPage() {
                   Already have an account?{" "}
                   <Link
                     href="/auth/signin"
-                    className="font-bold text-fury-orange hover:text-primary-500 transition-colors underline underline-offset-2 decoration-2"
+                    className="font-bold text-secondary-yellow hover:text-secondary-yellow/80 transition-colors underline underline-offset-2 decoration-2"
                   >
                     Sign in
                   </Link>
@@ -284,12 +284,12 @@ export default function SignUpPage() {
           </div>
           <div className="relative z-10 flex flex-col justify-center items-center text-center px-12 text-white h-full w-full">
             <div className="mb-10">
-              <div className="inline-flex items-center px-6 py-3 rounded-full bg-fury-orange/20 border border-fury-orange/40 backdrop-blur-sm shadow-lg">
-                <Zap className="h-5 w-5 text-fury-orange mr-2" />
+              <div className="inline-flex items-center px-6 py-3 rounded-full bg-secondary-yellow/20 border border-secondary-yellow/40 backdrop-blur-sm shadow-lg">
+                <Zap className="h-5 w-5 text-secondary-yellow mr-2" />
                 <span className="text-fury-lightGray text-sm font-semibold">Welcome to Fury Road</span>
               </div>
             </div>
-            <h3 className="font-heading text-3xl sm:text-5xl md:text-6xl mb-6 bg-gradient-to-r from-fury-orange via-fury-orange to-primary-600 bg-clip-text text-transparent uppercase">
+            <h3 className="font-heading text-3xl sm:text-5xl md:text-6xl mb-6 bg-gradient-to-r from-secondary-yellow via-secondary-yellow to-secondary-yellow bg-clip-text text-transparent uppercase">
               Start Your Racing Journey
             </h3>
             <p className="text-lg sm:text-xl text-gray-300 mb-10 max-w-md leading-relaxed mx-auto">
@@ -297,11 +297,11 @@ export default function SignUpPage() {
             </p>
             <div className="grid grid-cols-2 gap-4 sm:gap-6 max-w-md mx-auto w-full px-2">
               <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-5 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105">
-                <div className="text-2xl sm:text-4xl font-bold text-fury-orange mb-2">500+</div>
+                <div className="text-2xl sm:text-4xl font-bold text-secondary-yellow mb-2">500+</div>
                 <div className="text-xs sm:text-sm text-gray-300 font-medium">Races Completed</div>
               </div>
               <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-5 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105">
-                <div className="text-2xl sm:text-4xl font-bold text-fury-orange mb-2">50+</div>
+                <div className="text-2xl sm:text-4xl font-bold text-secondary-yellow mb-2">50+</div>
                 <div className="text-xs sm:text-sm text-gray-300 font-medium">Active Members</div>
               </div>
             </div>

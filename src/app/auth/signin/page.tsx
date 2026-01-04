@@ -94,11 +94,11 @@ function SignInPageContent() {
         <div className="flex-1 flex items-center justify-center py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-y-auto">
           <div className="w-full max-w-md space-y-6">
             <div className="text-center space-y-2">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-fury-orange/20 to-primary-600/20 rounded-2xl mb-4 border border-fury-orange/30 backdrop-blur-sm">
-                <Trophy className="h-8 w-8 text-fury-orange" />
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-secondary-yellow/20 to-secondary-yellow/20 rounded-2xl mb-4 border border-secondary-yellow/30 backdrop-blur-sm">
+                <Trophy className="h-8 w-8 text-secondary-yellow" />
               </div>
               <h2 className="font-heading text-2xl sm:text-4xl text-white mb-2 uppercase">
-                Welcome <span className="bg-gradient-to-r from-fury-orange via-fury-orange to-primary-600 bg-clip-text text-transparent">Back</span>
+                Welcome <span className="bg-gradient-to-r from-secondary-yellow via-secondary-yellow to-secondary-yellow bg-clip-text text-transparent">Back</span>
               </h2>
               <p className="text-sm sm:text-base text-gray-400">
                 Sign in to continue your racing journey
@@ -123,7 +123,7 @@ function SignInPageContent() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <label htmlFor="email" className="flex items-center text-sm font-semibold text-gray-300">
-                    <Mail className="h-4 w-4 mr-2 text-fury-orange" />
+                    <Mail className="h-4 w-4 mr-2 text-secondary-yellow" />
                     Email address
                   </label>
                   <input
@@ -145,12 +145,12 @@ function SignInPageContent() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <label htmlFor="password" className="flex items-center text-sm font-semibold text-gray-300">
-                      <Lock className="h-4 w-4 mr-2 text-fury-orange" />
+                      <Lock className="h-4 w-4 mr-2 text-secondary-yellow" />
                       Password
                     </label>
                     <Link
                       href="/auth/forgot-password"
-                      className="text-xs text-fury-orange hover:text-primary-500 transition-colors font-medium"
+                      className="text-xs text-secondary-yellow hover:text-secondary-yellow/80 transition-colors font-medium"
                     >
                       Forgot password?
                     </Link>
@@ -197,7 +197,7 @@ function SignInPageContent() {
                   Don&apos;t have an account?{" "}
                   <Link
                     href="/auth/signup"
-                    className="font-bold text-fury-orange hover:text-primary-500 transition-colors underline underline-offset-2 decoration-2"
+                    className="font-bold text-secondary-yellow hover:text-secondary-yellow/80 transition-colors underline underline-offset-2 decoration-2"
                   >
                     Create one
                   </Link>
@@ -224,12 +224,12 @@ function SignInPageContent() {
           </div>
           <div className="relative z-10 flex flex-col justify-center items-center text-center px-12 text-white h-full w-full">
             <div className="mb-10">
-              <div className="inline-flex items-center px-6 py-3 rounded-full bg-fury-orange/20 border border-fury-orange/40 backdrop-blur-sm shadow-lg">
-                <Trophy className="h-5 w-5 text-fury-orange mr-2" />
+              <div className="inline-flex items-center px-6 py-3 rounded-full bg-secondary-yellow/20 border border-secondary-yellow/40 backdrop-blur-sm shadow-lg">
+                <Trophy className="h-5 w-5 text-secondary-yellow mr-2" />
                 <span className="text-fury-lightGray text-sm font-semibold">Fury Road RC Club</span>
               </div>
             </div>
-            <h3 className="font-heading text-3xl sm:text-5xl md:text-6xl mb-6 bg-gradient-to-r from-fury-orange via-fury-orange to-primary-600 bg-clip-text text-transparent uppercase">
+            <h3 className="font-heading text-3xl sm:text-5xl md:text-6xl mb-6 bg-gradient-to-r from-secondary-yellow via-secondary-yellow to-secondary-yellow bg-clip-text text-transparent uppercase">
               Ready to Race?
             </h3>
             <p className="text-lg sm:text-xl text-gray-300 mb-10 max-w-md leading-relaxed mx-auto">
@@ -237,18 +237,18 @@ function SignInPageContent() {
             </p>
             <div className="grid grid-cols-3 gap-3 sm:gap-4 max-w-md mx-auto w-full px-2">
               <div className="bg-white/10 backdrop-blur-lg rounded-xl p-3 sm:p-4 border border-white/20 min-w-0 hover:bg-white/15 transition-all duration-300 hover:scale-105">
-                <Trophy className="h-5 w-5 sm:h-6 sm:w-6 text-fury-orange mx-auto mb-2" />
-                <div className="text-lg sm:text-xl font-bold text-fury-orange mb-1">4</div>
+                <Trophy className="h-5 w-5 sm:h-6 sm:w-6 text-secondary-yellow mx-auto mb-2" />
+                <div className="text-lg sm:text-xl font-bold text-secondary-yellow mb-1">4</div>
                 <div className="text-[10px] sm:text-xs text-gray-300 text-center whitespace-nowrap font-medium">Tracks</div>
               </div>
               <div className="bg-white/10 backdrop-blur-lg rounded-xl p-3 sm:p-4 border border-white/20 min-w-0 hover:bg-white/15 transition-all duration-300 hover:scale-105">
-                <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-fury-orange mx-auto mb-2" />
-                <div className="text-lg sm:text-xl font-bold text-fury-orange mb-1">20+</div>
+                <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-secondary-yellow mx-auto mb-2" />
+                <div className="text-lg sm:text-xl font-bold text-secondary-yellow mb-1">20+</div>
                 <div className="text-[10px] sm:text-xs text-gray-300 text-center whitespace-nowrap font-medium">Min Sessions</div>
               </div>
               <div className="bg-white/10 backdrop-blur-lg rounded-xl p-3 sm:p-4 border border-white/20 min-w-0 hover:bg-white/15 transition-all duration-300 hover:scale-105">
-                <Users className="h-5 w-5 sm:h-6 sm:w-6 text-fury-orange mx-auto mb-2" />
-                <div className="text-lg sm:text-xl font-bold text-fury-orange mb-1">4</div>
+                <Users className="h-5 w-5 sm:h-6 sm:w-6 text-secondary-yellow mx-auto mb-2" />
+                <div className="text-lg sm:text-xl font-bold text-secondary-yellow mb-1">4</div>
                 <div className="text-[10px] sm:text-xs text-gray-300 text-center whitespace-nowrap font-medium">Players</div>
               </div>
             </div>
