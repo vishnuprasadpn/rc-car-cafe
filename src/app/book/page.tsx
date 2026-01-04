@@ -161,10 +161,6 @@ function BookPageContent() {
     )
   }
 
-  if (!session) {
-    return null
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
       <Navigation />
