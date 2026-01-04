@@ -81,8 +81,7 @@ export default async function HomePage() {
                 className="group relative bg-fury-orange text-fury-white px-6 py-3 sm:px-8 sm:py-3.5 rounded-lg text-sm sm:text-base font-semibold hover:bg-fury-orange/90 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25 w-full sm:w-auto"
               >
                 <span className="relative flex items-center justify-center">
-                  <Zap className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                  <span className="whitespace-nowrap">START RACING NOW</span>
+                  <span className="whitespace-nowrap">Book Now</span>
                 </span>
               </Link>
             </div>
