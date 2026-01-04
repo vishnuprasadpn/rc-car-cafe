@@ -88,13 +88,13 @@ export default async function HomePage() {
 
       </div>
 
-      {/* Racing Tracks Section with Unique Design */}
+      {/* What We Offer Section */}
       <div className="py-24 relative overflow-hidden transition-all duration-700">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
             src="/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_0.jpg"
-            alt="RC Car Drift Background"
+            alt="What We Offer Background"
             fill
             className="object-cover"
             quality={85}
@@ -106,123 +106,75 @@ export default async function HomePage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-red-600/20 to-blue-600/20 border border-red-500/20 mb-8 backdrop-blur-sm">
-              <Car className="h-4 w-4 text-red-400 mr-2" />
-              <span className="text-red-200 text-sm font-medium">Our Racing Tracks</span>
+              <Trophy className="h-4 w-4 text-red-400 mr-2" />
+              <span className="text-red-200 text-sm font-medium">What We Offer</span>
             </div>
             <h2 className="font-heading text-xl sm:text-3xl md:text-4xl text-white mb-6 uppercase">
-              Our <span className="bg-gradient-to-r from-red-300 via-yellow-300 to-blue-300 bg-clip-text text-transparent">Racing Tracks</span>
+              What We Offer
             </h2>
             <p className="text-sm sm:text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Four specialized tracks designed for different RC vehicle types and racing styles
+              Discover our exciting range of activities and experiences
             </p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                name: "Fast Track",
-                difficulty: "All Levels",
-                color: "red",
-                priceStartsAt: 249,
-                description: "High-speed racing track with Toy Grade and Hobby Grade RC cars. Choose from 15 mins, 30 mins, or 1 hour sessions.",
+                name: "RC Tracks",
+                description: "Experience adrenaline-pumping RC racing on professional tracks. Choose from Fast Track, Mud Track, Sand Track, and Crawler Track with various vehicle options.",
                 gradient: "from-red-500 to-red-700",
-                surface: "Asphalt",
-                vehicles: "Toy Grade & Hobby Grade RC cars",
-                image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_0.jpg"
+                icon: Car,
+                link: "/tracks"
               },
               {
-                name: "Mud Track",
-                difficulty: "Intermediate",
-                color: "brown",
-                priceStartsAt: 249,
-                description: "Off-road mud track with Land Cruiser RC vehicles. Experience challenging terrain with water hazards.",
-                gradient: "from-amber-600 to-amber-800",
-                surface: "Mud & Water",
-                vehicles: "Land Cruiser RC vehicles",
-                image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_truck_rac_3.jpg"
+                name: "PS5 Gaming",
+                description: "Enjoy cutting-edge PlayStation 5 gaming experience. Play the latest games with friends and family in our dedicated gaming zone.",
+                gradient: "from-blue-500 to-blue-700",
+                icon: Zap,
+                link: "/book"
               },
               {
-                name: "Crawler Track",
-                difficulty: "Advanced",
-                color: "green",
-                priceStartsAt: 249,
-                description: "Technical rock crawling course with Defender and Land Rover RC vehicles. Perfect for precision control.",
-                gradient: "from-green-500 to-green-700",
-                surface: "Rocks & Obstacles",
-                vehicles: "Defender & Land Rover RC Crawlers",
-                image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_closeup_of_an_RC_crawler_0.jpg"
+                name: "Birthday & Corporate Events",
+                description: "Host unforgettable birthday parties and corporate team-building events. Perfect for groups looking for fun, competitive, and memorable experiences.",
+                gradient: "from-purple-500 to-purple-700",
+                icon: Users,
+                link: "/contact"
               },
               {
-                name: "Sand Track",
-                difficulty: "Intermediate",
-                color: "yellow",
-                priceStartsAt: 249,
-                description: "Sand track with RC Trucks, JCB, and Bulldozer vehicles. Heavy machinery racing on sand terrain.",
-                gradient: "from-yellow-500 to-yellow-700",
-                surface: "Sand & Dunes",
-                vehicles: "Trucks, JCB & Bulldozer RC Machines",
-                image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_closeup_of_an_RC_crawler_2.jpg"
+                name: "Cafe",
+                description: "Relax and refuel at our cafe. Enjoy delicious food and beverages while watching the racing action or taking a break between sessions.",
+                gradient: "from-amber-500 to-amber-700",
+                icon: Heart,
+                link: "/contact"
               }
-            ].map((track, index) => (
-              <Link 
-                key={index} 
-                href={`/book?track=${encodeURIComponent(track.name)}`}
-                className="group relative block"
-              >
-                <div className={`absolute inset-0 bg-gradient-to-br ${track.gradient} opacity-0 group-hover:opacity-30 rounded-2xl blur-2xl transition-all duration-500`}></div>
-                <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-500 border border-white/20 group-hover:border-white/40 group-hover:shadow-2xl group-hover:shadow-fury-orange/20">
-                  {/* Track Image */}
-                  <div className="relative h-48 overflow-hidden">
-                    <Image
-                      src={track.image}
-                      alt={track.name}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                    <div className="absolute top-3 right-3">
-                      <div className={`px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-bold backdrop-blur-sm ${
-                        track.difficulty === 'Expert' ? 'bg-red-500/30 text-red-200 border border-red-400/50' :
-                        track.difficulty === 'Intermediate' ? 'bg-blue-500/30 text-blue-200 border border-blue-400/50' :
-                        track.difficulty === 'Beginner' ? 'bg-green-500/30 text-green-200 border border-green-400/50' :
-                        'bg-purple-500/30 text-purple-200 border border-purple-400/50'
-                      }`}>
-                        {track.difficulty}
+            ].map((offer, index) => {
+              const IconComponent = offer.icon
+              return (
+                <Link 
+                  key={index} 
+                  href={offer.link}
+                  className="group relative block"
+                >
+                  <div className={`absolute inset-0 bg-gradient-to-br ${offer.gradient} opacity-0 group-hover:opacity-30 rounded-2xl blur-2xl transition-all duration-500`}></div>
+                  <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-500 border border-white/20 group-hover:border-white/40 group-hover:shadow-2xl group-hover:shadow-fury-orange/20 h-full flex flex-col">
+                    {/* Content */}
+                    <div className="p-6 flex-1 flex flex-col">
+                      <div className={`w-14 h-14 bg-gradient-to-br ${offer.gradient} rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300`}>
+                        <IconComponent className="h-7 w-7 text-white" />
                       </div>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="text-lg sm:text-xl font-bold text-white">{track.name}</h3>
-                    </div>
-                  </div>
-                  
-                  {/* Track Details */}
-                  <div className="p-5">
-                    <p className="text-gray-300 text-xs sm:text-sm mb-4 leading-relaxed line-clamp-2">{track.description}</p>
-                    
-                    <div className="space-y-2 mb-4 pb-4 border-b border-white/10">
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-gray-400">Surface</span>
-                        <span className="text-white font-semibold">{track.surface}</span>
-                      </div>
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-gray-400">Vehicles</span>
-                        <span className="text-white font-semibold text-[10px]">{track.vehicles}</span>
-                      </div>
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-gray-400">Price starts at</span>
-                        <span className="text-fury-orange font-semibold">₹{track.priceStartsAt}</span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center justify-end">
-                      <div className={`px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r ${track.gradient} group-hover:shadow-lg transition-all`}>
-                        Book Now
+                      <h3 className="font-heading text-lg sm:text-xl text-white mb-3 uppercase">{offer.name}</h3>
+                      <p className="text-gray-300 text-sm leading-relaxed flex-1">{offer.description}</p>
+                      
+                      <div className="flex items-center justify-end mt-4">
+                        <div className={`px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r ${offer.gradient} group-hover:shadow-lg transition-all`}>
+                          Learn More
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              )
+            })}
           </div>
         </div>
       </div>
