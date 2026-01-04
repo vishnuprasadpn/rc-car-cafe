@@ -533,43 +533,41 @@ export default async function HomePage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Location Section */}
           <div className="mb-12 sm:mb-16">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-6">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full flex items-center justify-center shadow-2xl">
-                <MapPin className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-fury-orange to-primary-600 rounded-full mb-4 shadow-2xl">
+                <MapPin className="h-8 w-8 text-white" />
               </div>
-              <div className="text-center sm:text-left">
-                <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl text-white mb-2 uppercase">
-                  Located in <span className="bg-gradient-to-r from-fury-orange to-primary-600 bg-clip-text text-transparent">Bangalore</span>
-                </h2>
-                <p className="text-gray-300 text-sm sm:text-base">
-                  Karnataka, India
-                </p>
-              </div>
+              <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl text-white mb-2 uppercase">
+                Located in <span className="bg-gradient-to-r from-fury-orange to-primary-600 bg-clip-text text-transparent">Bangalore</span>
+              </h2>
+              <p className="text-gray-300 text-sm sm:text-base">
+                Karnataka, India
+              </p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-5 border border-white/20 hover:bg-white/15 transition-all h-full flex flex-col">
-                <div className="flex items-start">
-                  <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <MapPin className="h-5 w-5 text-fury-orange" />
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 sm:p-8 border border-white/20 hover:bg-white/15 transition-all">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-fury-orange/20 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                    <MapPin className="h-6 w-6 text-fury-orange" />
                   </div>
-                  <div className="flex-1">
-                    <div className="text-xs text-gray-400 mb-1">Address</div>
-                    <div className="text-sm font-semibold text-white leading-relaxed">FuryRoad RC Club, Yelenahalli Main Rd, Akshayanagara East, Akshayanagar, Bengaluru, Karnataka 560114</div>
-                  </div>
+                  <div className="text-base font-semibold text-white uppercase">Address</div>
                 </div>
+                <p className="text-gray-300 text-sm sm:text-base leading-relaxed pl-16">
+                  FuryRoad RC Club, Yelenahalli Main Rd, Akshayanagara East, Akshayanagar, Bengaluru, Karnataka 560114
+                </p>
               </div>
               
-              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-5 border border-white/20 hover:bg-white/15 transition-all h-full flex flex-col">
-                <div className="flex items-start">
-                  <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                    <Clock className="h-5 w-5 text-blue-400" />
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 sm:p-8 border border-white/20 hover:bg-white/15 transition-all">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                    <Clock className="h-6 w-6 text-blue-400" />
                   </div>
-                  <div className="flex-1">
-                    <div className="text-xs text-gray-400 mb-1">Operating Hours</div>
-                    <div className="text-sm font-semibold text-white leading-relaxed">Daily 11 AM - 11 PM</div>
-                  </div>
+                  <div className="text-base font-semibold text-white uppercase">Operating Hours</div>
                 </div>
+                <p className="text-gray-300 text-sm sm:text-base leading-relaxed pl-16">
+                  Daily 11 AM - 11 PM
+                </p>
               </div>
             </div>
           </div>
