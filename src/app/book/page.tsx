@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { Clock, DollarSign, X, Lock, Mail } from "lucide-react"
+import Link from "next/link"
 import Navigation from "@/components/navigation"
 import { trackBooking, trackButtonClick, trackFormSubmit } from "@/lib/analytics"
 
@@ -20,6 +21,13 @@ const bookingSchema = z.object({
 })
 
 type BookingForm = z.infer<typeof bookingSchema>
+
+const loginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+})
+
+type LoginForm = z.infer<typeof loginSchema>
 
 interface Game {
   id: string
@@ -37,6 +45,9 @@ function BookPageContent() {
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState("")
+  const [showLogin, setShowLogin] = useState(false)
+  const [loginLoading, setLoginLoading] = useState(false)
+  const [loginError, setLoginError] = useState("")
 
   const {
     register,
@@ -46,6 +57,15 @@ function BookPageContent() {
     formState: { errors },
   } = useForm<BookingForm>({
     resolver: zodResolver(bookingSchema),
+  })
+
+  const {
+    register: registerLogin,
+    handleSubmit: handleLoginSubmit,
+    formState: { errors: loginErrors },
+    reset: resetLogin,
+  } = useForm<LoginForm>({
+    resolver: zodResolver(loginSchema),
   })
 
   const selectedGameId = watch("gameId")
