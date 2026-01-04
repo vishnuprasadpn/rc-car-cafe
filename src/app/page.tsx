@@ -123,8 +123,8 @@ export default async function HomePage() {
                 name: "RC Tracks",
                 description: "Experience adrenaline-pumping RC racing on professional tracks. Choose from Fast Track, Mud Track, Sand Track, and Crawler Track with various vehicle options.",
                 gradient: "from-red-500 to-red-700",
-                textColor: "text-red-400",
-                underlineColor: "bg-red-400",
+                textColor: "text-secondary-yellow",
+                underlineColor: "bg-secondary-yellow",
                 icon: Car,
                 link: "/tracks",
                 image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_0.jpg"
@@ -513,7 +513,7 @@ export default async function HomePage() {
                 <MapPin className="h-8 w-8 text-white" />
               </div>
               <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl text-white mb-2 uppercase">
-                Located in <span className="bg-gradient-to-r from-fury-orange to-primary-600 bg-clip-text text-transparent">Bangalore</span>
+                Located in <span className="bg-gradient-to-r from-secondary-yellow to-secondary-yellow bg-clip-text text-transparent">Bangalore</span>
               </h2>
               <p className="text-gray-300 text-sm sm:text-base">
                 Karnataka, India

@@ -56,9 +56,9 @@ export default function AboutPage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center text-white">
             <div className="mb-8">
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-600/10 border border-red-500/20 mb-6">
-                <Trophy className="h-4 w-4 text-red-400 mr-2" />
-                <span className="text-red-200 text-sm font-medium">About Fury Road RC Club</span>
+              <div className="inline-flex items-center px-4 py-2 rounded-full bg-secondary-yellow/10 border border-secondary-yellow/30 mb-6">
+                <Trophy className="h-4 w-4 text-secondary-yellow mr-2" />
+                <span className="text-secondary-yellow/90 text-sm font-medium">About Fury Road RC Club</span>
               </div>
             </div>
             

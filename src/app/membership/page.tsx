@@ -115,9 +115,9 @@ export default function MembershipPage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center text-white">
             <div className="mb-8">
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-fury-orange/10 border border-fury-orange/20 mb-6">
-                <Gift className="h-4 w-4 text-fury-orange mr-2" />
-                <span className="text-fury-orange text-sm font-medium">Monthly Membership Plans</span>
+              <div className="inline-flex items-center px-4 py-2 rounded-full bg-secondary-yellow/10 border border-secondary-yellow/30 mb-6">
+                <Gift className="h-4 w-4 text-secondary-yellow mr-2" />
+                <span className="text-secondary-yellow/90 text-sm font-medium">Monthly Membership Plans</span>
               </div>
             </div>
             
