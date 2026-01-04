@@ -188,6 +188,54 @@ function BookPageContent() {
     }
   }
 
+  const onLoginSubmit = async (loginData: LoginForm) => {
+    setLoginLoading(true)
+    setLoginError("")
+
+    try {
+      const result = await signIn("credentials", {
+        email: loginData.email,
+        password: loginData.password,
+        redirect: false,
+      })
+
+      if (result?.error) {
+        setLoginError("Invalid email or password")
+      } else {
+        // Get the updated session
+        const updatedSession = await getSession()
+        
+        // Close login modal
+        setShowLogin(false)
+        resetLogin()
+        
+        // Retrieve pending booking data and submit
+        const pendingBooking = sessionStorage.getItem("pendingBooking")
+        if (pendingBooking) {
+          try {
+            const bookingData = JSON.parse(pendingBooking)
+            const formData: BookingForm = {
+              gameId: bookingData.gameId,
+              date: bookingData.date,
+              time: bookingData.time,
+              players: bookingData.players,
+            }
+            await submitBooking(formData)
+          } catch {
+            setError("Failed to restore booking data. Please fill the form again.")
+          }
+        } else {
+          // If no pending booking, just refresh the page
+          router.refresh()
+        }
+      }
+    } catch {
+      setLoginError("An error occurred. Please try again.")
+    } finally {
+      setLoginLoading(false)
+    }
+  }
+
   if (status === "loading" || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-black to-gray-900">
