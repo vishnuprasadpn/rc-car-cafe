@@ -149,7 +149,7 @@ export default async function HomePage() {
                 gradient: "from-amber-500 to-amber-700",
                 icon: Heart,
                 link: "/contact",
-                image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_truck_rac_3.jpg"
+                image: "/cafe.png"
               }
             ].map((offer, index) => {
               const IconComponent = offer.icon
