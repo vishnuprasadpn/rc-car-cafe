@@ -122,6 +122,19 @@ export default function Navigation() {
                     Contact
                   </Link>
                 )}
+                {!pathname?.startsWith('/book') && (
+                  <Link 
+                    href="/book" 
+                    onClick={() => {
+                      trackNavigation("/book", pathname || "")
+                      trackButtonClick("Book Now", "navigation")
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className="px-4 py-3 rounded-lg bg-fury-orange text-white hover:bg-fury-orange/90 transition-colors font-semibold"
+                  >
+                    Book Now
+                  </Link>
+                )}
                 {session ? (
                   <Link
                     href="/dashboard"
@@ -210,8 +223,20 @@ export default function Navigation() {
                 )}
               </div>
               
-              {/* Sign In / Sign Up or User Menu */}
+              {/* Book Now and Sign In / Sign Up or User Menu */}
               <div className="flex items-center space-x-4">
+                {!pathname?.startsWith('/book') && (
+                  <Link
+                    href="/book"
+                    onClick={() => {
+                      trackNavigation("/book", pathname || "")
+                      trackButtonClick("Book Now", "navigation")
+                    }}
+                    className="bg-fury-orange text-white rounded-lg px-4 py-2 text-sm font-semibold hover:bg-fury-orange/90 shadow-lg hover:shadow-fury-orange/25 transition-all"
+                  >
+                    Book Now
+                  </Link>
+                )}
                 {session ? (
                   <Link
                     href="/dashboard"
