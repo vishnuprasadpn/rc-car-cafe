@@ -4,12 +4,14 @@ import Link from "next/link"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { usePathname } from "next/navigation"
-import { Zap, Home, Car, Mail, Gift } from "lucide-react"
+import { Zap, Home, Car, Mail, Gift, Menu, X } from "lucide-react"
 import { trackNavigation, trackButtonClick } from "@/lib/analytics"
+import { useState } from "react"
 
 export default function Navigation() {
   const { data: session, status } = useSession()
   const pathname = usePathname()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   // Define public routes where navigation should always show
   const publicRoutes = [
