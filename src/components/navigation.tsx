@@ -125,7 +125,7 @@ export default function Navigation() {
                     className="p-2 rounded-lg bg-fury-orange/20 text-fury-orange hover:bg-fury-orange/30 transition-colors"
                     title="Sign In"
                   >
-                    <UserPlus className="h-5 w-5" />
+                    Sign In
                   </Link>
                 )}
               </div>
@@ -202,7 +202,6 @@ export default function Navigation() {
                       trackButtonClick("Sign In", "navigation")
                     }}
                   >
-                    <Zap className="h-4 w-4 mr-2 text-white" />
                     Sign In
                   </Link>
                 )}
