@@ -133,7 +133,7 @@ export default async function HomePage() {
                 gradient: "from-blue-500 to-blue-700",
                 icon: Zap,
                 link: "/book",
-                image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_2.jpg"
+                image: "/ps5-gaming.png"
               },
               {
                 name: "Birthday & Corporate Events",
