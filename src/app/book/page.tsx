@@ -52,9 +52,10 @@ function BookPageContent() {
   const selectedGame = games.find(game => game.id === selectedGameId)
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth/signin")
-    } else if (status === "authenticated") {
+    if (status === "authenticated") {
+      fetchGames()
+    } else if (status !== "loading") {
+      // Allow unauthenticated users to view the page
       fetchGames()
     }
   }, [status, router])
@@ -71,6 +72,25 @@ function BookPageContent() {
       }
     }
   }, [searchParams, games, setValue])
+
+  // Restore pending booking data after login
+  useEffect(() => {
+    if (status === "authenticated" && games.length > 0) {
+      const pendingBooking = sessionStorage.getItem("pendingBooking")
+      if (pendingBooking) {
+        try {
+          const bookingData = JSON.parse(pendingBooking)
+          setValue('gameId', bookingData.gameId)
+          setValue('date', bookingData.date)
+          setValue('time', bookingData.time)
+          setValue('players', bookingData.players)
+        } catch {
+          // Invalid data, clear it
+          sessionStorage.removeItem("pendingBooking")
+        }
+      }
+    }
+  }, [status, games, setValue])
 
   const fetchGames = async () => {
     try {
