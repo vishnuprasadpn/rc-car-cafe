@@ -552,7 +552,7 @@ export default async function HomePage() {
               </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
               <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-5 border border-white/20 hover:bg-white/15 transition-all">
                 <div className="flex items-center justify-center sm:justify-start mb-3">
                   <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-3">
@@ -573,18 +573,6 @@ export default async function HomePage() {
                   <div>
                     <div className="text-xs text-gray-400 mb-1">Operating Hours</div>
                     <div className="text-sm font-semibold text-white">Daily 11 AM - 11 PM</div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-5 border border-white/20 hover:bg-white/15 transition-all">
-                <div className="flex items-center justify-center sm:justify-start mb-3">
-                  <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center mr-3">
-                    <Trophy className="h-5 w-5 text-green-400" />
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-400 mb-1">Experience</div>
-                    <div className="text-sm font-semibold text-white">Professional Racing</div>
                   </div>
                 </div>
               </div>
