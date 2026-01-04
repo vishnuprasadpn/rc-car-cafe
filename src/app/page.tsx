@@ -12,7 +12,10 @@ import {
   Target,
   Award,
   Heart,
-  Car
+  Car,
+  Facebook,
+  Instagram,
+  Youtube
 } from "lucide-react"
 
 export default async function HomePage() {
@@ -562,29 +565,67 @@ export default async function HomePage() {
               </div>
               
               {/* Details Section */}
-              <div className="flex flex-col gap-4 sm:gap-6">
-                <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 sm:p-8 border border-white/20 hover:bg-white/15 transition-all flex-1">
-                  <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 bg-fury-orange/20 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                      <MapPin className="h-6 w-6 text-fury-orange" />
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 sm:p-8 border border-white/20 hover:bg-white/15 transition-all h-full flex flex-col">
+                <div className="space-y-6 flex-1">
+                  {/* Address */}
+                  <div>
+                    <div className="flex items-center mb-3">
+                      <div className="w-12 h-12 bg-fury-orange/20 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                        <MapPin className="h-6 w-6 text-fury-orange" />
+                      </div>
+                      <div className="text-base font-semibold text-white uppercase">Address</div>
                     </div>
-                    <div className="text-base font-semibold text-white uppercase">Address</div>
+                    <p className="text-gray-300 text-sm sm:text-base leading-relaxed pl-16">
+                      FuryRoad RC Club, Yelenahalli Main Rd, Akshayanagara East, Akshayanagar, Bengaluru, Karnataka 560114
+                    </p>
                   </div>
-                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                    FuryRoad RC Club, Yelenahalli Main Rd, Akshayanagara East, Akshayanagar, Bengaluru, Karnataka 560114
-                  </p>
+                  
+                  {/* Operating Hours */}
+                  <div>
+                    <div className="flex items-center mb-3">
+                      <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                        <Clock className="h-6 w-6 text-blue-400" />
+                      </div>
+                      <div className="text-base font-semibold text-white uppercase">Operating Hours</div>
+                    </div>
+                    <p className="text-gray-300 text-sm sm:text-base leading-relaxed pl-16">
+                      Daily 11 AM - 11 PM
+                    </p>
+                  </div>
                 </div>
-                
-                <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 sm:p-8 border border-white/20 hover:bg-white/15 transition-all flex-1">
-                  <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                      <Clock className="h-6 w-6 text-blue-400" />
-                    </div>
-                    <div className="text-base font-semibold text-white uppercase">Operating Hours</div>
+
+                {/* Social Media Links */}
+                <div className="mt-6 pt-6 border-t border-white/20">
+                  <div className="text-sm text-gray-400 mb-3">Follow Us</div>
+                  <div className="flex items-center gap-4">
+                    <a
+                      href="https://www.facebook.com/furyroadrcclub"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-10 h-10 bg-blue-600/20 rounded-lg flex items-center justify-center hover:bg-blue-600/30 transition-colors group"
+                      aria-label="Facebook"
+                    >
+                      <Facebook className="h-5 w-5 text-blue-400 group-hover:text-blue-300" />
+                    </a>
+                    <a
+                      href="https://www.instagram.com/furyroadrcclub"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-10 h-10 bg-pink-600/20 rounded-lg flex items-center justify-center hover:bg-pink-600/30 transition-colors group"
+                      aria-label="Instagram"
+                    >
+                      <Instagram className="h-5 w-5 text-pink-400 group-hover:text-pink-300" />
+                    </a>
+                    <a
+                      href="https://www.youtube.com/@furyroadrcclub"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-10 h-10 bg-red-600/20 rounded-lg flex items-center justify-center hover:bg-red-600/30 transition-colors group"
+                      aria-label="YouTube"
+                    >
+                      <Youtube className="h-5 w-5 text-red-400 group-hover:text-red-300" />
+                    </a>
                   </div>
-                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                    Daily 11 AM - 11 PM
-                  </p>
                 </div>
               </div>
             </div>
