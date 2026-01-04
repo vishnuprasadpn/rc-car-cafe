@@ -141,7 +141,7 @@ export default async function HomePage() {
                 gradient: "from-purple-500 to-purple-700",
                 icon: Users,
                 link: "/contact",
-                image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_closeup_of_an_RC_crawler_0.jpg"
+                image: "/birthday-events.png"
               },
               {
                 name: "Cafe",
