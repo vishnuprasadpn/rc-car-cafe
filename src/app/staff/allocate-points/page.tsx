@@ -251,7 +251,7 @@ export default function AllocatePointsPage() {
                   <button
                     type="submit"
                     disabled={!selectedCustomer || !points || !reason || isLoading}
-                    className="w-full px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-md hover:from-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-lg hover:shadow-fury-orange/25 text-xs sm:text-sm font-semibold"
+                    className="w-full px-3 py-1.5 sm:px-4 sm:py-2 bg-fury-orange text-white rounded-md hover:bg-fury-orange/90 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-lg hover:shadow-fury-orange/25 text-xs sm:text-sm font-semibold"
                   >
                     {isLoading ? (
                       <>

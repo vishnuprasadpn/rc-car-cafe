@@ -349,7 +349,7 @@ export default function ProfilePage() {
                   <button
                     type="submit"
                     disabled={isSaving}
-                    className="px-4 py-2 sm:px-5 sm:py-2.5 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg text-xs sm:text-sm font-semibold hover:from-primary-600 hover:to-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-fury-orange/25 flex items-center gap-2"
+                    className="px-4 py-2 sm:px-5 sm:py-2.5 bg-fury-orange text-white rounded-lg text-xs sm:text-sm font-semibold hover:bg-fury-orange/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-fury-orange/25 flex items-center gap-2"
                   >
                     {isSaving ? (
                       <>

@@ -108,7 +108,7 @@ export default function StaffCustomersPage() {
               </div>
               <a
                 href="/staff/register-customer"
-                className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 text-xs sm:text-sm font-semibold"
+                className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-fury-orange text-white rounded-lg hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25 text-xs sm:text-sm font-semibold"
               >
                 <UserPlus className="h-4 w-4 mr-2" />
                 Register New Customer

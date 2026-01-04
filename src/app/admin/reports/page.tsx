@@ -155,7 +155,7 @@ export default function AdminReportsPage() {
                 <div className="flex items-end">
                   <button
                     onClick={fetchReports}
-                    className="w-full bg-gradient-to-r from-fury-orange to-primary-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-md hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 text-xs sm:text-sm font-semibold"
+                    className="w-full bg-fury-orange text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-md hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25 text-xs sm:text-sm font-semibold"
                   >
                     Update Reports
                   </button>
@@ -171,7 +171,7 @@ export default function AdminReportsPage() {
               <p className="text-gray-400 mb-4">No reports data found for the selected period.</p>
               <button
                 onClick={fetchReports}
-                className="bg-gradient-to-r from-fury-orange to-primary-600 text-white px-4 py-2 rounded-md hover:from-primary-600 hover:to-primary-700 transition-all"
+                className="bg-fury-orange text-white px-4 py-2 rounded-md hover:bg-fury-orange/90 transition-all"
               >
                 Refresh Reports
               </button>

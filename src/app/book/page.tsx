@@ -273,7 +273,7 @@ function BookPageContent() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="px-4 py-2 sm:px-5 sm:py-2.5 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg text-xs sm:text-sm font-semibold hover:from-primary-600 hover:to-primary-700 disabled:opacity-50 transition-all shadow-lg hover:shadow-fury-orange/25"
+                    className="px-4 py-2 sm:px-5 sm:py-2.5 bg-fury-orange text-white rounded-lg text-xs sm:text-sm font-semibold hover:bg-fury-orange/90 disabled:opacity-50 transition-all shadow-lg hover:shadow-fury-orange/25"
                   >
                     {submitting ? "Creating Booking..." : "Create Booking"}
                   </button>

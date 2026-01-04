@@ -369,7 +369,7 @@ export default function AdminTimerPage() {
               </Link>
               <button
                 onClick={() => setShowForm(true)}
-                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg font-semibold hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25"
+                className="inline-flex items-center px-4 py-2 bg-fury-orange text-white rounded-lg font-semibold hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Add Timer
@@ -488,7 +488,7 @@ export default function AdminTimerPage() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="px-4 py-1.5 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-md text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-1.5 bg-fury-orange text-white rounded-md text-sm font-semibold hover:bg-fury-orange/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {submitting ? "Creating..." : "Create"}
                   </button>

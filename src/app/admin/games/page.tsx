@@ -213,7 +213,7 @@ export default function AdminGamesPage() {
                 setEditingGame(null)
                 reset()
               }}
-              className="inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 border border-transparent text-xs sm:text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-fury-orange to-primary-600 hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25"
+              className="inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 border border-transparent text-xs sm:text-sm font-semibold rounded-lg text-white bg-fury-orange hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Game
@@ -321,7 +321,7 @@ export default function AdminGamesPage() {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="px-4 py-2 sm:px-5 sm:py-2.5 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg text-xs sm:text-sm font-semibold hover:from-primary-600 hover:to-primary-700 disabled:opacity-50 transition-all shadow-lg hover:shadow-fury-orange/25"
+                      className="px-4 py-2 sm:px-5 sm:py-2.5 bg-fury-orange text-white rounded-lg text-xs sm:text-sm font-semibold hover:bg-fury-orange/90 disabled:opacity-50 transition-all shadow-lg hover:shadow-fury-orange/25"
                     >
                       {submitting ? "Saving..." : editingGame ? "Update Game" : "Create Game"}
                     </button>

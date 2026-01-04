@@ -165,7 +165,7 @@ export default function ProfessionalRacingPage() {
                   </p>
                   <Link
                     href="/auth/signup"
-                    className="group inline-block bg-gradient-to-r from-fury-orange to-primary-600 text-fury-white px-8 py-3.5 rounded-lg text-base font-semibold hover:from-primary-600 hover:to-primary-700 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25"
+                    className="group inline-block bg-fury-orange text-fury-white px-8 py-3.5 rounded-lg text-base font-semibold hover:bg-fury-orange/90 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25"
                   >
                     <span className="flex items-center justify-center">
                       <Zap className="h-5 w-5 mr-2 group-hover:animate-spin" />

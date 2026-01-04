@@ -671,7 +671,7 @@ export default function UserDetailPage() {
               {!showCreateMembership && (
                 <button
                   onClick={() => setShowCreateMembership(true)}
-                  className="px-4 py-2 bg-gradient-to-r from-fury-orange to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white rounded-lg text-sm font-semibold transition-all flex items-center shadow-lg hover:shadow-fury-orange/25"
+                  className="px-4 py-2 bg-fury-orange hover:bg-fury-orange/90 text-white rounded-lg text-sm font-semibold transition-all flex items-center shadow-lg hover:shadow-fury-orange/25"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Create Membership
@@ -766,7 +766,7 @@ export default function UserDetailPage() {
                     <button
                       type="submit"
                       disabled={creatingMembership}
-                      className="px-6 py-2 bg-gradient-to-r from-fury-orange to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white rounded-lg text-sm font-semibold transition-all shadow-lg hover:shadow-fury-orange/25 disabled:opacity-50 flex items-center"
+                      className="px-6 py-2 bg-fury-orange hover:bg-fury-orange/90 text-white rounded-lg text-sm font-semibold transition-all shadow-lg hover:shadow-fury-orange/25 disabled:opacity-50 flex items-center"
                     >
                       {creatingMembership ? "Creating..." : "Create Membership"}
                     </button>

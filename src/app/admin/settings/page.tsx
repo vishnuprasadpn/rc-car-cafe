@@ -280,7 +280,7 @@ export default function AdminSettingsPage() {
                       resetCreate()
                     }
                   }}
-                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 text-sm font-semibold"
+                  className="inline-flex items-center px-4 py-2 bg-fury-orange text-white rounded-lg hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25 text-sm font-semibold"
                 >
                   <UserPlus className="h-4 w-4 mr-2" />
                   {showAddAdminForm ? "Cancel" : "Add New Admin"}
@@ -389,7 +389,7 @@ export default function AdminSettingsPage() {
                       <button
                         type="submit"
                         disabled={creatingAdmin}
-                        className="px-6 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-6 py-2 bg-fury-orange text-white rounded-lg text-sm font-semibold hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {creatingAdmin ? (
                           <>
@@ -618,7 +618,7 @@ export default function AdminSettingsPage() {
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="px-6 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-6 py-2 bg-fury-orange text-white rounded-lg text-sm font-semibold hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {submitting ? (
                           <>
@@ -671,7 +671,7 @@ export default function AdminSettingsPage() {
                             phone: currentUser.phone || "",
                           })
                         }}
-                        className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 text-sm font-semibold"
+                        className="inline-flex items-center px-4 py-2 bg-fury-orange text-white rounded-lg hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25 text-sm font-semibold"
                       >
                         <Edit className="h-4 w-4 mr-2" />
                         Edit Profile

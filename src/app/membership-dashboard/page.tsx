@@ -118,7 +118,7 @@ export default function MembershipDashboard() {
             <p className="text-gray-400 mb-6">You don&apos;t have an active membership yet.</p>
             <Link
               href="/membership"
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 font-semibold"
+              className="inline-flex items-center px-6 py-3 bg-fury-orange text-white rounded-lg hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25 font-semibold"
             >
               View Membership Plans
             </Link>
@@ -184,7 +184,7 @@ export default function MembershipDashboard() {
                   <div className="bg-white/5 rounded-lg p-4 flex items-center justify-center">
                     <Link
                       href="/book"
-                      className="w-full px-6 py-3 bg-gradient-to-r from-fury-orange to-primary-600 text-white rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 font-semibold text-center flex items-center justify-center"
+                      className="w-full px-6 py-3 bg-fury-orange text-white rounded-lg hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25 font-semibold text-center flex items-center justify-center"
                     >
                       <LinkIcon className="h-5 w-5 mr-2" />
                       Book Session

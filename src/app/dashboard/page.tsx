@@ -176,14 +176,14 @@ export default function DashboardPage() {
                 <div className="space-y-3">
                   <Link
                     href="/book"
-                    className="block w-full bg-gradient-to-r from-fury-orange to-primary-600 text-white text-center py-2 px-4 sm:py-2.5 sm:px-5 rounded-lg text-xs sm:text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25 flex items-center justify-center gap-2"
+                    className="block w-full bg-fury-orange text-white text-center py-2 px-4 sm:py-2.5 sm:px-5 rounded-lg text-xs sm:text-sm font-semibold hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25 flex items-center justify-center gap-2"
                   >
                     <Calendar className="h-4 w-4" />
                     Book Now
                   </Link>
                   <Link
                     href="/points"
-                    className="block w-full bg-gradient-to-r from-fury-orange to-primary-600 text-white text-center py-2 px-4 sm:py-2.5 sm:px-5 rounded-lg text-xs sm:text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25"
+                    className="block w-full bg-fury-orange text-white text-center py-2 px-4 sm:py-2.5 sm:px-5 rounded-lg text-xs sm:text-sm font-semibold hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25"
                   >
                     View Points
                   </Link>

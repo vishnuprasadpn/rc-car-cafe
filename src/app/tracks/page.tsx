@@ -168,7 +168,7 @@ export default function TracksPage() {
                   <div className="mt-auto pt-4">
                     <Link 
                       href={`/book?track=${encodeURIComponent(track.name)}`}
-                      className="w-full py-2.5 px-4 rounded-lg text-sm font-semibold text-white transition-all inline-block text-center bg-gradient-to-r from-fury-orange to-primary-600 hover:from-primary-600 hover:to-primary-700 shadow-lg hover:shadow-fury-orange/25"
+                      className="w-full py-2.5 px-4 rounded-lg text-sm font-semibold text-white transition-all inline-block text-center bg-fury-orange hover:bg-fury-orange/90 shadow-lg hover:shadow-fury-orange/25"
                     >
                       Book Now
                     </Link>

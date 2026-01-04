@@ -134,7 +134,7 @@ export default function BookingsPage() {
               </div>
               <Link
                 href="/book"
-                className="mt-4 sm:mt-0 inline-flex items-center justify-center bg-gradient-to-r from-fury-orange to-primary-600 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg text-xs sm:text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25"
+                className="mt-4 sm:mt-0 inline-flex items-center justify-center bg-fury-orange text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg text-xs sm:text-sm font-semibold hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25"
               >
                 <Calendar className="h-4 w-4 mr-2" />
                 New Booking
@@ -176,7 +176,7 @@ export default function BookingsPage() {
               </p>
               <Link
                 href="/book"
-                className="inline-flex items-center justify-center bg-gradient-to-r from-fury-orange to-primary-600 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-fury-orange/25"
+                className="inline-flex items-center justify-center bg-fury-orange text-white px-6 py-3 rounded-lg text-sm font-semibold hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25"
               >
                 <Calendar className="h-4 w-4 mr-2" />
                 Book Now
