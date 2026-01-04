@@ -232,7 +232,7 @@ export default function Navigation() {
                       trackNavigation("/book", pathname || "")
                       trackButtonClick("Book Now", "navigation")
                     }}
-                    className="bg-fury-orange text-white rounded-lg px-4 py-2 text-sm font-semibold hover:bg-fury-orange/90 shadow-lg hover:shadow-fury-orange/25 transition-all"
+                    className="bg-fury-orange text-white rounded-lg px-4 py-2 text-sm font-semibold hover:bg-fury-orange/90 shadow-lg hover:shadow-fury-orange/25 transition-all whitespace-nowrap"
                   >
                     Book Now
                   </Link>
