@@ -138,7 +138,7 @@ function BookingSuccessContent() {
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
       <Navigation />
 
-      <div className="max-w-5xl mx-auto pt-16 md:pt-20 py-6 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto pt-16 md:pt-20 py-6 sm:px-6 lg:px-8">
         {/* Success Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-green-500/20 rounded-full mb-4">
@@ -152,122 +152,125 @@ function BookingSuccessContent() {
           </p>
         </div>
 
-        {/* Booking Summary */}
-        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 mb-6">
-          <h2 className="text-xl sm:text-2xl font-bold text-white mb-6">Booking Summary</h2>
-          
-          <div className="space-y-4">
-            <div className="flex items-start">
-              <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                <Calendar className="h-5 w-5 text-fury-orange" />
+        {/* Two Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          {/* Left Section - Booking Summary */}
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-white mb-6">Booking Summary</h2>
+            
+            <div className="space-y-4">
+              <div className="flex items-start">
+                <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                  <Calendar className="h-5 w-5 text-fury-orange" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm text-gray-400 mb-1">Date & Time</div>
+                  <div className="text-white font-semibold">{formattedDate}</div>
+                  <div className="text-gray-300">{formattedStartTime} - {formattedEndTime}</div>
+                </div>
               </div>
-              <div className="flex-1">
-                <div className="text-sm text-gray-400 mb-1">Date & Time</div>
-                <div className="text-white font-semibold">{formattedDate}</div>
-                <div className="text-gray-300">{formattedStartTime} - {formattedEndTime}</div>
-              </div>
-            </div>
 
-            <div className="flex items-start">
-              <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                <Clock className="h-5 w-5 text-fury-orange" />
+              <div className="flex items-start">
+                <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                  <Clock className="h-5 w-5 text-fury-orange" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm text-gray-400 mb-1">Game</div>
+                  <div className="text-white font-semibold">{booking.game.name}</div>
+                  {booking.game.description && (
+                    <div className="text-gray-300 text-sm mt-1">{booking.game.description}</div>
+                  )}
+                  <div className="text-gray-300 text-sm mt-1">Duration: {booking.duration} minutes</div>
+                </div>
               </div>
-              <div className="flex-1">
-                <div className="text-sm text-gray-400 mb-1">Game</div>
-                <div className="text-white font-semibold">{booking.game.name}</div>
-                {booking.game.description && (
-                  <div className="text-gray-300 text-sm mt-1">{booking.game.description}</div>
-                )}
-                <div className="text-gray-300 text-sm mt-1">Duration: {booking.duration} minutes</div>
-              </div>
-            </div>
 
-            <div className="flex items-start">
-              <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                <Users className="h-5 w-5 text-fury-orange" />
+              <div className="flex items-start">
+                <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                  <Users className="h-5 w-5 text-fury-orange" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm text-gray-400 mb-1">Players</div>
+                  <div className="text-white font-semibold">{booking.players} {booking.players === 1 ? "Player" : "Players"}</div>
+                </div>
               </div>
-              <div className="flex-1">
-                <div className="text-sm text-gray-400 mb-1">Players</div>
-                <div className="text-white font-semibold">{booking.players} {booking.players === 1 ? "Player" : "Players"}</div>
-              </div>
-            </div>
 
-            <div className="flex items-start">
-              <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                <DollarSign className="h-5 w-5 text-fury-orange" />
+              <div className="flex items-start">
+                <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                  <DollarSign className="h-5 w-5 text-fury-orange" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm text-gray-400 mb-1">Total Amount</div>
+                  <div className="text-white font-semibold text-xl">₹{Number(booking.totalPrice).toLocaleString("en-IN")}</div>
+                  <div className="text-green-400 text-sm mt-1">Payment Status: {booking.paymentStatus}</div>
+                </div>
               </div>
-              <div className="flex-1">
-                <div className="text-sm text-gray-400 mb-1">Total Amount</div>
-                <div className="text-white font-semibold text-xl">₹{Number(booking.totalPrice).toLocaleString("en-IN")}</div>
-                <div className="text-green-400 text-sm mt-1">Payment Status: {booking.paymentStatus}</div>
-              </div>
-            </div>
 
-            <div className="flex items-start">
-              <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                <CheckCircle className="h-5 w-5 text-fury-orange" />
-              </div>
-              <div className="flex-1">
-                <div className="text-sm text-gray-400 mb-1">Booking Status</div>
-                <div className="text-green-400 font-semibold">{booking.status}</div>
-                <div className="text-gray-300 text-sm mt-1">Booking ID: {booking.id}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Location & Contact */}
-        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 mb-6">
-          <h2 className="text-xl sm:text-2xl font-bold text-white mb-6">Location & Contact</h2>
-          
-          <div className="space-y-4 mb-6">
-            <div className="flex items-start">
-              <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                <MapPin className="h-5 w-5 text-fury-orange" />
-              </div>
-              <div className="flex-1">
-                <div className="text-sm text-gray-400 mb-1">Address</div>
-                <div className="text-white">{mapLocation}</div>
-              </div>
-            </div>
-
-            <div className="flex items-start">
-              <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                <Phone className="h-5 w-5 text-fury-orange" />
-              </div>
-              <div className="flex-1">
-                <div className="text-sm text-gray-400 mb-1">Phone</div>
-                <a href="tel:+919945576007" className="text-white hover:text-fury-orange transition-colors">
-                  +91 99455 76007
-                </a>
-              </div>
-            </div>
-
-            <div className="flex items-start">
-              <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                <Mail className="h-5 w-5 text-fury-orange" />
-              </div>
-              <div className="flex-1">
-                <div className="text-sm text-gray-400 mb-1">Email</div>
-                <a href="mailto:furyroadrcclub@gmail.com" className="text-white hover:text-fury-orange transition-colors">
-                  furyroadrcclub@gmail.com
-                </a>
+              <div className="flex items-start">
+                <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                  <CheckCircle className="h-5 w-5 text-fury-orange" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm text-gray-400 mb-1">Booking Status</div>
+                  <div className="text-green-400 font-semibold">{booking.status}</div>
+                  <div className="text-gray-300 text-sm mt-1">Booking ID: {booking.id}</div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Google Maps Embed */}
-          <div className="w-full h-96 rounded-lg overflow-hidden border border-white/20">
-            <iframe
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-              src={`https://www.google.com/maps?q=${encodeURIComponent(mapLocation)}&output=embed`}
-              title="FuryRoad RC Club Location"
-            />
+          {/* Right Section - Location & Contact */}
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-white mb-6">Location & Contact</h2>
+            
+            <div className="space-y-4 mb-6">
+              <div className="flex items-start">
+                <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                  <MapPin className="h-5 w-5 text-fury-orange" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm text-gray-400 mb-1">Address</div>
+                  <div className="text-white">{mapLocation}</div>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                  <Phone className="h-5 w-5 text-fury-orange" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm text-gray-400 mb-1">Phone</div>
+                  <a href="tel:+919945576007" className="text-white hover:text-fury-orange transition-colors">
+                    +91 99455 76007
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                  <Mail className="h-5 w-5 text-fury-orange" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm text-gray-400 mb-1">Email</div>
+                  <a href="mailto:furyroadrcclub@gmail.com" className="text-white hover:text-fury-orange transition-colors">
+                    furyroadrcclub@gmail.com
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Google Maps Embed */}
+            <div className="w-full h-96 rounded-lg overflow-hidden border border-white/20">
+              <iframe
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                src={`https://www.google.com/maps?q=${encodeURIComponent(mapLocation)}&output=embed`}
+                title="FuryRoad RC Club Location"
+              />
+            </div>
           </div>
         </div>
 
