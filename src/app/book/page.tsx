@@ -1,14 +1,14 @@
 "use client"
 
 import { Suspense } from "react"
-import { useSession } from "next-auth/react"
+import { useSession, signIn, getSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Clock, DollarSign } from "lucide-react"
+import { Clock, DollarSign, X, Lock, Mail } from "lucide-react"
 import Navigation from "@/components/navigation"
 import { trackBooking, trackButtonClick, trackFormSubmit } from "@/lib/analytics"
 
@@ -109,7 +109,7 @@ function BookPageContent() {
   const onSubmit = async (data: BookingForm) => {
     // Check if user is authenticated before submitting
     if (status !== "authenticated" || !session) {
-      // Store booking data in sessionStorage and redirect to login
+      // Store booking data and show login modal
       const bookingData = {
         gameId: data.gameId,
         date: data.date,
@@ -117,10 +117,14 @@ function BookPageContent() {
         players: data.players,
       }
       sessionStorage.setItem("pendingBooking", JSON.stringify(bookingData))
-      router.push(`/auth/signin?callbackUrl=${encodeURIComponent("/book")}`)
+      setShowLogin(true)
       return
     }
 
+    await submitBooking(data)
+  }
+
+  const submitBooking = async (data: BookingForm) => {
     setSubmitting(true)
     setError("")
     trackButtonClick("Create Booking", "book_page")
@@ -313,6 +317,98 @@ function BookPageContent() {
           </div>
         </div>
       </div>
+
+      {/* Login Modal */}
+      {showLogin && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+          <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-xl border border-white/20 w-full max-w-md mx-4 p-6 shadow-2xl">
+            <button
+              onClick={() => {
+                setShowLogin(false)
+                setLoginError("")
+                resetLogin()
+              }}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-white mb-2">Login to Continue</h2>
+              <p className="text-gray-400 text-sm">Please login to complete your booking</p>
+            </div>
+
+            {loginError && (
+              <div className="bg-red-500/20 border border-red-500/40 text-red-400 px-4 py-3 rounded-lg mb-4 backdrop-blur-sm">
+                {loginError}
+              </div>
+            )}
+
+            <form onSubmit={handleLoginSubmit(onLoginSubmit)} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Email
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <input
+                    {...registerLogin("email")}
+                    type="email"
+                    className="w-full pl-10 pr-4 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white bg-white/10 backdrop-blur-sm"
+                    placeholder="Enter your email"
+                  />
+                </div>
+                {loginErrors.email && (
+                  <p className="mt-1 text-sm text-red-400">{loginErrors.email.message}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <input
+                    {...registerLogin("password")}
+                    type="password"
+                    className="w-full pl-10 pr-4 py-2 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-fury-orange focus:border-transparent text-white bg-white/10 backdrop-blur-sm"
+                    placeholder="Enter your password"
+                  />
+                </div>
+                {loginErrors.password && (
+                  <p className="mt-1 text-sm text-red-400">{loginErrors.password.message}</p>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between text-sm">
+                <Link
+                  href="/auth/forgot-password"
+                  className="text-fury-orange hover:text-fury-orange/80 transition-colors"
+                  onClick={() => setShowLogin(false)}
+                >
+                  Forgot password?
+                </Link>
+                <Link
+                  href="/auth/signup"
+                  className="text-gray-400 hover:text-white transition-colors"
+                  onClick={() => setShowLogin(false)}
+                >
+                  Don&apos;t have an account? Sign up
+                </Link>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loginLoading}
+                className="w-full px-4 py-2.5 bg-fury-orange text-white rounded-lg font-semibold hover:bg-fury-orange/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-fury-orange/25"
+              >
+                {loginLoading ? "Logging in..." : "Login"}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
