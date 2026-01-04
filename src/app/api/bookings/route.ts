@@ -191,6 +191,34 @@ export async function POST(request: NextRequest) {
       },
     })
 
+    // Calculate and allocate points (10 points per ₹100 spent)
+    const pointsEarned = Math.floor(Number(bookingTotalPrice) / 100) * 10
+    
+    if (pointsEarned > 0) {
+      try {
+        // Find an admin user for auto-approval
+        const adminUser = await prisma.user.findFirst({
+          where: { role: "ADMIN" },
+          select: { id: true },
+        })
+
+        // Create points entry - auto-approved for bookings
+        await prisma.point.create({
+          data: {
+            userId: (session.user as { id: string }).id,
+            amount: pointsEarned,
+            reason: `Booking points - ${game.name} (₹${Number(bookingTotalPrice).toLocaleString("en-IN")})`,
+            status: "APPROVED",
+            approvedBy: adminUser?.id || null,
+            approvedAt: new Date(),
+          },
+        })
+      } catch (error) {
+        console.error("Error allocating points for booking:", booking.id, error)
+        // Don't fail the booking creation if points allocation fails
+      }
+    }
+
     // Send emails to both customer and admin
     try {
       // Send booking request email to customer
