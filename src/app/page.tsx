@@ -545,29 +545,47 @@ export default async function HomePage() {
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 sm:p-8 border border-white/20 hover:bg-white/15 transition-all">
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-fury-orange/20 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                    <MapPin className="h-6 w-6 text-fury-orange" />
-                  </div>
-                  <div className="text-base font-semibold text-white uppercase">Address</div>
-                </div>
-                <p className="text-gray-300 text-sm sm:text-base leading-relaxed pl-16">
-                  FuryRoad RC Club, Yelenahalli Main Rd, Akshayanagara East, Akshayanagar, Bengaluru, Karnataka 560114
-                </p>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-6xl mx-auto">
+              {/* Google Maps Embed */}
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden border border-white/20 h-full min-h-[400px]">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  allowFullScreen
+                  referrerPolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=FuryRoad+RC+Club,+Yelenahalli+Main+Rd,+Akshayanagara+East,+Akshayanagar,+Bengaluru,+Karnataka+560114&output=embed"
+                  title="FuryRoad RC Club Location"
+                  className="w-full h-full"
+                />
               </div>
               
-              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 sm:p-8 border border-white/20 hover:bg-white/15 transition-all">
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                    <Clock className="h-6 w-6 text-blue-400" />
+              {/* Details Section */}
+              <div className="flex flex-col gap-4 sm:gap-6">
+                <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 sm:p-8 border border-white/20 hover:bg-white/15 transition-all flex-1">
+                  <div className="flex items-center mb-4">
+                    <div className="w-12 h-12 bg-fury-orange/20 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                      <MapPin className="h-6 w-6 text-fury-orange" />
+                    </div>
+                    <div className="text-base font-semibold text-white uppercase">Address</div>
                   </div>
-                  <div className="text-base font-semibold text-white uppercase">Operating Hours</div>
+                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                    FuryRoad RC Club, Yelenahalli Main Rd, Akshayanagara East, Akshayanagar, Bengaluru, Karnataka 560114
+                  </p>
                 </div>
-                <p className="text-gray-300 text-sm sm:text-base leading-relaxed pl-16">
-                  Daily 11 AM - 11 PM
-                </p>
+                
+                <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 sm:p-8 border border-white/20 hover:bg-white/15 transition-all flex-1">
+                  <div className="flex items-center mb-4">
+                    <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                      <Clock className="h-6 w-6 text-blue-400" />
+                    </div>
+                    <div className="text-base font-semibold text-white uppercase">Operating Hours</div>
+                  </div>
+                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                    Daily 11 AM - 11 PM
+                  </p>
+                </div>
               </div>
             </div>
           </div>
