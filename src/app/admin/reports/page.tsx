@@ -54,6 +54,7 @@ export default function AdminReportsPage() {
 
   const fetchReports = async () => {
     try {
+      setLoading(true)
       const params = new URLSearchParams()
       if (period) params.append('period', period)
       if (startDate) params.append('startDate', startDate)
@@ -63,9 +64,14 @@ export default function AdminReportsPage() {
       if (response.ok) {
         const data = await response.json()
         setReportData(data)
+      } else {
+        const errorData = await response.json().catch(() => ({ message: "Failed to fetch reports" }))
+        console.error("Error fetching reports:", errorData.message)
+        setReportData(null)
       }
     } catch (error) {
       console.error("Error fetching reports:", error)
+      setReportData(null)
     } finally {
       setLoading(false)
     }
@@ -157,6 +163,20 @@ export default function AdminReportsPage() {
               </div>
             </div>
           </div>
+
+          {!reportData && !loading && (
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-8 text-center">
+              <BarChart3 className="mx-auto h-16 w-16 text-gray-400 mb-4" />
+              <h3 className="text-lg font-medium text-white mb-2">No Data Available</h3>
+              <p className="text-gray-400 mb-4">No reports data found for the selected period.</p>
+              <button
+                onClick={fetchReports}
+                className="bg-gradient-to-r from-fury-orange to-primary-600 text-white px-4 py-2 rounded-md hover:from-primary-600 hover:to-primary-700 transition-all"
+              >
+                Refresh Reports
+              </button>
+            </div>
+          )}
 
           {reportData && (
             <>

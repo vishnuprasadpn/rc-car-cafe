@@ -45,7 +45,7 @@ export default function Navigation() {
               {/* Logo - Smaller on mobile */}
               <Link href="/" className="flex items-center">
                 <Image
-                  src="/header_logo.png"
+                  src="/Furyroad.png"
                   alt="Fury Road RC Club Logo"
                   width={50}
                   height={50}
@@ -154,7 +154,7 @@ export default function Navigation() {
               <div className="flex items-center">
                 <Link href="/" className="flex items-center group">
                   <Image
-                    src="/header_logo.png"
+                    src="/Furyroad.png"
                     alt="Fury Road RC Club Logo"
                     width={90}
                     height={90}

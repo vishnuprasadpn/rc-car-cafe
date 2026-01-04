@@ -274,17 +274,17 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #FF6600; /* Fury Road orange */
+    background: #F71B0F; /* PrimaryRed */
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #cc5500;
+    background: #cc140a;
   }
 
   /* Text Selection */
   ::selection {
-    background: rgba(255, 102, 0, 0.3); /* Fury Road orange */
+    background: rgba(247, 27, 15, 0.3); /* PrimaryRed */
     color: #FFFFFF;
   }
 }

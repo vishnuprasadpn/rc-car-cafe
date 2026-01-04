@@ -113,12 +113,12 @@ export const sendBookingRequestEmail = async (data: BookingRequestData) => {
     subject: `Booking Request Received - ${game.name} at Fury Road RC Club`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #F97316;">Booking Request Received!</h2>
+        <h2 style="color: #F71B0F;">Booking Request Received!</h2>
         <p>Dear ${user.name},</p>
         <p>Thank you for your booking request. We have received it and it is pending admin confirmation.</p>
         
-        <div style="background-color: #FFF7ED; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F97316;">
-          <h3 style="margin-top: 0; color: #F97316;">Booking Details</h3>
+        <div style="background-color: #190002; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F71B0F;">
+          <h3 style="margin-top: 0; color: #F71B0F;">Booking Details</h3>
           <p><strong>Game:</strong> ${game.name}</p>
           <p><strong>Date & Time:</strong> ${new Date(booking.startTime).toLocaleString()}</p>
           <p><strong>Duration:</strong> ${game.duration} minutes</p>
@@ -383,12 +383,12 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
     subject: `New Booking Request - ${game.name} at Fury Road RC Club`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #F97316;">New Booking Request</h2>
+        <h2 style="color: #F71B0F;">New Booking Request</h2>
         <p>Dear Admin,</p>
         <p>A new booking has been created and requires your confirmation:</p>
         
-        <div style="background-color: #FFF7ED; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F97316;">
-          <h3 style="margin-top: 0; color: #F97316;">Booking Details</h3>
+        <div style="background-color: #190002; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F71B0F;">
+          <h3 style="margin-top: 0; color: #F71B0F;">Booking Details</h3>
           <p><strong>Customer Name:</strong> ${customer.name}</p>
           <p><strong>Customer Email:</strong> ${customer.email}</p>
           ${customer.phone ? `<p><strong>Customer Phone:</strong> ${customer.phone}</p>` : ''}
@@ -493,12 +493,12 @@ export const sendPasswordResetCodeEmail = async (userEmail: string, userName: st
     subject: `Password Reset Code - Fury Road RC Club`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #F97316;">Password Reset Request</h2>
+        <h2 style="color: #F71B0F;">Password Reset Request</h2>
         <p>Dear ${userName},</p>
         <p>You have requested to reset your password. Use the code below to verify your identity:</p>
         
-        <div style="background-color: #FFF7ED; padding: 30px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F97316; text-align: center;">
-          <h3 style="margin-top: 0; color: #F97316; font-size: 32px; letter-spacing: 8px; font-weight: bold;">
+        <div style="background-color: #190002; padding: 30px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F71B0F; text-align: center;">
+          <h3 style="margin-top: 0; color: #F71B0F; font-size: 32px; letter-spacing: 8px; font-weight: bold;">
             ${code}
           </h3>
           <p style="color: #9A3412; font-size: 14px; margin-top: 10px;">This code will expire in 15 minutes</p>
@@ -584,7 +584,7 @@ export const sendAdminLoginTestEmail = async (adminEmail: string, adminName: str
             .container { max-width: 600px; margin: 0 auto; padding: 20px; }
             .header { background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
             .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
-            .info-box { background: white; padding: 15px; border-radius: 5px; margin: 15px 0; border-left: 4px solid #FF6B35; }
+            .info-box { background: white; padding: 15px; border-radius: 5px; margin: 15px 0; border-left: 4px solid #F71B0F; }
             .footer { text-align: center; margin-top: 20px; color: #666; font-size: 12px; }
           </style>
         </head>

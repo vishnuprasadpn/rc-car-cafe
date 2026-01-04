@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="flex flex-col">
             <div className="flex items-center mb-4">
               <Image
-                src="/header_logo.png"
+                src="/Furyroad.png"
                 alt="Fury Road RC Club"
                 width={50}
                 height={50}

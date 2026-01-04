@@ -116,17 +116,30 @@ export async function GET(request: NextRequest) {
       }),
       
       // Daily revenue for chart - only confirmed bookings with completed payments
-      prisma.$queryRaw`
-        SELECT 
-          DATE(created_at) as date,
-          SUM(total_price) as revenue
-        FROM bookings
-        WHERE status = 'CONFIRMED'
-        AND payment_status = 'COMPLETED'
-        AND created_at >= ${dateFilter.createdAt?.gte || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)}
-        GROUP BY DATE(created_at)
-        ORDER BY date
-      `,
+      // Using Prisma groupBy instead of raw SQL for better compatibility
+      prisma.booking.findMany({
+        where: {
+          ...dateFilter,
+          status: "CONFIRMED",
+          paymentStatus: "COMPLETED"
+        },
+        select: {
+          createdAt: true,
+          totalPrice: true
+        }
+      }).then(bookings => {
+        // Group by date and sum revenue
+        const dailyMap = new Map<string, number>()
+        bookings.forEach(booking => {
+          const date = booking.createdAt.toISOString().split('T')[0]
+          const current = dailyMap.get(date) || 0
+          dailyMap.set(date, current + Number(booking.totalPrice))
+        })
+        return Array.from(dailyMap.entries()).map(([date, revenue]) => ({
+          date: new Date(date),
+          revenue
+        })).sort((a, b) => a.date.getTime() - b.date.getTime())
+      }),
       
       // Top games by revenue - only confirmed bookings with completed payments
       prisma.booking.groupBy({
@@ -161,9 +174,15 @@ export async function GET(request: NextRequest) {
       })
     )
 
+    // Format daily revenue data
+    const formattedDailyRevenue = (dailyRevenue as Array<{ date: Date; revenue: number }>).map(item => ({
+      date: item.date.toISOString().split('T')[0],
+      revenue: Number(item.revenue) || 0
+    }))
+
     return NextResponse.json({
       summary: {
-        totalRevenue: totalRevenue._sum.totalPrice || 0,
+        totalRevenue: Number(totalRevenue._sum.totalPrice) || 0,
         totalBookings,
         completedBookings,
         cancelledBookings,
@@ -174,9 +193,9 @@ export async function GET(request: NextRequest) {
       gameStats: gameStats.map(stat => ({
         gameId: stat.gameId,
         bookings: stat._count.id,
-        revenue: stat._sum.totalPrice || 0
+        revenue: Number(stat._sum.totalPrice) || 0
       })),
-      dailyRevenue,
+      dailyRevenue: formattedDailyRevenue,
       topGames: topGamesWithDetails
     })
   } catch (error) {

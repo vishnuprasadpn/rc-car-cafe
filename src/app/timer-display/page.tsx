@@ -283,7 +283,7 @@ export default function TimerDisplayPage() {
         {/* Logo in top left corner */}
         <Link href="/" className="absolute top-4 left-4 md:top-8 md:left-8 2xl:top-12 2xl:left-12 z-20 hover:opacity-80 transition-opacity">
           <Image
-            src="/header_logo.png"
+            src="/Furyroad.png"
             alt="Fury Road RC Club Logo"
             width={100}
             height={100}

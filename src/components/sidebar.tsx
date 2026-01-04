@@ -150,7 +150,7 @@ export default function Sidebar() {
           <div className="p-6 border-b border-white/10">
             <Link href="/" className="flex items-center space-x-3" onClick={() => setIsMobileOpen(false)}>
               <Image
-                src="/header_logo.png"
+                src="/Furyroad.png"
                 alt="Fury Road RC Club Logo"
                 width={50}
                 height={50}

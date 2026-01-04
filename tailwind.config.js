@@ -8,15 +8,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Fury Road Brand Colors from Logo
+        // Fury Road Brand Colors
         fury: {
           black: '#000000',
           white: '#FFFFFF',
           lightGray: '#E0E0E0',
           darkGray: '#333333',
           mediumGray: '#666666',
-          orange: '#FF6600', // Vibrant orange from flames and text outline
-          red: '#FF0000', // Red from car headlights
+          orange: '#F71B0F', // PrimaryRed
+          red: '#F71B0F', // PrimaryRed
         },
         primary: {
           50: '#fff4e6',
@@ -24,11 +24,17 @@ module.exports = {
           200: '#ffcc80',
           300: '#ffb84d',
           400: '#ffa31a',
-          500: '#FF6600', // Main orange
-          600: '#cc5500',
-          700: '#994400',
-          800: '#663300',
-          900: '#332200',
+          500: '#F71B0F', // PrimaryRed
+          600: '#F71B0F', // PrimaryRed
+          700: '#cc140a',
+          800: '#990e07',
+          900: '#660905',
+        },
+        dark: {
+          100: '#190002', // Dark100
+        },
+        secondary: {
+          yellow: '#F6D009', // SecondaryYellow
         },
         gray: {
           50: '#fafafa',

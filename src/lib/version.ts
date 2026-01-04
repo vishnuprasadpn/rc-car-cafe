@@ -32,7 +32,7 @@ export const logVersionInfo = () => {
   // Create a styled console message
   console.log(
     '%c🚀 Fury Road RC Club',
-    'color: #FF6B35; font-size: 16px; font-weight: bold; padding: 4px 0;'
+    'color: #F71B0F; font-size: 16px; font-weight: bold; padding: 4px 0;'
   )
   console.log(
     '%cVersion Info:',
