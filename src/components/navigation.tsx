@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { usePathname } from "next/navigation"
-import { Zap, Home, Car, Info, Mail, UserPlus, Gift } from "lucide-react"
+import { Zap, Home, Car, Mail, UserPlus, Gift } from "lucide-react"
 import { trackNavigation, trackButtonClick } from "@/lib/analytics"
 
 export default function Navigation() {
@@ -14,7 +14,6 @@ export default function Navigation() {
   // Define public routes where navigation should always show
   const publicRoutes = [
     '/',
-    '/about',
     '/contact',
     '/tracks',
     '/book',
@@ -79,18 +78,6 @@ export default function Navigation() {
                   title="Tracks"
                 >
                   <Car className="h-5 w-5" />
-                </Link>
-                <Link 
-                  href="/about" 
-                  onClick={() => trackNavigation("/about", pathname || "")}
-                  className={`p-2 rounded-lg transition-colors ${
-                    pathname?.startsWith('/about') 
-                      ? 'bg-fury-orange/20 text-fury-orange' 
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
-                  }`}
-                  title="About"
-                >
-                  <Info className="h-5 w-5" />
                 </Link>
                 <Link 
                   href="/membership" 
@@ -179,13 +166,6 @@ export default function Navigation() {
                   className="text-white/90 hover:text-white text-sm font-medium transition-colors"
                 >
                   Tracks
-                </Link>
-                <Link 
-                  href="/about" 
-                  onClick={() => trackNavigation("/about", pathname || "")}
-                  className="text-white/90 hover:text-white text-sm font-medium transition-colors"
-                >
-                  About
                 </Link>
                 <Link 
                   href="/membership" 
