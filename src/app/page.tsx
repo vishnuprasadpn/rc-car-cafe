@@ -188,7 +188,7 @@ export default async function HomePage() {
                       <p className="text-gray-300 text-xs sm:text-sm mb-4 leading-relaxed line-clamp-3 flex-1">{offer.description}</p>
                       
                       <div className={`flex items-center ${offer.textColor} font-semibold text-sm`}>
-                        <span>Learn More</span>
+                        <span>Know More</span>
                         <div className={`ml-2 w-0 group-hover:w-6 h-0.5 ${offer.underlineColor} transition-all duration-300`}></div>
                       </div>
                     </div>
