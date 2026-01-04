@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { usePathname } from "next/navigation"
-import { Zap, Home, Car, Mail, UserPlus, Gift } from "lucide-react"
+import { Zap, Home, Car, Mail, Gift } from "lucide-react"
 import { trackNavigation, trackButtonClick } from "@/lib/analytics"
 
 export default function Navigation() {
