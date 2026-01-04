@@ -147,7 +147,7 @@ export default function TracksPage() {
                     <div className="flex items-center">
                       <div>
                         <div className="text-xs text-gray-400">Price starts at</div>
-                        <div className="font-semibold text-fury-orange text-sm">₹{track.priceStartsAt}</div>
+                        <div className="font-semibold text-secondary-yellow text-sm">₹{track.priceStartsAt}</div>
                       </div>
                     </div>
                   </div>
