@@ -548,26 +548,26 @@ export default async function HomePage() {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-5 border border-white/20 hover:bg-white/15 transition-all">
-                <div className="flex items-center justify-center sm:justify-start mb-3">
-                  <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-3">
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-5 border border-white/20 hover:bg-white/15 transition-all h-full flex flex-col">
+                <div className="flex items-start">
+                  <div className="w-10 h-10 bg-fury-orange/20 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
                     <MapPin className="h-5 w-5 text-fury-orange" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <div className="text-xs text-gray-400 mb-1">Address</div>
-                    <div className="text-sm font-semibold text-white">FuryRoad RC Club, Yelenahalli Main Rd, Akshayanagara East, Akshayanagar, Bengaluru, Karnataka 560114</div>
+                    <div className="text-sm font-semibold text-white leading-relaxed">FuryRoad RC Club, Yelenahalli Main Rd, Akshayanagara East, Akshayanagar, Bengaluru, Karnataka 560114</div>
                   </div>
                 </div>
               </div>
               
-              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-5 border border-white/20 hover:bg-white/15 transition-all">
-                <div className="flex items-center justify-center sm:justify-start mb-3">
-                  <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3">
+              <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 sm:p-5 border border-white/20 hover:bg-white/15 transition-all h-full flex flex-col">
+                <div className="flex items-start">
+                  <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
                     <Clock className="h-5 w-5 text-blue-400" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <div className="text-xs text-gray-400 mb-1">Operating Hours</div>
-                    <div className="text-sm font-semibold text-white">Daily 11 AM - 11 PM</div>
+                    <div className="text-sm font-semibold text-white leading-relaxed">Daily 11 AM - 11 PM</div>
                   </div>
                 </div>
               </div>
