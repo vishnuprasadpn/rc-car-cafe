@@ -130,7 +130,7 @@ export default function Navigation() {
                       trackButtonClick("Book Now", "navigation")
                       setIsMobileMenuOpen(false)
                     }}
-                    className="px-4 py-3 rounded-lg bg-fury-orange text-white hover:bg-fury-orange/90 transition-colors font-semibold"
+                    className="px-4 py-3 rounded-lg bg-fury-orange text-white hover:bg-fury-orange/90 transition-colors font-semibold whitespace-nowrap"
                   >
                     Book Now
                   </Link>
