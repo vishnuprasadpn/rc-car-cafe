@@ -124,28 +124,32 @@ export default async function HomePage() {
                 description: "Experience adrenaline-pumping RC racing on professional tracks. Choose from Fast Track, Mud Track, Sand Track, and Crawler Track with various vehicle options.",
                 gradient: "from-red-500 to-red-700",
                 icon: Car,
-                link: "/tracks"
+                link: "/tracks",
+                image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_0.jpg"
               },
               {
                 name: "PS5 Gaming",
                 description: "Enjoy cutting-edge PlayStation 5 gaming experience. Play the latest games with friends and family in our dedicated gaming zone.",
                 gradient: "from-blue-500 to-blue-700",
                 icon: Zap,
-                link: "/book"
+                link: "/book",
+                image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_2.jpg"
               },
               {
                 name: "Birthday & Corporate Events",
                 description: "Host unforgettable birthday parties and corporate team-building events. Perfect for groups looking for fun, competitive, and memorable experiences.",
                 gradient: "from-purple-500 to-purple-700",
                 icon: Users,
-                link: "/contact"
+                link: "/contact",
+                image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_closeup_of_an_RC_crawler_0.jpg"
               },
               {
                 name: "Cafe",
                 description: "Relax and refuel at our cafe. Enjoy delicious food and beverages while watching the racing action or taking a break between sessions.",
                 gradient: "from-amber-500 to-amber-700",
                 icon: Heart,
-                link: "/contact"
+                link: "/contact",
+                image: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_truck_rac_3.jpg"
               }
             ].map((offer, index) => {
               const IconComponent = offer.icon
@@ -157,15 +161,25 @@ export default async function HomePage() {
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${offer.gradient} opacity-0 group-hover:opacity-30 rounded-2xl blur-2xl transition-all duration-500`}></div>
                   <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl overflow-hidden hover:bg-white/15 transition-all duration-500 border border-white/20 group-hover:border-white/40 group-hover:shadow-2xl group-hover:shadow-fury-orange/20 h-full flex flex-col">
-                    {/* Content */}
-                    <div className="p-6 flex-1 flex flex-col">
-                      <div className={`w-14 h-14 bg-gradient-to-br ${offer.gradient} rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300`}>
-                        <IconComponent className="h-7 w-7 text-white" />
+                    {/* Offer Image */}
+                    <div className="relative h-48 overflow-hidden">
+                      <Image
+                        src={offer.image}
+                        alt={offer.name}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                      <div className="absolute bottom-0 left-0 right-0 p-4">
+                        <h3 className="text-lg sm:text-xl font-bold text-white">{offer.name}</h3>
                       </div>
-                      <h3 className="font-heading text-lg sm:text-xl text-white mb-3 uppercase">{offer.name}</h3>
-                      <p className="text-gray-300 text-sm leading-relaxed flex-1">{offer.description}</p>
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="p-5 flex-1 flex flex-col">
+                      <p className="text-gray-300 text-xs sm:text-sm mb-4 leading-relaxed line-clamp-3 flex-1">{offer.description}</p>
                       
-                      <div className="flex items-center justify-end mt-4">
+                      <div className="flex items-center justify-end">
                         <div className={`px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r ${offer.gradient} group-hover:shadow-lg transition-all`}>
                           Learn More
                         </div>
