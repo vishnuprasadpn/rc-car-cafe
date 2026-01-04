@@ -43,8 +43,8 @@ export default function Navigation() {
         <nav className="md:hidden fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/20 shadow-lg">
           <div className="px-4 py-3">
             <div className="flex items-center justify-between">
-              {/* Logo - Smaller on mobile */}
-              <Link href="/" className="flex items-center">
+              {/* Logo */}
+              <Link href="/" className="flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
                 <Image
                   src="/Furyroad.png"
                   alt="Fury Road RC Club Logo"
@@ -55,55 +55,80 @@ export default function Navigation() {
                 />
               </Link>
               
-              {/* Navigation Icons */}
-              <div className="flex items-center space-x-4">
+              {/* Hamburger Menu Button */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 rounded-lg text-white hover:bg-white/10 transition-colors"
+                aria-label="Toggle menu"
+              >
+                {isMobileMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
+              </button>
+            </div>
+          </div>
+          
+          {/* Mobile Menu Dropdown */}
+          {isMobileMenuOpen && (
+            <div className="bg-black/95 backdrop-blur-xl border-t border-white/20 px-4 py-4">
+              <div className="flex flex-col space-y-2">
                 <Link 
                   href="/" 
-                  onClick={() => trackNavigation("/", pathname || "")}
-                  className={`p-2 rounded-lg transition-colors ${
+                  onClick={() => {
+                    trackNavigation("/", pathname || "")
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className={`px-4 py-3 rounded-lg transition-colors ${
                     pathname === '/' 
-                      ? 'bg-fury-orange/20 text-fury-orange' 
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
+                      ? 'bg-fury-orange/20 text-fury-orange font-semibold' 
+                      : 'text-white hover:bg-white/10'
                   }`}
-                  title="Home"
                 >
-                  <Home className="h-5 w-5" />
+                  Home
                 </Link>
                 <Link 
                   href="/tracks" 
-                  onClick={() => trackNavigation("/tracks", pathname || "")}
-                  className={`p-2 rounded-lg transition-colors ${
+                  onClick={() => {
+                    trackNavigation("/tracks", pathname || "")
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className={`px-4 py-3 rounded-lg transition-colors ${
                     pathname?.startsWith('/tracks') 
-                      ? 'bg-fury-orange/20 text-fury-orange' 
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
+                      ? 'bg-fury-orange/20 text-fury-orange font-semibold' 
+                      : 'text-white hover:bg-white/10'
                   }`}
-                  title="Tracks"
                 >
-                  <Car className="h-5 w-5" />
+                  Tracks
                 </Link>
                 <Link 
                   href="/membership" 
-                  onClick={() => trackNavigation("/membership", pathname || "")}
-                  className={`p-2 rounded-lg transition-colors ${
+                  onClick={() => {
+                    trackNavigation("/membership", pathname || "")
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className={`px-4 py-3 rounded-lg transition-colors ${
                     pathname?.startsWith('/membership') 
-                      ? 'bg-fury-orange/20 text-fury-orange' 
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
+                      ? 'bg-fury-orange/20 text-fury-orange font-semibold' 
+                      : 'text-white hover:bg-white/10'
                   }`}
-                  title="Membership"
                 >
-                  <Gift className="h-5 w-5" />
+                  Membership
                 </Link>
                 <Link 
                   href="/contact" 
-                  onClick={() => trackNavigation("/contact", pathname || "")}
-                  className={`p-2 rounded-lg transition-colors ${
+                  onClick={() => {
+                    trackNavigation("/contact", pathname || "")
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className={`px-4 py-3 rounded-lg transition-colors ${
                     pathname?.startsWith('/contact') 
-                      ? 'bg-fury-orange/20 text-fury-orange' 
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
+                      ? 'bg-fury-orange/20 text-fury-orange font-semibold' 
+                      : 'text-white hover:bg-white/10'
                   }`}
-                  title="Contact"
                 >
-                  <Mail className="h-5 w-5" />
+                  Contact
                 </Link>
                 {session ? (
                   <Link
@@ -111,11 +136,11 @@ export default function Navigation() {
                     onClick={() => {
                       trackNavigation("/dashboard", pathname || "")
                       trackButtonClick("Dashboard", "navigation")
+                      setIsMobileMenuOpen(false)
                     }}
-                    className="p-2 rounded-lg bg-fury-orange/20 text-fury-orange hover:bg-fury-orange/30 transition-colors"
-                    title="Dashboard"
+                    className="px-4 py-3 rounded-lg bg-fury-orange/20 text-fury-orange hover:bg-fury-orange/30 transition-colors font-semibold"
                   >
-                    <Zap className="h-5 w-5" />
+                    Dashboard
                   </Link>
                 ) : (
                   <Link
@@ -123,16 +148,16 @@ export default function Navigation() {
                     onClick={() => {
                       trackNavigation("/auth/signin", pathname || "")
                       trackButtonClick("Sign In", "navigation")
+                      setIsMobileMenuOpen(false)
                     }}
-                    className="p-2 rounded-lg bg-fury-orange/20 text-fury-orange hover:bg-fury-orange/30 transition-colors"
-                    title="Sign In"
+                    className="px-4 py-3 rounded-lg bg-fury-orange/20 text-fury-orange hover:bg-fury-orange/30 transition-colors font-semibold"
                   >
                     Sign In
                   </Link>
                 )}
               </div>
             </div>
-          </div>
+          )}
         </nav>
 
         {/* Desktop Navigation - Centered, Rounded */}
