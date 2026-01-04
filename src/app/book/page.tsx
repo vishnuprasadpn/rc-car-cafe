@@ -193,7 +193,7 @@ function BookPageContent() {
                     <option value="">Choose a game...</option>
                     {games.map((game) => (
                       <option key={game.id} value={game.id} className="bg-gray-800">
-                        {game.name} - ₹{game.price} ({game.duration} min)
+                        {game.name} - ₹{game.price}
                       </option>
                     ))}
                   </select>
