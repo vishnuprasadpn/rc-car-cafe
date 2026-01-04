@@ -58,7 +58,7 @@ export default async function HomePage() {
             </div>
             
             {/* Main Title with Gradient - Better Mobile Scaling */}
-            <h1 className="font-heading text-4xl sm:text-5xl md:text-7xl mb-3 md:mb-6 bg-gradient-to-r from-fury-orange via-fury-orange to-fury-orange bg-clip-text text-transparent uppercase leading-tight">
+            <h1 className="font-heading text-4xl sm:text-5xl md:text-7xl mb-3 md:mb-6 bg-gradient-to-r from-secondary-yellow via-secondary-yellow to-secondary-yellow bg-clip-text text-transparent uppercase leading-tight">
               FURY ROAD
             </h1>
             
@@ -69,9 +69,9 @@ export default async function HomePage() {
             {/* Subtitle - Mobile Optimized */}
             <p className="text-xs sm:text-base md:text-xl text-fury-lightGray mb-6 md:mb-12 max-w-4xl mx-auto leading-relaxed px-2">
               Experience the ultimate adrenaline rush with{' '}
-              <span className="text-fury-orange font-semibold">high-speed RC racing</span>,{' '}
+              <span className="text-secondary-yellow font-semibold">high-speed RC racing</span>,{' '}
               <span className="text-fury-lightGray font-semibold">professional tracks</span>, and{' '}
-              <span className="text-fury-orange font-semibold">competitive spirit</span>
+              <span className="text-secondary-yellow font-semibold">competitive spirit</span>
             </p>
             
             {/* CTA Buttons - Mobile Optimized */}
