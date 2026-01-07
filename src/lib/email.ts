@@ -94,16 +94,21 @@ interface BookingCancellationData {
 
 export const sendBookingRequestEmail = async (data: BookingRequestData) => {
   if (!transporter) {
+    const errorMsg = 'SMTP transporter is null - email service not configured'
     console.error('❌ ==========================================')
     console.error('❌ EMAIL FAILED: SMTP NOT CONFIGURED')
     console.error('❌ ==========================================')
     console.error('❌ Function: sendBookingRequestEmail')
     console.error('❌ Recipient:', data.user.email)
-    console.error('❌ Reason: SMTP transporter is null')
+    console.error('❌ Reason:', errorMsg)
     console.error('❌ Action Required: Set SMTP environment variables in production')
     console.error('❌ Required: SMTP_HOST, SMTP_USER, SMTP_PASS')
+    console.error('❌ Current Status:')
+    console.error('   SMTP_HOST:', process.env.SMTP_HOST || '❌ MISSING')
+    console.error('   SMTP_USER:', process.env.SMTP_USER || '❌ MISSING')
+    console.error('   SMTP_PASS:', process.env.SMTP_PASS ? '✅ Set' : '❌ MISSING')
     console.error('❌ ==========================================')
-    return
+    throw new Error(errorMsg)
   }
 
   const { user, booking, game } = data

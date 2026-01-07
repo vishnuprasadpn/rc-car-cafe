@@ -222,7 +222,8 @@ export async function POST(request: NextRequest) {
     // Send emails to both customer and admin
     try {
       // Send booking request email to customer
-      await sendBookingRequestEmail({
+      console.log("📧 Attempting to send booking request email to customer:", user.email)
+      const customerEmailResult = await sendBookingRequestEmail({
         user: {
           name: user.name,
           email: user.email,
@@ -239,14 +240,25 @@ export async function POST(request: NextRequest) {
           duration: bookingDuration,
         },
       })
+      console.log("✅ Customer booking request email sent successfully:", customerEmailResult?.messageId || "sent")
     } catch (error) {
-      console.error("Error sending booking request email to customer:", error)
-      // Don't fail the booking creation if email fails
+      console.error("❌ ==========================================")
+      console.error("❌ FAILED TO SEND CUSTOMER BOOKING EMAIL")
+      console.error("❌ ==========================================")
+      console.error("❌ Booking ID:", booking.id)
+      console.error("❌ Customer:", user.email)
+      console.error("❌ Error:", error instanceof Error ? error.message : String(error))
+      if (error instanceof Error && error.stack) {
+        console.error("❌ Stack:", error.stack)
+      }
+      console.error("❌ ==========================================")
+      // Don't fail the booking creation if email fails, but log it prominently
     }
 
     try {
       // Send notification email to admin
-      await sendBookingNotificationToAdmin({
+      console.log("📧 Attempting to send admin notification email for booking:", booking.id)
+      const emailResult = await sendBookingNotificationToAdmin({
         customer: {
           name: user.name,
           email: user.email,
@@ -264,9 +276,19 @@ export async function POST(request: NextRequest) {
           duration: bookingDuration,
         },
       })
+      console.log("✅ Admin notification email sent successfully:", emailResult?.messageId || "sent")
     } catch (error) {
-      console.error("Error sending admin notification email for booking:", booking.id, error)
-      // Don't fail the booking creation if email fails
+      console.error("❌ ==========================================")
+      console.error("❌ FAILED TO SEND ADMIN NOTIFICATION EMAIL")
+      console.error("❌ ==========================================")
+      console.error("❌ Booking ID:", booking.id)
+      console.error("❌ Customer:", user.name, user.email)
+      console.error("❌ Error:", error instanceof Error ? error.message : String(error))
+      if (error instanceof Error && error.stack) {
+        console.error("❌ Stack:", error.stack)
+      }
+      console.error("❌ ==========================================")
+      // Don't fail the booking creation if email fails, but log it prominently
     }
 
     return NextResponse.json({ booking }, { status: 201 })
