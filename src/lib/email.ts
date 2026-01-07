@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer'
+import { trackEmailSent } from '@/lib/analytics'
 
 // Check if SMTP is configured
 const isSMTPConfigured = () => {
@@ -228,8 +229,20 @@ export const sendBookingConfirmationEmail = async (data: BookingConfirmationData
 
   try {
     const info = await transporter.sendMail(mailOptions)
+    // Track successful email send
+    trackEmailSent("booking_confirmation", user.email, true, {
+      booking_id: booking.id,
+      game_name: game.name,
+      total_price: booking.totalPrice,
+    })
     return info
   } catch (error) {
+    // Track failed email send
+    trackEmailSent("booking_confirmation", user.email, false, {
+      booking_id: booking.id,
+      game_name: game.name,
+      error: error instanceof Error ? error.message : String(error),
+    })
     console.error('❌ ==========================================')
     console.error('❌ EMAIL SEND FAILED')
     console.error('❌ ==========================================')
@@ -279,7 +292,19 @@ export const sendBookingCancellationEmail = async (data: BookingCancellationData
 
   try {
     await transporter.sendMail(mailOptions)
+    // Track successful email send
+    trackEmailSent("booking_cancellation", user.email, true, {
+      booking_id: booking.id,
+      game_name: game.name,
+      total_price: booking.totalPrice,
+    })
   } catch (error) {
+    // Track failed email send
+    trackEmailSent("booking_cancellation", user.email, false, {
+      booking_id: booking.id,
+      game_name: game.name,
+      error: error instanceof Error ? error.message : String(error),
+    })
     console.error('Error sending booking cancellation email:', error)
     throw error
   }
@@ -316,7 +341,18 @@ export const sendPointsApprovalEmail = async (userEmail: string, userName: strin
 
   try {
     await transporter.sendMail(mailOptions)
+    // Track successful email send
+    trackEmailSent("points_approval", userEmail, true, {
+      points: points,
+      reason: reason,
+    })
   } catch (error) {
+    // Track failed email send
+    trackEmailSent("points_approval", userEmail, false, {
+      points: points,
+      reason: reason,
+      error: error instanceof Error ? error.message : String(error),
+    })
     console.error('Error sending points approval email:', error)
     throw error
   }
@@ -412,8 +448,25 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
 
   try {
     const info = await transporter.sendMail(mailOptions)
+    // Track successful email send to all admin recipients
+    adminEmails.forEach((email) => {
+      trackEmailSent("admin_notification", email, true, {
+        booking_id: booking.id,
+        game_name: game.name,
+        customer_name: customer.name,
+        total_price: booking.totalPrice,
+      })
+    })
     return info
   } catch (error) {
+    // Track failed email send
+    adminEmails.forEach((email) => {
+      trackEmailSent("admin_notification", email, false, {
+        booking_id: booking.id,
+        game_name: game.name,
+        error: error instanceof Error ? error.message : String(error),
+      })
+    })
     console.error('❌ ==========================================')
     console.error('❌ CRITICAL EMAIL FAILURE')
     console.error('❌ ==========================================')
@@ -515,8 +568,14 @@ export const sendPasswordResetCodeEmail = async (userEmail: string, userName: st
 
   try {
     const info = await transporter.sendMail(mailOptions)
+    // Track successful email send
+    trackEmailSent("password_reset", userEmail, true)
     return info
   } catch (error) {
+    // Track failed email send
+    trackEmailSent("password_reset", userEmail, false, {
+      error: error instanceof Error ? error.message : String(error),
+    })
     console.error('❌ ==========================================')
     console.error('❌ EMAIL SEND FAILED')
     console.error('❌ ==========================================')
@@ -562,9 +621,9 @@ export const sendAdminLoginTestEmail = async (adminEmail: string, adminName: str
     return
   }
 
-  try {
-    const adminEmails = ['vishnuprasad1990@gmail.com']
+  const adminEmails = ['vishnuprasad1990@gmail.com']
 
+  try {
     if (!process.env.SMTP_USER) {
       console.error('SMTP_USER is not set')
       return
@@ -654,8 +713,23 @@ Fury Road RC Club - Admin System
     }
     
     const info = await transporter.sendMail(mailOptions)
+    // Track successful email send to all admin recipients
+    adminEmails.forEach((email) => {
+      trackEmailSent("admin_login_test", email, true, {
+        admin_name: adminName,
+        login_method: loginMethod,
+      })
+    })
     return info
   } catch (error) {
+    // Track failed email send
+    adminEmails.forEach((email) => {
+      trackEmailSent("admin_login_test", email, false, {
+        admin_name: adminName,
+        login_method: loginMethod,
+        error: error instanceof Error ? error.message : String(error),
+      })
+    })
     console.error('Error sending admin login test email:', error)
     // Don't throw - we don't want login to fail if email fails
   }

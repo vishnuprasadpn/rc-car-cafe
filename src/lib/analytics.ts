@@ -137,3 +137,22 @@ export const trackNavigation = (destination: string, source?: string) => {
   })
 }
 
+/**
+ * Track email sent events
+ */
+export const trackEmailSent = (
+  emailType: "booking_request" | "booking_confirmation" | "booking_cancellation" | "points_approval" | "admin_notification" | "password_reset" | "admin_login_test",
+  recipientEmail: string,
+  success: boolean,
+  additionalData?: Record<string, unknown>
+) => {
+  trackEvent("email_sent", {
+    category: "email",
+    action: success ? "email_sent_success" : "email_sent_failed",
+    label: emailType,
+    recipient: recipientEmail,
+    email_type: emailType,
+    ...additionalData,
+  })
+}
+
