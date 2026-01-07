@@ -2,6 +2,7 @@ import Link from "next/link"
 import Navigation from "@/components/navigation"
 import Image from "next/image"
 import { Trophy, Clock } from "lucide-react"
+import { TrackedLink } from "@/components/tracked-link"
 
 export default function TracksPage() {
   const tracks = [
@@ -242,18 +243,22 @@ export default function TracksPage() {
             Select any track above and book your racing session. Sign up or sign in to get started!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
+            <TrackedLink
               href="/auth/signup"
+              buttonName="Sign Up to Book"
+              location="tracks_cta"
               className="bg-white text-fury-orange px-4 py-2 sm:px-8 sm:py-3 rounded-lg text-xs sm:text-base font-semibold hover:bg-gray-100 transition-colors"
             >
               Sign Up to Book
-            </Link>
-            <Link
+            </TrackedLink>
+            <TrackedLink
               href="/auth/signin"
+              buttonName="Sign In to Book"
+              location="tracks_cta"
               className="border-2 border-white text-white px-4 py-2 sm:px-8 sm:py-3 rounded-lg text-xs sm:text-base font-semibold hover:bg-white/10 transition-colors"
             >
               Sign In to Book
-            </Link>
+            </TrackedLink>
           </div>
         </div>
       </div>

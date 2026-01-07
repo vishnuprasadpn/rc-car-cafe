@@ -3,6 +3,9 @@
 import { useState } from "react"
 import Image from "next/image"
 import Navigation from "@/components/navigation"
+import { TrackedLink } from "@/components/tracked-link"
+import { TrackedButton } from "@/components/tracked-button"
+import { trackFormSubmit } from "@/lib/analytics"
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle, AlertCircle, Navigation as NavigationIcon, MessageCircle, Instagram, Youtube, Zap, Users, Shield } from "lucide-react"
 
 export default function ContactPage() {
@@ -34,8 +37,10 @@ export default function ContactPage() {
       await new Promise(resolve => setTimeout(resolve, 1000))
       setMessage({ type: 'success', text: 'Thank you for your message! We&apos;ll get back to you soon.' })
       setFormData({ name: "", email: "", phone: "", subject: "", message: "" })
+      trackFormSubmit("contact_form", true, { subject: formData.subject })
     } catch {
       setMessage({ type: 'error', text: 'Failed to send message. Please try again.' })
+      trackFormSubmit("contact_form", false, { subject: formData.subject })
     } finally {
       setIsSubmitting(false)
     }
@@ -284,8 +289,10 @@ export default function ContactPage() {
                   />
                 </div>
 
-                <button
+                <TrackedButton
                   type="submit"
+                  buttonName="Send Message"
+                  location="contact_form"
                   disabled={isSubmitting}
                   className="w-full bg-fury-orange text-white px-6 py-3 rounded-md font-semibold hover:bg-fury-orange/90 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-lg hover:shadow-fury-orange/25"
                 >
@@ -300,7 +307,7 @@ export default function ContactPage() {
                       Send Message
                     </>
                   )}
-                </button>
+                </TrackedButton>
               </form>
             </div>
 
@@ -325,15 +332,17 @@ export default function ContactPage() {
                 </div>
 
                 {/* Get Directions Button */}
-                <a
-                  href="https://share.google/r7JLjHvzbJmLpKoIZ"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <TrackedButton
+                  buttonName="Get Directions"
+                  location="contact_map"
+                  onClick={() => {
+                    window.open("https://share.google/r7JLjHvzbJmLpKoIZ", "_blank", "noopener,noreferrer")
+                  }}
                   className="w-full bg-gradient-to-r from-fury-orange to-primary-600 text-white px-6 py-3 rounded-md font-semibold hover:from-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-fury-orange focus:ring-offset-2 focus:ring-offset-black flex items-center justify-center transition-all shadow-lg hover:shadow-fury-orange/25"
                 >
                   <NavigationIcon className="h-5 w-5 mr-2" />
                   Get Directions
-                </a>
+                </TrackedButton>
               </div>
 
               {/* Quick Contact */}
@@ -368,15 +377,17 @@ export default function ContactPage() {
                 </div>
                 
                 {/* WhatsApp Chat Button */}
-                <a
-                  href="https://wa.me/919945576007"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <TrackedButton
+                  buttonName="Chat on WhatsApp"
+                  location="contact_quick_contact"
+                  onClick={() => {
+                    window.open("https://wa.me/919945576007", "_blank", "noopener,noreferrer")
+                  }}
                   className="mt-6 w-full bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-md font-semibold hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-black flex items-center justify-center transition-all shadow-lg hover:shadow-green-500/25"
                 >
                   <MessageCircle className="h-5 w-5 mr-2" />
                   Chat on WhatsApp
-                </a>
+                </TrackedButton>
               </div>
             </div>
           </div>
@@ -467,20 +478,24 @@ export default function ContactPage() {
                 Experience the thrill of professional RC racing at our state-of-the-art facility. Walk-ins welcome, but booking in advance ensures your preferred time slot.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
+                <TrackedLink
                   href="/book"
+                  buttonName="Book Now"
+                  location="contact_visit_us"
                   className="inline-flex items-center justify-center bg-fury-orange text-white px-6 py-3 rounded-lg text-sm font-semibold hover:bg-fury-orange/90 transition-all shadow-lg hover:shadow-fury-orange/25"
                 >
                   <Zap className="h-4 w-4 mr-2" />
                   Book Now
-                </a>
-                <a
+                </TrackedLink>
+                <TrackedLink
                   href="/tracks"
+                  buttonName="View Tracks"
+                  location="contact_visit_us"
                   className="inline-flex items-center justify-center border-2 border-secondary-yellow text-secondary-yellow px-6 py-3 rounded-lg text-sm font-semibold hover:bg-secondary-yellow/10 transition-all"
                 >
                   <Shield className="h-4 w-4 mr-2" />
                   View Tracks
-                </a>
+                </TrackedLink>
               </div>
             </div>
           </div>

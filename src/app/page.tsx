@@ -3,6 +3,7 @@ import Image from "next/image"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
 import Navigation from "@/components/navigation"
+import { TrackedLink } from "@/components/tracked-link"
 import { 
   Trophy, 
   Clock, 
@@ -74,14 +75,16 @@ export default async function HomePage() {
             
             {/* CTA Buttons - Mobile Optimized */}
             <div className="flex justify-center mb-8 md:mb-16 px-2">
-              <Link
+              <TrackedLink
                 href="/book"
+                buttonName="Book Now"
+                location="home_hero"
                 className="group relative bg-fury-orange text-fury-white px-6 py-3 sm:px-8 sm:py-3.5 rounded-lg text-sm sm:text-base font-semibold hover:bg-fury-orange/90 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25 w-full sm:w-auto"
               >
                 <span className="relative flex items-center justify-center">
                   <span className="whitespace-nowrap">Book Now</span>
                 </span>
-              </Link>
+              </TrackedLink>
             </div>
           </div>
         </div>
@@ -162,9 +165,11 @@ export default async function HomePage() {
             ].map((offer, index) => {
               const IconComponent = offer.icon
               return (
-                <Link 
+                <TrackedLink 
                   key={index} 
                   href={offer.link}
+                  buttonName={`Know More - ${offer.name}`}
+                  location="home_what_we_offer"
                   className="group relative block"
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${offer.gradient} opacity-0 group-hover:opacity-30 rounded-2xl blur-2xl transition-all duration-500`}></div>
@@ -193,7 +198,7 @@ export default async function HomePage() {
                       </div>
                     </div>
                   </div>
-                </Link>
+                </TrackedLink>
               )
             })}
           </div>
@@ -230,7 +235,7 @@ export default async function HomePage() {
           </div>
           
           <div className="grid md:grid-cols-3 gap-6">
-            <Link href="/why/professional-racing" className="group relative block">
+            <TrackedLink href="/why/professional-racing" buttonName="Learn More - Professional Racing" location="home_why_fury_road" className="group relative block">
               <div className="absolute inset-0 bg-gradient-to-br from-fury-orange/10 to-primary-600/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500"></div>
               <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 border border-white/20 group-hover:border-fury-orange/40">
                 <div className="w-14 h-14 bg-gradient-to-br from-fury-orange to-primary-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
@@ -245,9 +250,9 @@ export default async function HomePage() {
                   <div className="ml-2 w-0 group-hover:w-6 h-0.5 bg-fury-orange transition-all duration-300"></div>
                 </div>
               </div>
-            </Link>
+            </TrackedLink>
             
-            <Link href="/why/flexible-timing" className="group relative block">
+            <TrackedLink href="/why/flexible-timing" buttonName="Learn More - Flexible Timing" location="home_why_fury_road" className="group relative block">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-blue-800/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500"></div>
               <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 border border-white/20 group-hover:border-blue-400/40">
                 <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
@@ -262,9 +267,9 @@ export default async function HomePage() {
                   <div className="ml-2 w-0 group-hover:w-6 h-0.5 bg-blue-400 transition-all duration-300"></div>
                 </div>
               </div>
-            </Link>
+            </TrackedLink>
             
-            <Link href="/why/group-fun" className="group relative block">
+            <TrackedLink href="/why/group-fun" buttonName="Learn More - Group Fun" location="home_why_fury_road" className="group relative block">
               <div className="absolute inset-0 bg-gradient-to-br from-green-600/10 to-green-800/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500"></div>
               <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 border border-white/20 group-hover:border-green-400/40">
                 <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-700 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
@@ -279,7 +284,7 @@ export default async function HomePage() {
                   <div className="ml-2 w-0 group-hover:w-6 h-0.5 bg-green-400 transition-all duration-300"></div>
                 </div>
               </div>
-            </Link>
+            </TrackedLink>
           </div>
         </div>
       </div>
@@ -358,15 +363,17 @@ export default async function HomePage() {
                   <p className="text-gray-300 text-sm sm:text-base mb-6 leading-relaxed">
                     Join the racing community and experience the thrill of RC car racing like never before!
                   </p>
-                  <Link
+                  <TrackedLink
                     href="/auth/signup"
+                    buttonName="START YOUR JOURNEY"
+                    location="home_ultimate_experience"
                     className="group inline-block bg-fury-orange text-fury-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg text-xs sm:text-sm font-semibold hover:bg-fury-orange/90 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25"
                   >
                     <span className="flex items-center justify-center">
                       <Zap className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                       START YOUR JOURNEY
                     </span>
-                  </Link>
+                  </TrackedLink>
                 </div>
               </div>
             </div>
@@ -470,18 +477,22 @@ export default async function HomePage() {
                     Contact us for group booking inquiries and special pricing
                   </p>
                   <div className="space-y-3">
-                    <Link
+                    <TrackedLink
                       href="/contact"
+                      buttonName="Contact Us for Group Bookings"
+                      location="home_group_bookings"
                       className="block w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
                     >
                       Contact Us for Group Bookings
-                    </Link>
-                    <Link
+                    </TrackedLink>
+                    <TrackedLink
                       href="/book"
+                      buttonName="Book Individual Slots"
+                      location="home_group_bookings"
                       className="block w-full border-2 border-white/40 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:bg-white/10 hover:border-white/60 transition-all duration-300 backdrop-blur-sm"
                     >
                       Book Individual Slots
-                    </Link>
+                    </TrackedLink>
                   </div>
                 </div>
               </div>
@@ -600,21 +611,25 @@ export default async function HomePage() {
               Easy to reach, hard to leave. Experience the best RC car racing in the city.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
-              <Link
+              <TrackedLink
                 href="/auth/signup"
+                buttonName="BOOK YOUR RACE"
+                location="home_location"
                 className="group bg-fury-orange text-fury-white px-6 py-2.5 sm:px-8 sm:py-3.5 rounded-lg text-xs sm:text-sm font-semibold hover:bg-fury-orange/90 transition-all duration-300 shadow-lg hover:shadow-fury-orange/25"
               >
                 <span className="flex items-center justify-center">
                   <Trophy className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                   BOOK YOUR RACE
                 </span>
-              </Link>
-              <Link
+              </TrackedLink>
+              <TrackedLink
                 href="/contact"
+                buttonName="GET DIRECTIONS"
+                location="home_location"
                 className="group border-2 border-fury-white/40 text-fury-white px-6 py-2.5 sm:px-8 sm:py-3.5 rounded-lg text-xs sm:text-sm font-semibold hover:bg-fury-white/10 hover:border-fury-white/60 transition-all duration-300 backdrop-blur-sm"
               >
                 GET DIRECTIONS
-              </Link>
+              </TrackedLink>
             </div>
           </div>
         </div>
