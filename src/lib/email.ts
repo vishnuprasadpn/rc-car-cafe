@@ -144,8 +144,20 @@ export const sendBookingRequestEmail = async (data: BookingRequestData) => {
 
   try {
     const info = await transporter.sendMail(mailOptions)
+    // Track successful email send
+    trackEmailSent("booking_request", user.email, true, {
+      booking_id: booking.id,
+      game_name: game.name,
+      total_price: Number(booking.totalPrice),
+    })
     return info
   } catch (error) {
+    // Track failed email send
+    trackEmailSent("booking_request", user.email, false, {
+      booking_id: booking.id,
+      game_name: game.name,
+      error: error instanceof Error ? error.message : String(error),
+    })
     console.error('❌ ==========================================')
     console.error('❌ EMAIL SEND FAILED')
     console.error('❌ ==========================================')
