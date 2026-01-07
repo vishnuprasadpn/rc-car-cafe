@@ -5,6 +5,10 @@ import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { sendBookingNotificationToAdmin, sendBookingRequestEmail } from "@/lib/email"
 
+// Force Node.js runtime and dynamic execution so logs and SMTP behave predictably
+export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
+
 export async function GET() {
   try {
     // @ts-expect-error - getServerSession accepts authOptions but types don't match NextAuth v4
@@ -38,18 +42,28 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    // Entry log for diagnostics
+    console.log("➡️  POST /api/bookings entered at", new Date().toISOString())
+    console.log("   Environment:", process.env.NODE_ENV)
+    console.log("   SMTP configured:",
+      !!process.env.SMTP_HOST && !!process.env.SMTP_USER && !!process.env.SMTP_PASS ? "yes" : "no"
+    )
+
     // @ts-expect-error - getServerSession accepts authOptions but types don't match NextAuth v4
     const session = await getServerSession(authOptions) as Session | null
     
     if (!session || !session.user) {
+      console.log("   Unauthorized booking attempt - no session")
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 
     const body = await request.json()
     const { gameId, startTime, players, duration, totalPrice } = body
+    console.log("   Request body received:", { gameId, startTime, players, duration, hasTotalPrice: totalPrice !== undefined })
 
     // Validate input
     if (!gameId || !startTime || !players) {
+      console.log("   Missing required fields:", { gameId: !!gameId, startTime: !!startTime, players: !!players })
       return NextResponse.json(
         { message: "Missing required fields: gameId, startTime, and players" },
         { status: 400 }
@@ -62,10 +76,12 @@ export async function POST(request: NextRequest) {
     })
 
     if (!game) {
+      console.log("   Game not found:", gameId)
       return NextResponse.json({ message: "Game not found" }, { status: 404 })
     }
 
     if (!game.isActive) {
+      console.log("   Game is not active:", gameId)
       return NextResponse.json({ message: "Game is not available" }, { status: 400 })
     }
 
@@ -114,6 +130,7 @@ export async function POST(request: NextRequest) {
     })
 
     if (conflictingBookings.length > 0) {
+      console.log("   Conflicting bookings found:", conflictingBookings.length)
       return NextResponse.json(
         { message: "This time slot is already booked. Please choose another time." },
         { status: 409 }
@@ -170,6 +187,7 @@ export async function POST(request: NextRequest) {
     })
 
     if (!user) {
+      console.log("   User not found for session")
       return NextResponse.json({ message: "User not found" }, { status: 404 })
     }
 
@@ -190,6 +208,7 @@ export async function POST(request: NextRequest) {
         game: true,
       },
     })
+    console.log("   Booking created:", booking.id)
 
     // Calculate and allocate points (10 points per ₹100 spent)
     const pointsEarned = Math.floor(Number(bookingTotalPrice) / 100) * 10
