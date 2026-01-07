@@ -7,6 +7,9 @@ import { Providers } from "@/components/providers"
 import LayoutWrapper from "@/components/layout-wrapper"
 import { VersionLogger } from "@/components/version-logger"
 
+// Google Analytics Measurement ID - fallback for production
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-X14C8E032X"
+
 const inter = Inter({ 
   subsets: ["latin"],
   variable: "--font-inter",
@@ -34,7 +37,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || ""
   
   // Extract domain from app URL (e.g., https://furyroadrc.com -> furyroadrc.com)
@@ -58,27 +60,28 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        {/* Google Analytics - placed in head as recommended by Google */}
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_MEASUREMENT_ID}', {
+                ${cookieDomain !== "auto" ? `cookie_domain: '${cookieDomain}',` : ""}
+                cookie_flags: 'SameSite=None;Secure',
+                send_page_view: true
+              });
+            `,
+          }}
+        />
+      </head>
       <body className={`${inter.variable} ${bebasNeue.variable} ${inter.className}`}>
-        {gaId && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${gaId}', {
-                  ${cookieDomain !== "auto" ? `cookie_domain: '${cookieDomain}',` : ""}
-                  cookie_flags: 'SameSite=None;Secure',
-                  send_page_view: true
-                });
-              `}
-            </Script>
-          </>
-        )}
         <Providers>
           <LayoutWrapper>
             {children}
