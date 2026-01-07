@@ -144,20 +144,20 @@ export const sendBookingRequestEmail = async (data: BookingRequestData) => {
 
   try {
     const info = await transporter.sendMail(mailOptions)
-    // Track successful email send
+    // Track successful email send (don't await - fire and forget)
     trackEmailSent("booking_request", user.email, true, {
       booking_id: booking.id,
       game_name: game.name,
       total_price: Number(booking.totalPrice),
-    })
+    }).catch(err => console.warn("Email tracking failed:", err))
     return info
   } catch (error) {
-    // Track failed email send
+    // Track failed email send (don't await - fire and forget)
     trackEmailSent("booking_request", user.email, false, {
       booking_id: booking.id,
       game_name: game.name,
       error: error instanceof Error ? error.message : String(error),
-    })
+    }).catch(err => console.warn("Email tracking failed:", err))
     console.error('❌ ==========================================')
     console.error('❌ EMAIL SEND FAILED')
     console.error('❌ ==========================================')
@@ -241,20 +241,20 @@ export const sendBookingConfirmationEmail = async (data: BookingConfirmationData
 
   try {
     const info = await transporter.sendMail(mailOptions)
-    // Track successful email send
+    // Track successful email send (don't await - fire and forget)
     trackEmailSent("booking_confirmation", user.email, true, {
       booking_id: booking.id,
       game_name: game.name,
-      total_price: booking.totalPrice,
-    })
+      total_price: Number(booking.totalPrice),
+    }).catch(err => console.warn("Email tracking failed:", err))
     return info
   } catch (error) {
-    // Track failed email send
+    // Track failed email send (don't await - fire and forget)
     trackEmailSent("booking_confirmation", user.email, false, {
       booking_id: booking.id,
       game_name: game.name,
       error: error instanceof Error ? error.message : String(error),
-    })
+    }).catch(err => console.warn("Email tracking failed:", err))
     console.error('❌ ==========================================')
     console.error('❌ EMAIL SEND FAILED')
     console.error('❌ ==========================================')
@@ -304,19 +304,19 @@ export const sendBookingCancellationEmail = async (data: BookingCancellationData
 
   try {
     await transporter.sendMail(mailOptions)
-    // Track successful email send
+    // Track successful email send (don't await - fire and forget)
     trackEmailSent("booking_cancellation", user.email, true, {
       booking_id: booking.id,
       game_name: game.name,
-      total_price: booking.totalPrice,
-    })
+      total_price: Number(booking.totalPrice),
+    }).catch(err => console.warn("Email tracking failed:", err))
   } catch (error) {
-    // Track failed email send
+    // Track failed email send (don't await - fire and forget)
     trackEmailSent("booking_cancellation", user.email, false, {
       booking_id: booking.id,
       game_name: game.name,
       error: error instanceof Error ? error.message : String(error),
-    })
+    }).catch(err => console.warn("Email tracking failed:", err))
     console.error('Error sending booking cancellation email:', error)
     throw error
   }
@@ -353,18 +353,18 @@ export const sendPointsApprovalEmail = async (userEmail: string, userName: strin
 
   try {
     await transporter.sendMail(mailOptions)
-    // Track successful email send
+    // Track successful email send (don't await - fire and forget)
     trackEmailSent("points_approval", userEmail, true, {
       points: points,
       reason: reason,
-    })
+    }).catch(err => console.warn("Email tracking failed:", err))
   } catch (error) {
-    // Track failed email send
+    // Track failed email send (don't await - fire and forget)
     trackEmailSent("points_approval", userEmail, false, {
       points: points,
       reason: reason,
       error: error instanceof Error ? error.message : String(error),
-    })
+    }).catch(err => console.warn("Email tracking failed:", err))
     console.error('Error sending points approval email:', error)
     throw error
   }
@@ -460,24 +460,24 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
 
   try {
     const info = await transporter.sendMail(mailOptions)
-    // Track successful email send to all admin recipients
+    // Track successful email send to all admin recipients (don't await - fire and forget)
     adminEmails.forEach((email) => {
       trackEmailSent("admin_notification", email, true, {
         booking_id: booking.id,
         game_name: game.name,
         customer_name: customer.name,
-        total_price: booking.totalPrice,
-      })
+        total_price: Number(booking.totalPrice),
+      }).catch(err => console.warn("Email tracking failed:", err))
     })
     return info
   } catch (error) {
-    // Track failed email send
+    // Track failed email send (don't await - fire and forget)
     adminEmails.forEach((email) => {
       trackEmailSent("admin_notification", email, false, {
         booking_id: booking.id,
         game_name: game.name,
         error: error instanceof Error ? error.message : String(error),
-      })
+      }).catch(err => console.warn("Email tracking failed:", err))
     })
     console.error('❌ ==========================================')
     console.error('❌ CRITICAL EMAIL FAILURE')
@@ -580,14 +580,14 @@ export const sendPasswordResetCodeEmail = async (userEmail: string, userName: st
 
   try {
     const info = await transporter.sendMail(mailOptions)
-    // Track successful email send
-    trackEmailSent("password_reset", userEmail, true)
+    // Track successful email send (don't await - fire and forget)
+    trackEmailSent("password_reset", userEmail, true).catch(err => console.warn("Email tracking failed:", err))
     return info
   } catch (error) {
-    // Track failed email send
+    // Track failed email send (don't await - fire and forget)
     trackEmailSent("password_reset", userEmail, false, {
       error: error instanceof Error ? error.message : String(error),
-    })
+    }).catch(err => console.warn("Email tracking failed:", err))
     console.error('❌ ==========================================')
     console.error('❌ EMAIL SEND FAILED')
     console.error('❌ ==========================================')
@@ -725,22 +725,22 @@ Fury Road RC Club - Admin System
     }
     
     const info = await transporter.sendMail(mailOptions)
-    // Track successful email send to all admin recipients
+    // Track successful email send to all admin recipients (don't await - fire and forget)
     adminEmails.forEach((email) => {
       trackEmailSent("admin_login_test", email, true, {
         admin_name: adminName,
         login_method: loginMethod,
-      })
+      }).catch(err => console.warn("Email tracking failed:", err))
     })
     return info
   } catch (error) {
-    // Track failed email send
+    // Track failed email send (don't await - fire and forget)
     adminEmails.forEach((email) => {
       trackEmailSent("admin_login_test", email, false, {
         admin_name: adminName,
         login_method: loginMethod,
         error: error instanceof Error ? error.message : String(error),
-      })
+      }).catch(err => console.warn("Email tracking failed:", err))
     })
     console.error('Error sending admin login test email:', error)
     // Don't throw - we don't want login to fail if email fails
