@@ -143,7 +143,7 @@ export const trackNavigation = (destination: string, source?: string) => {
  * Falls back to console logging if API secret is not configured
  */
 export const trackEmailSent = async (
-  emailType: "booking_request" | "booking_confirmation" | "booking_cancellation" | "points_approval" | "admin_notification" | "password_reset" | "admin_login_test",
+  emailType: "booking_request" | "booking_confirmation" | "booking_cancellation" | "points_approval" | "admin_notification" | "password_reset" | "admin_login_test" | "contact_form",
   recipientEmail: string,
   success: boolean,
   additionalData?: Record<string, unknown>

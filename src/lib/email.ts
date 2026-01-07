@@ -621,6 +621,116 @@ export const sendPasswordResetCodeEmail = async (userEmail: string, userName: st
   }
 }
 
+interface ContactFormData {
+  name: string
+  email: string
+  phone?: string
+  subject: string
+  message: string
+}
+
+export const sendContactFormEmail = async (data: ContactFormData) => {
+  if (!transporter) {
+    console.error('❌ ==========================================')
+    console.error('❌ EMAIL FAILED: SMTP NOT CONFIGURED')
+    console.error('❌ ==========================================')
+    console.error('❌ Function: sendContactFormEmail')
+    console.error('❌ Recipient: Admin')
+    console.error('❌ Reason: SMTP transporter is null')
+    console.error('❌ Action Required: Set SMTP environment variables in production')
+    console.error('❌ Required: SMTP_HOST, SMTP_USER, SMTP_PASS')
+    console.error('❌ ==========================================')
+    throw new Error('Email service is not configured. Please contact the administrator.')
+  }
+
+  // Get admin emails
+  const adminEmails = [
+    'furyroadrcclub@gmail.com',
+    'vishnuprasad1990@gmail.com'
+  ]
+  
+  if (process.env.ADMIN_EMAIL && !adminEmails.includes(process.env.ADMIN_EMAIL)) {
+    adminEmails.push(process.env.ADMIN_EMAIL)
+  }
+
+  const mailOptions = {
+    from: process.env.SMTP_USER,
+    to: adminEmails.join(','),
+    replyTo: data.email,
+    subject: `Contact Form: ${data.subject} - Fury Road RC Club`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #F71B0F;">New Contact Form Submission</h2>
+        <p>You have received a new message from the website contact form:</p>
+        
+        <div style="background-color: #F3F4F6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <h3 style="margin-top: 0;">Contact Details</h3>
+          <p><strong>Name:</strong> ${data.name}</p>
+          <p><strong>Email:</strong> <a href="mailto:${data.email}">${data.email}</a></p>
+          ${data.phone ? `<p><strong>Phone:</strong> <a href="tel:${data.phone}">${data.phone}</a></p>` : ''}
+          <p><strong>Subject:</strong> ${data.subject}</p>
+        </div>
+        
+        <div style="background-color: #FFFFFF; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F71B0F;">
+          <h3 style="margin-top: 0; color: #F71B0F;">Message</h3>
+          <p style="white-space: pre-wrap;">${data.message}</p>
+        </div>
+        
+        <p style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #E5E7EB;">
+          <strong>Reply to:</strong> <a href="mailto:${data.email}">${data.email}</a>
+        </p>
+        
+        <p style="color: #6B7280; font-size: 12px; margin-top: 20px;">
+          This email was sent from the Fury Road RC Club website contact form.
+        </p>
+      </div>
+    `,
+    text: `
+New Contact Form Submission
+
+Contact Details:
+- Name: ${data.name}
+- Email: ${data.email}
+${data.phone ? `- Phone: ${data.phone}` : ''}
+- Subject: ${data.subject}
+
+Message:
+${data.message}
+
+Reply to: ${data.email}
+    `.trim(),
+  }
+
+  try {
+    const info = await transporter.sendMail(mailOptions)
+    // Track successful email send (don't await - fire and forget)
+    adminEmails.forEach((email) => {
+      trackEmailSent("contact_form", email, true, {
+        subject: data.subject,
+        from_email: data.email,
+      }).catch(err => console.warn("Email tracking failed:", err))
+    })
+    return info
+  } catch (error) {
+    // Track failed email send (don't await - fire and forget)
+    adminEmails.forEach((email) => {
+      trackEmailSent("contact_form", email, false, {
+        subject: data.subject,
+        from_email: data.email,
+        error: error instanceof Error ? error.message : String(error),
+      }).catch(err => console.warn("Email tracking failed:", err))
+    })
+    console.error('❌ ==========================================')
+    console.error('❌ EMAIL SEND FAILED')
+    console.error('❌ ==========================================')
+    console.error('❌ Function: sendContactFormEmail')
+    console.error('❌ Recipients:', adminEmails.join(', '))
+    console.error('❌ Error:', error instanceof Error ? error.message : String(error))
+    console.error('❌ ==========================================')
+    throw error
+  }
+}
+
 export const sendAdminLoginTestEmail = async (adminEmail: string, adminName: string, loginMethod: string) => {
   if (!transporter) {
     console.error('❌ ==========================================')

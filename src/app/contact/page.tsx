@@ -33,13 +33,27 @@ export default function ContactPage() {
     setMessage(null)
 
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      setMessage({ type: 'success', text: 'Thank you for your message! We&apos;ll get back to you soon.' })
-      setFormData({ name: "", email: "", phone: "", subject: "", message: "" })
-      trackFormSubmit("contact_form", true, { subject: formData.subject })
-    } catch {
-      setMessage({ type: 'error', text: 'Failed to send message. Please try again.' })
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setMessage({ type: 'success', text: data.message || 'Thank you for your message! We&apos;ll get back to you soon.' })
+        setFormData({ name: "", email: "", phone: "", subject: "", message: "" })
+        trackFormSubmit("contact_form", true, { subject: formData.subject })
+      } else {
+        setMessage({ type: 'error', text: data.message || 'Failed to send message. Please try again.' })
+        trackFormSubmit("contact_form", false, { subject: formData.subject })
+      }
+    } catch (error) {
+      console.error("Error submitting contact form:", error)
+      setMessage({ type: 'error', text: 'Failed to send message. Please try again or contact us directly at furyroadrcclub@gmail.com' })
       trackFormSubmit("contact_form", false, { subject: formData.subject })
     } finally {
       setIsSubmitting(false)
