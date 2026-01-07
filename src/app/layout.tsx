@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
-import Script from "next/script"
 import { Inter, Bebas_Neue } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
+import { GoogleAnalytics } from "@next/third-parties/google"
 import "./globals.css"
 import { Providers } from "@/components/providers"
 import LayoutWrapper from "@/components/layout-wrapper"
@@ -39,29 +39,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${bebasNeue.variable} ${inter.className}`}>
-        {gaId && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${gaId}');
-              `}
-            </Script>
-          </>
-        )}
-              <Providers>
-                <LayoutWrapper>
-                  {children}
-                </LayoutWrapper>
-              </Providers>
-              <VersionLogger />
-              <Analytics />
+        <Providers>
+          <LayoutWrapper>
+            {children}
+          </LayoutWrapper>
+        </Providers>
+        <VersionLogger />
+        <Analytics />
+        {gaId && <GoogleAnalytics gaId={gaId} />}
       </body>
     </html>
   )
