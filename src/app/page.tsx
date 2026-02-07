@@ -91,6 +91,45 @@ export default async function HomePage() {
 
       </div>
 
+      {/* Valentine's Day Offer Banner */}
+      <div className="relative overflow-hidden bg-gradient-to-r from-pink-900/40 via-red-900/50 to-pink-900/40">
+        <div className="absolute inset-0 bg-[url('/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_2.jpg')] bg-cover bg-center opacity-10"></div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4 text-center md:text-left">
+              <div className="hidden sm:flex items-center justify-center w-16 h-16 bg-pink-500/20 rounded-full border border-pink-500/30">
+                <Heart className="h-8 w-8 text-pink-400" />
+              </div>
+              <div>
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-pink-500/20 border border-pink-500/40 mb-2">
+                  <Heart className="h-3 w-3 text-pink-400 mr-1.5" />
+                  <span className="text-pink-200 text-xs font-semibold">Limited Time Offer - Till 28th Feb</span>
+                </div>
+                <h3 className="font-heading text-xl sm:text-2xl md:text-3xl text-white uppercase">
+                  Valentine&apos;s Day Special
+                </h3>
+                <p className="text-gray-300 text-sm mt-1">
+                  1 Player, 4 Tracks, 1 Hour - <span className="text-gray-500 line-through">₹749</span>{' '}
+                  <span className="text-pink-400 font-bold text-lg">₹599</span>
+                  <span className="text-gray-400 mx-2">|</span>
+                  Trial Pack - <span className="text-gray-500 line-through">₹249</span>{' '}
+                  <span className="text-pink-400 font-bold text-lg">₹199</span>
+                </p>
+              </div>
+            </div>
+            <TrackedLink
+              href="/valentines-offer"
+              buttonName="Valentine Offer Book Now"
+              location="home_valentines_banner"
+              className="group flex-shrink-0 bg-gradient-to-r from-pink-600 to-red-600 text-white px-8 py-3.5 rounded-xl font-bold hover:from-pink-700 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-pink-500/25 flex items-center gap-2 whitespace-nowrap"
+            >
+              <Heart className="h-5 w-5" />
+              Book Now
+            </TrackedLink>
+          </div>
+        </div>
+      </div>
+
       {/* What We Offer Section */}
       <div className="py-24 relative overflow-hidden transition-all duration-700">
         {/* Background Image */}

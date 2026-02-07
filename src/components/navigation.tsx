@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { usePathname } from "next/navigation"
-import { Zap, Menu, X } from "lucide-react"
+import { Zap, Menu, X, Heart } from "lucide-react"
 import { trackNavigation, trackButtonClick } from "@/lib/analytics"
 import { useState } from "react"
 
@@ -25,6 +25,7 @@ export default function Navigation() {
     '/auth/forgot-password',
     '/auth/verify-code',
     '/auth/reset-password',
+    '/valentines-offer',
   ]
 
   // Check if current path is a public route
@@ -120,6 +121,20 @@ export default function Navigation() {
                     className="px-4 py-3 rounded-lg transition-colors text-white hover:bg-white/10"
                   >
                     Contact
+                  </Link>
+                )}
+                {!pathname?.startsWith('/valentines-offer') && (
+                  <Link 
+                    href="/valentines-offer" 
+                    onClick={() => {
+                      trackNavigation("/valentines-offer", pathname || "")
+                      trackButtonClick("Valentine Offer", "navigation")
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className="px-4 py-3 rounded-lg bg-gradient-to-r from-pink-600/20 to-red-600/20 border border-pink-500/40 text-pink-200 hover:from-pink-600/30 hover:to-red-600/30 transition-colors font-semibold whitespace-nowrap flex items-center gap-2"
+                  >
+                    <Heart className="h-4 w-4 text-pink-400" />
+                    Valentine&apos;s Offer
                   </Link>
                 )}
                 {!pathname?.startsWith('/book') && (
@@ -223,8 +238,21 @@ export default function Navigation() {
                 )}
               </div>
               
-              {/* Book Now and Sign In / Sign Up or User Menu */}
+              {/* Valentine's Offer, Book Now and Sign In / Sign Up or User Menu */}
               <div className="flex items-center space-x-4">
+                {!pathname?.startsWith('/valentines-offer') && (
+                  <Link
+                    href="/valentines-offer"
+                    onClick={() => {
+                      trackNavigation("/valentines-offer", pathname || "")
+                      trackButtonClick("Valentine Offer", "navigation")
+                    }}
+                    className="bg-gradient-to-r from-pink-600 to-red-600 text-white rounded-lg px-4 py-2 text-sm font-semibold hover:from-pink-700 hover:to-red-700 shadow-lg hover:shadow-pink-500/25 transition-all whitespace-nowrap flex items-center gap-1.5"
+                  >
+                    <Heart className="h-3.5 w-3.5" />
+                    V-Day Offer
+                  </Link>
+                )}
                 {!pathname?.startsWith('/book') && (
                   <Link
                     href="/book"

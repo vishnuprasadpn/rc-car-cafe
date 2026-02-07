@@ -8,7 +8,7 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Clock, DollarSign, X, Lock, Mail } from "lucide-react"
+import { Clock, DollarSign, X, Lock, Mail, Heart } from "lucide-react"
 import Link from "next/link"
 import Navigation from "@/components/navigation"
 import { trackBooking, trackButtonClick, trackFormSubmit } from "@/lib/analytics"
@@ -249,6 +249,25 @@ function BookPageContent() {
       <Navigation />
 
       <div className="max-w-3xl mx-auto pt-16 md:pt-20 py-6 sm:px-6 lg:px-8">
+        {/* Valentine's Day Offer Banner */}
+        <div className="px-4 sm:px-0 mb-4">
+          <Link
+            href="/valentines-offer"
+            className="block bg-gradient-to-r from-pink-600/20 to-red-600/20 border border-pink-500/40 rounded-xl p-4 hover:from-pink-600/30 hover:to-red-600/30 transition-all duration-300 group"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Heart className="h-6 w-6 text-pink-400 group-hover:scale-110 transition-transform" />
+                <div>
+                  <p className="text-pink-200 font-bold text-sm sm:text-base">Valentine&apos;s Day Special!</p>
+                  <p className="text-gray-300 text-xs sm:text-sm">4 Tracks, 1 Hour from <span className="text-pink-400 font-bold">₹599</span> | Trial Pack from <span className="text-pink-400 font-bold">₹199</span></p>
+                </div>
+              </div>
+              <span className="text-pink-400 font-semibold text-sm whitespace-nowrap ml-2">View Offer →</span>
+            </div>
+          </Link>
+        </div>
+
         <div className="px-4 py-6 sm:px-0">
           <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
             <div className="px-4 py-5 sm:p-6">
