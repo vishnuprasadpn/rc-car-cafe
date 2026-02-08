@@ -77,6 +77,7 @@ export default function RootLayout({
                 cookie_flags: 'SameSite=None;Secure',
                 send_page_view: true
               });
+              gtag('config', 'AW-17896637104');
             `,
           }}
         />
