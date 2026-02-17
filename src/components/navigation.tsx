@@ -26,6 +26,7 @@ export default function Navigation() {
     '/auth/verify-code',
     '/auth/reset-password',
     '/valentines-offer',
+    '/blog',
   ]
 
   // Check if current path is a public route
@@ -121,6 +122,18 @@ export default function Navigation() {
                     className="px-4 py-3 rounded-lg transition-colors text-white hover:bg-white/10"
                   >
                     Contact
+                  </Link>
+                )}
+                {!pathname?.startsWith('/blog') && (
+                  <Link 
+                    href="/blog" 
+                    onClick={() => {
+                      trackNavigation("/blog", pathname || "")
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className="px-4 py-3 rounded-lg transition-colors text-white hover:bg-white/10"
+                  >
+                    Blog
                   </Link>
                 )}
                 {!pathname?.startsWith('/valentines-offer') && (
@@ -234,6 +247,15 @@ export default function Navigation() {
                     className="text-white/90 hover:text-white text-sm font-medium transition-colors"
                   >
                     Contact
+                  </Link>
+                )}
+                {!pathname?.startsWith('/blog') && (
+                  <Link 
+                    href="/blog" 
+                    onClick={() => trackNavigation("/blog", pathname || "")}
+                    className="text-white/90 hover:text-white text-sm font-medium transition-colors"
+                  >
+                    Blog
                   </Link>
                 )}
               </div>
