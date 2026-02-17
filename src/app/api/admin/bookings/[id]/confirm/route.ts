@@ -5,6 +5,10 @@ import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { sendBookingConfirmationEmail } from "@/lib/email"
 
+// Force Node.js runtime - nodemailer requires Node.js APIs (net, tls, dns)
+export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
+
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

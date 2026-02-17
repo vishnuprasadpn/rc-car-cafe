@@ -3,6 +3,10 @@ import { prisma } from "@/lib/prisma"
 import { sendPasswordResetCodeEmail } from "@/lib/email"
 import { z } from "zod"
 
+// Force Node.js runtime - nodemailer requires Node.js APIs (net, tls, dns)
+export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
+
 const forgotPasswordSchema = z.object({
   email: z.string().email("Invalid email address"),
 })

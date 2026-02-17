@@ -4,6 +4,10 @@ import { authOptions } from "@/lib/auth"
 import type { Session } from "next-auth"
 import nodemailer from "nodemailer"
 
+// Force Node.js runtime - nodemailer requires Node.js APIs (net, tls, dns)
+export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
+
 export async function GET(request: NextRequest) {
   try {
     // Only allow admins to test email

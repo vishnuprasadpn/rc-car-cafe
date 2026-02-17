@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from "next/server"
 import { sendContactFormEmail } from "@/lib/email"
 import { z } from "zod"
 
+// Force Node.js runtime - nodemailer requires Node.js APIs (net, tls, dns)
+export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
+
 const contactFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),
