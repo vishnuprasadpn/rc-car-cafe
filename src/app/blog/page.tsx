@@ -3,17 +3,91 @@ import Link from "next/link"
 import Navigation from "@/components/navigation"
 import { getAllBlogPosts } from "@/data/blog-posts"
 import { Clock, Calendar, ArrowRight, BookOpen } from "lucide-react"
+import type { Metadata } from "next"
 
-export const metadata = {
-  title: "Blog - Fury Road RC Club",
-  description: "Stories, tips, and insights from the world of RC car racing in Bangalore.",
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://furyroadclub.com"
+
+export const metadata: Metadata = {
+  title: "Blog - RC Car Racing Stories, Tips & Insights",
+  description:
+    "Read stories, tips, and insights from the world of RC car racing in Bangalore. Discover what makes Fury Road RC Club the ultimate indoor racing experience.",
+  keywords: [
+    "RC car racing blog",
+    "RC racing tips",
+    "Bangalore activities blog",
+    "Fury Road RC Club blog",
+    "indoor gaming stories",
+    "RC car experience stories",
+  ],
+  openGraph: {
+    title: "Blog - Fury Road RC Club",
+    description:
+      "Stories, tips, and insights from the world of RC car racing in Bangalore.",
+    url: `${siteUrl}/blog`,
+    type: "website",
+    images: [
+      {
+        url: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_0.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Fury Road RC Club Blog",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog - Fury Road RC Club",
+    description:
+      "Stories, tips, and insights from the world of RC car racing in Bangalore.",
+    images: ["/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_0.jpg"],
+  },
+  alternates: {
+    canonical: `${siteUrl}/blog`,
+  },
 }
 
 export default function BlogPage() {
   const posts = getAllBlogPosts()
 
+  // JSON-LD for Blog listing page
+  const blogJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "Fury Road RC Club Blog",
+    description:
+      "Stories, tips, and insights from the world of RC car racing in Bangalore.",
+    url: `${siteUrl}/blog`,
+    publisher: {
+      "@type": "Organization",
+      name: "Fury Road RC Club",
+      url: siteUrl,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/Furyroad.png`,
+      },
+    },
+    blogPost: posts.map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.title,
+      description: post.metaDescription || post.excerpt,
+      url: `${siteUrl}/blog/${post.slug}`,
+      datePublished: post.date,
+      dateModified: post.lastModified || post.date,
+      image: `${siteUrl}${post.coverImage}`,
+      author: {
+        "@type": "Organization",
+        name: post.author,
+      },
+    })),
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
+      />
       <Navigation />
 
       {/* Hero Section */}

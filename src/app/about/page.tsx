@@ -1,6 +1,35 @@
+import type { Metadata } from "next"
 import Navigation from "@/components/navigation"
 import Image from "next/image"
 import { Trophy, Users, Heart, Shield, MapPin, Phone, Mail } from "lucide-react"
+
+export const metadata: Metadata = {
+  title: "About Us - India's Premier RC Car Racing Destination",
+  description:
+    "Learn about Fury Road RC Club, Bangalore's premier indoor RC car racing destination. Our mission, values, and passion for delivering the ultimate RC racing experience.",
+  keywords: [
+    "about Fury Road RC Club",
+    "RC car racing club Bangalore",
+    "indoor gaming venue Bangalore",
+    "RC racing destination India",
+  ],
+  openGraph: {
+    title: "About Fury Road RC Club",
+    description:
+      "Bangalore's premier indoor RC car racing destination. Discover our mission and passion for RC racing.",
+    images: [
+      {
+        url: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_3.jpg",
+        width: 1200,
+        height: 630,
+        alt: "About Fury Road RC Club",
+      },
+    ],
+  },
+  alternates: {
+    canonical: "/about",
+  },
+}
 
 export default function AboutPage() {
   const values = [

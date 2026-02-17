@@ -1,9 +1,18 @@
+import type { Metadata } from "next"
 import Navigation from "@/components/navigation"
 import { Shield, Lock, Eye } from "lucide-react"
 
-export const metadata = {
-  title: "Privacy Policy - Fury Road RC Club",
-  description: "Privacy Policy for Fury Road RC Club",
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "Read Fury Road RC Club's privacy policy. Learn how we collect, use, and protect your personal information when you use our RC racing services and website.",
+  alternates: {
+    canonical: "/privacy",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default function PrivacyPolicyPage() {

@@ -1,7 +1,39 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import Navigation from "@/components/navigation"
 import Image from "next/image"
 import { Gamepad2, Users, Clock, Zap, Trophy, Star } from "lucide-react"
+
+export const metadata: Metadata = {
+  title: "PS5 Gaming Lounge - PlayStation 5 Gaming in Bangalore",
+  description:
+    "Play the latest PS5 games at Fury Road RC Club's gaming lounge in Bangalore. Multiplayer gaming, latest titles, comfortable setup. Perfect for friends, couples, and families.",
+  keywords: [
+    "PS5 gaming Bangalore",
+    "PlayStation 5 gaming cafe",
+    "PS5 gaming lounge near me",
+    "multiplayer gaming Bangalore",
+    "gaming cafe Bangalore",
+    "PS5 games Bangalore",
+    "console gaming Bangalore",
+  ],
+  openGraph: {
+    title: "PS5 Gaming Lounge - Fury Road RC Club",
+    description:
+      "Play the latest PS5 games at our gaming lounge in Bangalore. Multiplayer, latest titles, comfortable setup.",
+    images: [
+      {
+        url: "/ps5-gaming.png",
+        width: 1200,
+        height: 630,
+        alt: "PS5 Gaming Lounge at Fury Road RC Club",
+      },
+    ],
+  },
+  alternates: {
+    canonical: "/ps5-gaming",
+  },
+}
 
 export default function PS5GamingPage() {
   const features = [

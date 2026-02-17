@@ -1,9 +1,18 @@
+import type { Metadata } from "next"
 import Navigation from "@/components/navigation"
 import { FileText, AlertCircle, CheckCircle, XCircle } from "lucide-react"
 
-export const metadata = {
-  title: "Terms and Conditions - Fury Road RC Club",
-  description: "Terms and Conditions for Fury Road RC Club",
+export const metadata: Metadata = {
+  title: "Terms and Conditions",
+  description:
+    "Terms and conditions for Fury Road RC Club services. Read our booking policies, cancellation terms, safety guidelines, and usage rules.",
+  alternates: {
+    canonical: "/terms",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default function TermsPage() {

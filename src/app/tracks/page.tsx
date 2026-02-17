@@ -1,8 +1,42 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import Navigation from "@/components/navigation"
 import Image from "next/image"
 import { Trophy, Clock } from "lucide-react"
 import { TrackedLink } from "@/components/tracked-link"
+
+export const metadata: Metadata = {
+  title: "RC Car Racing Tracks - Fast Track, Sand Track, Crawler & Mud Track",
+  description:
+    "Explore 4 professional RC car racing tracks at Fury Road RC Club Bangalore. Fast Track, Sand Track, Crawler Track & Mud Track with toy and hobby grade cars. Prices start at ₹249.",
+  keywords: [
+    "RC car tracks Bangalore",
+    "fast track RC racing",
+    "sand track RC cars",
+    "crawler track RC",
+    "mud track racing",
+    "hobby grade RC cars",
+    "toy grade RC cars",
+    "RC racing prices Bangalore",
+    "indoor racing tracks",
+  ],
+  openGraph: {
+    title: "RC Car Racing Tracks - Fury Road RC Club",
+    description:
+      "4 professional RC car racing tracks - Fast Track, Sand Track, Crawler Track & Mud Track. Prices from ₹249.",
+    images: [
+      {
+        url: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "RC Car Racing Tracks at Fury Road RC Club",
+      },
+    ],
+  },
+  alternates: {
+    canonical: "/tracks",
+  },
+}
 
 export default function TracksPage() {
   const tracks = [

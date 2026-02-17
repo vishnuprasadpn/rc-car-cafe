@@ -6,6 +6,8 @@ import { getBlogPost, getAllBlogPosts } from "@/data/blog-posts"
 import { Clock, Calendar, ArrowLeft, User, Share2, Tag } from "lucide-react"
 import type { Metadata } from "next"
 
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://furyroadclub.com"
+
 interface Props {
   params: Promise<{ slug: string }>
 }
@@ -20,16 +22,41 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getBlogPost(slug)
   if (!post) return { title: "Post Not Found" }
 
+  const postUrl = `${siteUrl}/blog/${post.slug}`
+
   return {
-    title: `${post.title} - Fury Road RC Club Blog`,
-    description: post.excerpt,
+    title: post.title,
+    description: post.metaDescription || post.excerpt,
+    keywords: post.keywords,
+    authors: [{ name: post.author }],
     openGraph: {
       title: post.title,
-      description: post.excerpt,
-      images: [post.coverImage],
+      description: post.metaDescription || post.excerpt,
+      url: postUrl,
       type: "article",
       publishedTime: post.date,
+      modifiedTime: post.lastModified || post.date,
       authors: [post.author],
+      tags: post.tags,
+      images: [
+        {
+          url: post.coverImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+      siteName: "Fury Road RC Club",
+      locale: "en_IN",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.metaDescription || post.excerpt,
+      images: [post.coverImage],
+    },
+    alternates: {
+      canonical: postUrl,
     },
   }
 }
@@ -88,8 +115,75 @@ export default async function BlogPostPage({ params }: Props) {
   const allPosts = getAllBlogPosts()
   const relatedPosts = allPosts.filter((p) => p.slug !== post.slug).slice(0, 2)
 
+  // JSON-LD structured data for SEO
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.metaDescription || post.excerpt,
+    image: `${siteUrl}${post.coverImage}`,
+    datePublished: post.date,
+    dateModified: post.lastModified || post.date,
+    author: {
+      "@type": "Organization",
+      name: post.author,
+      url: siteUrl,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Fury Road RC Club",
+      url: siteUrl,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/Furyroad.png`,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/blog/${post.slug}`,
+    },
+    keywords: post.keywords?.join(", "),
+    articleSection: post.tags?.[0] || "RC Racing",
+    wordCount: post.content.split(/\s+/).length,
+  }
+
+  // BreadcrumbList for better search appearance
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: siteUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: `${siteUrl}/blog`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: post.title,
+        item: `${siteUrl}/blog/${post.slug}`,
+      },
+    ],
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900">
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <Navigation />
 
       {/* Hero Cover Image */}

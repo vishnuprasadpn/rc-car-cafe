@@ -1,7 +1,23 @@
+import type { Metadata } from "next"
 import Navigation from "@/components/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { Clock, Calendar, Zap, CheckCircle, ArrowLeft, Timer } from "lucide-react"
+
+export const metadata: Metadata = {
+  title: "Flexible Timing - 15 Min to 1 Hour RC Racing Sessions",
+  description:
+    "Choose your perfect RC racing session length at Fury Road RC Club. 15-minute trials to 1-hour marathon sessions. Walk-ins welcome, open weekdays and weekends in Bangalore.",
+  keywords: [
+    "RC racing session timing",
+    "flexible gaming sessions Bangalore",
+    "walk-in RC racing",
+    "RC car racing hours",
+  ],
+  alternates: {
+    canonical: "/why/flexible-timing",
+  },
+}
 
 export default function FlexibleTimingPage() {
   const timingOptions = [

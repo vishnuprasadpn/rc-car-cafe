@@ -1,7 +1,23 @@
+import type { Metadata } from "next"
 import Navigation from "@/components/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { Trophy, Zap, Target, Award, CheckCircle, ArrowLeft, Car } from "lucide-react"
+
+export const metadata: Metadata = {
+  title: "Professional RC Racing Experience - Hobby Grade Cars & Tracks",
+  description:
+    "Experience professional-grade RC car racing at Fury Road RC Club. Hobby grade vehicles, expertly designed tracks, and competitive racing in Bangalore.",
+  keywords: [
+    "professional RC racing",
+    "hobby grade RC cars Bangalore",
+    "competitive RC racing",
+    "RC racing experience",
+  ],
+  alternates: {
+    canonical: "/why/professional-racing",
+  },
+}
 
 export default function ProfessionalRacingPage() {
   const features = [

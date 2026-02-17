@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import Navigation from "@/components/navigation"
 import Image from "next/image"
@@ -8,6 +9,35 @@ import {
   Shield,
   Gift
 } from "lucide-react"
+
+export const metadata: Metadata = {
+  title: "Membership Plans - Exclusive RC Racing Benefits & Discounts",
+  description:
+    "Join Fury Road RC Club membership for exclusive benefits, discounts on RC car racing sessions, priority booking, and special event access in Bangalore.",
+  keywords: [
+    "RC club membership Bangalore",
+    "Fury Road membership",
+    "RC racing membership plans",
+    "indoor gaming membership",
+    "RC car club membership",
+  ],
+  openGraph: {
+    title: "Membership Plans - Fury Road RC Club",
+    description:
+      "Exclusive membership benefits, discounts, and priority access to RC car racing sessions.",
+    images: [
+      {
+        url: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_0.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Fury Road RC Club Membership",
+      },
+    ],
+  },
+  alternates: {
+    canonical: "/membership",
+  },
+}
 
 export default function MembershipPage() {
   const plans = [

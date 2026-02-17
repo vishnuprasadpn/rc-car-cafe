@@ -2,12 +2,15 @@ export interface BlogPost {
   slug: string
   title: string
   excerpt: string
+  metaDescription: string
   content: string
   author: string
   date: string
+  lastModified?: string
   readTime: string
   coverImage: string
   tags: string[]
+  keywords: string[]
 }
 
 export const blogPosts: BlogPost[] = [
@@ -16,11 +19,26 @@ export const blogPosts: BlogPost[] = [
     title: "RC Car Racing in Bangalore: Discovering a Different Kind of Thrill",
     excerpt:
       "In Bangalore, you never really run out of things to do. But every now and then, you come across something different — the kind of experience that stays with you longer than you expect.",
+    metaDescription:
+      "Discover the thrill of RC car racing in Bangalore at Fury Road RC Club. Experience professional tracks, hobby grade cars, and an adrenaline rush like no other. Read about what makes RC gaming a must-try activity in the city.",
     author: "Fury Road RC Club",
     date: "2026-02-17",
+    lastModified: "2026-02-17",
     readTime: "5 min read",
     coverImage: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_2.jpg",
     tags: ["RC Racing", "Bangalore", "Experience", "Indoor Gaming"],
+    keywords: [
+      "RC car racing Bangalore",
+      "Fury Road RC Club",
+      "indoor RC racing Bangalore",
+      "RC gaming Bangalore",
+      "things to do in Bangalore",
+      "remote control car racing",
+      "RC car experience",
+      "indoor activities Bangalore",
+      "weekend activities Bangalore",
+      "RC car club near me",
+    ],
     content: `In Bangalore, you never really run out of things to do. The city has its own ways of unwinding. It might be a late coffee night, a live gig you didn't plan for, a last-minute house party, a sudden weekend escape, or just driving around after the roads finally calm down. But every now and then, you come across something different — the kind of experience that stays with you longer than you expect.
 
 One of those experiences, surprisingly, led me indoors, to a place where small machines pull you in almost without trying and somehow manage to feel genuinely excited. Yeah, it's RC gaming.

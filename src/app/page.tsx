@@ -1,8 +1,31 @@
+import type { Metadata } from "next"
 import Image from "next/image"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
 import Navigation from "@/components/navigation"
 import { TrackedLink } from "@/components/tracked-link"
+
+export const metadata: Metadata = {
+  title: "Fury Road RC Club - India's Biggest RC Car Racing Experience in Bangalore",
+  description:
+    "Experience India's biggest indoor RC car racing at Fury Road RC Club, Bangalore. 4 professional tracks, PS5 gaming, birthday parties, corporate events & cafe. Book your session from ₹199!",
+  keywords: [
+    "RC car racing Bangalore",
+    "indoor RC racing",
+    "remote control car racing near me",
+    "Fury Road RC Club",
+    "things to do in Bangalore",
+    "fun activities Bangalore",
+    "birthday party venue Bangalore",
+    "corporate team building Bangalore",
+    "PS5 gaming cafe Bangalore",
+    "kids activities Bangalore",
+    "weekend fun Bangalore",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+}
 import { 
   Trophy, 
   Clock, 
