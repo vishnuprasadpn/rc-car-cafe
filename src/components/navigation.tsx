@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { usePathname } from "next/navigation"
-import { Zap, Menu, X, Heart } from "lucide-react"
+import { Zap, X, Heart, UserCircle, Phone, Mail } from "lucide-react"
 import { trackNavigation, trackButtonClick } from "@/lib/analytics"
 import { useState } from "react"
 
@@ -57,16 +57,19 @@ export default function Navigation() {
                 />
               </Link>
               
-              {/* Hamburger Menu Button */}
+              {/* Menu Toggle Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 rounded-lg text-white hover:bg-white/10 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-all"
                 aria-label="Toggle menu"
               >
                 {isMobileMenuOpen ? (
-                  <X className="h-6 w-6" />
+                  <X className="h-5 w-5" />
                 ) : (
-                  <Menu className="h-6 w-6" />
+                  <>
+                    <Phone className="h-4 w-4" />
+                    <Mail className="h-4 w-4" />
+                  </>
                 )}
               </button>
             </div>
@@ -76,18 +79,6 @@ export default function Navigation() {
           {isMobileMenuOpen && (
             <div className="bg-black/95 backdrop-blur-xl border-t border-white/20 px-4 py-4">
               <div className="flex flex-col space-y-2">
-                {pathname !== '/' && (
-                  <Link 
-                    href="/" 
-                    onClick={() => {
-                      trackNavigation("/", pathname || "")
-                      setIsMobileMenuOpen(false)
-                    }}
-                    className="px-4 py-3 rounded-lg transition-colors text-white hover:bg-white/10"
-                  >
-                    Home
-                  </Link>
-                )}
                 {!pathname?.startsWith('/tracks') && (
                   <Link 
                     href="/tracks" 
@@ -196,7 +187,7 @@ export default function Navigation() {
         {/* Desktop Navigation - Centered, Rounded */}
         <nav className="hidden md:block fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
           <div className="bg-white/10 backdrop-blur-xl rounded-full shadow-lg border border-white/20 px-6 py-4">
-            <div className="flex justify-center items-center gap-8">
+            <div className="flex justify-center items-center gap-6">
               {/* Logo */}
               <div className="flex items-center">
                 <Link href="/" className="flex items-center group">
@@ -212,16 +203,7 @@ export default function Navigation() {
               </div>
               
               {/* Navigation Links */}
-              <div className="flex items-center space-x-8">
-                {pathname !== '/' && (
-                  <Link 
-                    href="/" 
-                    onClick={() => trackNavigation("/", pathname || "")}
-                    className="text-white/90 hover:text-white text-sm font-medium transition-colors"
-                  >
-                    Home
-                  </Link>
-                )}
+              <div className="flex items-center space-x-6">
                 {!pathname?.startsWith('/tracks') && (
                   <Link 
                     href="/tracks" 
@@ -290,21 +272,28 @@ export default function Navigation() {
                 {session ? (
                   <Link
                     href="/dashboard"
-                    className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-white/30 shadow-sm transition-all flex items-center"
+                    className="relative group bg-white/20 backdrop-blur-sm border border-white/30 rounded-full p-2 text-white hover:bg-white/30 shadow-sm transition-all flex items-center justify-center"
+                    aria-label="Dashboard"
                   >
-                    <Zap className="h-4 w-4 mr-2 text-white" />
-                    Dashboard
+                    <Zap className="h-5 w-5 text-white" />
+                    <span className="absolute -bottom-9 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-black/90 border border-white/20 text-white text-xs rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                      Dashboard
+                    </span>
                   </Link>
                 ) : !pathname?.startsWith('/auth/signin') && !pathname?.startsWith('/auth/signup') ? (
                   <Link
                     href="/auth/signin"
-                    className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-white/30 shadow-sm transition-all flex items-center whitespace-nowrap"
+                    className="relative group bg-white/20 backdrop-blur-sm border border-white/30 rounded-full p-2 text-white hover:bg-white/30 shadow-sm transition-all flex items-center justify-center"
                     onClick={() => {
                       trackNavigation("/auth/signin", pathname || "")
                       trackButtonClick("Sign In", "navigation")
                     }}
+                    aria-label="Sign In"
                   >
-                    Sign In
+                    <UserCircle className="h-5 w-5" />
+                    <span className="absolute -bottom-9 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-black/90 border border-white/20 text-white text-xs rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                      Sign In
+                    </span>
                   </Link>
                 ) : null}
               </div>

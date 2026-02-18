@@ -139,7 +139,7 @@ export default function ContactPage() {
       </div>
 
       {/* Contact Info Cards */}
-      <div className="py-24 transition-all duration-700">
+      <div className="py-12 sm:py-16 transition-all duration-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="font-heading text-2xl sm:text-4xl text-white mb-6 uppercase">Get in Touch</h2>
@@ -194,7 +194,7 @@ export default function ContactPage() {
       </div>
 
       {/* Contact Form and Map */}
-      <div className="py-24 transition-all duration-700">
+      <div className="py-12 sm:py-16 transition-all duration-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Form */}
@@ -409,7 +409,7 @@ export default function ContactPage() {
       </div>
 
       {/* Additional Information Section */}
-      <div className="py-24 bg-gradient-to-br from-gray-900/50 via-gray-800/50 to-gray-900/50">
+      <div className="py-12 sm:py-16 bg-gradient-to-br from-gray-900/50 via-gray-800/50 to-gray-900/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Response Time */}
@@ -517,7 +517,7 @@ export default function ContactPage() {
       </div>
 
       {/* FAQ Section */}
-      <div className="py-24">
+      <div className="py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="font-heading text-2xl sm:text-4xl text-white mb-6 uppercase">Frequently Asked Questions</h2>
