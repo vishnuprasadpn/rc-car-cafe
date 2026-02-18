@@ -29,12 +29,12 @@ export default function FloatingSidebar() {
             isOpen ? "translate-x-0 opacity-100 pointer-events-auto" : "translate-x-full opacity-0 pointer-events-none"
           }`}
         >
-          <div className="p-4 space-y-3 min-w-[250px]">
+          <div className="pt-14 p-4 space-y-3 min-w-[260px]">
             {/* Location */}
             <div>
-              <p className="text-gray-400 text-xs leading-relaxed mb-2">
-                <MapPin className="h-3 w-3 inline mr-1 text-fury-orange" />
-                Yelenahalli Main Rd, Akshayanagar, Bengaluru 560114
+              <p className="text-gray-300 text-sm leading-relaxed mb-2.5 flex items-start gap-2">
+                <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5 text-fury-orange" />
+                <span>Yelenahalli Main Rd, Akshayanagar, Bengaluru 560114</span>
               </p>
               <a
                 href="https://maps.google.com/?q=Fury+Road+RC+Club+Yelenahalli+Main+Rd+Akshayanagar+Bengaluru+Karnataka+560114"
