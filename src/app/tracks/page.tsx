@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 import Navigation from "@/components/navigation"
 import Image from "next/image"
 import { Trophy, Clock } from "lucide-react"
 import { TrackedLink } from "@/components/tracked-link"
+import { TrackedSection } from "@/components/tracked-section"
 
 export const metadata: Metadata = {
   title: "RC Car Racing Tracks - Fast Track, Sand Track, Crawler & Mud Track",
@@ -137,6 +137,7 @@ export default function TracksPage() {
       </div>
 
       {/* Tracks Grid */}
+      <TrackedSection sectionName="tracks_grid" pageName="tracks">
       <div className="py-24 transition-all duration-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 max-w-7xl mx-auto">
@@ -201,12 +202,14 @@ export default function TracksPage() {
 
                   {/* Action Button - Sticky to bottom */}
                   <div className="mt-auto pt-4">
-                    <Link 
+                    <TrackedLink 
                       href={`/book?track=${encodeURIComponent(track.name)}`}
+                      buttonName={`Book Now - ${track.name}`}
+                      location="tracks_grid"
                       className="w-full py-2.5 px-4 rounded-lg text-sm font-semibold text-white transition-all inline-block text-center bg-fury-orange hover:bg-fury-orange/90 shadow-lg hover:shadow-fury-orange/25"
                     >
                       Book Now
-                    </Link>
+                    </TrackedLink>
                   </div>
                 </div>
               </div>
@@ -214,8 +217,10 @@ export default function TracksPage() {
           </div>
         </div>
       </div>
+      </TrackedSection>
 
       {/* Track Comparison */}
+      <TrackedSection sectionName="track_comparison" pageName="tracks">
       <div className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -268,8 +273,10 @@ export default function TracksPage() {
           </div>
         </div>
       </div>
+      </TrackedSection>
 
       {/* Call to Action */}
+      <TrackedSection sectionName="tracks_cta" pageName="tracks">
       <div className="py-24 bg-gradient-to-r from-fury-orange to-primary-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-white mb-6 tracking-tight">Ready to Book Your Session?</h2>
@@ -296,6 +303,7 @@ export default function TracksPage() {
           </div>
         </div>
       </div>
+      </TrackedSection>
     </div>
   )
 }

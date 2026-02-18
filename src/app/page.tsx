@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
 import Navigation from "@/components/navigation"
 import { TrackedLink } from "@/components/tracked-link"
+import { TrackedSection } from "@/components/tracked-section"
 
 export const metadata: Metadata = {
   title: "Fury Road RC Club - India's Biggest RC Car Racing Experience in Bangalore",
@@ -114,6 +115,7 @@ export default async function HomePage() {
       </div>
 
       {/* Valentine's Day Offer Banner */}
+      <TrackedSection sectionName="valentines_banner" pageName="home">
       <div className="relative overflow-hidden bg-gradient-to-r from-pink-900/40 via-red-900/50 to-pink-900/40">
         <div className="absolute inset-0 bg-[url('/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_2.jpg')] bg-cover bg-center opacity-10"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
@@ -151,8 +153,10 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
+      </TrackedSection>
 
       {/* What We Offer Section */}
+      <TrackedSection sectionName="what_we_offer" pageName="home">
       <div className="py-24 relative overflow-hidden transition-all duration-700">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
@@ -265,8 +269,10 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
+      </TrackedSection>
 
       {/* Features Section with Unique Design */}
+      <TrackedSection sectionName="features" pageName="home">
       <div id="features-section" className="py-24 relative overflow-hidden transition-all duration-700">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
@@ -349,8 +355,10 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
+      </TrackedSection>
 
       {/* Experience Section with Unique Design */}
+      <TrackedSection sectionName="experience" pageName="home">
       <div className="py-24 relative overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
@@ -441,8 +449,10 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
+      </TrackedSection>
 
       {/* Group Bookings Section */}
+      <TrackedSection sectionName="group_bookings" pageName="home">
       <div className="py-24 relative overflow-hidden transition-all duration-700">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
@@ -561,8 +571,10 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
+      </TrackedSection>
 
       {/* Location & Final CTA Section */}
+      <TrackedSection sectionName="location_cta" pageName="home">
       <div className="py-16 sm:py-24 relative overflow-hidden transition-all duration-700">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
@@ -695,6 +707,7 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
+      </TrackedSection>
     </div>
   )
 }

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { MapPin, Phone, Mail, Instagram, Youtube, Globe, X, MessageCircleMore, MessageCircle, Navigation as NavigationIcon } from "lucide-react"
+import { trackOutboundClick, trackButtonClick } from "@/lib/analytics"
 
 export default function FloatingSidebar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -12,7 +13,7 @@ export default function FloatingSidebar() {
       <div className={`fixed right-0 top-1/2 -translate-y-1/2 z-50 hidden lg:block ${!isOpen ? 'pointer-events-none' : ''}`}>
         {/* Toggle Button */}
         <button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => { setIsOpen(!isOpen); trackButtonClick(isOpen ? "Close Sidebar" : "Open Sidebar", "floating_sidebar") }}
           className="absolute right-0 top-0 bg-gradient-to-r from-fury-orange to-primary-600 text-white p-3 rounded-l-lg shadow-lg hover:shadow-xl transition-all duration-300 z-10 pointer-events-auto"
           aria-label={isOpen ? "Close sidebar" : "Contact & Social Links"}
         >
@@ -40,6 +41,7 @@ export default function FloatingSidebar() {
                 href="https://maps.google.com/?q=Fury+Road+RC+Club+Yelenahalli+Main+Rd+Akshayanagar+Bengaluru+Karnataka+560114"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackOutboundClick("Google Maps", "https://maps.google.com/?q=Fury+Road+RC+Club", "floating_sidebar")}
                 className="flex items-center gap-2.5 px-3 py-2 bg-blue-600/15 hover:bg-blue-600/25 rounded-lg transition-all group border border-blue-500/20 hover:border-blue-500/40"
               >
                 <div className="p-1.5 bg-gradient-to-br from-blue-500 to-blue-600 rounded-md group-hover:scale-110 transition-transform">
@@ -55,6 +57,7 @@ export default function FloatingSidebar() {
             <div className="flex gap-2">
               <a
                 href="tel:+919945576007"
+                onClick={() => trackOutboundClick("Phone Call", "tel:+919945576007", "floating_sidebar")}
                 className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 hover:border-fury-orange/40 transition-all group"
               >
                 <Phone className="h-3.5 w-3.5 text-fury-orange" />
@@ -62,6 +65,7 @@ export default function FloatingSidebar() {
               </a>
               <a
                 href="mailto:furyroadrcclub@gmail.com"
+                onClick={() => trackOutboundClick("Email", "mailto:furyroadrcclub@gmail.com", "floating_sidebar")}
                 className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 hover:border-fury-orange/40 transition-all group"
               >
                 <Mail className="h-3.5 w-3.5 text-fury-orange" />
@@ -77,6 +81,7 @@ export default function FloatingSidebar() {
               href="https://wa.me/919945576007?text=Hi%2C%20I%27m%20interested%20in%20booking%20a%20session%20at%20Fury%20Road%20RC%20Club"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackOutboundClick("WhatsApp Chat", "https://wa.me/919945576007", "floating_sidebar")}
               className="flex items-center gap-2.5 px-3 py-2 bg-green-600/15 hover:bg-green-600/25 rounded-lg transition-all group border border-green-500/20 hover:border-green-500/40"
             >
               <div className="p-1.5 bg-gradient-to-br from-green-500 to-green-600 rounded-md group-hover:scale-110 transition-transform">
@@ -98,6 +103,7 @@ export default function FloatingSidebar() {
                   href="https://www.instagram.com/furyroad.club/"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackOutboundClick("Instagram", "https://www.instagram.com/furyroad.club/", "floating_sidebar")}
                   className="p-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20 hover:from-purple-500/40 hover:to-pink-500/40 rounded-lg border border-white/10 hover:border-pink-500/40 transition-all group"
                   aria-label="Instagram"
                 >
@@ -107,6 +113,7 @@ export default function FloatingSidebar() {
                   href="https://www.youtube.com/@furyroad_rc"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackOutboundClick("YouTube", "https://www.youtube.com/@furyroad_rc", "floating_sidebar")}
                   className="p-2 bg-red-500/15 hover:bg-red-500/30 rounded-lg border border-white/10 hover:border-red-500/40 transition-all group"
                   aria-label="YouTube"
                 >
@@ -116,6 +123,7 @@ export default function FloatingSidebar() {
                   href="https://share.google/bPEKxUEAJnkHwhQf5"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackOutboundClick("Google", "https://share.google/bPEKxUEAJnkHwhQf5", "floating_sidebar")}
                   className="p-2 bg-blue-500/15 hover:bg-blue-500/30 rounded-lg border border-white/10 hover:border-blue-500/40 transition-all group"
                   aria-label="Google"
                 >
@@ -133,6 +141,7 @@ export default function FloatingSidebar() {
           <div className="flex items-center justify-around">
             <a
               href="tel:+919945576007"
+              onClick={() => trackOutboundClick("Phone Call", "tel:+919945576007", "mobile_bottom_bar")}
               className="flex flex-col items-center gap-1 text-gray-400 hover:text-fury-orange transition-colors"
             >
               <Phone className="h-5 w-5" />
@@ -142,6 +151,7 @@ export default function FloatingSidebar() {
               href="https://wa.me/919945576007"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackOutboundClick("WhatsApp Chat", "https://wa.me/919945576007", "mobile_bottom_bar")}
               className="flex flex-col items-center gap-1 text-gray-400 hover:text-green-400 transition-colors"
             >
               <MessageCircle className="h-5 w-5" />
@@ -151,6 +161,7 @@ export default function FloatingSidebar() {
               href="https://www.instagram.com/furyroad.club/"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackOutboundClick("Instagram", "https://www.instagram.com/furyroad.club/", "mobile_bottom_bar")}
               className="flex flex-col items-center gap-1 text-gray-400 hover:text-pink-400 transition-colors"
             >
               <Instagram className="h-5 w-5" />
@@ -160,6 +171,7 @@ export default function FloatingSidebar() {
               href="https://www.youtube.com/@furyroad_rc"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackOutboundClick("YouTube", "https://www.youtube.com/@furyroad_rc", "mobile_bottom_bar")}
               className="flex flex-col items-center gap-1 text-gray-400 hover:text-red-400 transition-colors"
             >
               <Youtube className="h-5 w-5" />
@@ -169,6 +181,7 @@ export default function FloatingSidebar() {
               href="https://maps.google.com/?q=Fury+Road+RC+Club+Bengaluru"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackOutboundClick("Google Maps", "https://maps.google.com/?q=Fury+Road+RC+Club", "mobile_bottom_bar")}
               className="flex flex-col items-center gap-1 text-gray-400 hover:text-blue-400 transition-colors"
             >
               <MapPin className="h-5 w-5" />

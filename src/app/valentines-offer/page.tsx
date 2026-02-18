@@ -10,7 +10,7 @@ import { Clock, Users, Heart, Calendar, Gift, X, Lock, Mail } from "lucide-react
 import Image from "next/image"
 import Link from "next/link"
 import Navigation from "@/components/navigation"
-import { trackBooking, trackFormSubmit, trackButtonClick } from "@/lib/analytics"
+import { trackBooking, trackFormSubmit, trackButtonClick, trackEvent } from "@/lib/analytics"
 
 const bookingSchema = z.object({
   startTime: z.string().min(1, "Please select a date and time"),
@@ -103,6 +103,11 @@ export default function ValentinesOfferPage() {
 
   useEffect(() => {
     fetchGames()
+    trackEvent("page_view_offer", {
+      category: "valentines",
+      action: "view",
+      label: "valentines_offer_page",
+    })
   }, [])
 
   const fetchGames = async () => {
@@ -290,7 +295,7 @@ export default function ValentinesOfferPage() {
             {/* Hourly Plan */}
             <button
               type="button"
-              onClick={() => { setSelectedPlan("hourly"); setValue("players", 1) }}
+              onClick={() => { setSelectedPlan("hourly"); setValue("players", 1); trackButtonClick("Select Hourly Plan", "valentines_offer") }}
               className={`relative text-left rounded-2xl p-6 transition-all duration-300 border-2 ${
                 selectedPlan === "hourly"
                   ? "bg-pink-500/20 border-pink-500 shadow-lg shadow-pink-500/20"
@@ -332,7 +337,7 @@ export default function ValentinesOfferPage() {
             {/* Trial Pack */}
             <button
               type="button"
-              onClick={() => { setSelectedPlan("trial"); setValue("players", 1) }}
+              onClick={() => { setSelectedPlan("trial"); setValue("players", 1); trackButtonClick("Select Trial Pack", "valentines_offer") }}
               className={`relative text-left rounded-2xl p-6 transition-all duration-300 border-2 ${
                 selectedPlan === "trial"
                   ? "bg-pink-500/20 border-pink-500 shadow-lg shadow-pink-500/20"

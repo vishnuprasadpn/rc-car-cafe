@@ -138,6 +138,40 @@ export const trackNavigation = (destination: string, source?: string) => {
 }
 
 /**
+ * Track section visibility (user scrolled to a section)
+ */
+export const trackSectionView = (
+  sectionName: string,
+  pageName: string,
+  additionalData?: Record<string, unknown>
+) => {
+  trackEvent("section_view", {
+    category: "engagement",
+    action: "scroll_to_section",
+    label: sectionName,
+    page: pageName,
+    ...additionalData,
+  })
+}
+
+/**
+ * Track outbound link clicks (social media, WhatsApp, Maps, etc.)
+ */
+export const trackOutboundClick = (
+  linkName: string,
+  url: string,
+  location?: string
+) => {
+  trackEvent("outbound_click", {
+    category: "engagement",
+    action: "click",
+    label: linkName,
+    url,
+    location: location || "unknown",
+  })
+}
+
+/**
  * Track email sent events (server-side)
  * Uses Google Analytics Measurement Protocol API for server-side tracking
  * Falls back to console logging if API secret is not configured
