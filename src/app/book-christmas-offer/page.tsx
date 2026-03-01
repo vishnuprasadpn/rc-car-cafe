@@ -162,7 +162,7 @@ export default function BookChristmasOfferPage() {
                   <span className="text-lg font-semibold">1 Hour of Playtime</span>
                 </div>
                 <p className="text-gray-300">1 hour of playtime on any track</p>
-                <p className="text-yellow-400 font-bold text-2xl">Just ₹599</p>
+                <p className="text-yellow-400 font-bold text-2xl">Special Christmas pricing (offer now ended)</p>
                 <p className="text-gray-400 text-sm">Valid till 1st January 2025</p>
               </div>
             </div>
@@ -239,7 +239,7 @@ export default function BookChristmasOfferPage() {
               <div className="bg-white/5 rounded-lg p-4 border border-white/10">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-gray-300">Christmas & New Year Offer</span>
-                  <span className="text-white font-semibold">₹599</span>
+                  <span className="text-white font-semibold">See venue for pricing</span>
                 </div>
                 <div className="text-xs text-gray-400 mt-2">
                   Includes 1 hour of playtime on any track

@@ -70,6 +70,16 @@ function BookPageContent() {
 
   const selectedGameId = watch("gameId")
   const selectedGame = games.find(game => game.id === selectedGameId)
+  const playersCount = watch("players") || 1
+
+  const getSessionTotalPrice = (duration: number, players: number) => {
+    if (duration >= 45) {
+      if (players === 1) return 699
+      if (players === 2) return 1099
+      return 1099 + (players - 2) * 500
+    }
+    return 199 * players
+  }
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -278,7 +288,7 @@ function BookPageContent() {
                     <option value="">Choose a game...</option>
                     {games.map((game) => (
                       <option key={game.id} value={game.id} className="bg-gray-800">
-                        {game.name} - ₹{game.price}
+                        {game.name} - {game.duration} mins
                       </option>
                     ))}
                   </select>
@@ -298,7 +308,11 @@ function BookPageContent() {
                       </div>
                       <div className="flex items-center text-gray-300">
                         <DollarSign className="h-4 w-4 text-fury-orange mr-2" />
-                        <span>₹{selectedGame.price} per player</span>
+                        <span>
+                          {selectedGame.duration === 60
+                            ? "1 Hour Plan pricing applies"
+                            : "15 mins session pricing applies"}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -359,9 +373,9 @@ function BookPageContent() {
                     <div className="text-sm text-gray-300">
                       <p>Game: {selectedGame.name}</p>
                       <p>Duration: {selectedGame.duration} minutes</p>
-                      <p>Players: {watch("players") || 1}</p>
+                      <p>Players: {playersCount}</p>
                       <p className="font-semibold text-fury-orange">
-                        Total: ₹{selectedGame.price * (watch("players") || 1)}
+                        Total: ₹{getSessionTotalPrice(selectedGame.duration, playersCount)}
                       </p>
                     </div>
                   </div>

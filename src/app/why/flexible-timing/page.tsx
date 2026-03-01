@@ -24,19 +24,19 @@ export default function FlexibleTimingPage() {
     {
       duration: "20 Minutes",
       description: "Perfect for quick races and testing your skills. Ideal for beginners and time-constrained sessions.",
-      price: "Starting from ₹500",
+      price: "Uses our 15 mins session pricing",
       icon: Timer
     },
     {
       duration: "40 Minutes",
       description: "Extended sessions for multiple races and practice. Great for improving your lap times.",
-      price: "Starting from ₹900",
+      price: "Uses our standard session pricing",
       icon: Clock
     },
     {
       duration: "60 Minutes",
       description: "Full racing experience with unlimited races. Perfect for competitive practice sessions.",
-      price: "Starting from ₹1,200",
+      price: "Uses our 1 Hour Plan pricing",
       icon: Calendar
     }
   ]

@@ -219,12 +219,12 @@ export default function PS5GamingPage() {
               },
               {
                 duration: "1 Hour",
-                price: 499,
+                price: 0,
                 description: "Ideal for extended gaming with friends and family"
               },
               {
                 duration: "2 Hours",
-                price: 899,
+                price: 0,
                 description: "Best value for serious gamers and tournaments"
               }
             ].map((session, index) => (
@@ -234,8 +234,8 @@ export default function PS5GamingPage() {
                     <Clock className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="font-heading text-xl text-white mb-2 uppercase">{session.duration}</h3>
-                  <div className="text-3xl font-bold text-fury-orange mb-2">₹{session.price}</div>
-                  <p className="text-gray-300 text-sm mb-6">{session.description}</p>
+                  <p className="text-gray-300 text-sm mb-2">{session.description}</p>
+                  <p className="text-gray-400 text-xs mb-6">Contact us for the latest PS5 gaming pricing.</p>
                   <Link
                     href="/book"
                     className="block w-full bg-fury-orange text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-fury-orange/90 transition-all duration-300 text-center"

@@ -8,7 +8,7 @@ import { TrackedSection } from "@/components/tracked-section"
 export const metadata: Metadata = {
   title: "RC Car Racing Tracks - Fast Track, Sand Track, Crawler & Mud Track",
   description:
-    "Explore 4 professional RC car racing tracks at Fury Road RC Club Bangalore. Fast Track, Sand Track, Crawler Track & Mud Track with toy and hobby grade cars. Prices start at ₹249.",
+    "Explore 4 professional RC car racing tracks at Fury Road RC Club Bangalore. Fast Track, Sand Track, Crawler Track & Mud Track with toy and hobby grade cars. 1 Hour Plan from ₹699 and 15 mins session from ₹199.",
   keywords: [
     "RC car tracks Bangalore",
     "fast track RC racing",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "RC Car Racing Tracks - Fury Road RC Club",
     description:
-      "4 professional RC car racing tracks - Fast Track, Sand Track, Crawler Track & Mud Track. Prices from ₹249.",
+      "4 professional RC car racing tracks - Fast Track, Sand Track, Crawler Track & Mud Track. 1 Hour Plan from ₹699 and 15 mins session from ₹199.",
     images: [
       {
         url: "/rc-cars/Lucid_Origin_Ultrarealistic_cinematic_photo_of_an_RC_car_drift_1.jpg",
@@ -45,8 +45,8 @@ export default function TracksPage() {
       name: "Fast Track",
       difficulty: "All Levels",
       duration: "15/30/60 minutes",
-      priceStartsAt: 249,
-      description: "Book high-speed racing on our asphalt track. Available with Toy Grade (₹149/₹249/₹449) or Hobby Grade (₹249/₹399/₹699) RC cars for 15 mins, 30 mins, or 1 hour sessions. Perfect for speed enthusiasts!",
+      priceStartsAt: 0,
+      description: "Book high-speed racing on our asphalt track with toy and hobby grade RC cars. Sessions available for 15 or 60 minutes. See the booking page for the latest pricing.",
       features: ["Toy Grade & Hobby Grade options", "Multiple duration options", "High-speed sections", "Professional timing"],
       surface: "Asphalt",
       vehicles: "Toy Grade & Hobby Grade RC cars",
@@ -58,8 +58,8 @@ export default function TracksPage() {
       name: "Mud Track",
       difficulty: "Intermediate",
       duration: "15/30/60 minutes",
-      priceStartsAt: 249,
-      description: "Book an off-road adventure on our mud track. Drive Land Cruiser RC vehicles through challenging terrain with water hazards. Sessions: 15 mins (₹249), 30 mins (₹399), or 1 hr (₹699).",
+      priceStartsAt: 0,
+      description: "Book an off-road adventure on our mud track with Land Cruiser RC vehicles through challenging terrain with water hazards. Sessions available for 15 or 60 minutes. See the booking page for the latest pricing.",
       features: ["Land Cruiser vehicles", "Water hazards", "Mud sections", "Off-road terrain"],
       surface: "Mud & Water",
       vehicles: "Land Cruiser RC vehicles",
@@ -71,8 +71,8 @@ export default function TracksPage() {
       name: "Crawler Track",
       difficulty: "Advanced",
       duration: "15/30/60 minutes",
-      priceStartsAt: 249,
-      description: "Book a technical rock crawling session. Master precision control with Defender and Land Rover RC vehicles on challenging rock obstacles. Sessions: 15 mins (₹249), 30 mins (₹399), or 1 hr (₹699).",
+      priceStartsAt: 0,
+      description: "Book a technical rock crawling session and master precision control with Defender and Land Rover RC vehicles on challenging rock obstacles. Sessions available for 15 or 60 minutes. See the booking page for the latest pricing.",
       features: ["Defender & Land Rover", "Rock obstacles", "Steep inclines", "Precision control"],
       surface: "Rocks & Obstacles",
       vehicles: "Defender & Land Rover RC Crawlers",
@@ -84,8 +84,8 @@ export default function TracksPage() {
       name: "Sand Track",
       difficulty: "Intermediate",
       duration: "15/30/60 minutes",
-      priceStartsAt: 249,
-      description: "Book heavy machinery racing on our sand track. Choose from RC Trucks (₹149/₹249/₹449) or JCB/Bulldozer (₹249/₹399/₹699) for 15 mins, 30 mins, or 1 hr sessions. Experience power on sand terrain!",
+      priceStartsAt: 0,
+      description: "Book heavy machinery racing on our sand track with RC trucks, JCB and bulldozers on sand dunes. Sessions available for 15 or 60 minutes. See the booking page for the latest pricing.",
       features: ["Trucks, JCB & Bulldozer", "Sand dunes", "Heavy machinery", "Advanced terrain"],
       surface: "Sand & Dunes",
       vehicles: "Trucks, JCB & Bulldozer RC Machines",
@@ -176,14 +176,14 @@ export default function TracksPage() {
                     <div className="flex items-center">
                       <Clock className="h-4 w-4 text-gray-400 mr-2" />
                       <div>
-                        <div className="text-xs text-gray-400">Duration</div>
+                        <div className="text-xs text-gray-400">Session options</div>
                         <div className="font-semibold text-white text-sm">{track.duration}</div>
                       </div>
                     </div>
                     <div className="flex items-center">
                       <div>
-                        <div className="text-xs text-gray-400">Price starts at</div>
-                        <div className="font-semibold text-secondary-yellow text-sm">₹{track.priceStartsAt}</div>
+                        <div className="text-xs text-gray-400">Pricing</div>
+                        <div className="font-semibold text-secondary-yellow text-sm">See booking page</div>
                       </div>
                     </div>
                   </div>

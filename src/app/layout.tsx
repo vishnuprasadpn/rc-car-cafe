@@ -201,7 +201,7 @@ export default function RootLayout({
                   closes: "22:00",
                 },
               ],
-              priceRange: "₹199 - ₹999",
+              priceRange: "₹199 - ₹1099",
               sameAs: [
                 "https://www.instagram.com/furyroad.club/",
                 "https://www.youtube.com/@FuryroadRCclub",
