@@ -249,29 +249,16 @@ function BookPageContent() {
       <Navigation />
 
       <div className="max-w-3xl mx-auto pt-16 md:pt-20 py-6 sm:px-6 lg:px-8">
-        {/* Valentine's Day Offer Banner */}
-        <div className="px-4 sm:px-0 mb-4">
-          <Link
-            href="/valentines-offer"
-            className="block bg-gradient-to-r from-pink-600/20 to-red-600/20 border border-pink-500/40 rounded-xl p-4 hover:from-pink-600/30 hover:to-red-600/30 transition-all duration-300 group"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Heart className="h-6 w-6 text-pink-400 group-hover:scale-110 transition-transform" />
-                <div>
-                  <p className="text-pink-200 font-bold text-sm sm:text-base">Valentine&apos;s Day Special!</p>
-                  <p className="text-gray-300 text-xs sm:text-sm">4 Tracks, 1 Hour from <span className="text-pink-400 font-bold">₹599</span> | Trial Pack from <span className="text-pink-400 font-bold">₹199</span></p>
-                </div>
-              </div>
-              <span className="text-pink-400 font-semibold text-sm whitespace-nowrap ml-2">View Offer →</span>
-            </div>
-          </Link>
-        </div>
-
         <div className="px-4 py-6 sm:px-0">
           <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl">
             <div className="px-4 py-5 sm:p-6">
-              <h2 className="text-lg sm:text-2xl font-bold text-white mb-6">Book a Race</h2>
+              <h2 className="text-lg sm:text-2xl font-bold text-white mb-3">Book a Race</h2>
+              <p className="text-sm text-gray-300 mb-6">
+                1 Hour Plan: <span className="font-semibold text-white">Single ₹699</span>,{" "}
+                <span className="font-semibold text-white">2 Players ₹1099</span>,{" "}
+                <span className="font-semibold text-white">Additional player ₹500</span>.{" "}
+                15 mins session: <span className="font-semibold text-white">₹199</span>.
+              </p>
               
               {error && (
                 <div className="bg-red-500/20 border border-red-500/40 text-red-400 px-4 py-3 rounded-lg mb-6 backdrop-blur-sm">
