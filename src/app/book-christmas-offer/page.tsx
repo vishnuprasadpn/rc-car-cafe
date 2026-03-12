@@ -9,6 +9,7 @@ import { z } from "zod"
 import { Clock, Users, Calendar, Gift } from "lucide-react"
 import Navigation from "@/components/navigation"
 import { trackBooking, trackFormSubmit } from "@/lib/analytics"
+import { calculateSessionPrice } from "@/lib/pricing"
 
 const bookingSchema = z.object({
   gameId: z.string().min(1, "Please select a track"),
@@ -91,6 +92,7 @@ export default function BookChristmasOfferPage() {
     setSubmitting(true)
     try {
       const startTime = new Date(data.startTime)
+      const sessionPrice = calculateSessionPrice(60, data.players)
 
       const response = await fetch("/api/bookings", {
         method: "POST",
@@ -102,13 +104,13 @@ export default function BookChristmasOfferPage() {
           startTime: startTime.toISOString(),
           players: data.players,
           duration: 60, // 1 hour for Christmas offer
-          totalPrice: 599, // Fixed price
+          totalPrice: sessionPrice,
         }),
       })
 
       if (response.ok) {
         await response.json()
-        trackBooking("create", data.gameId, estimatedPrice)
+        trackBooking("create", data.gameId, sessionPrice)
         trackFormSubmit("booking_form", true, {
           gameId: data.gameId,
           players: data.players,

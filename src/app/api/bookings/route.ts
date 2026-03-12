@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next"
 import type { Session } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { calculateSessionPrice } from "@/lib/pricing"
 import { sendBookingNotificationToAdmin, sendBookingRequestEmail } from "@/lib/email"
 
 // Force Node.js runtime and dynamic execution so logs and SMTP behave predictably
@@ -178,8 +179,13 @@ export async function POST(request: NextRequest) {
 
     }
 
-    // Calculate total price - use custom price if provided (for special offers), otherwise calculate from game price
-    const bookingTotalPrice = totalPrice !== undefined ? Number(totalPrice) : Number(game.price) * players
+    // Calculate total price:
+    // - if totalPrice is provided (special offers or precomputed pricing), trust that
+    // - otherwise, use centralized pricing logic based on duration and players
+    const bookingTotalPrice =
+      totalPrice !== undefined
+        ? Number(totalPrice)
+        : calculateSessionPrice(bookingDuration, players)
 
     // Get user details for email
     const user = await prisma.user.findUnique({

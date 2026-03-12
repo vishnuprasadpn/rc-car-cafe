@@ -12,6 +12,7 @@ import { Clock, DollarSign, X, Lock, Mail, Heart } from "lucide-react"
 import Link from "next/link"
 import Navigation from "@/components/navigation"
 import { trackBooking, trackButtonClick, trackFormSubmit } from "@/lib/analytics"
+import { calculateSessionPrice } from "@/lib/pricing"
 
 const bookingSchema = z.object({
   gameId: z.string().min(1, "Please select a game"),
@@ -71,15 +72,6 @@ function BookPageContent() {
   const selectedGameId = watch("gameId")
   const selectedGame = games.find(game => game.id === selectedGameId)
   const playersCount = watch("players") || 1
-
-  const getSessionTotalPrice = (duration: number, players: number) => {
-    if (duration >= 45) {
-      if (players === 1) return 699
-      if (players === 2) return 1099
-      return 1099 + (players - 2) * 500
-    }
-    return 199 * players
-  }
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -162,8 +154,9 @@ function BookPageContent() {
     try {
       const startTime = new Date(`${data.date}T${data.time}`)
       const selectedGame = games.find(game => game.id === data.gameId)
-      const estimatedPrice = selectedGame ? selectedGame.price * data.players : 0
-      
+      const durationMinutes = selectedGame ? selectedGame.duration : 60
+      const estimatedPrice = calculateSessionPrice(durationMinutes, data.players)
+
       const response = await fetch("/api/bookings", {
         method: "POST",
         headers: {
@@ -173,6 +166,8 @@ function BookPageContent() {
           gameId: data.gameId,
           startTime: startTime.toISOString(),
           players: data.players,
+          duration: durationMinutes,
+          totalPrice: estimatedPrice,
         }),
       })
 
@@ -375,7 +370,7 @@ function BookPageContent() {
                       <p>Duration: {selectedGame.duration} minutes</p>
                       <p>Players: {playersCount}</p>
                       <p className="font-semibold text-fury-orange">
-                        Total: ₹{getSessionTotalPrice(selectedGame.duration, playersCount)}
+                        Total: ₹{calculateSessionPrice(selectedGame.duration, playersCount)}
                       </p>
                     </div>
                   </div>
