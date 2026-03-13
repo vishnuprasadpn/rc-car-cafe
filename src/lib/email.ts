@@ -452,7 +452,7 @@ export const sendBookingNotificationToAdmin = async (data: BookingNotificationDa
         <p>Dear Admin,</p>
         <p>A new booking has been created and requires your confirmation:</p>
         
-        <div style="background-color: #190002; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F71B0F;">
+        <div style="padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F71B0F;">
           <h3 style="margin-top: 0; color: #F71B0F;">Booking Details</h3>
           <p><strong>Customer Name:</strong> ${customer.name}</p>
           <p><strong>Customer Email:</strong> ${customer.email}</p>
@@ -579,7 +579,7 @@ export const sendPasswordResetCodeEmail = async (userEmail: string, userName: st
         <p>Dear ${userName},</p>
         <p>You have requested to reset your password. Use the code below to verify your identity:</p>
         
-        <div style="background-color: #190002; padding: 30px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F71B0F; text-align: center;">
+        <div style=" padding: 30px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F71B0F; text-align: center;">
           <h3 style="margin-top: 0; color: #F71B0F; font-size: 32px; letter-spacing: 8px; font-weight: bold;">
             ${code}
           </h3>
