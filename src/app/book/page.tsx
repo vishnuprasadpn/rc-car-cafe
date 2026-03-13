@@ -129,6 +129,18 @@ function BookPageContent() {
   }
 
   const onSubmit = async (data: BookingForm) => {
+    // Enforce cafe working hours: 10:00–22:00 local time
+    if (data.time) {
+      const [hourStr, minuteStr] = data.time.split(':')
+      const hour = Number(hourStr)
+      const minute = Number(minuteStr || 0)
+
+      if (hour < 10 || hour > 22 || (hour === 22 && minute > 0)) {
+        setError("Please choose a time between 10:00 AM and 10:00 PM.")
+        return
+      }
+    }
+
     // Check if user is authenticated before submitting
     if (status !== "authenticated" || !session) {
       // Store booking data and show login modal

@@ -105,10 +105,41 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Start time must be in the future" }, { status: 400 })
     }
 
+    // Enforce cafe working hours in IST (10:00–22:00, latest end at 22:00)
+    const getISTTimeParts = (date: Date) => {
+      const parts = new Intl.DateTimeFormat('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      }).formatToParts(date)
+      const hour = Number(parts.find(p => p.type === 'hour')?.value ?? '0')
+      const minute = Number(parts.find(p => p.type === 'minute')?.value ?? '0')
+      return { hour, minute }
+    }
+
     // Calculate end time - use custom duration if provided (for special offers), otherwise use game duration
     const bookingDuration = duration || game.duration
     const end = new Date(start)
     end.setMinutes(end.getMinutes() + bookingDuration)
+
+    // Validate working hours in IST
+    const { hour: startHour, minute: startMinute } = getISTTimeParts(start)
+    const { hour: endHour, minute: endMinute } = getISTTimeParts(end)
+
+    if (startHour < 10 || startHour > 22 || (startHour === 22 && startMinute > 0)) {
+      return NextResponse.json(
+        { message: "Bookings are allowed only between 10:00 AM and 10:00 PM (IST)." },
+        { status: 400 }
+      )
+    }
+
+    if (endHour > 22 || (endHour === 22 && endMinute > 0)) {
+      return NextResponse.json(
+        { message: "Selected time exceeds our closing time of 10:00 PM (IST)." },
+        { status: 400 }
+      )
+    }
 
     // Check for booking conflicts (overlapping time slots for the same game)
     const conflictingBookings = await prisma.booking.findMany({
