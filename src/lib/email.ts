@@ -1,6 +1,18 @@
 import nodemailer from 'nodemailer'
 import { trackEmailSent } from '@/lib/analytics'
 
+// Format dates consistently in India time for emails
+const formatDateTimeIST = (date: Date) =>
+  date.toLocaleString('en-IN', {
+    timeZone: 'Asia/Kolkata',
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  })
+
 // Check if SMTP is configured
 const isSMTPConfigured = () => {
   const configured = !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS)
@@ -123,16 +135,16 @@ export const sendBookingRequestEmail = async (data: BookingRequestData) => {
         <p>Dear ${user.name},</p>
         <p>Thank you for your booking request. We have received it and it is pending admin confirmation.</p>
         
-        <div style="background-color: #190002; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F71B0F;">
-          <h3 style="margin-top: 0; color: #F71B0F;">Booking Details</h3>
+        <div style="background-color: #111827; color: #F9FAFB; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #F71B0F;">
+          <h3 style="margin-top: 0; color: #FBBF24;">Booking Details</h3>
           <p><strong>Game:</strong> ${game.name}</p>
-          <p><strong>Date & Time:</strong> ${new Date(booking.startTime).toLocaleString()}</p>
+          <p><strong>Date & Time (IST):</strong> ${formatDateTimeIST(new Date(booking.startTime))}</p>
           <p><strong>Duration:</strong> ${game.duration} minutes</p>
-          <p><strong>End Time:</strong> ${new Date(booking.endTime).toLocaleString()}</p>
+          <p><strong>End Time (IST):</strong> ${formatDateTimeIST(new Date(booking.endTime))}</p>
           <p><strong>Players:</strong> ${booking.players}</p>
           <p><strong>Total Amount:</strong> ₹${booking.totalPrice}</p>
           <p><strong>Booking ID:</strong> ${booking.id}</p>
-          <p><strong>Status:</strong> <span style="color: #F59E0B; font-weight: bold;">Pending Confirmation</span></p>
+          <p><strong>Status:</strong> <span style="color: #FCD34D; font-weight: bold;">Pending Confirmation</span></p>
         </div>
         
         <p style="background-color: #FEF3C7; padding: 15px; border-radius: 8px; border-left: 4px solid #F59E0B;">
@@ -230,7 +242,7 @@ export const sendBookingConfirmationEmail = async (data: BookingConfirmationData
         <div style="background-color: #F3F4F6; padding: 20px; border-radius: 8px; margin: 20px 0;">
           <h3 style="margin-top: 0;">Booking Details</h3>
           <p><strong>Game:</strong> ${game.name}</p>
-          <p><strong>Date & Time:</strong> ${new Date(booking.startTime).toLocaleString()}</p>
+          <p><strong>Date & Time (IST):</strong> ${formatDateTimeIST(new Date(booking.startTime))}</p>
           <p><strong>Duration:</strong> ${game.duration} minutes</p>
           <p><strong>Players:</strong> ${booking.players}</p>
           <p><strong>Total Amount:</strong> ₹${booking.totalPrice}</p>
@@ -295,7 +307,7 @@ export const sendBookingCancellationEmail = async (data: BookingCancellationData
         <div style="background-color: #FEF2F2; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #DC2626;">
           <h3 style="margin-top: 0; color: #DC2626;">Cancelled Booking</h3>
           <p><strong>Game:</strong> ${game.name}</p>
-          <p><strong>Date & Time:</strong> ${new Date(booking.startTime).toLocaleString()}</p>
+          <p><strong>Date & Time (IST):</strong> ${formatDateTimeIST(new Date(booking.startTime))}</p>
           <p><strong>Amount Refunded:</strong> ₹${booking.totalPrice}</p>
           <p><strong>Booking ID:</strong> ${booking.id}</p>
         </div>
